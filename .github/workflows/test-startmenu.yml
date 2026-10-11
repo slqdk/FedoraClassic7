@@ -1,0 +1,68 @@
+---
+# Renders the Classic 7 Start menu applet from this branch inside the published image
+# (Xvfb + plasmawindowed) and saves screenshots plus the QML log to the ci-shots branch.
+name: Test Start menu
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Render in the image
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/fedoraclassic7:latest"
+          mkdir -p shots
+          cat > shots/run.sh <<'EOS'
+          set -x
+          dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool >/dev/null 2>&1 || dnf -y -q install xorg-x11-server-Xvfb ImageMagick xdotool
+          cp -a /src/system_files/usr/share/plasma/plasmoids/. /usr/share/plasma/plasmoids/
+          cp -a /src/system_files/usr/share/applications/. /usr/share/applications/
+          cp -a /src/system_files/usr/share/classic7/. /usr/share/classic7/
+          cp -a /src/system_files/usr/bin/classic7-run /usr/bin/
+          useradd -m tester
+          cat > /tmp/inner.sh <<'EOI'
+          export HOME=/home/tester XDG_RUNTIME_DIR=/tmp/xdg-tester DISPLAY=:99 QT_QPA_PLATFORM=xcb
+          mkdir -p $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
+          mkdir -p ~/Documents ~/Pictures ~/Music
+          Xvfb :99 -screen 0 1024x768x24 >/dev/null 2>&1 &
+          sleep 2
+          kbuildsycoca6 >/dev/null 2>&1
+          plasmawindowed org.classic7.startmenu > /out/plasmawindowed.log 2>&1 &
+          sleep 15
+          import -window root /out/startmenu.png
+          # type a search (the search field has focus)
+          xdotool type --delay 80 "term"
+          sleep 4
+          import -window root /out/search.png
+          pkill plasmawindowed
+          sleep 1
+          EOI
+          chown -R tester /home/tester
+          mkdir -p /out && chmod 777 /out
+          su tester -c "dbus-run-session -- bash /tmp/inner.sh"
+          EOS
+          sudo podman run --rm -v "$PWD:/src:ro" -v "$PWD/shots:/out" "$IMAGE" bash /out/run.sh > shots/container.log 2>&1 || true
+          ls -la shots
+          tail -n 60 shots/plasmawindowed.log || true
+          msg="$(grep -iE 'qml|error|warning|cannot|undefined|not a type' shots/plasmawindowed.log | grep -v 'kf.' | head -40 | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
+          echo "::warning title=QML log::${msg:-no QML messages}"
+
+      - name: Save screenshots to the ci-shots branch
+        run: |
+          cp shots/*.png shots/*.log /tmp/ 2>/dev/null || true
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan ci-shots
+          git rm -rfq . >/dev/null
+          cp /tmp/*.png /tmp/*.log . 2>/dev/null || true
+          git add -A
+          git commit -qm "Start menu render ${GITHUB_SHA::7}" || exit 0
+          git push -f origin ci-shots
