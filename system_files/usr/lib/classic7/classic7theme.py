@@ -678,8 +678,14 @@ def start_button_body(p: Palette) -> str:
               f'font-weight="bold" fill="{p.face_text}" shape-rendering="auto">Start</text>')
 
 
+# The panel is 30 px thick with 4 + 2 px content margins, so kicker shows the image 24 px
+# high. Kicker scales the image to the panel height keeping its aspect ratio, so the file is
+# exactly 24 px high (button 22 px + 1 px air) to stay pixel-sharp at 100 % scaling.
+START_IMG_W, START_IMG_H = START_W + 2, 24
+
+
 def start_button_svg(p: Palette) -> str:
-    return svg_doc(START_W, START_H, start_button_body(p))
+    return svg_doc(START_IMG_W, START_IMG_H, f'<g transform="translate(1,1)">{start_button_body(p)}</g>')
 
 
 # =============================================================================

@@ -214,7 +214,7 @@ def apply_fonts(size: int, run: Runner):
 def plasma_script(start_button: str, desktop: str) -> str:
     ours = [SYSTEM_START_BUTTON, str(data_home() / "classic7")]
     return f"""
-var img = "file://{start_button}";
+var img = "{start_button}";
 var ours = {json.dumps(ours)};
 panels().forEach(function (panel) {{
     panel.widgets("org.kde.plasma.kicker").forEach(function (w) {{
@@ -224,8 +224,16 @@ panels().forEach(function (panel) {{
         if (isOurs) {{
             w.writeConfig("useCustomButtonImage", true);
             w.writeConfig("customButtonImage", img);
+            w.writeConfig("showIconsRootLevel", true);
             w.reloadConfig();
         }}
+    }});
+    panel.widgets("org.kde.plasma.taskmanager").forEach(function (w) {{
+        w.currentConfigGroup = ["General"];
+        w.writeConfig("taskMaxWidth", 0);
+        w.writeConfig("maxTextLines", 1);
+        w.writeConfig("taskHoverEffect", false);
+        w.reloadConfig();
     }});
 }});
 desktops().forEach(function (d) {{

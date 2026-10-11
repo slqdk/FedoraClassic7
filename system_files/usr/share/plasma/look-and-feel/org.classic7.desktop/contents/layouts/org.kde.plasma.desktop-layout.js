@@ -20,7 +20,9 @@ var start = panel.addWidget("org.kde.plasma.kicker");
 if (start) {
     start.currentConfigGroup = ["General"];
     start.writeConfig("useCustomButtonImage", true);
-    start.writeConfig("customButtonImage", "file:///usr/share/classic7/start-button.svg");
+    // A plain path (not file://): only then does kicker show a wide image at its real width
+    start.writeConfig("customButtonImage", "/usr/share/classic7/start-button.svg");
+    start.writeConfig("showIconsRootLevel", true);
     start.writeConfig("showRecentApps", false);
     start.writeConfig("showRecentDocs", false);
     start.writeConfig("alphaSort", true);
@@ -54,6 +56,9 @@ if (tasks) {
     tasks.currentConfigGroup = ["General"];
     tasks.writeConfig("launchers", []);
     tasks.writeConfig("onlyGroupWhenFull", true);
+    tasks.writeConfig("taskMaxWidth", 0);        // Narrow: classic ~160 px task buttons
+    tasks.writeConfig("maxTextLines", 1);
+    tasks.writeConfig("taskHoverEffect", false);
 }
 
 panel.addWidget("org.kde.plasma.marginsseparator");
