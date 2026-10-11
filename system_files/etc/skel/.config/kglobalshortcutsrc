@@ -3,3 +3,9 @@ _launch=none
 
 [services][classic7-computer.desktop]
 _launch=Meta+E
+
+[services][org.kde.konsole.desktop]
+_launch=none
+
+[services][classic7-prompt.desktop]
+_launch=Ctrl+Alt+T

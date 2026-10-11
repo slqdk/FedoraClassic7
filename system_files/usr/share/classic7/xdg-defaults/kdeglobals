@@ -10,6 +10,9 @@ font=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 menuFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 toolBarFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
 smallestReadableFont=Noto Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+# Command Prompt is the default terminal (Dolphin's "Open Terminal", Terminal=true apps)
+TerminalApplication=classic7-prompt
+TerminalService=classic7-prompt.desktop
 
 [WM]
 activeFont=Noto Sans,9,-1,5,700,0,0,0,0,0,0,0,0,0,0,1

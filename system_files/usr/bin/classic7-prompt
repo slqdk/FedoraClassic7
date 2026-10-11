@@ -1,0 +1,103 @@
+#!/usr/bin/python3
+"""Command Prompt: a terminal with an assistant that uses your local language model.
+
+    classic7-prompt                      open a window (in the current folder)
+    classic7-prompt --workdir DIR        open in DIR
+    classic7-prompt -e COMMAND [ARGS]    run COMMAND instead of the shell (--hold keeps the window)
+    classic7-prompt --ask "TEXT"         ask the assistant on the command line
+    classic7-prompt --check              test the connection and list the models
+    classic7-prompt --set-server URL     e.g. http://30.11.0.104:11434
+    classic7-prompt --set-model NAME     e.g. qwen3:14b ("" = automatic)
+    classic7-prompt --tasks [WORDS]      the built-in task library (search with WORDS)
+"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+
+def cli(args):
+    import prompt_llm as llm
+    import prompt_recipes as recipes
+    import prompt_safety as safety
+
+    opt = args[0]
+    if opt in ("-h", "--help"):
+        print(__doc__.strip())
+        return 0
+    if opt == "--set-server" and len(args) > 1:
+        s = llm.Settings.load()
+        s.server = llm.normalize_server(args[1])
+        s.save()
+        print(f"Server: {s.server}  (saved in {llm.CONFIG_FILE})")
+        return 0
+    if opt == "--set-model" and len(args) > 1:
+        s = llm.Settings.load()
+        s.model = args[1].strip()
+        s.save()
+        print(f"Model: {s.model or 'automatic'}")
+        return 0
+    if opt == "--check":
+        s = llm.Settings.load()
+        c = llm.Client(s)
+        print(f"Server: {s.server} ({s.api})")
+        try:
+            models = c.list_models()
+        except llm.LLMError as e:
+            print(f"Not reachable: {e}")
+            return 1
+        print("Models: " + (", ".join(models) or "none"))
+        print(f"Will use: {c.pick_model()}")
+        return 0
+    if opt == "--ask" and len(args) > 1:
+        s = llm.Settings.load()
+        try:
+            sug = llm.Client(s).suggest(" ".join(args[1:]), os.getcwd())
+        except llm.LLMError as e:
+            print(f"Assistant not available: {e}")
+            for r in recipes.search(" ".join(args[1:]), 3):
+                print(f"  {r.title}:  {r.command}")
+            return 1
+        risk = safety.combine(sug["command"], sug["risk"])
+        if sug["command"]:
+            print(f"$ {sug['command']}")
+            print(f"[{risk.name}] " + "; ".join(risk.reasons))
+        print(sug["explanation"])
+        return 0
+    if opt == "--tasks":
+        found = recipes.search(" ".join(args[1:]), 20) if len(args) > 1 else recipes.RECIPES
+        for r in found:
+            print(f"{r.group:16} {r.title:48} {r.command}")
+        return 0
+    return None
+
+
+def main():
+    args = sys.argv[1:]
+    if args and args[0].startswith("--") and args[0] not in ("--workdir", "--hold"):
+        rc = cli(args)
+        if rc is not None:
+            return rc
+    cwd, hold, command = None, False, None
+    i = 0
+    while i < len(args):
+        a = args[i]
+        if a == "--workdir" and i + 1 < len(args):
+            cwd = args[i + 1]
+            i += 2
+            continue
+        if a in ("--hold", "--noclose", "-hold"):
+            hold = True
+        elif a in ("-e", "-x", "--"):
+            command = args[i + 1:]
+            break
+        elif a in ("-h", "--help"):
+            print(__doc__.strip())
+            return 0
+        i += 1
+    from prompt_gui import main as gui_main, parse_exec
+    return gui_main(parse_exec(command) if command else None, cwd, hold)
+
+
+if __name__ == "__main__":
+    sys.exit(main())

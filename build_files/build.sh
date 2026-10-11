@@ -58,9 +58,15 @@ rpm -q kdeplasma-addons || dnf5 -y install kdeplasma-addons || echo "WARNING: no
 
 # Classic 7 Appearance dialog: Qt for Python (+ Pillow to recolour GTK button images)
 dnf5 -y install python3-pyside6 python3-pillow
-chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
-python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PIL"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives"
+# Command Prompt: terminal emulation with pyte (Fedora package; pip as a fallback)
+if ! dnf5 -y install python3-pyte; then
+    dnf5 -y install python3-pip python3-wcwidth
+    python3 -m pip install --no-cache-dir --prefix=/usr --no-deps pyte
+fi
+chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
+python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PIL, pyte"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui"
+/usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
 command -v udisksctl
 python3 -m compileall -q /usr/lib/classic7
@@ -90,6 +96,10 @@ test -x /usr/bin/classic7-update
 test -f /usr/share/kio/servicemenus/classic7-sendto.desktop
 test -f /usr/share/kio/servicemenus/classic7-createshortcut.desktop
 grep -q '^ShowOpenInNewTab=false' /etc/xdg/dolphinrc
+# Command Prompt
+test -x /usr/bin/classic7-prompt
+test -f /usr/share/applications/classic7-prompt.desktop
+grep -q '^TerminalApplication=classic7-prompt' /etc/xdg/kdeglobals
 
 # --- Repositories ------------------------------------------------------------------------
 # The installer ISO build (bootc-image-builder) reads the repos enabled in this image but

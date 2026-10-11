@@ -20,6 +20,7 @@ image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomic + KDE Plas
 | Explorer | Dolphin set up like Windows Explorer: Places + folder tree, Back/Forward/Up with a clickable address bar, a command bar (Cut, Copy, Paste, Move to Trash, Create Folder, View Mode, Properties), Details view, menu bar, full-width status bar |
 | Computer | Classic **Computer** window: drives as tiles with free-space bars (red when nearly full), grouped into hard disks, removable storage and network; opens with Win+E, from the desktop icon and the Start menu |
 | Right-click menus | Windows-style: **Send to ▸** (Compressed (zipped) folder, Desktop (create shortcut), Documents, Mail recipient, Removable Disk), **Create shortcut**, KDE extras hidden; desktop menu with Display Configuration and Configure Desktop and Wallpaper |
+| Command Prompt | Terminal with a built-in assistant that asks **your own** language model (Ollama or OpenAI-compatible): plain-language questions become commands you run with one click, errors get explained, risky commands are stopped by built-in rules; offline task library; default terminal (Ctrl+Alt+T) |
 | Appearance | Start > Settings > **Appearance**: classic-style dialog with colour schemes, per-item colours, font size and live preview |
 | Gaming | Everything Bazzite ships (Steam, Lutris, GameMode, MangoHud, AMD/Mesa stack) + LACT for GPU fan/power control |
 | Updates | Atomic: whole-system updates and rollback, rebuilt daily from Bazzite |
@@ -108,6 +109,34 @@ Change them in `system_files/usr/share/kio/servicemenus/` (Send to, Create short
 `system_files/etc/xdg/kservicemenurc` (hidden plugins) and the `[ContextMenu]` group in
 `system_files/usr/share/classic7/xdg-defaults/dolphinrc`.
 
+## Command Prompt
+
+![Command Prompt](docs/command-prompt.png)
+
+Start > **Command Prompt**, Ctrl+Alt+T, or *Open Terminal* in Explorer. A normal bash terminal on top
+(colours, htop, nano, less work), the assistant below:
+
+- **Ask in plain words** (Danish or English): *"hvor meget plads er der fri"*, *"install VLC"*,
+  *"why can't I see my USB stick"*. You get one command, a short explanation and a risk badge.
+  **Nothing runs until you click Run.** The command is editable first; *Insert* types it without Enter.
+- **Risk check that doesn't trust the model:** built-in rules rate every command (Safe / Caution / DANGER).
+  DANGER (`rm -rf`, `dd of=`, `mkfs`, `curl … | sh`, `git reset --hard` …) needs a tick in
+  "I understand" before *Run anyway* is enabled. `dnf`/`apt` on the host are flagged with the right alternative.
+- **Explain:** select text in the terminal, right-click > *Explain Selection* (Ctrl+Shift+E), or
+  *Explain Last Output* (Ctrl+Shift+L). Answers stream in.
+- **Knows this system:** every question carries a short description of FedoraClassic7 (Atomic image,
+  Flatpak/brew/Distrobox, `classic7-update`, `ujust`, mount points, current folder), so suggestions fit.
+- **Tasks** menu: ~35 ready commands (updates, programs, disks, USB, GPU, logs, network) that work without
+  the model; when the server can't be reached, matching tasks are offered instead.
+- **Settings** (Assistant > Settings): server address (default `http://30.11.0.104:11434`), Ollama or
+  OpenAI-compatible, API key, model (automatic picks qwen3 / qwen2.5-coder / llama3 …, skipping embedding
+  and vision models), answer language, font size. Stored in `~/.config/classic7/prompt.json`;
+  a system-wide default can go in `/etc/classic7/prompt.json`.
+
+Command line: `classic7-prompt --check`, `--set-server http://IP:11434`, `--set-model qwen3:14b`,
+`--ask "find big files"`, `--tasks usb`, `-e COMMAND`, `--workdir DIR`, `--hold`.
+Konsole is still installed (File > Open Konsole Here).
+
 ## Appearance dialog
 
 ![Appearance dialog](docs/appearance-dialog.png)
@@ -175,6 +204,8 @@ Other knobs:
   "Move to Trash" keeps its KDE name, and *Share with*, *Restore previous versions*, *Paste shortcut* and the
   desktop's *Gadgets* have no equivalent. Firefox, Steam and Electron apps keep their own menus.
 - In GTK apps, theme images are recoloured by exact colour match, so a few shaded pixels can look off in non-grey schemes.
+- Command Prompt is a small terminal of its own: no tabs, no mouse support inside full-screen programs
+  (htop/mc take keyboard only), no ligatures or sixel images. Use Konsole for those.
 
 ## Local build
 

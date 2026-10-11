@@ -1,0 +1,23 @@
+[Desktop Entry]
+Type=Application
+Name=Command Prompt
+GenericName=Terminal with assistant
+Comment=Type commands, or ask your local AI assistant in plain words
+Exec=classic7-prompt
+Icon=utilities-terminal
+Terminal=false
+Categories=Qt;KDE;System;TerminalEmulator;
+Keywords=terminal;cmd;command prompt;shell;console;bash;kommandoprompt;ai;assistant;
+StartupWMClass=classic7-prompt
+X-TerminalArgExec=-e
+X-TerminalArgDir=--workdir
+X-TerminalArgHold=--hold
+Actions=NewWindow;Settings;
+
+[Desktop Action NewWindow]
+Name=New Window
+Exec=classic7-prompt
+
+[Desktop Action Settings]
+Name=Check the Assistant Connection
+Exec=classic7-prompt --hold -e classic7-prompt --check

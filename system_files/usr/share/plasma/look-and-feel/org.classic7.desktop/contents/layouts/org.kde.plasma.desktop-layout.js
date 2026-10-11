@@ -30,6 +30,7 @@ if (start) {
         "preferred://browser",
         "classic7-computer.desktop",
         "org.kde.dolphin.desktop",
+        "classic7-prompt.desktop",
         "steam.desktop",
         "classic7-appearance.desktop",
         "systemsettings.desktop"
@@ -43,7 +44,7 @@ if (quick) {
     quick.writeConfig("launcherUrls", [
         "file:///usr/share/applications/org.kde.dolphin.desktop",
         "file:///usr/share/applications/steam.desktop",
-        "file:///usr/share/applications/org.kde.konsole.desktop"
+        "file:///usr/share/applications/classic7-prompt.desktop"
     ]);
 }
 
