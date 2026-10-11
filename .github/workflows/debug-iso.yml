@@ -5,7 +5,15 @@ on:
 
 jobs:
   debug:
-    runs-on: ubuntu-26.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-26.04
+            userns: fix
+          - os: ubuntu-24.04
+            userns: keep
+    runs-on: ${{ matrix.os }}
     permissions:
       contents: read
       packages: read
@@ -18,6 +26,9 @@ jobs:
 
       - name: Run bootc-image-builder and report its output
         run: |
+          if [ "${{ matrix.userns }}" = fix ]; then sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0 || true; fi
+          echo "::notice title=env ${{ matrix.os }}::userns=$(sysctl -n kernel.apparmor_restrict_unprivileged_userns 2>&1) $(podman --version)"
+          podman --version
           IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/fedoraclassic7:latest"
           sed -i "s|ghcr.io/[^ ]*:latest|${IMAGE}|" ./disk_config/iso.toml
           df -h / /mnt || true
@@ -27,7 +38,6 @@ jobs:
           {
             sudo podman pull "$IMAGE" &&
             sudo podman image inspect "$IMAGE" --format 'size={{.Size}}' &&
-            sudo podman run --rm "$IMAGE" sh -c 'ls -l /etc/pki/rpm-gpg/ | grep -i terra; for f in /etc/yum.repos.d/*.repo; do echo "REPOFILE $f"; grep -E "^\\[|enabled|gpgkey" "$f"; done; true' &&
             sudo podman run --rm --privileged --pull=newer \
               --security-opt label=type:unconfined_t \
               -v ./disk_config/iso.toml:/config.toml:ro \
@@ -38,8 +48,8 @@ jobs:
           } 2>&1 | tee bib.log || rc=$?
           clean() { grep -v -e 'Copying blob' -e 'Downloaded Packages' -e '^[A-Za-z0-9+/=]\{40,\}' bib.log | cut -c1-300; }
           msg="$(clean | tail -50 | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
-          echo "::error title=bib exit ${rc}::${msg}"
+          echo "::error title=bib ${{ matrix.os }} exit ${rc}::${msg}"
           hl="$(clean | grep -nE 'Error|error:|Traceback|[Ff]ailed|No space|exit status|returned non-zero' | tail -40 | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
-          echo "::warning title=highlights::${hl}"
-          echo "::warning title=disk::$(df -h / /mnt 2>&1 | sed -e ':a;N;$!ba;s/\n/%0A/g')"
+          echo "::warning title=highlights ${{ matrix.os }}::${hl}"
+          echo "::warning title=disk ${{ matrix.os }}::$(df -h / /mnt 2>&1 | sed -e ':a;N;$!ba;s/\n/%0A/g')"
           exit $rc
