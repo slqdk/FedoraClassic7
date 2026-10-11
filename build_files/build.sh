@@ -96,7 +96,12 @@ grep -q '^ShowOpenInNewTab=false' /etc/xdg/dolphinrc
 # GPG key file is missing (Bazzite's terra-mesa, for example) makes that build fail, so
 # switch such repos off. Installed systems update via the image, not via these repos.
 python3 - <<'PY'
-import configparser, glob, os, re
+import configparser, glob, os, platform, re
+osrel = dict(l.rstrip("\n").split("=", 1) for l in open("/usr/lib/os-release") if "=" in l)
+ver = osrel.get("VERSION_ID", "").strip('"')
+subst = {"releasever": ver, "releasever_major": ver.split(".")[0], "basearch": platform.machine(), "arch": platform.machine()}
+def expand(k):
+    return re.sub(r"\$\{?(\w+)\}?", lambda m: subst.get(m.group(1), m.group(0)), k)
 for path in glob.glob("/etc/yum.repos.d/*.repo"):
     cp = configparser.RawConfigParser(strict=False)
     try:
@@ -108,7 +113,7 @@ for path in glob.glob("/etc/yum.repos.d/*.repo"):
         if cp.get(sec, "enabled", fallback="1").strip() != "1":
             continue
         keys = re.split(r"[\s,]+", cp.get(sec, "gpgkey", fallback=""))
-        if any(k.startswith("file://") and not os.path.exists(k[7:]) for k in keys):
+        if any(k.startswith("file://") and not os.path.exists(expand(k)[7:]) for k in keys):
             bad.add(sec)
     if not bad:
         continue
