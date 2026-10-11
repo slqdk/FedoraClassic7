@@ -33,6 +33,14 @@ for f in kdeglobals kwinrc dolphinrc; do
     merge_ini "/usr/share/classic7/xdg-defaults/$f" "/etc/xdg/$f"
 done
 
+# Lock screen: plain classic desktop blue instead of Bazzite's wallpaper (nested groups,
+# so not via merge_ini)
+for f in /etc/xdg/kscreenlockerrc ${KDE_PROFILE_DIR:-/usr/share/kde-settings/kde-profile/default/xdg}/kscreenlockerrc; do
+    [[ -d "$(dirname "$f")" ]] || continue
+    kwriteconfig6 --file "$f" --group Greeter --key WallpaperPlugin org.kde.color
+    kwriteconfig6 --file "$f" --group Greeter --group Wallpaper --group org.kde.color --group General --key Color "58,110,165"
+done
+
 # Fedora's KDE profile also names a default Global Theme; point it at ours too
 KDE_PROFILE=/usr/share/kde-settings/kde-profile/default/xdg
 if [[ -d "$KDE_PROFILE" ]]; then
@@ -100,6 +108,7 @@ grep -q '^ShowOpenInNewTab=false' /etc/xdg/dolphinrc
 test -x /usr/bin/classic7-prompt
 test -f /usr/share/applications/classic7-prompt.desktop
 grep -q '^TerminalApplication=classic7-prompt' /etc/xdg/kdeglobals
+grep -q '^WallpaperPlugin=org.kde.color' /etc/xdg/kscreenlockerrc
 
 # --- Repositories ------------------------------------------------------------------------
 # The installer ISO build (bootc-image-builder) reads the repos enabled in this image but

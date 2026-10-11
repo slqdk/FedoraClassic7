@@ -236,6 +236,20 @@ panels().forEach(function (panel) {{
         w.reloadConfig();
     }});
 }});
+panels().forEach(function (panel) {{
+    panel.widgets("org.kde.plasma.quicklaunch").forEach(function (w) {{
+        w.currentConfigGroup = ["General"];
+        var urls = w.readConfig("launcherUrls", []);
+        if (typeof urls === "string") urls = urls.split(",");
+        var changed = false;
+        urls = urls.map(function (u) {{
+            if (String(u).indexOf("org.kde.konsole.desktop") !== -1) {{ changed = true;
+                return "file:///usr/share/applications/classic7-prompt.desktop"; }}
+            return u;
+        }});
+        if (changed) {{ w.writeConfig("launcherUrls", urls); w.reloadConfig(); }}
+    }});
+}});
 desktops().forEach(function (d) {{
     d.currentConfigGroup = ["Wallpaper", "org.kde.color", "General"];
     d.writeConfig("Color", "{t.rgb(desktop)}");
@@ -373,6 +387,10 @@ def apply(p: t.Palette, runner: Runner | None = None) -> Result:
     reload_kwin(ids, run)
     apply_fonts(p.font_size, run)
     run_plasma_script(plasma_script(start, p.desktop), run)
+    # Lock screen: plain desktop colour, like the classic "Computer locked" screen
+    run("kwriteconfig6", "--file", "kscreenlockerrc", "--group", "Greeter", "--key", "WallpaperPlugin", "org.kde.color")
+    run("kwriteconfig6", "--file", "kscreenlockerrc", "--group", "Greeter", "--group", "Wallpaper",
+        "--group", "org.kde.color", "--group", "General", "--key", "Color", t.rgb(p.desktop))
 
     for slot in ("A", "B"):
         if slot != new_slot:
