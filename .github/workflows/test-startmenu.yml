@@ -36,11 +36,19 @@ jobs:
           kbuildsycoca6 >/dev/null 2>&1
           plasmawindowed org.classic7.startmenu > /out/plasmawindowed.log 2>&1 &
           sleep 15
+          import -window root /out/button.png
+          # open the menu with a click on the Start button
+          xdotool mousemove 60 40 click 1
+          sleep 5
           import -window root /out/startmenu.png
           # type a search (the search field has focus)
           xdotool type --delay 80 "term"
-          sleep 4
+          sleep 5
           import -window root /out/search.png
+          xdotool key ctrl+a BackSpace
+          sleep 1
+          # click "All Programs" if its position is given (APX/APY), then screenshot
+          if [ -n "$APX" ]; then xdotool mousemove $APX $APY click 1; sleep 2; import -window root /out/programs.png; fi
           pkill plasmawindowed
           sleep 1
           EOI
