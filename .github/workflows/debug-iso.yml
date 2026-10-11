@@ -36,8 +36,10 @@ jobs:
               quay.io/centos-bootc/bootc-image-builder:latest \
               --type anaconda-iso --use-librepo=True --rootfs btrfs "$IMAGE"
           } 2>&1 | tee bib.log || rc=$?
-          msg="$(tail -60 bib.log | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
+          clean() { grep -v -e 'Copying blob' -e 'Downloaded Packages' -e '^[A-Za-z0-9+/=]\{40,\}' bib.log | cut -c1-300; }
+          msg="$(clean | tail -50 | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
           echo "::error title=bib exit ${rc}::${msg}"
-          head -c 20000 bib.log | grep -iE 'error|fail|terra|REPOFILE|enabled|gpgkey|^\[|size=' | head -120 | sed -e ':a;N;$!ba;s/\n/%0A/g' | sed 's/^/::warning title=highlights::/'
-          df -h / /mnt || true
+          hl="$(clean | grep -nE 'Error|error:|Traceback|[Ff]ailed|No space|exit status|returned non-zero' | tail -40 | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
+          echo "::warning title=highlights::${hl}"
+          echo "::warning title=disk::$(df -h / /mnt 2>&1 | sed -e ':a;N;$!ba;s/\n/%0A/g')"
           exit $rc
