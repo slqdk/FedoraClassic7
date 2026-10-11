@@ -22,9 +22,17 @@ import classic7theme as t  # noqa: E402
 
 
 def find_scheme(name):
-    for p in t.SCHEMES + backend.load_user_schemes():
-        if p.name.lower() == name.lower():
+    # Tolerant match so no quotes are needed: "Classic 7 Standard", classic-7-standard,
+    # classic7standard and night all work.
+    def key(s):
+        return "".join(c for c in s.lower() if c.isalnum())
+    schemes = t.SCHEMES + backend.load_user_schemes()
+    for p in schemes:
+        if key(p.name) == key(name):
             return p
+    hits = [p for p in schemes if key(name) and key(name) in key(p.name)]
+    if len(hits) == 1:
+        return hits[0]
     sys.exit(f"Unknown scheme: {name}. Try --list.")
 
 
