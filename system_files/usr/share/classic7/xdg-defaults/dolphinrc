@@ -7,6 +7,16 @@ ShowStatusBar=FullWidth
 ShowZoomSlider=false
 LockPanels=true
 
+[DetailsMode]
+# Windows Explorer details view: small icons, no tree expanders inside the list
+IconSize=16
+PreviewSize=16
+ExpandableFolders=false
+
+[IconsMode]
+IconSize=48
+PreviewSize=48
+
 [MainWindow]
 MenuBar=Enabled
 ToolBarsMovable=Disabled
