@@ -92,9 +92,10 @@ test -f /usr/share/kio/servicemenus/classic7-createshortcut.desktop
 grep -q '^ShowOpenInNewTab=false' /etc/xdg/dolphinrc
 
 # --- Repositories ------------------------------------------------------------------------
-# The installer ISO is built from the repos enabled in this image. A repo whose local
-# GPG key file is missing (Bazzite's terra-mesa, for example) makes that build fail, so
-# switch such repos off. Installed systems update via the image, not via these repos.
+# The installer ISO build (bootc-image-builder) reads the repos enabled in this image but
+# looks up file:// GPG keys in its own container, which only has Fedora's keys. Third-party
+# repos with local keys (Bazzite's terra-*, for example) make it fail, so switch them off.
+# Installed systems update via the image, not via these repos (rpm-ostree can re-enable).
 python3 - <<'PY'
 import configparser, glob, os, platform, re
 osrel = dict(l.rstrip("\n").split("=", 1) for l in open("/usr/lib/os-release") if "=" in l)
@@ -113,7 +114,8 @@ for path in glob.glob("/etc/yum.repos.d/*.repo"):
         if cp.get(sec, "enabled", fallback="1").strip() != "1":
             continue
         keys = re.split(r"[\s,]+", cp.get(sec, "gpgkey", fallback=""))
-        if any(k.startswith("file://") and not os.path.exists(expand(k)[7:]) for k in keys):
+        local = [os.path.basename(expand(k)) for k in keys if k.startswith("file://")]
+        if any(not n.startswith("RPM-GPG-KEY-fedora") for n in local):
             bad.add(sec)
     if not bad:
         continue
@@ -126,5 +128,5 @@ for path in glob.glob("/etc/yum.repos.d/*.repo"):
             line = "enabled=0\n"
         out.append(line)
     open(path, "w").writelines(out)
-    print(f"Disabled repos with missing GPG keys in {path}: {', '.join(sorted(bad))}")
+    print(f"Disabled third-party repos with local GPG keys in {path}: {', '.join(sorted(bad))}")
 PY
