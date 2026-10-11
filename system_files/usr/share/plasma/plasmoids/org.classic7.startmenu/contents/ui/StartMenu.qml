@@ -271,9 +271,12 @@ FocusScope {
         }
 
         // Right column: grey, text only
-        Item {
+        Rectangle {
             Layout.preferredWidth: menu.rightWidth
             Layout.fillHeight: true
+            Kirigami.Theme.colorSet: Kirigami.Theme.Window
+            Kirigami.Theme.inherit: false
+            color: Kirigami.Theme.backgroundColor
 
             ColumnLayout {
                 anchors.fill: parent

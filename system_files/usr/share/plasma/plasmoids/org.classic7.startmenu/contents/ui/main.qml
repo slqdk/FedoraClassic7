@@ -122,14 +122,6 @@ PlasmoidItem {
         }
     }
 
-    Timer {
-        interval: 3000; running: true
-        onTriggered: console.log("classic7-startmenu counts: pinned", root.pinnedModel.count,
-                                 "computer", root.computerModel.count, "places", root.placesModel.count,
-                                 "apps", root.appsModel.count, "recent", root.recentModel.count,
-                                 "favorites", JSON.stringify(Plasmoid.configuration.favoriteApps))
-    }
-
     Component.onCompleted: {
         if (Plasmoid.hasOwnProperty("activationTogglesExpanded")) {
             Plasmoid.activationTogglesExpanded = true;

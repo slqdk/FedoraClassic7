@@ -35,7 +35,7 @@ ListView {
         iconSource: model.decoration
         iconSize: list.iconSize
         arrow: list.folders && (model.hasChildren ?? false)
-        current: ListView.isCurrentItem
+        current: ListView.isCurrentItem && list.activeFocus
         onActivated: {
             if (list.folders && (model.hasChildren ?? false)) {
                 list.startMenu.openFolder(list.model, index, model.display);
