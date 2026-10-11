@@ -28,8 +28,8 @@ jobs:
           cp -a /src/system_files/usr/share/classic7/. /usr/share/classic7/
           cp -a /src/system_files/usr/bin/classic7-run /usr/bin/
           cat > /tmp/inner.sh <<'EOI'
-          export HOME=/root XDG_RUNTIME_DIR=/tmp/xdg-root DISPLAY=:99 QT_QPA_PLATFORM=xcb
-          mkdir -p $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
+          export HOME=/tmp/home XDG_RUNTIME_DIR=/tmp/xdg-root DISPLAY=:99 QT_QPA_PLATFORM=xcb
+          mkdir -p $HOME $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
           mkdir -p ~/Documents ~/Pictures ~/Music
           Xvfb :99 -screen 0 1024x768x24 >/dev/null 2>&1 &
           sleep 2
