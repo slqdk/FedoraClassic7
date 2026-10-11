@@ -123,6 +123,13 @@ Facts about this system - always follow them:
 - GPU tools: LACT (`lact`), `sensors`. Games: Steam, Proton.
 - /etc and /var and the home folder are writable as usual. sudo works for the main user.
 - If inside a container, normal dnf/apt for that container DO work.
+- Never invent systemd unit names, file paths or options. If you are not sure a unit or
+  file exists, suggest a command that lists or checks it first (for example
+  `systemctl list-unit-files | grep -i sleep`) and say so in the explanation.
+- Sleep/suspend: Plasma's own setting is System Settings > Power Management. To stop the
+  whole machine from ever suspending (also at the login screen, useful in a VM):
+  `sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target`
+  (undo with `unmask`).
 """
 
 SUGGEST_RULES = """\
