@@ -39,6 +39,8 @@ jobs:
           plasma-apply-desktoptheme classic7 >> /out/sycoca.log 2>&1
           kreadconfig6 --file kdeglobals --group KDE --key widgetStyle >> /out/sycoca.log 2>&1
           ls /usr/share/applications | grep -E "classic7|dolphin|steam" >> /out/sycoca.log
+          export XDG_CURRENT_DESKTOP=KDE KDE_FULL_SESSION=true KDE_SESSION_VERSION=6
+          export QT_LOGGING_RULES="kf.service.*=true;org.kde.plasma.kicker*=true;qml=true;js=true"
           plasmawindowed org.classic7.startmenu > /out/plasmawindowed.log 2>&1 &
           sleep 15
           import -window root /out/button.png
