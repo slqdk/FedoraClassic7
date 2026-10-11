@@ -38,13 +38,16 @@ case "${1:-}" in
         ;;
     "" )
         bold "Updating Classic 7"
-        if command -v ujust >/dev/null && ujust --summary 2>/dev/null | tr ' ' '\n' | grep -qx update; then
-            # Bazzite's updater: system image, Flatpaks, Distrobox and firmware in one go
-            ujust update
-        else
-            sudo bootc upgrade
-            flatpak update -y --noninteractive || true
+        sudo bootc status --format humanreadable 2>/dev/null | grep -iE 'image|version' | head -n 4
+        echo
+        # The system image itself, explicitly: Bazzite's background updater may skip or
+        # postpone it, and then nothing would be staged.
+        if ! sudo bootc upgrade; then
+            echo "The system update failed. Check the network, then run: classic7-update --status" >&2
         fi
+        echo
+        bold "Updating apps (Flatpak)"
+        flatpak update -y --noninteractive || true
         echo
         staged="$(sudo bootc status --format json 2>/dev/null | python3 -c 'import json,sys
 try: print(1 if json.load(sys.stdin).get("status", {}).get("staged") else 0)
