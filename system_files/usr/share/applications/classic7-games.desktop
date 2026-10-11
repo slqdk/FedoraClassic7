@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Games
+Comment=Your game library
+Exec=steam steam://open/games
+Icon=applications-games
+NoDisplay=true

@@ -670,11 +670,14 @@ def emblem(p: Palette, ox: float, oy: float) -> str:
 START_W, START_H = 56, 22
 
 
-def start_button_body(p: Palette) -> str:
+def start_button_body(p: Palette, pressed: bool = False) -> str:
+    """The Start button; pressed = sunken bevel with the content moved 1 px down-right."""
+    bv = Bevels(p)
     cv = Canvas(START_W, START_H, p.face)
-    cv.bevel(0, 0, START_W, START_H, *Bevels(p).button)
-    return (cv.svg(0, 0, START_W, START_H) + emblem(p, 4, 4)
-            + f'<text x="23" y="15.5" font-family="{UI_FONT}, sans-serif" font-size="11" '
+    cv.bevel(0, 0, START_W, START_H, *(bv.pressed if pressed else bv.button))
+    d = 1 if pressed else 0
+    return (cv.svg(0, 0, START_W, START_H) + emblem(p, 4 + d, 4 + d)
+            + f'<text x="{23 + d}" y="{15.5 + d}" font-family="{UI_FONT}, sans-serif" font-size="11" '
               f'font-weight="bold" fill="{p.face_text}" shape-rendering="auto">Start</text>')
 
 
@@ -684,8 +687,13 @@ def start_button_body(p: Palette) -> str:
 START_IMG_W, START_IMG_H = START_W + 2, 24
 
 
-def start_button_svg(p: Palette) -> str:
-    return svg_doc(START_IMG_W, START_IMG_H, f'<g transform="translate(1,1)">{start_button_body(p)}</g>')
+def start_button_svg(p: Palette, pressed: bool = False) -> str:
+    return svg_doc(START_IMG_W, START_IMG_H, f'<g transform="translate(1,1)">{start_button_body(p, pressed)}</g>')
+
+
+def pressed_path(path: str) -> str:
+    """start-button.svg -> start-button-pressed.svg (the Start menu applet's naming rule)."""
+    return path[:-4] + "-pressed.svg" if path.endswith(".svg") else path + "-pressed"
 
 
 # =============================================================================
@@ -915,4 +923,5 @@ def render(p: Palette, data_dir: Path, ids: Ids | None = None, verbose: bool = F
     write_aurorae(p, ids, w)
     write_plasma_style(p, ids, w)
     w(ids.start_button, start_button_svg(p))
+    w(pressed_path(ids.start_button), start_button_svg(p, pressed=True))
     return w.written

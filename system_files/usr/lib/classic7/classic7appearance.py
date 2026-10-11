@@ -217,16 +217,42 @@ def plasma_script(start_button: str, desktop: str) -> str:
 var img = "{start_button}";
 var ours = {json.dumps(ours)};
 panels().forEach(function (panel) {{
+    // The Classic 7 Start menu replaces the Classic 7-styled Kicker menu (first in the panel)
+    var hasStart = panel.widgets("org.classic7.startmenu").length > 0;
     panel.widgets("org.kde.plasma.kicker").forEach(function (w) {{
         w.currentConfigGroup = ["General"];
         var cur = String(w.readConfig("customButtonImage", ""));
         var isOurs = cur === "" || ours.some(function (o) {{ return cur.indexOf(o) !== -1; }});
-        if (isOurs) {{
-            w.writeConfig("useCustomButtonImage", true);
-            w.writeConfig("customButtonImage", img);
-            w.writeConfig("showIconsRootLevel", true);
-            w.reloadConfig();
+        if (!isOurs) {{
+            return;
         }}
+        if (!hasStart && knownWidgetTypes.indexOf("org.classic7.startmenu") !== -1) {{
+            var favs = w.readConfig("favoriteApps", []);
+            var start = panel.addWidget("org.classic7.startmenu");
+            if (start) {{
+                start.currentConfigGroup = ["General"];
+                if (favs && favs.length) {{
+                    start.writeConfig("favoriteApps", favs);
+                }}
+                w.remove();
+                hasStart = true;
+                try {{
+                    var ids = panel.widgetIds.filter(function (i) {{ return i !== start.id; }});
+                    panel.currentConfigGroup = ["General"];
+                    panel.writeConfig("AppletOrder", [start.id].concat(ids).join(";"));
+                }} catch (e) {{}}
+                return;
+            }}
+        }}
+        w.writeConfig("useCustomButtonImage", true);
+        w.writeConfig("customButtonImage", img);
+        w.writeConfig("showIconsRootLevel", true);
+        w.reloadConfig();
+    }});
+    panel.widgets("org.classic7.startmenu").forEach(function (w) {{
+        w.currentConfigGroup = ["General"];
+        w.writeConfig("buttonImage", img);
+        w.reloadConfig();
     }});
     panel.widgets("org.kde.plasma.taskmanager").forEach(function (w) {{
         w.currentConfigGroup = ["General"];
@@ -275,7 +301,8 @@ def remove_slot_files(slot: str):
     for path in (base / f"color-schemes/{ids.colors}.colors",
                  base / f"plasma/desktoptheme/{ids.plasma}",
                  base / f"aurorae/themes/{ids.aurorae}",
-                 base / ids.start_button):
+                 base / ids.start_button,
+                 base / t.pressed_path(ids.start_button)):
         if path.is_dir():
             shutil.rmtree(path)
         elif path.exists():

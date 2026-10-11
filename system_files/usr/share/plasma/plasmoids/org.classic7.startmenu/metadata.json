@@ -1,0 +1,15 @@
+{
+    "KPlugin": {
+        "Authors": [{ "Name": "Classic7 project" }],
+        "Category": "Application Launchers",
+        "Description": "Windows 7 style Start menu in the Classic look: pinned and recent programs, All Programs, search, places, Run and Shut down",
+        "Icon": "start-here",
+        "Id": "org.classic7.startmenu",
+        "License": "GPL-2.0-or-later",
+        "Name": "Classic 7 Start Menu",
+        "Version": "1.0"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-Provides": ["org.kde.plasma.launchermenu"],
+    "KPackageStructure": "Plasma/Applet"
+}

@@ -15,9 +15,19 @@ panel.height = 30;
 panel.hiding = "none";
 panel.floating = false;
 
-// Start button: the cascading Application Menu with a "Start" image
-var start = panel.addWidget("org.kde.plasma.kicker");
+// Start button + Windows 7 style Start menu (our own applet; Kicker as a fallback)
+var start = panel.addWidget("org.classic7.startmenu");
 if (start) {
+    start.currentConfigGroup = ["General"];
+    start.writeConfig("buttonImage", "/usr/share/classic7/start-button.svg");
+    start.writeConfig("favoriteApps", [
+        "preferred://browser",
+        "classic7-prompt.desktop",
+        "steam.desktop",
+        "org.kde.dolphin.desktop"
+    ]);
+} else {
+    start = panel.addWidget("org.kde.plasma.kicker");
     start.currentConfigGroup = ["General"];
     start.writeConfig("useCustomButtonImage", true);
     // A plain path (not file://): only then does kicker show a wide image at its real width
@@ -26,7 +36,6 @@ if (start) {
     start.writeConfig("showRecentApps", false);
     start.writeConfig("showRecentDocs", false);
     start.writeConfig("alphaSort", true);
-    // Pinned items at the top of the Start menu
     start.writeConfig("favoritesPortedToKAstats", false);
     start.writeConfig("favoriteApps", [
         "preferred://browser",

@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Devices and Printers
+Comment=Printers and connected devices
+Exec=systemsettings kcm_printer_manager
+Icon=printer
+NoDisplay=true

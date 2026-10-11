@@ -71,7 +71,7 @@ if ! dnf5 -y install python3-pyte; then
     dnf5 -y install python3-pip python3-wcwidth
     python3 -m pip install --no-cache-dir --prefix=/usr --no-deps pyte
 fi
-chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
+chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
 python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PIL, pyte"
 PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui"
 /usr/bin/classic7-prompt --tasks update >/dev/null
@@ -109,6 +109,12 @@ test -x /usr/bin/classic7-prompt
 test -f /usr/share/applications/classic7-prompt.desktop
 grep -q '^TerminalApplication=classic7-prompt' /etc/xdg/kdeglobals
 grep -q '^WallpaperPlugin=org.kde.color' /etc/xdg/kscreenlockerrc
+# Start menu
+test -f /usr/share/plasma/plasmoids/org.classic7.startmenu/metadata.json
+test -f /usr/share/plasma/plasmoids/org.classic7.startmenu/contents/ui/main.qml
+test -f /usr/share/classic7/start-button-pressed.svg
+test -f /usr/share/applications/classic7-run.desktop
+test -x /usr/bin/classic7-run
 
 # --- Repositories ------------------------------------------------------------------------
 # The installer ISO build (bootc-image-builder) reads the repos enabled in this image but

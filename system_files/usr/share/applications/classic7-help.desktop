@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Help and Support
+Comment=Guides and answers for this system
+Exec=xdg-open https://docs.bazzite.gg/
+Icon=help-browser
+NoDisplay=true

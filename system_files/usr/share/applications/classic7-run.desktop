@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Run...
+GenericName=Run a program
+Comment=Open a program, folder, document or web site by typing its name
+Exec=classic7-run
+Icon=system-run
+Categories=Qt;KDE;System;
+Keywords=run;command;execute;open;kør;
+StartupWMClass=classic7-run

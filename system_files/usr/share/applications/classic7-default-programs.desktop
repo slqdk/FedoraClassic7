@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Default Programs
+Comment=Choose the programs that open web pages, e-mail, music, pictures and more
+Exec=systemsettings kcm_componentchooser
+Icon=preferences-desktop-default-applications
+NoDisplay=true
