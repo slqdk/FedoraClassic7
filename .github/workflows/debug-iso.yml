@@ -27,7 +27,7 @@ jobs:
           {
             sudo podman pull "$IMAGE" &&
             sudo podman image inspect "$IMAGE" --format 'size={{.Size}}' &&
-            sudo podman run --rm "$IMAGE" sh -c 'cat /usr/lib/os-release; ls /usr/lib/bootc/install 2>&1; bootc install print-configuration 2>&1' &&
+            sudo podman run --rm "$IMAGE" sh -c 'ls -l /etc/pki/rpm-gpg/ | grep -i terra; for f in /etc/yum.repos.d/*.repo; do echo "REPOFILE $f"; grep -E "^\\[|enabled|gpgkey" "$f"; done; true' &&
             sudo podman run --rm --privileged --pull=newer \
               --security-opt label=type:unconfined_t \
               -v ./disk_config/iso.toml:/config.toml:ro \
@@ -38,6 +38,6 @@ jobs:
           } 2>&1 | tee bib.log || rc=$?
           msg="$(tail -60 bib.log | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
           echo "::error title=bib exit ${rc}::${msg}"
-          head -c 20000 bib.log | grep -iE 'error|fail|ID=|VERSION_ID|filesystem|print-configuration|size=' | head -40 | sed -e ':a;N;$!ba;s/\n/%0A/g' | sed 's/^/::warning title=highlights::/'
+          head -c 20000 bib.log | grep -iE 'error|fail|terra|REPOFILE|enabled|gpgkey|^\[|size=' | head -120 | sed -e ':a;N;$!ba;s/\n/%0A/g' | sed 's/^/::warning title=highlights::/'
           df -h / /mnt || true
           exit $rc
