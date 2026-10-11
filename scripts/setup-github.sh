@@ -94,6 +94,13 @@ git push -u origin main
 gh api -X PUT "repos/$REPO/actions/permissions" -F enabled=true -f allowed_actions=all >/dev/null 2>&1 || true
 ok "Uploaded: https://github.com/$REPO"
 
+# A push made before GitHub has registered the workflows starts nothing; start it by hand then
+sleep 15
+if [[ -z "$(latest_run_id build.yml)" ]]; then
+    step "Starting the first build"
+    gh workflow run build.yml --repo "$REPO" --ref main
+fi
+
 cat <<EOF
 
 $(bold "Done. What happens now:")

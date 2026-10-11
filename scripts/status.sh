@@ -8,14 +8,14 @@ gh_login
 
 if [[ "${1:-}" == "--watch" ]]; then
     id="$(latest_run_id build.yml)"
-    [[ -n "$id" ]] || die "No image build has run yet."
+    [[ -n "$id" ]] || die "No image build has run yet. Start one: gh workflow run build.yml --repo $REPO --ref main"
     gh run watch "$id" --repo "$REPO" --exit-status && ok "Image build finished" || die "Image build failed - see https://github.com/$REPO/actions/runs/$id"
     exit 0
 fi
 
 bold "Classic 7 - $REPO"
 step "Image builds (newest first)"
-gh run list --repo "$REPO" --workflow build.yml --limit 5 || true
+gh run list --repo "$REPO" --workflow build.yml --branch main --limit 5 || true
 step "Installer (ISO) builds"
 gh run list --repo "$REPO" --workflow build-disk.yml --limit 3 || true
 

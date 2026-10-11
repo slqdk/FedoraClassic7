@@ -91,8 +91,8 @@ fix_exec_bits() {
 }
 
 latest_run_id() {
-    # $1 = workflow file name
-    gh run list --repo "$REPO" --workflow "$1" --limit 1 --json databaseId --jq '.[0].databaseId // empty'
+    # $1 = workflow file name; only runs on main (Dependabot pull requests build on their own branches)
+    gh run list --repo "$REPO" --workflow "$1" --branch main --limit 1 --json databaseId --jq '.[0].databaseId // empty'
 }
 
 image_is_public() {
