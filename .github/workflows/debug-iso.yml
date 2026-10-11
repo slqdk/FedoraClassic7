@@ -1,0 +1,43 @@
+---
+name: Debug ISO build
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - name: Maximize build space
+        uses: ublue-os/remove-unwanted-software@695eb75bc387dbcd9685a8e72d23439d8686cba6
+
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Run bootc-image-builder and report its output
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/fedoraclassic7:latest"
+          sed -i "s|ghcr.io/[^ ]*:latest|${IMAGE}|" ./disk_config/iso.toml
+          df -h / /mnt || true
+          mkdir -p output
+          set -o pipefail
+          rc=0
+          {
+            sudo podman pull "$IMAGE" &&
+            sudo podman image inspect "$IMAGE" --format 'size={{.Size}}' &&
+            sudo podman run --rm "$IMAGE" sh -c 'cat /usr/lib/os-release; ls /usr/lib/bootc/install 2>&1; bootc install print-configuration 2>&1' &&
+            sudo podman run --rm --privileged --pull=newer \
+              --security-opt label=type:unconfined_t \
+              -v ./disk_config/iso.toml:/config.toml:ro \
+              -v ./output:/output \
+              -v /var/lib/containers/storage:/var/lib/containers/storage \
+              quay.io/centos-bootc/bootc-image-builder:latest \
+              --type anaconda-iso --use-librepo=True --rootfs btrfs "$IMAGE"
+          } 2>&1 | tee bib.log || rc=$?
+          msg="$(tail -60 bib.log | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
+          echo "::error title=bib exit ${rc}::${msg}"
+          head -c 20000 bib.log | grep -iE 'error|fail|ID=|VERSION_ID|filesystem|print-configuration|size=' | head -40 | sed -e ':a;N;$!ba;s/\n/%0A/g' | sed 's/^/::warning title=highlights::/'
+          df -h / /mnt || true
+          exit $rc
