@@ -33,7 +33,12 @@ jobs:
           mkdir -p ~/Documents ~/Pictures ~/Music
           Xvfb :99 -screen 0 1024x768x24 >/dev/null 2>&1 &
           sleep 2
-          kbuildsycoca6 >/dev/null 2>&1
+          mkdir -p ~/.cache ~/.config ~/.local/share
+          kbuildsycoca6 --noincremental > /out/sycoca.log 2>&1
+          plasma-apply-colorscheme Classic7 >> /out/sycoca.log 2>&1
+          plasma-apply-desktoptheme classic7 >> /out/sycoca.log 2>&1
+          kreadconfig6 --file kdeglobals --group KDE --key widgetStyle >> /out/sycoca.log 2>&1
+          ls /usr/share/applications | grep -E "classic7|dolphin|steam" >> /out/sycoca.log
           plasmawindowed org.classic7.startmenu > /out/plasmawindowed.log 2>&1 &
           sleep 15
           import -window root /out/button.png
@@ -48,7 +53,12 @@ jobs:
           xdotool key ctrl+a BackSpace
           sleep 1
           # click "All Programs" if its position is given (APX/APY), then screenshot
-          if [ -n "$APX" ]; then xdotool mousemove $APX $APY click 1; sleep 2; import -window root /out/programs.png; fi
+          xdotool mousemove 50 604 click 1
+          sleep 3
+          import -window root /out/programs.png
+          xdotool mousemove 60 200 click 1
+          sleep 3
+          import -window root /out/folder.png
           pkill plasmawindowed
           sleep 1
           EOI
