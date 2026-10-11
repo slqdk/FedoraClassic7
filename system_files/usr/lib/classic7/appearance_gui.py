@@ -299,7 +299,9 @@ class AppearanceDialog(QDialog):
         self.buttons.rejected.connect(self.reject)
         self.buttons.button(QDialogButtonBox.Apply).clicked.connect(self._apply)
         self.buttons.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.appearance.restore_default)
-        self.buttons.button(QDialogButtonBox.Apply).setEnabled(False)
+        # Apply is always available: re-applying the current scheme also brings this
+        # account up to date after a system update (Start button, taskbar, lock screen).
+        self._dirty = False
 
         self.status = QLabel()
         self.status.setWordWrap(True)
@@ -310,7 +312,7 @@ class AppearanceDialog(QDialog):
         lay.addWidget(self.buttons)
 
     def mark_dirty(self):
-        self.buttons.button(QDialogButtonBox.Apply).setEnabled(True)
+        self._dirty = True
         self.status.clear()
 
     def _apply(self) -> bool:
@@ -319,12 +321,12 @@ class AppearanceDialog(QDialog):
             res = backend.apply(self.appearance.palette)
         finally:
             QApplication.restoreOverrideCursor()
-        self.buttons.button(QDialogButtonBox.Apply).setEnabled(False)
+        self._dirty = False
         self.status.setText(" ".join(res.notes))
         return res.ok
 
     def _ok(self):
-        if self.buttons.button(QDialogButtonBox.Apply).isEnabled():
+        if self._dirty:
             self._apply()
         self.accept()
 
