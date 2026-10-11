@@ -90,3 +90,36 @@ test -x /usr/bin/classic7-update
 test -f /usr/share/kio/servicemenus/classic7-sendto.desktop
 test -f /usr/share/kio/servicemenus/classic7-createshortcut.desktop
 grep -q '^ShowOpenInNewTab=false' /etc/xdg/dolphinrc
+
+# --- Repositories ------------------------------------------------------------------------
+# The installer ISO is built from the repos enabled in this image. A repo whose local
+# GPG key file is missing (Bazzite's terra-mesa, for example) makes that build fail, so
+# switch such repos off. Installed systems update via the image, not via these repos.
+python3 - <<'PY'
+import configparser, glob, os, re
+for path in glob.glob("/etc/yum.repos.d/*.repo"):
+    cp = configparser.RawConfigParser(strict=False)
+    try:
+        cp.read(path)
+    except configparser.Error:
+        continue
+    bad = set()
+    for sec in cp.sections():
+        if cp.get(sec, "enabled", fallback="1").strip() != "1":
+            continue
+        keys = re.split(r"[\s,]+", cp.get(sec, "gpgkey", fallback=""))
+        if any(k.startswith("file://") and not os.path.exists(k[7:]) for k in keys):
+            bad.add(sec)
+    if not bad:
+        continue
+    out, sec = [], None
+    for line in open(path):
+        m = re.match(r"\s*\[(.+)\]\s*$", line)
+        if m:
+            sec = m.group(1)
+        elif sec in bad and re.match(r"\s*enabled\s*=\s*1\s*$", line):
+            line = "enabled=0\n"
+        out.append(line)
+    open(path, "w").writelines(out)
+    print(f"Disabled repos with missing GPG keys in {path}: {', '.join(sorted(bad))}")
+PY
