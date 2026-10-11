@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Service
+MimeType=all/all;
+X-KDE-Protocols=file,desktop
+X-KDE-Priority=TopLevel
+X-KDE-StartupNotify=false
+Icon=insert-link
+Actions=create_shortcut
+
+[Desktop Action create_shortcut]
+Name=Create shortcut
+Icon=insert-link
+Exec=classic7-sendto shortcut %F

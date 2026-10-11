@@ -1,0 +1,2 @@
+22 1 0:21 / / rw,relatime - overlay composefs ro
+98 22 0:55 / /var/mnt/nas rw,relatime - cifs //nas.local/media rw

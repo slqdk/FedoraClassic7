@@ -1,0 +1,5 @@
+[services][org.kde.dolphin.desktop]
+_launch=none
+
+[services][classic7-computer.desktop]
+_launch=Meta+E

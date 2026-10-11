@@ -1,0 +1,69 @@
+#!/usr/bin/python3
+"""Classic 7 Appearance: pick or edit the colour scheme, like the classic Appearance dialog.
+
+    classic7-appearance                 open the dialog
+    classic7-appearance --list          list colour schemes
+    classic7-appearance --apply NAME    apply a scheme (built-in or saved)
+    classic7-appearance --size SIZE     with --apply: Normal, Large or "Extra Large"
+    classic7-appearance --reset         back to Classic 7 Standard
+    classic7-appearance --explorer      give this account the Classic 7 Dolphin layout
+    classic7-appearance --preview FILE  write the sample-windows preview as SVG
+Add --dry-run to print the commands instead of running them.
+"""
+import argparse
+from dataclasses import replace
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+import classic7appearance as backend  # noqa: E402
+import classic7theme as t  # noqa: E402
+
+
+def find_scheme(name):
+    for p in t.SCHEMES + backend.load_user_schemes():
+        if p.name.lower() == name.lower():
+            return p
+    sys.exit(f"Unknown scheme: {name}. Try --list.")
+
+
+def report(res):
+    for line in res.commands if args.dry_run else []:
+        print(line)
+    for note in res.notes:
+        print(note, file=sys.stderr)
+    return 0 if res.ok else 1
+
+
+parser = argparse.ArgumentParser(description="Classic 7 Appearance")
+parser.add_argument("--list", action="store_true")
+parser.add_argument("--apply", metavar="NAME")
+parser.add_argument("--size", choices=list(t.FONT_SIZES), default=None)
+parser.add_argument("--reset", action="store_true")
+parser.add_argument("--explorer", action="store_true")
+parser.add_argument("--preview", metavar="FILE")
+parser.add_argument("--dry-run", action="store_true")
+args, rest = parser.parse_known_args()
+
+runner = backend.Runner(dry_run=True) if args.dry_run else None
+
+if args.list:
+    for p in t.SCHEMES:
+        print(p.name)
+    for p in backend.load_user_schemes():
+        print(f"{p.name} (saved)")
+elif args.apply or args.reset:
+    p = t.STANDARD if args.reset else find_scheme(args.apply)
+    if args.size:
+        p = replace(p, font_size=t.FONT_SIZES[args.size])
+    sys.exit(report(backend.apply(p, runner)))
+elif args.explorer:
+    sys.exit(report(backend.explorer_layout(runner)))
+elif args.preview:
+    p = backend.State.load().palette
+    with open(args.preview, "w") as f:
+        f.write(t.appearance_preview_svg(p))
+else:
+    from appearance_gui import main
+    sys.exit(main([sys.argv[0]] + rest))

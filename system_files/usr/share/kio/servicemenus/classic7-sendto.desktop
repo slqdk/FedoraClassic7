@@ -1,0 +1,34 @@
+[Desktop Entry]
+Type=Service
+MimeType=all/all;
+X-KDE-Protocols=file,desktop
+X-KDE-Priority=TopLevel
+X-KDE-Submenu=Send to
+X-KDE-StartupNotify=false
+Icon=document-send
+Actions=a_zip;b_desktop;c_documents;d_mail;_SEPARATOR_;e_removable
+
+[Desktop Action a_zip]
+Name=Compressed (zipped) folder
+Icon=application-zip
+Exec=classic7-sendto zip %F
+
+[Desktop Action b_desktop]
+Name=Desktop (create shortcut)
+Icon=user-desktop
+Exec=classic7-sendto desktop %F
+
+[Desktop Action c_documents]
+Name=Documents
+Icon=folder-documents
+Exec=classic7-sendto documents %F
+
+[Desktop Action d_mail]
+Name=Mail recipient
+Icon=mail-message-new
+Exec=classic7-sendto mail %F
+
+[Desktop Action e_removable]
+Name=Removable Disk
+Icon=drive-removable-media-usb
+Exec=classic7-sendto removable %F

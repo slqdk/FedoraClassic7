@@ -1,0 +1,22 @@
+#!/bin/bash
+# Classic 7: runs once per account at login (see /etc/xdg/autostart/classic7-first-login.desktop).
+# Puts the Computer and Recycle Bin icons on the desktop. Delete the marker file to run it again.
+set -u
+
+marker="${XDG_CONFIG_HOME:-$HOME/.config}/classic7/first-login-v1"
+[[ -e "$marker" ]] && exit 0
+
+desk="$(xdg-user-dir DESKTOP 2>/dev/null)"
+[[ -n "$desk" && "$desk" != "$HOME" ]] || desk="$HOME/Desktop"
+mkdir -p "$desk"
+
+for f in /usr/share/classic7/desktop/*.desktop; do
+    dst="$desk/$(basename "$f")"
+    if [[ ! -e "$dst" ]]; then
+        cp "$f" "$dst"
+        chmod +x "$dst"   # Plasma only launches trusted (executable) desktop files
+    fi
+done
+
+mkdir -p "$(dirname "$marker")"
+touch "$marker"

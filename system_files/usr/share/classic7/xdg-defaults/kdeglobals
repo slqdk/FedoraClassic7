@@ -1,0 +1,18 @@
+[KDE]
+LookAndFeelPackage=org.classic7.desktop
+widgetStyle=Windows
+SingleClick=false
+AnimationDurationFactor=0
+
+[General]
+ColorScheme=Classic7
+font=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+menuFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+toolBarFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+smallestReadableFont=Noto Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
+
+[WM]
+activeFont=Noto Sans,9,-1,5,700,0,0,0,0,0,0,0,0,0,0,1
+
+[Icons]
+Theme=Chicago95

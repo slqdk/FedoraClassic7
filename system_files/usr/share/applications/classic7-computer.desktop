@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Computer
+GenericName=Drives and devices
+Comment=See your disks, USB sticks and network drives and how much space is free
+Exec=classic7-computer
+Icon=computer
+Categories=Qt;KDE;System;FileTools;
+Keywords=computer;this pc;my computer;drives;disks;usb;storage;free space;
+StartupWMClass=classic7-computer

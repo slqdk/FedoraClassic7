@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Classic 7 desktop icons
+Exec=/usr/libexec/classic7-first-login
+NoDisplay=true
+OnlyShowIn=KDE;
+X-KDE-autostart-phase=2

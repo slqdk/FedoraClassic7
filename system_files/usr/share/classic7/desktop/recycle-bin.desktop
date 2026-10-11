@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Link
+Name=Recycle Bin
+Comment=Contains deleted files
+URL=trash:/
+Icon=user-trash-full
+EmptyIcon=user-trash

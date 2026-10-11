@@ -1,0 +1,18 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Classic7 project"
+            }
+        ],
+        "Category": "",
+        "Description": "Grey bevels, blue gradient title bars and a classic taskbar with a Start button",
+        "Id": "org.classic7.desktop",
+        "License": "Apache-2.0",
+        "Name": "Classic 7",
+        "Version": "0.1"
+    },
+    "Keywords": "Desktop;Workspace;Appearance;Look and Feel;Classic;",
+    "X-Plasma-APIVersion": "2"
+}

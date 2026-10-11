@@ -1,0 +1,6 @@
+[org.gnome.desktop.interface]
+gtk-theme='Classic7'
+icon-theme='Chicago95'
+cursor-theme='Chicago95_Standard_Cursors'
+font-name='Noto Sans 9'
+color-scheme='prefer-light'

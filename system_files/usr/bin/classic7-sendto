@@ -1,0 +1,237 @@
+#!/usr/bin/python3
+"""Classic 7 "Send to" and "Create shortcut" actions for the file manager's right-click menu.
+
+    classic7-sendto zip FILE...         Compressed (zipped) folder, next to the first item
+    classic7-sendto desktop FILE...     Desktop (create shortcut)
+    classic7-sendto documents FILE...   copy to Documents
+    classic7-sendto mail FILE...        new e-mail with the files attached
+    classic7-sendto removable FILE...   copy to a USB stick / removable disk
+    classic7-sendto shortcut FILE...    "X - Shortcut" next to each item
+"""
+from __future__ import annotations
+
+import os
+import shutil
+import subprocess
+import sys
+import zipfile
+from pathlib import Path
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+_app = None
+
+
+def app():
+    """Create the Qt application only when a dialog is actually needed."""
+    global _app
+    if _app is None:
+        from PySide6.QtWidgets import QApplication
+
+        _app = QApplication.instance() or QApplication(sys.argv[:1])
+        _app.setApplicationName("Send to")
+    return _app
+
+
+def message(text: str, error: bool = False):
+    if os.environ.get("CLASSIC7_NO_GUI"):
+        print(text, file=sys.stderr)
+        return
+    app()
+    from PySide6.QtWidgets import QMessageBox
+
+    (QMessageBox.warning if error else QMessageBox.information)(None, "Send to", text)
+
+
+def unique(path: Path) -> Path:
+    """'name.zip' -> 'name (2).zip' if it already exists."""
+    if not path.exists() and not path.is_symlink():
+        return path
+    stem, suffix = (path.name, "") if path.is_dir() else (path.stem, path.suffix)
+    n = 2
+    while True:
+        candidate = path.with_name(f"{stem} ({n}){suffix}")
+        if not candidate.exists() and not candidate.is_symlink():
+            return candidate
+        n += 1
+
+
+def shortcut_name(item: Path) -> str:
+    """Windows names a shortcut 'Report - Shortcut'; keep the extension so it still opens right."""
+    if item.is_dir() or not item.suffix:
+        return f"{item.name} - Shortcut"
+    return f"{item.stem} - Shortcut{item.suffix}"
+
+
+def desktop_dir() -> Path:
+    try:
+        out = subprocess.run(["xdg-user-dir", "DESKTOP"], capture_output=True, text=True).stdout.strip()
+        if out and out != str(Path.home()):
+            return Path(out)
+    except OSError:
+        pass
+    return Path.home() / "Desktop"
+
+
+def documents_dir() -> Path:
+    try:
+        out = subprocess.run(["xdg-user-dir", "DOCUMENTS"], capture_output=True, text=True).stdout.strip()
+        if out and out != str(Path.home()):
+            return Path(out)
+    except OSError:
+        pass
+    return Path.home() / "Documents"
+
+
+def copy_to(items: list[Path], dest: Path):
+    """Copy with KDE's own progress and "file exists" dialogs when available."""
+    dest.mkdir(parents=True, exist_ok=True)
+    for tool in ("kioclient6", "kioclient"):
+        if shutil.which(tool) and not os.environ.get("CLASSIC7_NO_GUI"):
+            subprocess.run([tool, "copy", *map(str, items), str(dest) + "/"])
+            return
+    for item in items:
+        target = unique(dest / item.name)
+        if item.is_dir():
+            shutil.copytree(item, target, symlinks=True)
+        else:
+            shutil.copy2(item, target)
+
+
+# =============================================================================
+# Actions
+# =============================================================================
+def do_zip(items: list[Path]) -> Path:
+    first = items[0]
+    base = first.name if first.is_dir() else first.stem
+    target = unique(first.parent / f"{base}.zip")
+
+    files: list[tuple[Path, str]] = []
+    for item in items:
+        if item.is_dir():
+            files.append((item, item.name + "/"))
+            for root, dirs, names in os.walk(item):
+                dirs.sort()
+                rel_root = Path(root).relative_to(item.parent)
+                for d in dirs:
+                    files.append((Path(root) / d, f"{rel_root / d}/"))
+                for name in sorted(names):
+                    files.append((Path(root) / name, str(rel_root / name)))
+        else:
+            files.append((item, item.name))
+
+    progress = None
+    if not os.environ.get("CLASSIC7_NO_GUI") and len(files) > 50:
+        app()
+        from PySide6.QtWidgets import QProgressDialog
+
+        progress = QProgressDialog(f"Compressing into {target.name}…", "Cancel", 0, len(files))
+        progress.setWindowTitle("Compressed (zipped) folder")
+        progress.setMinimumDuration(400)
+
+    try:
+        with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED, allowZip64=True) as zf:
+            for i, (path, arcname) in enumerate(files):
+                if progress:
+                    progress.setValue(i)
+                    _app.processEvents()
+                    if progress.wasCanceled():
+                        raise KeyboardInterrupt
+                if arcname.endswith("/"):
+                    zf.writestr(zipfile.ZipInfo(arcname), "")
+                elif path.is_file():
+                    zf.write(path, arcname)
+    except KeyboardInterrupt:
+        target.unlink(missing_ok=True)
+        raise
+    finally:
+        if progress:
+            progress.close()
+    return target
+
+
+def do_shortcuts(items: list[Path], where: Path | None) -> list[Path]:
+    made = []
+    for item in items:
+        folder = where or item.parent
+        folder.mkdir(parents=True, exist_ok=True)
+        link = unique(folder / shortcut_name(item))
+        link.symlink_to(item.resolve())
+        made.append(link)
+    return made
+
+
+def removable_targets() -> list[tuple[str, Path]]:
+    import drives
+
+    return [(d.name, Path(d.mountpoint)) for d in drives.list_drives()
+            if d.group == drives.REMOVABLE and d.mounted and d.kind != "CD Drive"]
+
+
+def do_removable(items: list[Path]):
+    targets = removable_targets()
+    if not targets:
+        message("No removable disk is connected.\n\nInsert a USB stick or memory card and try again.")
+        return
+    if len(targets) == 1:
+        copy_to(items, targets[0][1])
+        return
+    app()
+    from PySide6.QtWidgets import QInputDialog
+
+    names = [n for n, _ in targets]
+    choice, ok = QInputDialog.getItem(None, "Send to", "Send the selected items to:", names, 0, False)
+    if ok:
+        copy_to(items, dict(targets)[choice])
+
+
+def do_mail(items: list[Path]):
+    args = ["xdg-email"]
+    for item in items:
+        if item.is_dir():
+            message(f"Folders can't be attached to an e-mail.\nSend “{item.name}” to a Compressed (zipped) "
+                    "folder first, then send the zip file.", error=True)
+            return
+        args += ["--attach", str(item)]
+    try:
+        if subprocess.run(args).returncode != 0:
+            message("No e-mail program is set up. Install one (for example Thunderbird) and try again.", error=True)
+    except FileNotFoundError:
+        message("xdg-email is missing, so no e-mail can be started.", error=True)
+
+
+def main(argv: list[str]) -> int:
+    if len(argv) < 2 or argv[0] not in ("zip", "desktop", "documents", "mail", "removable", "shortcut"):
+        print(__doc__)
+        return 2
+    action = argv[0]
+    items = [Path(a).expanduser().absolute() for a in argv[1:]]
+    missing = [str(p) for p in items if not p.exists() and not p.is_symlink()]
+    if missing:
+        message("These items no longer exist:\n" + "\n".join(missing), error=True)
+        return 1
+    try:
+        if action == "zip":
+            print(do_zip(items))
+        elif action == "desktop":
+            for link in do_shortcuts(items, desktop_dir()):
+                print(link)
+        elif action == "shortcut":
+            for link in do_shortcuts(items, None):
+                print(link)
+        elif action == "documents":
+            copy_to(items, documents_dir())
+        elif action == "mail":
+            do_mail(items)
+        elif action == "removable":
+            do_removable(items)
+    except KeyboardInterrupt:
+        return 1
+    except OSError as e:
+        message(f"That didn't work:\n\n{e}", error=True)
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

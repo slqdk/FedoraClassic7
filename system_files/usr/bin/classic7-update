@@ -1,0 +1,66 @@
+#!/usr/bin/bash
+# Classic 7 updates on the installed PC.
+#
+#   classic7-update            download the newest Classic 7 (+ Flatpak apps and firmware), then offer a restart
+#   classic7-update --check    only tell whether a newer Classic 7 is available
+#   classic7-update --status   show the running and the downloaded version
+#   classic7-update --rollback go back to the previous version at the next restart
+#
+# Updates also install themselves automatically in the background (Bazzite's updater);
+# a downloaded update becomes active at the next restart. If an update misbehaves,
+# pick the previous entry in the boot menu, or run classic7-update --rollback.
+set -uo pipefail
+
+bold() { printf '\033[1m%s\033[0m\n' "$*"; }
+ask_reboot() {
+    read -r -p "Restart now to use it? [y/N] " answer
+    [[ "$answer" =~ ^[YyJj] ]] && systemctl reboot
+}
+
+status() {
+    bold "Classic 7 versions on this PC"
+    sudo bootc status --format humanreadable 2>/dev/null || sudo bootc status
+}
+
+case "${1:-}" in
+    --status)
+        status
+        ;;
+    --check)
+        if sudo bootc upgrade --check; then
+            echo
+            echo "Run 'classic7-update' to download it."
+        fi
+        ;;
+    --rollback)
+        bold "Going back to the previous Classic 7 version"
+        sudo bootc rollback && { echo "The previous version starts at the next restart."; ask_reboot; }
+        ;;
+    "" )
+        bold "Updating Classic 7"
+        if command -v ujust >/dev/null && ujust --summary 2>/dev/null | tr ' ' '\n' | grep -qx update; then
+            # Bazzite's updater: system image, Flatpaks, Distrobox and firmware in one go
+            ujust update
+        else
+            sudo bootc upgrade
+            flatpak update -y --noninteractive || true
+        fi
+        echo
+        staged="$(sudo bootc status --format json 2>/dev/null | python3 -c 'import json,sys
+try: print(1 if json.load(sys.stdin).get("status", {}).get("staged") else 0)
+except Exception: print(0)')"
+        if [[ "$staged" == 1 ]]; then
+            bold "A new Classic 7 version is downloaded."
+            ask_reboot
+        else
+            bold "Classic 7 is up to date."
+        fi
+        ;;
+    -h|--help)
+        sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'
+        ;;
+    *)
+        echo "Unknown option: $1 (try --help)" >&2
+        exit 2
+        ;;
+esac

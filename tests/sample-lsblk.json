@@ -1,0 +1,273 @@
+{
+ "blockdevices": [
+  {
+   "path": "/dev/zram0",
+   "name": "zram0",
+   "label": null,
+   "fstype": null,
+   "mountpoints": [
+    "[SWAP]"
+   ],
+   "size": 8589934592,
+   "fsavail": null,
+   "fssize": null,
+   "rm": false,
+   "hotplug": false,
+   "type": "disk",
+   "tran": null,
+   "pkname": null,
+   "parttypename": null,
+   "model": null
+  },
+  {
+   "path": "/dev/loop0",
+   "name": "loop0",
+   "label": null,
+   "fstype": "squashfs",
+   "mountpoints": [
+    null
+   ],
+   "size": 1073741824,
+   "fsavail": null,
+   "fssize": null,
+   "rm": false,
+   "hotplug": false,
+   "type": "loop",
+   "tran": null,
+   "pkname": null,
+   "parttypename": null,
+   "model": null
+  },
+  {
+   "path": "/dev/nvme0n1",
+   "name": "nvme0n1",
+   "label": null,
+   "fstype": null,
+   "mountpoints": [
+    null
+   ],
+   "size": 1073741824000,
+   "fsavail": null,
+   "fssize": null,
+   "rm": false,
+   "hotplug": false,
+   "type": "disk",
+   "tran": "nvme",
+   "pkname": null,
+   "parttypename": null,
+   "model": null
+  },
+  {
+   "path": "/dev/nvme0n1p1",
+   "name": "nvme0n1p1",
+   "label": "EFI",
+   "fstype": "vfat",
+   "mountpoints": [
+    "/boot/efi"
+   ],
+   "size": 629145600,
+   "fsavail": 524288000,
+   "fssize": 629145600,
+   "rm": false,
+   "hotplug": false,
+   "type": "part",
+   "tran": null,
+   "pkname": "nvme0n1",
+   "parttypename": "EFI System",
+   "model": null
+  },
+  {
+   "path": "/dev/nvme0n1p2",
+   "name": "nvme0n1p2",
+   "label": null,
+   "fstype": "ext4",
+   "mountpoints": [
+    "/boot"
+   ],
+   "size": 1073741824,
+   "fsavail": 629145600,
+   "fssize": 1073741824,
+   "rm": false,
+   "hotplug": false,
+   "type": "part",
+   "tran": null,
+   "pkname": "nvme0n1",
+   "parttypename": "Linux extended boot",
+   "model": null
+  },
+  {
+   "path": "/dev/nvme0n1p3",
+   "name": "nvme0n1p3",
+   "label": "fedora",
+   "fstype": "btrfs",
+   "mountpoints": [
+    "/sysroot",
+    "/var",
+    "/var/home",
+    "/etc"
+   ],
+   "size": 1071594340352,
+   "fsavail": 657129996288,
+   "fssize": 1071594340352,
+   "rm": false,
+   "hotplug": false,
+   "type": "part",
+   "tran": null,
+   "pkname": "nvme0n1",
+   "parttypename": "Linux filesystem",
+   "model": null
+  },
+  {
+   "path": "/dev/sda",
+   "name": "sda",
+   "label": null,
+   "fstype": null,
+   "mountpoints": [
+    null
+   ],
+   "size": 2147483648000,
+   "fsavail": null,
+   "fssize": null,
+   "rm": false,
+   "hotplug": false,
+   "type": "disk",
+   "tran": "sata",
+   "pkname": null,
+   "parttypename": null,
+   "model": null
+  },
+  {
+   "path": "/dev/sda1",
+   "name": "sda1",
+   "label": "Games",
+   "fstype": "ext4",
+   "mountpoints": [
+    "/var/mnt/games"
+   ],
+   "size": 2147483648000,
+   "fsavail": 204010946560,
+   "fssize": 2113123909632,
+   "rm": false,
+   "hotplug": false,
+   "type": "part",
+   "tran": null,
+   "pkname": "sda",
+   "parttypename": "Linux filesystem",
+   "model": null
+  },
+  {
+   "path": "/dev/sdb",
+   "name": "sdb",
+   "label": null,
+   "fstype": null,
+   "mountpoints": [
+    null
+   ],
+   "size": 1073741824000,
+   "fsavail": null,
+   "fssize": null,
+   "rm": false,
+   "hotplug": false,
+   "type": "disk",
+   "tran": "sata",
+   "pkname": null,
+   "parttypename": null,
+   "model": null
+  },
+  {
+   "path": "/dev/sdb1",
+   "name": "sdb1",
+   "label": null,
+   "fstype": null,
+   "mountpoints": [
+    null
+   ],
+   "size": 16777216,
+   "fsavail": null,
+   "fssize": null,
+   "rm": false,
+   "hotplug": false,
+   "type": "part",
+   "tran": null,
+   "pkname": "sdb",
+   "parttypename": "Microsoft reserved",
+   "model": null
+  },
+  {
+   "path": "/dev/sdb2",
+   "name": "sdb2",
+   "label": "Windows",
+   "fstype": "ntfs",
+   "mountpoints": [
+    null
+   ],
+   "size": 999653638144,
+   "fsavail": null,
+   "fssize": null,
+   "rm": false,
+   "hotplug": false,
+   "type": "part",
+   "tran": null,
+   "pkname": "sdb",
+   "parttypename": "Microsoft basic data",
+   "model": null
+  },
+  {
+   "path": "/dev/sdc",
+   "name": "sdc",
+   "label": null,
+   "fstype": null,
+   "mountpoints": [
+    null
+   ],
+   "size": 34359738368,
+   "fsavail": null,
+   "fssize": null,
+   "rm": true,
+   "hotplug": true,
+   "type": "disk",
+   "tran": "usb",
+   "pkname": null,
+   "parttypename": null,
+   "model": null
+  },
+  {
+   "path": "/dev/sdc1",
+   "name": "sdc1",
+   "label": "USB STICK",
+   "fstype": "vfat",
+   "mountpoints": [
+    "/run/media/soren/USB STICK"
+   ],
+   "size": 34359738368,
+   "fsavail": 31138512896,
+   "fssize": 34252364185,
+   "rm": true,
+   "hotplug": true,
+   "type": "part",
+   "tran": null,
+   "pkname": "sdc",
+   "parttypename": null,
+   "model": null
+  },
+  {
+   "path": "/dev/sr0",
+   "name": "sr0",
+   "label": null,
+   "fstype": null,
+   "mountpoints": [
+    null
+   ],
+   "size": 0,
+   "fsavail": null,
+   "fssize": null,
+   "rm": true,
+   "hotplug": false,
+   "type": "rom",
+   "tran": "sata",
+   "pkname": null,
+   "parttypename": null,
+   "model": null
+  }
+ ]
+}

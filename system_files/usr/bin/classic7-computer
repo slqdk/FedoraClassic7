@@ -1,0 +1,21 @@
+#!/usr/bin/python3
+"""Classic 7 Computer window: your drives as tiles with free-space bars.
+
+    classic7-computer          open the window
+    classic7-computer --list   print the drives it would show
+"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+if "--list" in sys.argv:
+    import drives
+
+    for d in drives.list_drives():
+        print(f"{d.group:32}  {d.name:30}  {d.mountpoint or '-':28}  {drives.free_text(d)}")
+    sys.exit(0)
+
+from computer import main  # noqa: E402
+
+sys.exit(main())

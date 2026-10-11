@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Computer
+Comment=See your disks, USB sticks and network drives
+Exec=classic7-computer
+Icon=computer

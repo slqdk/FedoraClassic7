@@ -1,0 +1,17 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Classic7 project"
+            }
+        ],
+        "Category": "",
+        "Description": "Grey, bevelled classic look for panels and popups",
+        "EnabledByDefault": true,
+        "Id": "classic7",
+        "License": "Apache-2.0",
+        "Name": "Classic 7",
+        "Version": "0.2"
+    },
+    "X-Plasma-API": "5.0"
+}

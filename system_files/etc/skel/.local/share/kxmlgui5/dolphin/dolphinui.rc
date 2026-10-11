@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE gui SYSTEM "kpartgui.dtd">
+<!--
+  Classic 7 toolbars for Dolphin.
+  Only toolbars are defined here, with a deliberately low version number: KXMLGUI then
+  takes Dolphin's own (newer) menus and actions and keeps just these two toolbars, so
+  this file keeps working when Dolphin is updated. KXMLGUI rewrites it on first start.
+  (Toolbars are listed in reverse: KXMLGUI inserts each one directly after the menu bar.)
+-->
+<gui name="dolphin" version="1">
+    <!-- Row 2, like the Windows 7 command bar: text-only buttons -->
+    <ToolBar noMerge="1" name="commandBar" iconText="textonly" newline="true">
+        <text context="@title:menu">Command Bar</text>
+        <Action name="edit_cut" />
+        <Action name="edit_copy" />
+        <Action name="edit_paste" />
+        <Action name="movetotrash" />
+        <Separator />
+        <Action name="create_dir" />
+        <Action name="view_mode" />
+        <Action name="properties" />
+    </ToolBar>
+    <!-- Row 1: Back / Forward / Up, the address bar and search -->
+    <ToolBar noMerge="1" name="mainToolBar" iconText="icononly">
+        <text context="@title:menu">Main Toolbar</text>
+        <Action name="go_back" />
+        <Action name="go_forward" />
+        <Action name="go_up" />
+        <Action name="url_navigators" />
+        <Action name="toggle_search" />
+        <Action name="hamburger_menu" />
+    </ToolBar>
+</gui>

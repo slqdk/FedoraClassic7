@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Appearance
+GenericName=Classic 7 Appearance
+Comment=Choose the color scheme, font size and Explorer layout
+Exec=classic7-appearance
+Icon=preferences-desktop-theme
+Categories=Qt;KDE;Settings;DesktopSettings;
+Keywords=theme;colors;colour;scheme;appearance;classic;font;explorer;dolphin;
