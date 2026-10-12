@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Classic 7 settings after an update
+Comment=Brings this account's Classic 7 settings up to date after a new version starts
+Exec=/usr/bin/classic7-update --after-login
+NoDisplay=true
+OnlyShowIn=KDE;
+X-KDE-autostart-phase=2

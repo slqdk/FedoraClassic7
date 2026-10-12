@@ -82,10 +82,16 @@ for pkg in hunspell-da hunspell-en hunspell-en-US hunspell-en-GB google-carlito-
            google-crosextra-caladea-fonts google-caladea-fonts wv; do
     rpm -q "$pkg" >/dev/null 2>&1 || dnf5 -y install "$pkg" || echo "NOTE: $pkg not available"
 done
-chmod 0755 /usr/bin/classic7-write
+chmod 0755 /usr/bin/classic7-write /usr/libexec/classic7-update-system
+# Classic 7 Update: which build this is (the updater compares it at login to bring each
+# account's settings up to date after a new version starts)
+base="$(. /usr/lib/os-release; echo "${VERSION_ID:-}${OSTREE_VERSION:+ ($OSTREE_VERSION)}")"
+content="$(cd /ctx/system_files && find . -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum | sha256sum | cut -c1-16)"
+printf '{"build": "%s", "base": "%s", "content": "%s"}\n' "$(date -u +%Y-%m-%dT%H:%MZ)" \
+    "$base" "$content" > /usr/share/classic7/build-info.json
 chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
 python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PySide6.QtPrintSupport, PIL, pyte, docx, olefile"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_app"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_app, update_core, update_gui"
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
 command -v udisksctl
@@ -131,6 +137,32 @@ test -x /usr/bin/classic7-run
 test -x /usr/bin/classic7-write
 test -f /usr/share/applications/classic7-write.desktop
 grep -q "^application/msword=classic7-write.desktop" /etc/xdg/mimeapps.list
+# Classic 7 Update
+test -x /usr/libexec/classic7-update-system
+test -f /usr/share/polkit-1/actions/org.classic7.update.policy
+test -f /usr/share/applications/classic7-update.desktop
+test -f /etc/xdg/autostart/classic7-after-update.desktop
+python3 -c "import json; assert json.load(open('/usr/share/classic7/build-info.json'))['build']"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import update_core as c; assert c.changes(), 'changes.txt'"
+/usr/bin/classic7-update --help >/dev/null
+
+# --- Login screen: SDDM with the Classic 7 theme ---------------------------------------------
+# Fedora 44 switched KDE to Plasma Login Manager, whose look can't be changed (Breeze only).
+# SDDM takes QML themes, so Classic 7 logs in through SDDM; Fedora still ships it.
+if dnf5 -y install sddm sddm-wayland-plasma sddm-kcm; then
+    systemctl disable plasmalogin.service || true
+    systemctl enable --force sddm.service
+    systemctl enable classic7-sddm-accounts.service
+    chmod 0755 /usr/libexec/classic7-sddm-accounts
+    # a Current= in the main file would override our conf.d file
+    [[ -f /etc/sddm.conf ]] && sed -i 's/^\s*Current=/#Current=/' /etc/sddm.conf
+    test -f /usr/share/sddm/themes/classic7/Main.qml
+    test -x /usr/bin/sddm-greeter-qt6
+    [[ "$(readlink -f /etc/systemd/system/display-manager.service)" == */sddm.service ]]
+    grep -q '^Current=classic7' /etc/sddm.conf.d/classic7.conf
+else
+    echo "WARNING: SDDM not available; keeping Plasma Login Manager (blue background only)"
+fi
 
 # --- Repositories ------------------------------------------------------------------------
 # The installer ISO build (bootc-image-builder) reads the repos enabled in this image but

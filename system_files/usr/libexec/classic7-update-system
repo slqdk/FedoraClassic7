@@ -1,0 +1,12 @@
+#!/usr/bin/bash
+# Classic 7 Update: the part that needs root. Run through pkexec by classic7-update;
+# see /usr/share/polkit-1/actions/org.classic7.update.policy. Takes one fixed action
+# and nothing else, so it can't be used to run anything but these bootc commands.
+set -uo pipefail
+export LANG=C.UTF-8
+case "${1:-}" in
+    check)   exec bootc upgrade --check ;;
+    upgrade) exec bootc upgrade ;;
+    status)  exec bootc status --format json ;;
+    *)       echo "usage: $0 check|upgrade|status" >&2; exit 2 ;;
+esac

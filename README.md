@@ -22,6 +22,8 @@ image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomic + KDE Plas
 | Right-click menus | Windows-style: **Send to ▸** (Compressed (zipped) folder, Desktop (create shortcut), Documents, Mail recipient, Removable Disk), **Create shortcut**, KDE extras hidden; desktop menu with Display Configuration and Configure Desktop and Wallpaper |
 | Command Prompt | Terminal with a built-in assistant that asks **your own** language model (Ollama or OpenAI-compatible): plain-language questions become commands you run with one click, errors get explained, risky commands are stopped by built-in rules; offline task library; default terminal (Ctrl+Alt+T) |
 | Write | Word processor in the Word 2007 style (Ribbon, page view): opens and saves .docx, .rtf and .doc, exports PDF; styles, lists, tables, pictures, headers/footers with page numbers, find/replace, spell check (Danish/English) |
+| Classic 7 Update | One click installs the newest Classic 7, app updates and new settings for your account; settings follow automatically after a restart |
+| Login screen | Classic "Log On" dialog on the desktop blue (SDDM theme) |
 | Appearance | Start > Settings > **Appearance**: classic-style dialog with colour schemes, per-item colours, font size and live preview |
 | Gaming | Everything Bazzite ships (Steam, Lutris, GameMode, MangoHud, AMD/Mesa stack) + LACT for GPU fan/power control |
 | Updates | Atomic: whole-system updates and rollback, rebuilt daily from Bazzite |
@@ -110,6 +112,16 @@ Change them in `system_files/usr/share/kio/servicemenus/` (Send to, Create short
 `system_files/etc/xdg/kservicemenurc` (hidden plugins) and the `[ContextMenu]` group in
 `system_files/usr/share/classic7/xdg-defaults/dolphinrc`.
 
+## Login screen
+
+![Login screen](docs/login.png)
+
+The classic **Log On to Classic 7** dialog on the desktop blue: user name (the arrow lists the accounts),
+password, *Options >>* for the session (Plasma or Steam), *Shut Down...* for shut down / restart / sleep.
+Fedora 44 replaced SDDM with Plasma Login Manager, whose look can't be changed, so Classic 7 installs SDDM
+again with its own theme (`/usr/share/sddm/themes/classic7`). Another SDDM theme can be picked in
+System Settings > Login Screen (SDDM).
+
 ## Command Prompt
 
 ![Command Prompt](docs/command-prompt.png)
@@ -174,13 +186,29 @@ Command line: `classic7-appearance --list`, `--apply Night --size Large`, `--res
 
 ## Updates on the installed PC
 
+![Classic 7 Update](docs/update.png)
+
 GitHub rebuilds the image daily from the newest Bazzite; the PC downloads updates in the background and
-switches at the next restart. By hand, in Konsole:
+switches at the next restart. To do everything at once: Start > **Classic 7 Update** > *Install updates*.
+One click runs all three steps:
+
+1. **System:** the newest Classic 7 image (`bootc upgrade`), active after a restart
+2. **Apps:** Flatpak apps and runtimes (`flatpak update`, unused runtimes removed)
+3. **Settings:** your account gets what changed in Classic 7: the current colour scheme is re-applied with the
+   new theme code, taskbar fixes, new Start menu pins, new keyboard shortcuts and the program list.
+   Your own choices (scheme, pins you removed, shortcuts you changed) are kept.
+
+After the restart into a new version, step 3 runs again by itself at login and a notification says what's new
+(*View update history* lists all changes, from `/usr/share/classic7/changes.txt`).
+No password is needed for checking and downloading at the computer itself, as with Windows Update
+(polkit rule `org.classic7.update.policy`; remote sessions must authenticate).
 
 | Command | What it does |
 |---|---|
-| `classic7-update` | Update now (system, Flatpaks, firmware), offer a restart |
-| `classic7-update --check` / `--status` | Is there a newer version / which version runs |
+| `classic7-update` | In a terminal: all three steps, then offer a restart. From the menu: the Update window |
+| `classic7-update --check` / `--status` | Is there something new / which version runs and which is downloaded |
+| `classic7-update --settings` | Only step 3: bring this account's Classic 7 settings up to date |
+| `classic7-update --history` | What changed in each version |
 | `classic7-update --rollback` | Back to the previous version at the next restart |
 
 Secure Boot: install with it off, then `ujust enroll-secure-boot-key` (password `universalblue`), enrol in the

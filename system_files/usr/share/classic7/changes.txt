@@ -1,0 +1,20 @@
+# Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
+# "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
+
+## 2026-10-12  Classic 7 Update, Classic login screen
+- **Classic 7 Update** (Start > All Programs, or `classic7-update`): one click installs the newest Classic 7, app updates and new settings for your account, then offers a restart.
+- After a restart into a new version, your account's settings (look, taskbar, Start menu, shortcuts) are brought up to date automatically at login.
+- New login screen in the Classic style: the "Log On to Classic 7" dialog on the desktop blue.
+
+## 2026-10-12  Write
+- **Write**, a word processor in the Word 2007 style: opens and saves .docx, .rtf and .doc, exports PDF. Pinned in the Start menu and opens Word files.
+
+## 2026-10-12  Colour schemes
+- New schemes in Appearance: XP Blue, Seven Basic and Eleven Light (rounded corners, flat title buttons).
+- No more horizontal seam lines on the taskbar.
+- Start menu: the recent programs list has no scroll bar and no duplicates.
+
+## 2026-10-11  Start menu and Command Prompt
+- Start menu in the Windows 7 layout with the Classic look: pinned and recent programs, All Programs, search, places on the right, Shut down button.
+- Run dialog (Win+R) with Windows names such as cmd, control and notepad.
+- Command Prompt: a terminal with an assistant using your own language model.

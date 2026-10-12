@@ -1,0 +1,13 @@
+[Unit]
+Description=Classic 7: make sure the SDDM greeter account is complete
+After=systemd-sysusers.service
+Before=sddm.service
+ConditionPathExists=/usr/lib/sysusers.d/sddm.conf
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/libexec/classic7-sddm-accounts
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+[SddmGreeterTheme]
+Name=Classic 7
+Description=Classic "Log On" dialog on the desktop blue
+Author=Classic 7
+License=GPL-3.0-or-later
+Type=sddm-theme
+Version=1.0
+Screenshot=preview.png
+MainScript=Main.qml
+ConfigFile=theme.conf
+Theme-Id=classic7
+Theme-API=2.0
+QtVersion=6

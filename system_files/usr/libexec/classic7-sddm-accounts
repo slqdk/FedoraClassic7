@@ -1,0 +1,13 @@
+#!/usr/bin/bash
+# The SDDM greeter account is created by systemd-sysusers on image-based systems, but can
+# end up without its /etc/shadow and /etc/gshadow lines (same issue Fedora works around for
+# Plasma Login Manager: https://forge.fedoraproject.org/kde/tickets/issues/684). Add them.
+set -euo pipefail
+getent passwd sddm >/dev/null || systemd-sysusers /usr/lib/sysusers.d/sddm.conf || true
+if getent passwd sddm >/dev/null; then
+    grep -q '^sddm:' /etc/shadow || { echo 'sddm:!*:::::::' >> /etc/shadow; echo "added sddm to /etc/shadow"; }
+fi
+if getent group sddm >/dev/null; then
+    grep -q '^sddm:' /etc/gshadow || { echo 'sddm:!*::' >> /etc/gshadow; echo "added sddm to /etc/gshadow"; }
+fi
+install -d -m 0750 -o sddm -g sddm /var/lib/sddm 2>/dev/null || true

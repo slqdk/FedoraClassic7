@@ -1,0 +1,398 @@
+"""Classic 7 Update: the steps behind the Update window and the classic7-update command.
+
+One run does everything, in order:
+  1. System     the newest Classic 7 image (bootc), staged for the next restart
+  2. Apps       Flatpak apps and runtimes
+  3. Settings   this account gets what changed in Classic 7 (look, taskbar, Start menu pins,
+                shortcuts, program list), without undoing the user's own choices
+After a restart into a new image, step 3 runs again by itself at login (--after-login), because
+the new theme code and files only exist once the new image is running.
+"""
+from __future__ import annotations
+
+import json
+import os
+import re
+import shutil
+import subprocess
+import time
+from dataclasses import asdict, dataclass, field
+from pathlib import Path
+from typing import Callable
+
+HELPER = os.environ.get("CLASSIC7_UPDATE_HELPER", "/usr/libexec/classic7-update-system")
+SHARE = Path(os.environ.get("CLASSIC7_SHARE", "/usr/share/classic7"))
+BUILD_INFO = SHARE / "build-info.json"
+CHANGES = SHARE / "changes.txt"
+SKEL = Path(os.environ.get("CLASSIC7_SKEL", "/etc/skel"))
+# Skeleton files whose missing entries are added to existing accounts (never overwriting)
+SKEL_MERGE = [".config/kglobalshortcutsrc"]
+# Programs added to the Start menu's pinned list after the first release, oldest first.
+# Each is pinned once for existing accounts; unpinning it afterwards sticks.
+PIN_ADDITIONS = ["classic7-write.desktop"]
+
+Log = Callable[[str], None]
+
+
+# ---- versions --------------------------------------------------------------------------------
+def build_info() -> dict:
+    try:
+        return json.loads(BUILD_INFO.read_text())
+    except (OSError, ValueError):
+        return {}
+
+
+def current_build() -> str:
+    """The Classic 7 build running now (UTC time of the image build), "" if unknown."""
+    return str(build_info().get("build", ""))
+
+
+def current_content() -> str:
+    """Hash of Classic 7's own files in this image (Bazzite-only rebuilds keep it)."""
+    return str(build_info().get("content", "")) or current_build()
+
+
+def pretty_build(build: str) -> str:
+    m = re.match(r"(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d)", build or "")
+    if not m:
+        return build or "unknown"
+    y, mo, d, h, mi = m.groups()
+    return f"{int(d)}-{int(mo)}-{y} {h}:{mi} UTC"
+
+
+# ---- per-account state -----------------------------------------------------------------------
+def state_file() -> Path:
+    base = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
+    return base / "classic7" / "update.json"
+
+
+@dataclass
+class UpdateState:
+    applied_build: str = ""        # the build whose settings this account has
+    applied_content: str = ""      # ... and its Classic 7 content hash
+    last_check: float = 0
+    last_install: float = 0
+    last_result: str = ""
+    seen_pins: list[str] = field(default_factory=list)
+
+    @classmethod
+    def load(cls) -> "UpdateState":
+        try:
+            data = json.loads(state_file().read_text())
+            return cls(**{k: v for k, v in data.items() if k in cls.__dataclass_fields__})
+        except (OSError, ValueError, TypeError):
+            return cls()
+
+    def save(self):
+        f = state_file()
+        f.parent.mkdir(parents=True, exist_ok=True)
+        f.write_text(json.dumps(asdict(self), indent=2) + "\n")
+
+
+# ---- running commands ------------------------------------------------------------------------
+def run_stream(cmd: list[str], log: Log, env: dict | None = None) -> int:
+    """Run a command and pass each output line to log (progress lines ending in \\r too)."""
+    try:
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                stdin=subprocess.DEVNULL, env=env)
+    except OSError as e:
+        log(f"{cmd[0]}: {e}")
+        return 127
+    buf = b""
+    last = ""
+    while True:
+        chunk = proc.stdout.read1(4096) if hasattr(proc.stdout, "read1") else proc.stdout.read(4096)
+        if not chunk:
+            break
+        buf += chunk
+        parts = re.split(rb"\r\n|\n|\r", buf)
+        buf = parts.pop()
+        for p in parts:
+            line = _strip_ansi(p.decode("utf-8", "replace")).rstrip()
+            if line and line != last:
+                log(line)
+                last = line
+    if buf.strip():
+        log(_strip_ansi(buf.decode("utf-8", "replace")).rstrip())
+    return proc.wait()
+
+
+def _strip_ansi(s: str) -> str:
+    return re.sub(r"\x1b\[[0-9;?]*[A-Za-z]|\x1b\][^\x07]*\x07", "", s)
+
+
+def system_cmd(action: str) -> list[str]:
+    """The root helper, via pkexec (no password for the person at the computer, see
+    org.classic7.update.policy) unless we already are root."""
+    if os.geteuid() == 0:
+        return [HELPER, action]
+    return ["pkexec", HELPER, action]
+
+
+def system_status() -> dict:
+    """bootc's status as a dict ({} if it can't be read)."""
+    try:
+        out = subprocess.run(system_cmd("status"), capture_output=True, text=True, timeout=60).stdout
+        return json.loads(out)
+    except (OSError, ValueError, subprocess.SubprocessError):
+        return {}
+
+
+def _image(entry: dict | None) -> dict:
+    return ((entry or {}).get("image") or {}) if isinstance(entry, dict) else {}
+
+
+def staged_info(status: dict) -> dict:
+    """{'version':..., 'timestamp':..., 'digest':...} for an update waiting for a restart, else {}."""
+    st = (status.get("status") or {}).get("staged")
+    img = _image(st)
+    if not img:
+        return {}
+    return {"version": img.get("version") or "", "timestamp": img.get("timestamp") or "",
+            "digest": img.get("imageDigest") or ""}
+
+
+def booted_info(status: dict) -> dict:
+    img = _image((status.get("status") or {}).get("booted"))
+    ref = (img.get("image") or {}).get("image", "") if isinstance(img.get("image"), dict) else ""
+    return {"version": img.get("version") or "", "timestamp": img.get("timestamp") or "",
+            "digest": img.get("imageDigest") or "", "image": ref}
+
+
+# ---- the steps -------------------------------------------------------------------------------
+CHECK_NONE, CHECK_AVAILABLE, CHECK_STAGED, CHECK_ERROR = "none", "available", "staged", "error"
+
+
+def check(log: Log) -> str:
+    """Is there a newer Classic 7? Downloads only the image description, not the update."""
+    lines: list[str] = []
+
+    def keep(line):
+        lines.append(line)
+        log(line)
+    rc = run_stream(system_cmd("check"), keep)
+    text = "\n".join(lines)
+    staged = staged_info(system_status())
+    if rc != 0:
+        return CHECK_STAGED if staged else CHECK_ERROR
+    if re.search(r"No changes|No update available", text, re.I):
+        return CHECK_STAGED if staged else CHECK_NONE
+    if staged and staged.get("digest") and staged["digest"] in text:
+        return CHECK_STAGED
+    return CHECK_AVAILABLE
+
+
+def upgrade_system(log: Log) -> bool:
+    """Download and stage the newest image. True when it worked (or nothing was needed)."""
+    rc = run_stream(system_cmd("upgrade"), log)
+    if rc == 126 or rc == 127:
+        log("The update was not allowed (authentication cancelled or failed).")
+    return rc == 0
+
+
+def update_apps(log: Log) -> bool:
+    if not shutil.which("flatpak"):
+        return True
+    rc = run_stream(["flatpak", "update", "-y", "--noninteractive"], log)
+    if rc == 0:
+        run_stream(["flatpak", "uninstall", "--unused", "-y", "--noninteractive"], log)
+    return rc == 0
+
+
+def app_updates() -> list[str]:
+    """Flatpak apps and runtimes with an update waiting (user and system installations)."""
+    if not shutil.which("flatpak"):
+        return []
+    try:
+        out = subprocess.run(["flatpak", "remote-ls", "--updates", "--columns=application"],
+                             capture_output=True, text=True, timeout=120).stdout
+    except (OSError, subprocess.SubprocessError):
+        return []
+    return [x for x in out.split() if x and x != "Application"]
+
+
+def restart_needed() -> bool:
+    return bool(staged_info(system_status()))
+
+
+# ---- step 3: this account's Classic 7 settings -----------------------------------------------
+def _ini_read(path: Path) -> dict[str, dict[str, str]]:
+    groups: dict[str, dict[str, str]] = {}
+    group = None
+    try:
+        text = path.read_text(errors="replace")
+    except OSError:
+        return groups
+    for line in text.splitlines():
+        s = line.strip()
+        if not s or s.startswith("#") or s.startswith(";"):
+            continue
+        if s.startswith("[") and s.endswith("]"):
+            group = s[1:-1]
+            groups.setdefault(group, {})
+        elif "=" in s and group is not None:
+            k, v = s.split("=", 1)
+            groups[group][k.strip()] = v
+    return groups
+
+
+def merge_skel(log: Log, home: Path | None = None) -> int:
+    """Add entries that are new in /etc/skel to this account's files. Existing keys, which
+    may be the user's own choices, are left alone. Returns the number of added keys."""
+    home = home or Path.home()
+    added = 0
+    if not shutil.which("kwriteconfig6"):
+        log("  kwriteconfig6 is missing")
+        return 0
+    for rel in SKEL_MERGE:
+        src, dst = SKEL / rel, home / rel
+        if not src.exists():
+            continue
+        have = _ini_read(dst)
+        for group, entries in _ini_read(src).items():
+            for key, value in entries.items():
+                if key in have.get(group, {}):
+                    continue
+                gargs = []
+                # "[services][classic7-run.desktop]" -> --group services --group classic7-run.desktop
+                for g in re.findall(r"\[?([^\[\]]+)\]?", f"[{group}]"):
+                    gargs += ["--group", g]
+                subprocess.run(["kwriteconfig6", "--file", str(dst), *gargs, "--key", key, "--", value],
+                               check=False)
+                added += 1
+                log(f"  {Path(rel).name}: added [{group}] {key}")
+    return added
+
+
+def _startmenu_defaults() -> list[str]:
+    xml = Path("/usr/share/plasma/plasmoids/org.classic7.startmenu/contents/config/main.xml")
+    try:
+        m = re.search(r'name="favoriteApps".*?<default>([^<]*)</default>', xml.read_text(), re.S)
+        return [x for x in m.group(1).split(",") if x] if m else []
+    except OSError:
+        return []
+
+
+def pin_script(pins: list[str]) -> str:
+    """Plasma script: add pins to the Classic 7 Start menu (after Command Prompt)."""
+    return """
+var add = %s;
+panels().forEach(function (panel) {
+    panel.widgets("org.classic7.startmenu").forEach(function (w) {
+        w.currentConfigGroup = ["General"];
+        var favs = w.readConfig("favoriteApps", %s);
+        if (typeof favs === "string") favs = favs.split(",");
+        favs = favs.filter(function (f) { return String(f).length > 0; });
+        var changed = false;
+        add.forEach(function (id) {
+            if (favs.indexOf(id) !== -1) return;
+            var at = favs.indexOf("classic7-prompt.desktop");
+            favs.splice(at === -1 ? Math.min(2, favs.length) : at + 1, 0, id);
+            changed = true;
+        });
+        if (changed) { w.writeConfig("favoriteApps", favs); w.reloadConfig(); }
+    });
+});
+""" % (json.dumps(pins), json.dumps(_startmenu_defaults()))
+
+
+def plasma_running() -> bool:
+    return subprocess.run(["pgrep", "-u", str(os.getuid()), "-x", "plasmashell"],
+                          capture_output=True).returncode == 0
+
+
+def refresh_account(log: Log) -> list[str]:
+    """Give this account the current Classic 7 settings. Returns problems (empty = all fine)."""
+    problems: list[str] = []
+    state = UpdateState.load()
+
+    log("Updating the program list")
+    if shutil.which("kbuildsycoca6"):
+        subprocess.run(["kbuildsycoca6"], capture_output=True, check=False)
+    if shutil.which("update-desktop-database"):
+        apps = Path.home() / ".local/share/applications"
+        if apps.is_dir():
+            subprocess.run(["update-desktop-database", str(apps)], capture_output=True, check=False)
+
+    log("Adding new keyboard shortcuts")
+    if merge_skel(log) == 0:
+        log("  nothing new")
+
+    gui = plasma_running()
+    log("Applying the Classic 7 look (colours, window borders, taskbar, Start button)")
+    if gui:
+        try:
+            import classic7appearance as backend
+            res = backend.apply(backend.State.load().palette)
+            problems += [n for n in res.notes if not n.startswith("Restart open GTK apps")]
+        except Exception as e:  # noqa: BLE001 - report, keep going with the other steps
+            problems.append(f"Appearance: {e}")
+    else:
+        log("  skipped: the desktop is not running (it is done at the next login)")
+
+    new_pins = [p for p in PIN_ADDITIONS if p not in state.seen_pins]
+    if new_pins:
+        if gui:
+            log("Pinning new programs to the Start menu: " + ", ".join(p.removesuffix(".desktop") for p in new_pins))
+            try:
+                import classic7appearance as backend
+                run = backend.Runner()
+                backend.run_plasma_script(pin_script(new_pins), run)
+                if run.failures:
+                    problems += run.failures
+                else:
+                    state.seen_pins += new_pins
+            except Exception as e:  # noqa: BLE001
+                problems.append(f"Start menu: {e}")
+    if Path("/usr/libexec/classic7-first-login").exists():
+        subprocess.run(["/usr/libexec/classic7-first-login"], check=False)
+
+    if gui and not problems:
+        state.applied_build = current_build()
+        state.applied_content = current_content()
+    state.save()
+    for p in problems:
+        log(f"Problem: {p}")
+    return problems
+
+
+def needs_refresh() -> bool:
+    """True when Classic 7 itself changed since this account's settings were last brought up to date."""
+    return current_content() != UpdateState.load().applied_content
+
+
+# ---- what's new ------------------------------------------------------------------------------
+@dataclass
+class Change:
+    date: str           # YYYY-MM-DD
+    title: str
+    items: list[str]
+
+
+def changes() -> list[Change]:
+    """Entries of /usr/share/classic7/changes.txt, newest first:
+        ## 2026-10-12  Title
+        - item"""
+    out: list[Change] = []
+    try:
+        text = CHANGES.read_text()
+    except OSError:
+        return out
+    for line in text.splitlines():
+        m = re.match(r"##\s*(\d{4}-\d\d-\d\d)\s*(.*)", line)
+        if m:
+            out.append(Change(m.group(1), m.group(2).strip(), []))
+        elif out and line.strip().startswith(("-", "*")):
+            out[-1].items.append(line.strip()[1:].strip())
+        elif out and line.startswith("  ") and out[-1].items:
+            out[-1].items[-1] += " " + line.strip()
+    return out
+
+
+def changes_since(build: str) -> list[Change]:
+    day = (build or "")[:10]
+    return [c for c in changes() if not day or c.date >= day]
+
+
+def now() -> float:
+    return time.time()

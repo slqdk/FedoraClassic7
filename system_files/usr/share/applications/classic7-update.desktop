@@ -1,0 +1,20 @@
+[Desktop Entry]
+Type=Application
+Name=Classic 7 Update
+GenericName=Windows Update
+Comment=Install the newest Classic 7, app updates and new settings in one go
+Exec=classic7-update --gui
+Icon=system-software-update
+Terminal=false
+Categories=Qt;System;Settings;
+Keywords=update;upgrade;windows update;opdatering;bootc;flatpak;classic7;
+StartupWMClass=classic7-update
+Actions=Install;History;
+
+[Desktop Action Install]
+Name=Install Updates Now
+Exec=classic7-update --install
+
+[Desktop Action History]
+Name=View Update History
+Exec=classic7-update --history

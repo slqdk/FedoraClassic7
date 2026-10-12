@@ -27,8 +27,8 @@ class Recipe:
 R = Recipe
 RECIPES: list[Recipe] = [
     # Updates
-    R("Updates", "Update everything (system, apps, firmware)", "Opdater alt (system, programmer, firmware)",
-      "classic7-update", "Downloads the newest Classic 7 image plus Flatpak apps; asks to restart.",
+    R("Updates", "Update everything (system, apps, settings)", "Opdater alt (system, programmer, indstillinger)",
+      "classic7-update", "Newest Classic 7 image, Flatpak apps and this account's Classic 7 settings; asks to restart.",
       "update upgrade opdater opdatering nyeste version system"),
     R("Updates", "Is there a new Classic 7 version?", "Er der en ny Classic 7-version?",
       "classic7-update --check", "Only checks; downloads nothing.", "check update tjek opdatering ny version"),
@@ -38,6 +38,9 @@ RECIPES: list[Recipe] = [
     R("Updates", "Go back to the previous version", "Gå tilbage til forrige version",
       "classic7-update --rollback", "The previous image starts at the next restart.",
       "rollback undo fortryd tilbage forrige version broken"),
+    R("Updates", "Bring my Classic 7 settings up to date", "Opdater mine Classic 7-indstillinger",
+      "classic7-update --settings", "Re-applies the look, taskbar, Start menu pins and shortcuts of this Classic 7 version.",
+      "settings indstillinger theme look taskbar start menu reset repair reparer"),
     R("Updates", "Update only the Flatpak apps", "Opdater kun Flatpak-programmer",
       "flatpak update -y", "Updates the apps from Flathub.", "flatpak update apps programmer opdater"),
     # Programs

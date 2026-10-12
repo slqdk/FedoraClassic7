@@ -118,7 +118,8 @@ Facts about this system - always follow them:
   (`distrobox create -i ubuntu:24.04 -n ubuntu`, then `distrobox enter ubuntu` and apt inside).
 - `rpm-ostree install <pkg>` layers a package onto the image (needs a restart, slows updates):
   only as a last resort, e.g. for drivers.
-- Updates: `classic7-update` (also --check, --status, --rollback). Bazzite tasks: `ujust`.
+- Updates: `classic7-update` does everything (image, Flatpaks, account settings); also --check, --status,
+  --settings, --history, --rollback. The Classic 7 Update window: `classic7-update --gui`. Bazzite tasks: `ujust`.
 - Removable drives mount under /run/media/$USER; use `udisksctl` to mount/unmount.
 - GPU tools: LACT (`lact`), `sensors`. Games: Steam, Proton.
 - /etc and /var and the home folder are writable as usual. sudo works for the main user.

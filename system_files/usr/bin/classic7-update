@@ -1,69 +1,186 @@
-#!/usr/bin/bash
-# Classic 7 updates on the installed PC.
-#
-#   classic7-update            download the newest Classic 7 (+ Flatpak apps and firmware), then offer a restart
-#   classic7-update --check    only tell whether a newer Classic 7 is available
-#   classic7-update --status   show the running and the downloaded version
-#   classic7-update --rollback go back to the previous version at the next restart
-#
-# Updates also install themselves automatically in the background (Bazzite's updater);
-# a downloaded update becomes active at the next restart. If an update misbehaves,
-# pick the previous entry in the boot menu, or run classic7-update --rollback.
-set -uo pipefail
+#!/usr/bin/python3
+"""Classic 7 Update: everything in one go - the system image, apps (Flatpak) and the
+Classic 7 settings of your account - then offers a restart.
 
-bold() { printf '\033[1m%s\033[0m\n' "$*"; }
-ask_reboot() {
-    read -r -p "Restart now to use it? [y/N] " answer
-    [[ "$answer" =~ ^[YyJj] ]] && systemctl reboot
-}
+    classic7-update              in a terminal: update everything; from the menu: the Update window
+    classic7-update --gui        the Update window (checks at once)
+    classic7-update --install    the Update window, installing at once
+    classic7-update --check      only tell whether something new is available
+    classic7-update --status     the running and the downloaded version
+    classic7-update --settings   only bring this account's Classic 7 settings up to date
+    classic7-update --history    what changed in each version
+    classic7-update --rollback   go back to the previous version at the next restart
 
-status() {
-    bold "Classic 7 versions on this PC"
-    sudo bootc status --format humanreadable 2>/dev/null || sudo bootc status
-}
+Updates also download by themselves in the background (Bazzite's updater). After a restart
+into a new version, your settings are brought up to date at login automatically.
+"""
+import os
+import subprocess
+import sys
+import time
 
-case "${1:-}" in
-    --status)
-        status
-        ;;
-    --check)
-        if sudo bootc upgrade --check; then
-            echo
-            echo "Run 'classic7-update' to download it."
-        fi
-        ;;
-    --rollback)
-        bold "Going back to the previous Classic 7 version"
-        sudo bootc rollback && { echo "The previous version starts at the next restart."; ask_reboot; }
-        ;;
-    "" )
-        bold "Updating Classic 7"
-        sudo bootc status --format humanreadable 2>/dev/null | grep -iE 'image|version' | head -n 4
-        echo
-        # The system image itself, explicitly: Bazzite's background updater may skip or
-        # postpone it, and then nothing would be staged.
-        if ! sudo bootc upgrade; then
-            echo "The system update failed. Check the network, then run: classic7-update --status" >&2
-        fi
-        echo
-        bold "Updating apps (Flatpak)"
-        flatpak update -y --noninteractive || true
-        echo
-        staged="$(sudo bootc status --format json 2>/dev/null | python3 -c 'import json,sys
-try: print(1 if json.load(sys.stdin).get("status", {}).get("staged") else 0)
-except Exception: print(0)')"
-        if [[ "$staged" == 1 ]]; then
-            bold "A new Classic 7 version is downloaded."
-            ask_reboot
-        else
-            bold "Classic 7 is up to date."
-        fi
-        ;;
-    -h|--help)
-        sed -n '2,11p' "$0" | sed 's/^# \{0,1\}//'
-        ;;
-    *)
-        echo "Unknown option: $1 (try --help)" >&2
-        exit 2
-        ;;
-esac
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+import update_core as core  # noqa: E402
+
+
+def bold(s):
+    print(f"\033[1m{s}\033[0m" if sys.stdout.isatty() else s, flush=True)
+
+
+def say(line):
+    print("  " + line, flush=True)
+
+
+def ask_restart():
+    if not sys.stdin.isatty():
+        print("Restart the computer to use the new version.")
+        return
+    try:
+        answer = input("Restart now to use it? [y/N] ")
+    except EOFError:
+        return
+    if answer.strip().lower().startswith(("y", "j")):
+        subprocess.run(["systemctl", "reboot"])
+
+
+def show_status():
+    st = core.system_status()
+    if not st:
+        print("Could not read the status (bootc). Try: sudo bootc status")
+        return 1
+    b, s = core.booted_info(st), core.staged_info(st)
+    bold("Classic 7 versions on this PC")
+    print(f"  Running:    {core.pretty_build(core.current_build())}  {b.get('image', '')}")
+    print(f"              image built {b.get('timestamp', '?')}  {b.get('digest', '')[:19]}")
+    if s:
+        print(f"  Downloaded: image built {s.get('timestamp', '?')}  {s.get('digest', '')[:19]}"
+              "  (starts at the next restart)")
+    else:
+        print("  Downloaded: nothing waiting for a restart")
+    st_acc = core.UpdateState.load()
+    print(f"  Your settings: {'up to date' if not core.needs_refresh() else 'from an older version (classic7-update --settings)'}")
+    if st_acc.last_install:
+        print(f"  Last update run: {time.strftime('%d-%m-%Y %H:%M', time.localtime(st_acc.last_install))} ({st_acc.last_result})")
+    return 0
+
+
+def run_all():
+    st = core.UpdateState.load()
+    bold("Classic 7 Update")
+    print(f"  Running version: {core.pretty_build(core.current_build())}\n")
+    bold("1/3  Classic 7 system image")
+    ok_sys = core.upgrade_system(say)
+    print()
+    bold("2/3  Apps (Flatpak)")
+    ok_apps = core.update_apps(say)
+    print()
+    bold("3/3  Classic 7 settings for this account")
+    problems = core.refresh_account(say)
+    print()
+    restart = core.restart_needed()
+    failed = [n for n, ok in (("system", ok_sys), ("apps", ok_apps), ("settings", not problems)) if not ok]
+    st = core.UpdateState.load()
+    st.last_install = time.time()
+    st.last_result = "failed: " + ", ".join(failed) if failed else "ok"
+    st.save()
+    if failed:
+        bold("Not everything worked: " + ", ".join(failed) + " (messages above).")
+    if restart:
+        bold("A new version of Classic 7 is downloaded.")
+        print("Your settings are brought up to date at the next login.")
+        ask_restart()
+    elif not failed:
+        bold("Everything is up to date.")
+    return 1 if failed else 0
+
+
+def after_login():
+    """Autostart: after booting a new version, update this account's settings once."""
+    if not core.needs_refresh():
+        return 0
+    # wait for the desktop (plasmashell answers on D-Bus) so the look can be applied live
+    for _ in range(60):
+        r = subprocess.run(["dbus-send", "--session", "--print-reply", "--dest=org.kde.plasmashell",
+                            "/PlasmaShell", "org.freedesktop.DBus.Peer.Ping"], capture_output=True)
+        if r.returncode == 0:
+            break
+        time.sleep(1)
+    time.sleep(3)
+    previous = core.UpdateState.load().applied_build
+    log = []
+    problems = core.refresh_account(log.append)
+    new = core.changes_since(previous)
+    if previous == "":
+        # first run of the updater on this account: keep the message short
+        new = new[:1]
+    body = "Your settings were brought up to date." if not problems else \
+        "Some settings could not be applied: open Classic 7 Update > Restore Classic 7 settings."
+    if new:
+        body += "\nNew: " + "; ".join(c.title for c in new[:3])
+    cmd = ["notify-send", "-a", "Classic 7 Update", "-i", "system-software-update",
+           "-A", "new=What's new", "Classic 7 was updated", body]
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+        if r.stdout.strip() == "new":
+            subprocess.Popen([sys.argv[0], "--history-since", previous])
+    except (OSError, subprocess.SubprocessError):
+        pass
+    return 0
+
+
+def main():
+    args = sys.argv[1:]
+    opt = args[0] if args else ""
+    if opt in ("-h", "--help"):
+        print(__doc__.strip())
+        return 0
+    if opt == "--status":
+        return show_status()
+    if opt == "--check":
+        result = core.check(say)
+        st = core.UpdateState.load()
+        st.last_check = time.time()
+        st.save()
+        apps = core.app_updates()
+        print()
+        print({core.CHECK_AVAILABLE: "A new version of Classic 7 is available. Run classic7-update to install it.",
+               core.CHECK_STAGED: "A new version is downloaded; it starts at the next restart.",
+               core.CHECK_NONE: "Classic 7 is up to date.",
+               core.CHECK_ERROR: "Could not check (network?)."}[result])
+        print(f"App updates: {len(apps)}")
+        if core.needs_refresh():
+            print("Your settings are from an older version: classic7-update --settings")
+        return 1 if result == core.CHECK_ERROR else 0
+    if opt == "--rollback":
+        bold("Going back to the previous Classic 7 version")
+        if subprocess.run(["sudo", "bootc", "rollback"]).returncode == 0:
+            print("The previous version starts at the next restart.")
+            ask_restart()
+            return 0
+        return 1
+    if opt == "--settings":
+        return 1 if core.refresh_account(say) else 0
+    if opt == "--after-login":
+        return after_login()
+    if opt in ("--history", "--history-since"):
+        since = args[1] if opt == "--history-since" and len(args) > 1 else None
+        if not os.environ.get("DISPLAY") and not os.environ.get("WAYLAND_DISPLAY"):
+            for c in (core.changes() if since is None else core.changes_since(since)):
+                bold(f"{c.date}  {c.title}")
+                for i in c.items:
+                    print("  - " + i.replace("**", "").replace("`", ""))
+            return 0
+        import update_gui
+        return update_gui.main(history=since is None, history_since=since)
+    if opt in ("--gui", "--install") or (opt == "" and not sys.stdout.isatty()):
+        import update_gui
+        return update_gui.main(auto_check=True, auto_install=opt == "--install")
+    if opt == "":
+        return run_all()
+    print(f"Unknown option: {opt} (try --help)", file=sys.stderr)
+    return 2
+
+
+if __name__ == "__main__":
+    sys.exit(main())

@@ -1,0 +1,4 @@
+# Classic 7 logs in through SDDM (with the Classic 7 theme), not Plasma Login Manager
+enable sddm.service
+disable plasmalogin.service
+enable classic7-sddm-accounts.service

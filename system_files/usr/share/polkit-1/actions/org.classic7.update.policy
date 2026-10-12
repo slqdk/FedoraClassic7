@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<policyconfig>
+  <vendor>Classic 7</vendor>
+  <!-- Like Windows Update: the person sitting at the computer may check for and download
+       the signed Classic 7 image without a password. Remote sessions must authenticate.
+       Rolling back still needs sudo (classic7-update with the rollback option). -->
+  <action id="org.classic7.update.system">
+    <description>Update Classic 7</description>
+    <message>Authentication is required to update Classic 7</message>
+    <icon_name>system-software-update</icon_name>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>yes</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/classic7-update-system</annotate>
+  </action>
+</policyconfig>
