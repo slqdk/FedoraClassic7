@@ -95,6 +95,9 @@ PlasmoidItem {
 
     readonly property KCoreAddons.KUser kuser: KCoreAddons.KUser {}
 
+    readonly property var pinnedKeys: Plasmoid.configuration.favoriteApps.map(
+        id => String(id).replace(/^applications:/, "").replace(/\.desktop$/, "").toLowerCase())
+
     function pin(favoriteId) {
         if (!favoriteId) {
             return;

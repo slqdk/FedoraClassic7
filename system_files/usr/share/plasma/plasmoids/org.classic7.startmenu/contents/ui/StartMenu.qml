@@ -173,7 +173,11 @@ FocusScope {
                         id: recentList
                         model: root.recentModel
                         pinnable: true
-                        interactive: false
+                        scrollable: false
+                        // like Windows: no pinned programs and no right-column items in the recent list
+                        hiddenIds: root.pinnedKeys.concat(["classic7-control-panel", "classic7-games", "classic7-devices",
+                                   "classic7-default-programs", "classic7-help", "classic7-run",
+                                   "classic7-computer", "systemsettings"])
                         Layout.fillHeight: true
                     }
                 }

@@ -21,8 +21,11 @@ var start = panel.addWidget("org.classic7.startmenu");
 if (start) {
     start.currentConfigGroup = ["General"];
     start.writeConfig("buttonImage", "/usr/share/classic7/start-button.svg");
+    // Firefox by name: preferred://browser can resolve to a text editor when no default
+    // browser is set; entries for programs that aren't installed are simply left out
     start.writeConfig("favoriteApps", [
-        "preferred://browser",
+        "org.mozilla.firefox.desktop",
+        "firefox.desktop",
         "classic7-prompt.desktop",
         "steam.desktop",
         "org.kde.dolphin.desktop"

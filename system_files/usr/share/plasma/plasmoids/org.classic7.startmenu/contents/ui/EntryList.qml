@@ -15,22 +15,30 @@ ListView {
     property int iconSize: list.startMenu.bigIcon
     property bool folders: false          // folders open in place (All Programs)
     property bool pinnable: false         // right-click: pin to / unpin from Start menu
+    property bool scrollable: true        // false: show what fits, no scroll bar (recent programs)
+    property var hiddenIds: []            // favorite ids not to show (normalised, see key())
+
+    function key(id) {
+        return String(id || "").replace(/^applications:/, "").replace(/\.desktop$/, "").toLowerCase();
+    }
     Layout.fillWidth: true
     clip: true
-    interactive: contentHeight > height
+    interactive: scrollable && contentHeight > height
     boundsBehavior: Flickable.StopAtBounds
     keyNavigationEnabled: true
     highlightFollowsCurrentItem: false
     currentIndex: -1
-    QQC2.ScrollBar.vertical: QQC2.ScrollBar { policy: list.contentHeight > list.height ? QQC2.ScrollBar.AsNeeded : QQC2.ScrollBar.AlwaysOff }
+    QQC2.ScrollBar.vertical: QQC2.ScrollBar { policy: list.scrollable && list.contentHeight > list.height ? QQC2.ScrollBar.AsNeeded : QQC2.ScrollBar.AlwaysOff }
 
     delegate: MenuEntry {
         id: row
         required property int index
         required property var model
         width: ListView.view.width
-        visible: !(model.isSeparator ?? false)
+        visible: !(model.isSeparator ?? false) && list.hiddenIds.indexOf(list.key(model.favoriteId)) === -1
         height: visible ? implicitHeight : 0
+        // without a scroll bar, rows that don't fit completely are left out
+        opacity: (!list.scrollable && y + height > list.height) ? 0 : 1
         text: model.display ?? ""
         iconSource: model.decoration
         iconSize: list.iconSize
