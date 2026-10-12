@@ -50,6 +50,7 @@ jobs:
           cp /src/system_files/usr/bin/classic7-netdrive /usr/bin/
           chmod 755 /usr/libexec/classic7-netdrive-helper /usr/bin/classic7-netdrive
           useradd -m -u 1000 tester 2>/dev/null || useradd -m -u 1001 tester
+          grep -q '^tester:' /etc/shadow || echo 'tester:!:19000:0:99999:7:::' >> /etc/shadow
           printf '#!/bin/bash\nexec sudo -n PKEXEC_UID=$(id -u) /usr/libexec/classic7-netdrive-helper "$@"\n' > /usr/bin/helper-as-pkexec
           chmod 755 /usr/bin/helper-as-pkexec
           echo 'tester ALL=(root) NOPASSWD:SETENV: /usr/libexec/classic7-netdrive-helper' > /etc/sudoers.d/netdrive
