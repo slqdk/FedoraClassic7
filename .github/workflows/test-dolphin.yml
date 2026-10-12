@@ -43,28 +43,27 @@ jobs:
             xdotool search --class dolphin windowsize %@ 1000 640 windowmove %@ 40 30 2>/dev/null; sleep 2
             import -window root /out/$1.png; kill $p; sleep 2
           }
-          quitd() { xdotool search --class dolphin key --window %@ ctrl+q 2>/dev/null; sleep 3; pkill dolphin; sleep 1; }
-          # A) no account files at all, image defaults: what Dolphin itself saves
-          export HOME=/tmp/a; mkdir -p $HOME/Documents
-          dolphin --new-window $HOME/Documents >>/out/dolphin.log 2>&1 & sleep 8
-          import -window root /out/a.png; quitd
-          cp $HOME/.local/state/dolphinstaterc /out/a-dolphinstaterc.txt; cp $HOME/.config/dolphinrc /out/a-dolphinrc.txt
-          # B) same, after closing panels F11 (info) F4 (terminal) F7 (folders)
-          dolphin --new-window $HOME/Documents >>/out/dolphin.log 2>&1 & sleep 8
-          import -window root /out/b1.png
-          xdotool search --class dolphin key --window %@ F11 2>/dev/null; sleep 1
-          xdotool search --class dolphin key --window %@ F4 2>/dev/null; sleep 1
-          xdotool search --class dolphin key --window %@ F7 2>/dev/null; sleep 2
-          import -window root /out/b2.png; quitd
-          cp $HOME/.local/state/dolphinstaterc /out/b-dolphinstaterc.txt
-          # C) restart: are the panels still closed?
-          dolphin --new-window $HOME/Documents >>/out/dolphin.log 2>&1 & sleep 8
-          import -window root /out/c.png; quitd
-          # D) our skel state file
-          export HOME=/tmp/d; mkdir -p $HOME/Documents; cp -a /etc/skel/. $HOME/
-          cat $HOME/.local/state/dolphinstaterc > /out/d-skel-state.txt
-          dolphin --new-window $HOME/Documents >>/out/dolphin.log 2>&1 & sleep 8
-          import -window root /out/d.png; quitd
+          quitd() {   # quit like File > Quit, so Dolphin saves its layout
+            pid=$(pgrep -x dolphin | head -1)
+            dbus-send --session --type=method_call --dest=org.kde.dolphin-$pid /dolphin/Dolphin_1/actions/file_quit org.qtproject.Qt.QAction.trigger >>/out/dolphin.log 2>&1
+            sleep 3; pkill -x dolphin; sleep 1
+          }
+          start() { dolphin --new-window "$1" >>/out/dolphin.log 2>&1 & sleep 8; }
+          # A) image defaults, no account files: toggle panels off, quit, see what is saved where
+          export HOME=/tmp/a; mkdir -p $HOME/Documents; touch /tmp/stamp
+          start $HOME/Documents; import -window root /out/a1.png
+          for k in F11 F4 F7; do xdotool search --class dolphin key --window %@ $k 2>/dev/null; sleep 1; done
+          import -window root /out/a2.png; quitd
+          (cd $HOME && find . -type f -newer /tmp/stamp | sort) > /out/a-files.txt
+          for f in $(cd $HOME && find . -type f -newer /tmp/stamp); do echo "=== $f"; head -c 1500 "$HOME/$f"; echo; done > /out/a-contents.txt
+          start $HOME/Documents; import -window root /out/a3.png; quitd
+          # E) without Version in /etc/xdg/dolphinrc (first run), with our skel files
+          kwriteconfig6 --file /etc/xdg/dolphinrc --group General --key Version --delete
+          export HOME=/tmp/e; mkdir -p $HOME/Documents; cp -a /etc/skel/. $HOME/
+          start $HOME/Documents; import -window root /out/e.png; quitd
+          # F) without Version, no skel files at all
+          export HOME=/tmp/f; mkdir -p $HOME/Documents
+          start $HOME/Documents; import -window root /out/f.png; quitd
           EOI
           mkdir -p /out && chmod 777 /out
           dbus-run-session -- bash /tmp/inner.sh
