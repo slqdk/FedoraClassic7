@@ -1,6 +1,10 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
+## 2026-10-12  Network icon fixes
+- Network icon: the Status and IP Settings... buttons work, and the popup shows the IP address, gateway and DNS of the connection.
+- Only one network icon in the taskbar: Plasma's own one is removed, also on accounts that showed both.
+
 ## 2026-10-12  Mail, network settings, Map Network Drive
 - **Mail**, e-mail and contacts in the Outlook 2007 style (Start menu, or `outlook` in Run): your own IMAP/SMTP account, Gmail (app password) and Outlook.com (Microsoft sign-in). Folders, unread counts, date groups, Reading Pane (pictures from the Internet only when you allow them), drag messages to folders, Contacts with Address Cards and vCard import/export.
 - Messages are written in Write's editor (fonts, colours, lists, tables, pictures); Word attachments open in Write; Write's Office button > Send > E-mail attaches the open document. mailto: links open Mail.
