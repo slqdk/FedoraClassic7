@@ -1,0 +1,28 @@
+# Runs a shell command inside the published image and shows the output as a run annotation
+# (readable with "gh run view"). For checking what the base image ships.
+name: Inspect image
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: Shell command to run in the image
+        required: true
+        default: "rpm -q sddm plasma-login-manager"
+
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Run in the image
+        env:
+          CMD: ${{ inputs.command }}
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/fedoraclassic7:latest"
+          podman run --rm --entrypoint /bin/bash "$IMAGE" -c "$CMD" > out.txt 2>&1 || true
+          cat out.txt
+          # annotations hold ~4 KB each; newlines encoded as %0A
+          split -b 3800 out.txt part_
+          for f in part_*; do
+            printf '::notice title=%s::%s\n' "$f" "$(sed -e 's/%/%25/g' "$f" | sed -e ':a;N;$!ba;s/\n/%0A/g')"
+          done
