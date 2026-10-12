@@ -1,5 +1,8 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
-# "Classic 7 was updated" message after a restart. Format: "## 2026-10-12  Clean-up, Breeze icons, no splash, no auto-lock, Danish keyboard at login, nicer Ribbon
+# "Classic 7 was updated" message after a restart. Format: "## 2026-10-12  Desktop colour fix
+- The desktop no longer turns black after Appearance > Apply or an update (the colour was handed to Plasma in a format it can't read while the desktop is running).
+
+## 2026-10-12  Clean-up, Breeze icons, no splash, no auto-lock, Danish keyboard at login, nicer Ribbon
 - The screen no longer locks by itself after a few idle minutes or after sleep; Win+L still locks. (Can be turned back on in System Settings > Screen Locking.)
 - The login screen uses the same keyboard layout as your desktop (e.g. Danish), checked at every login.
 - The Dark Mode switch (Brightness & Color) no longer replaces Classic 7 with Breeze; if it already did, Classic 7 and your colour scheme come back.

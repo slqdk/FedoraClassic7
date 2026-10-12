@@ -371,7 +371,9 @@ panels().forEach(function (panel) {{
 }});
 desktops().forEach(function (d) {{
     d.currentConfigGroup = ["Wallpaper", "org.kde.color", "General"];
-    d.writeConfig("Color", "{t.rgb(desktop)}");
+    // "#rrggbb", not "r,g,b": a running wallpaper takes the value as a QColor, and Qt can't
+    // read "r,g,b" there, so the desktop turned black
+    d.writeConfig("Color", "{desktop.lower()}");
     d.reloadConfig();
 }});
 if (rebuildTaskbar) {{

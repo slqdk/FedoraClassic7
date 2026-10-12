@@ -6,7 +6,7 @@ for (var j = 0; j < desktopsArray.length; j++) {
     var desk = desktopsArray[j];
     desk.wallpaperPlugin = "org.kde.color";
     desk.currentConfigGroup = ["Wallpaper", "org.kde.color", "General"];
-    desk.writeConfig("Color", "58,110,165");
+    desk.writeConfig("Color", "#3a6ea5");
     // desktop icons at 32 px (0=22, 1=32, 2=48, 3=64 = Plasma default), like Windows
     desk.currentConfigGroup = ["General"];
     desk.writeConfig("iconSize", 1);
