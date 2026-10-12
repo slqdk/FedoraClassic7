@@ -1,0 +1,4 @@
+# Ark's own Compress / Extract menus: the 7-Zip menu does the same, the Windows way
+[Show]
+compressfileitemaction=false
+extractfileitemaction=false

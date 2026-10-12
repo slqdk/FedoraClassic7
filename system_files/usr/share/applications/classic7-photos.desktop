@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=Photo Viewer
+GenericName=Picture Viewer
+Comment=Look at pictures one at a time, turn and flip them, play a slide show
+Exec=classic7-photos %f
+Icon=image-x-generic
+Terminal=false
+Categories=Qt;Graphics;Viewer;Photography;
+Keywords=picture;photo;image;viewer;slideshow;slide show;billede;foto;windows photo viewer;
+MimeType=image/jpeg;image/pjpeg;image/png;image/apng;image/gif;image/bmp;image/x-bmp;image/x-ms-bmp;image/webp;image/tiff;image/x-icon;image/vnd.microsoft.icon;image/x-win-bitmap;image/svg+xml;image/svg+xml-compressed;image/heif;image/heic;image/avif;image/jxl;image/jp2;image/jpx;image/x-portable-pixmap;image/x-portable-graymap;image/x-portable-bitmap;image/x-portable-anymap;image/x-tga;image/x-xbitmap;image/x-xpixmap;image/vnd.wap.wbmp;image/x-icns;image/vnd.adobe.photoshop;image/x-xcf;image/x-exr;image/x-hdr;image/vnd.radiance;image/x-dds;image/qoi;image/x-pcx;image/x-adobe-dng;image/x-canon-cr2;image/x-canon-cr3;image/x-canon-crw;image/x-nikon-nef;image/x-nikon-nrw;image/x-sony-arw;image/x-sony-sr2;image/x-sony-srf;image/x-fuji-raf;image/x-panasonic-rw2;image/x-panasonic-raw;image/x-olympus-orf;image/x-pentax-pef;image/x-samsung-srw;image/x-sigma-x3f;image/x-kodak-dcr;image/x-kodak-kdc;image/x-minolta-mrw;image/x-dcraw;
+StartupWMClass=classic7-photos
+Actions=SlideShow;
+
+[Desktop Action SlideShow]
+Name=Play Slide Show
+Exec=classic7-photos --slideshow %f

@@ -1,0 +1,25 @@
+[Desktop Entry]
+Type=Service
+MimeType=all/all;inode/directory;
+X-KDE-Protocols=file
+X-KDE-Submenu=7-Zip
+X-KDE-Priority=TopLevel
+X-KDE-StartupNotify=false
+X-KDE-MinNumberOfUrls=1
+Icon=ark
+Actions=add;add7z;addzip;
+
+[Desktop Action add]
+Name=Add to archive...
+Icon=archive-insert
+Exec=ark --changetofirstpath --add --dialog %F
+
+[Desktop Action add7z]
+Name=Add to .7z archive
+Icon=archive-insert
+Exec=ark --changetofirstpath --add --autofilename 7z %F
+
+[Desktop Action addzip]
+Name=Add to .zip archive
+Icon=archive-insert
+Exec=ark --changetofirstpath --add --autofilename zip %F

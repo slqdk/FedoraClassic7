@@ -1,0 +1,99 @@
+# Photo Viewer and 7-Zip with this branch's files, in the published image (Xvfb + KWin): picture
+# types through the image's Qt/KDE image plugins, turning, the slide show, and Ark's archive
+# commands used by the 7-Zip menu. Screenshots go to the ci-shots-photos branch.
+name: Test Photo Viewer and 7-Zip
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  photos:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Render
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/fedoraclassic7:latest"
+          mkdir -p shots && chmod 777 shots
+          cat > shots/run.sh <<'EOS'
+          set -x
+          dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool >/dev/null 2>&1 || true
+          for pkg in 7zip ark qt6-qtimageformats kf6-kimageformats; do rpm -q $pkg >> /out/packages.txt 2>&1; done
+          S=/src/system_files
+          cp -a $S/usr/lib/classic7/. /usr/lib/classic7/
+          cp $S/usr/bin/classic7-photos /usr/bin/ && chmod +x /usr/bin/classic7-photos
+          cp $S/usr/share/applications/classic7-*.desktop /usr/share/applications/
+          cp $S/usr/share/kio/servicemenus/*.desktop /usr/share/kio/servicemenus/
+          cat > /tmp/inner.sh <<'EOI'
+          export XDG_RUNTIME_DIR=/tmp/xdg; mkdir -p $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
+          export DISPLAY=:99 QT_QPA_PLATFORM=xcb XDG_CURRENT_DESKTOP=KDE KDE_FULL_SESSION=true KDE_SESSION_VERSION=6
+          export HOME=/tmp/home; mkdir -p $HOME; cp -a /etc/skel/. $HOME/
+          Xvfb :99 -screen 0 1100x760x24 >/dev/null 2>&1 & sleep 2
+          kwin_x11 --replace >/out/kwin.log 2>&1 & sleep 3
+          plasma-apply-colorscheme Classic7 >/dev/null 2>&1
+          P=$HOME/Pictures; mkdir -p $P
+          # pictures of many types
+          magick -size 1600x1000 gradient:'#3b7dd8-#bfe1ff' -fill white -draw "rectangle 40,40 520,360" -fill yellow -draw "circle 1100,650 1100,900" $P/01-photo.jpg
+          for t in png webp tiff bmp gif avif heic jxl; do magick $P/01-photo.jpg -resize 60% -fill black -pointsize 90 -annotate +60+900 "$t" $P/02-$t.$t >> /out/magick.log 2>&1; done
+          magick -size 300x200 xc:red xc:green xc:blue -set delay 30 -loop 0 $P/03-anim.gif
+          python3 - <<'EOP'
+          from PIL import Image
+          im = Image.open("/tmp/home/Pictures/01-photo.jpg"); ex = Image.Exif(); ex[0x0112] = 6
+          im.save("/tmp/home/Pictures/04-exif-rotated.jpg", exif=ex.tobytes())
+          EOP
+          ls -la $P > /out/pictures.txt
+          QT_QPA_PLATFORM=offscreen PYTHONPATH=/usr/lib/classic7 python3 -c "import photos_app as a; print(sorted(a.picture_extensions()))" > /out/extensions.txt 2>&1
+          view() {   # name, file, [keys...]
+            classic7-photos "$2" >>/out/photos.log 2>&1 & p=$!; sleep 5
+            xdotool search --class classic7-photos windowsize %@ 1000 700 windowmove %@ 40 20 2>/dev/null; sleep 1
+            shift 2
+            for k in "$@"; do xdotool search --class classic7-photos windowactivate --sync %@ 2>/dev/null; xdotool key "$k"; sleep 1.5; done
+            import -window root /out/$name.png
+            kill $p 2>/dev/null; sleep 1
+          }
+          for t in png webp tiff avif heic jxl; do name=type-$t view x $P/02-$t.$t; done
+          name=jpeg-exif view x $P/04-exif-rotated.jpg
+          name=next-twice view x $P/01-photo.jpg Right Right
+          name=rotate view x $P/01-photo.jpg ctrl+period
+          python3 -c "from PIL import Image; print('after rotate', Image.open('$P/01-photo.jpg').getexif().get(274))" >> /out/photos.log
+          name=anim view x $P/03-anim.gif
+          classic7-photos --slideshow $P/01-photo.jpg >>/out/photos.log 2>&1 & p=$!; sleep 7
+          import -window root /out/slideshow.png; kill $p
+          # 7-Zip menu commands (Ark)
+          A=$HOME/arc; mkdir -p $A/folder; echo hello > $A/folder/a.txt; echo world > $A/b.txt
+          (cd $A && ark --changetofirstpath --add --autofilename 7z $A/folder $A/b.txt) >> /out/ark.log 2>&1
+          (cd $A && ark --changetofirstpath --add --autofilename zip $A/b.txt) >> /out/ark.log 2>&1
+          ls -la $A >> /out/ark.log
+          for f in $A/*.7z $A/*.zip; do 7z l "$f" >> /out/ark.log 2>&1; done
+          mkdir -p $HOME/x && cp $A/*.7z $HOME/x/ && ark --batch --autodestination --autosubfolder $HOME/x/*.7z >> /out/ark.log 2>&1
+          find $HOME/x >> /out/ark.log
+          # the right-click menu in Explorer
+          kbuildsycoca6 --noincremental >/dev/null 2>&1
+          dolphin --new-window $A >>/out/dolphin.log 2>&1 & sleep 8
+          xdotool search --class dolphin windowsize %@ 1000 640 windowmove %@ 40 30 2>/dev/null; sleep 2
+          import -window root /out/dolphin-before.png
+          EOI
+          mkdir -p /out && chmod 777 /out
+          dbus-run-session -- bash /tmp/inner.sh
+          EOS
+          timeout 900 sudo podman run --rm --privileged -v "$PWD:/src:ro" -v "$PWD/shots:/out" "$IMAGE" bash /out/run.sh > shots/container.log 2>&1 || true
+          ls -la shots
+          echo "::notice title=files::$(ls shots | tr '\n' ' ')"
+          echo "::notice title=ark::$(tail -c 1500 shots/ark.log | tr '\n' '|')"
+          echo "::notice title=extensions::$(cat shots/extensions.txt | tr '\n' ' ')"
+
+      - name: Save to ci-shots-photos
+        run: |
+          mkdir -p /tmp/o && cp shots/*.png shots/*.log shots/*.txt /tmp/o/ 2>/dev/null || true
+          git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
+          git checkout -q --orphan ci-shots-photos
+          git rm -rfq --cached . >/dev/null 2>&1 || true
+          git clean -fdxq
+          cp /tmp/o/* . 2>/dev/null || true
+          git add -A; git commit -qm "Photo Viewer render" || exit 0
+          git push -f origin ci-shots-photos

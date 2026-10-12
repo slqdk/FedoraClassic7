@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=7-Zip File Manager
+GenericName=Archive Manager
+Comment=Open, make and unpack 7z, zip, rar, tar and other archives
+Exec=ark %U
+Icon=ark
+Terminal=false
+Categories=Qt;KDE;Utility;Archiving;Compression;
+Keywords=7-zip;7zip;7z;zip;rar;tar;archive;compress;extract;unpack;pak ud;komprimer;
+MimeType=application/zip;application/x-zip-compressed;application/x-7z-compressed;application/vnd.rar;application/x-rar;application/x-rar-compressed;application/x-tar;application/x-compressed-tar;application/x-bzip2-compressed-tar;application/x-bzip-compressed-tar;application/x-xz-compressed-tar;application/x-zstd-compressed-tar;application/x-lzma-compressed-tar;application/x-lz4-compressed-tar;application/x-tarz;application/gzip;application/x-gzip;application/x-bzip2;application/x-bzip;application/x-xz;application/x-lzma;application/zstd;application/x-zstd;application/x-cpio;application/x-arj;application/arj;application/x-lha;application/x-lzh-compressed;application/vnd.ms-cab-compressed;application/x-cd-image;application/x-iso9660-image;application/x-archive;application/x-java-archive;application/x-rpm;application/x-deb;application/vnd.debian.binary-package;application/x-source-rpm;application/x-xar;application/x-squashfs-image;application/x-wim;application/x-msi;
+StartupWMClass=ark

@@ -1,6 +1,11 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
+## 2026-10-12  Photo Viewer, 7-Zip
+- **Photo Viewer** like Windows 7's (double-click a picture, or `photoviewer` in Run): Left/Right arrows (or the buttons) go to the previous/next picture in the folder, mouse wheel zooms, drag to move, 1:1 / fit to window, rotate left/right (Ctrl+, / Ctrl+.) and flip horizontally/vertically. Turns are saved when you go to the next picture (JPEG without losing quality). Slide show (F11) with fade, Delete to the Recycle Bin, Rename (F2), Copy, Print, E-mail (pick the size), Open with, Set as desktop background, Properties with camera details.
+- Opens JPEG, PNG, GIF (animated too), BMP, TIFF, WebP, ICO, SVG, HEIC, AVIF, JPEG XL, camera RAW, PSD and more. Pictures now open in Photo Viewer by default.
+- **7-Zip** is included: right-click files > 7-Zip > Add to archive... / Add to .7z / Add to .zip, and archives > 7-Zip > Open archive / Extract files... / Extract Here / Extract to own folder. 7z, zip, rar, tar, gz, xz, iso and more open in the 7-Zip File Manager (Start menu); `7z` works in the Command Prompt.
+
 ## 2026-10-12  Network icon (really), no search bar when typing on the desktop
 - The second network icon is gone after the next restart: the tray's list of entries is in a different place than the first fix assumed.
 - Typing on the desktop selects the icon starting with that letter, like Windows, instead of opening the KRunner search bar (Alt+Space still opens it; the Start menu search is unchanged).
