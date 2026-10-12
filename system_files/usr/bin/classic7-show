@@ -1,0 +1,17 @@
+#!/usr/bin/python3
+"""Show: presentations in the style of PowerPoint 2007.
+
+    classic7-show [FILE]...           open presentations (.pptx .ppsx .potx .pptm .ppt .pps)
+    classic7-show --show FILE         play a presentation as a slide show
+"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
+        print(__doc__.strip())
+        sys.exit(0)
+    from show_app import main
+    sys.exit(main(sys.argv[1:]))

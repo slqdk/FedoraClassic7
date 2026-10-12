@@ -29,7 +29,7 @@ SKEL = Path(os.environ.get("CLASSIC7_SKEL", "/etc/skel"))
 SKEL_MERGE = [".config/kglobalshortcutsrc"]
 # Programs added to the Start menu's pinned list after the first release, oldest first.
 # Each is pinned once for existing accounts; unpinning it afterwards sticks.
-PIN_ADDITIONS = ["classic7-write.desktop", "classic7-mail.desktop"]
+PIN_ADDITIONS = ["classic7-write.desktop", "classic7-mail.desktop", "classic7-show.desktop"]
 
 Log = Callable[[str], None]
 

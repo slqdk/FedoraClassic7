@@ -98,7 +98,7 @@ for pkg in hunspell-da hunspell-en hunspell-en-US hunspell-en-GB google-carlito-
     rpm -q "$pkg" >/dev/null 2>&1 || dnf5 -y install "$pkg" || echo "NOTE: $pkg not available"
 done
 chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-mail /usr/bin/classic7-network /usr/bin/classic7-netdrive /usr/libexec/classic7-update-system /usr/libexec/classic7-netdrive-helper \
-    /usr/bin/classic7-taskbar-pin /usr/libexec/classic7-tray-fix /usr/bin/classic7-photos
+    /usr/bin/classic7-taskbar-pin /usr/libexec/classic7-tray-fix /usr/bin/classic7-photos /usr/bin/classic7-show
 # one network icon in the tray: fixes the saved panel layout at login, before Plasma starts
 systemctl --global enable classic7-tray-fix.service
 # Classic 7 Update: which build this is (the updater compares it at login to bring each
@@ -109,7 +109,7 @@ printf '{"build": "%s", "base": "%s", "content": "%s"}\n' "$(date -u +%Y-%m-%dT%
     "$base" "$content" > /usr/share/classic7/build-info.json
 chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
 python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PySide6.QtPrintSupport, PIL, pyte, docx, olefile"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_app"
 python3 -c "import PySide6.QtWebEngineWidgets, keyring, html2text" || echo "WARNING: Mail falls back to the simple message view"
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
@@ -168,6 +168,20 @@ PYTHONPATH=/usr/lib/classic7 python3 -c "import write_pdf"
 test -x /usr/bin/classic7-mail
 test -f /usr/share/applications/classic7-mail.desktop
 grep -q "^x-scheme-handler/mailto=classic7-mail.desktop" /etc/xdg/mimeapps.list
+# Show (presentations)
+test -x /usr/bin/classic7-show
+test -f /usr/share/applications/classic7-show.desktop
+test -f /usr/share/kio/servicemenus/classic7-show-play.desktop
+grep -q "^application/vnd.openxmlformats-officedocument.presentationml.presentation=classic7-show.desktop" /etc/xdg/mimeapps.list
+grep -q "^application/vnd.ms-powerpoint=classic7-show.desktop" /etc/xdg/mimeapps.list
+python3 -c "import lxml.etree, olefile"
+PYTHONPATH=/usr/lib/classic7 QT_QPA_PLATFORM=offscreen python3 -c "
+import show_model, show_pptx, show_render
+from PySide6.QtWidgets import QApplication; app = QApplication([])
+p = show_model.new_presentation('horizon'); show_pptx.write_pptx(p, '/tmp/c7show.pptx')
+q = show_pptx.read_pptx('/tmp/c7show.pptx'); assert len(q.slides) == 1
+img = show_render.Renderer(q).thumbnail(q.slides[0], 200); assert not img.isNull()"
+rm -f /tmp/c7show.pptx
 # Photo Viewer and 7-Zip
 test -x /usr/bin/classic7-photos
 test -f /usr/share/applications/classic7-photos.desktop

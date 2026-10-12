@@ -23,7 +23,7 @@ from pathlib import Path
 
 from PySide6.QtCore import (QFile, QFileSystemWatcher, QMimeData, QObject, QPointF, QRectF, QSettings, QSize,
                             Qt, QTimer, QUrl, QVariantAnimation, Signal)
-from PySide6.QtGui import (QAction, QColor, QColorSpace, QGuiApplication, QIcon, QImage, QImageReader,
+from PySide6.QtGui import (QAction, QColor, QColorSpace, QCursor, QGuiApplication, QIcon, QImage, QImageReader,
                            QKeySequence, QLinearGradient, QMovie, QPainter, QPen, QPixmap, QTransform)
 from PySide6.QtWidgets import (QApplication, QComboBox, QDialog, QDialogButtonBox, QFileDialog, QFormLayout,
                                QFrame, QHBoxLayout, QInputDialog, QLabel, QLineEdit, QMainWindow, QMenu,
@@ -767,7 +767,11 @@ class SlideShow(QWidget):
         self.setStyleSheet("background: black;")
 
     def start(self):
+        scr = QGuiApplication.screenAt(QCursor.pos()) or QGuiApplication.primaryScreen()
+        self.setGeometry(scr.geometry())
         self.showFullScreen()
+        self.raise_()
+        self.activateWindow()
         self.setCursor(Qt.BlankCursor)
         self._show(fade=False)
 

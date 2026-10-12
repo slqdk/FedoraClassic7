@@ -382,8 +382,8 @@ def apply_scheme(top: QWidget, ribbon: QTabWidget, key: str):
         g.set_scheme(sc)
 
 
-def office_orb(size: int = 36) -> QIcon:
-    """The round Office button: a glossy blue ball with a W (for Write)."""
+def office_orb(size: int = 36, letter: str = "W") -> QIcon:
+    """The round Office button: a glossy blue ball with a letter (W for Write, S for Show)."""
     icon = QIcon()
     for state, (c1, c2) in ((QIcon.Normal, ("#7DB4F2", "#1A4F9C")), (QIcon.Active, ("#A5D0FF", "#2B69C4"))):
         pm = QPixmap(size, size)
@@ -408,9 +408,9 @@ def office_orb(size: int = 36) -> QIcon:
         f.setPixelSize(int(size * 0.5))
         p.setFont(f)
         p.setPen(QColor(0, 0, 0, 100))
-        p.drawText(r.translated(1, 2), Qt.AlignCenter, "W")
+        p.drawText(r.translated(1, 2), Qt.AlignCenter, letter)
         p.setPen(QColor("#FFFFFF"))
-        p.drawText(r.translated(0, 1), Qt.AlignCenter, "W")
+        p.drawText(r.translated(0, 1), Qt.AlignCenter, letter)
         p.end()
         icon.addPixmap(pm, state)
     return icon

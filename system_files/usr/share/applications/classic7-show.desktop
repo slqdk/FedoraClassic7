@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Show
+GenericName=Presentation
+Comment=Make and play slide show presentations (PowerPoint .pptx and .ppt)
+Exec=classic7-show %F
+Icon=x-office-presentation
+Terminal=false
+Categories=Qt;Office;Presentation;
+Keywords=presentation;slides;slide show;powerpoint;pptx;ppt;impress;keynote;præsentation;dias;
+MimeType=application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.openxmlformats-officedocument.presentationml.slideshow;application/vnd.openxmlformats-officedocument.presentationml.template;application/vnd.ms-powerpoint;application/vnd.ms-powerpoint.presentation.macroEnabled.12;application/vnd.ms-powerpoint.slideshow.macroEnabled.12;application/vnd.ms-powerpoint.template.macroEnabled.12;application/mspowerpoint;application/powerpoint;application/x-mspowerpoint;
+StartupWMClass=classic7-show

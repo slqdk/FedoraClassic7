@@ -96,3 +96,14 @@ application/vnd.ms-cab-compressed=classic7-7zip.desktop;
 application/x-archive=classic7-7zip.desktop;
 application/x-xar=classic7-7zip.desktop;
 application/x-wim=classic7-7zip.desktop;
+# PowerPoint presentations open in Show
+application/vnd.openxmlformats-officedocument.presentationml.presentation=classic7-show.desktop;
+application/vnd.openxmlformats-officedocument.presentationml.slideshow=classic7-show.desktop;
+application/vnd.openxmlformats-officedocument.presentationml.template=classic7-show.desktop;
+application/vnd.ms-powerpoint=classic7-show.desktop;
+application/vnd.ms-powerpoint.presentation.macroEnabled.12=classic7-show.desktop;
+application/vnd.ms-powerpoint.slideshow.macroEnabled.12=classic7-show.desktop;
+application/vnd.ms-powerpoint.template.macroEnabled.12=classic7-show.desktop;
+application/mspowerpoint=classic7-show.desktop;
+application/powerpoint=classic7-show.desktop;
+application/x-mspowerpoint=classic7-show.desktop;

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Service
+MimeType=application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.openxmlformats-officedocument.presentationml.slideshow;application/vnd.openxmlformats-officedocument.presentationml.template;application/vnd.ms-powerpoint;application/vnd.ms-powerpoint.presentation.macroEnabled.12;application/vnd.ms-powerpoint.slideshow.macroEnabled.12;application/vnd.ms-powerpoint.template.macroEnabled.12;application/mspowerpoint;application/powerpoint;application/x-mspowerpoint;
+X-KDE-Protocols=file
+X-KDE-Priority=TopLevel
+X-KDE-StartupNotify=false
+Icon=x-office-presentation
+Actions=show;
+
+[Desktop Action show]
+Name=Show (play slide show)
+Icon=media-playback-start
+Exec=classic7-show --show %f
