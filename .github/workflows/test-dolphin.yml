@@ -43,24 +43,28 @@ jobs:
             xdotool search --class dolphin windowsize %@ 1000 640 windowmove %@ 40 30 2>/dev/null; sleep 2
             import -window root /out/$1.png; kill $p; sleep 2
           }
-          # 1) a new account
-          export HOME=/tmp/new; mkdir -p $HOME; cp -a /etc/skel/. $HOME/
-          mkdir -p $HOME/Documents $HOME/Downloads $HOME/Pictures $HOME/Music $HOME/Videos $HOME/Desktop
-          touch "$HOME/Documents/Rapport.docx" "$HOME/Documents/Tegning.pdf"; mkdir -p "$HOME/Documents/Projekter"
-          kbuildsycoca6 --noincremental >/dev/null 2>&1
-          plasma-apply-colorscheme Classic7 >/dev/null 2>&1
-          bash /usr/libexec/classic7-first-login
-          shot new-documents $HOME/Documents
-          shot new-trash trash:/
-          cp $HOME/.local/share/user-places.xbel /out/new-user-places.xbel 2>/dev/null
-          # 2) an existing account with Dolphin's own defaults + panels open, then the migration
-          export HOME=/tmp/old; mkdir -p $HOME/Documents $HOME/.config
-          touch "$HOME/Documents/Rapport.docx"
-          plasma-apply-colorscheme Classic7 >/dev/null 2>&1
-          shot old-before $HOME/Documents
-          PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7appearance as a; r=a.explorer_layout(); print(r.ok, r.notes)" >> /out/dolphin.log 2>&1
-          shot old-after $HOME/Documents
-          cp $HOME/.local/share/user-places.xbel /out/old-user-places.xbel 2>/dev/null
+          quitd() { xdotool search --class dolphin key --window %@ ctrl+q 2>/dev/null; sleep 3; pkill dolphin; sleep 1; }
+          # A) no account files at all, image defaults: what Dolphin itself saves
+          export HOME=/tmp/a; mkdir -p $HOME/Documents
+          dolphin --new-window $HOME/Documents >>/out/dolphin.log 2>&1 & sleep 8
+          import -window root /out/a.png; quitd
+          cp $HOME/.local/state/dolphinstaterc /out/a-dolphinstaterc.txt; cp $HOME/.config/dolphinrc /out/a-dolphinrc.txt
+          # B) same, after closing panels F11 (info) F4 (terminal) F7 (folders)
+          dolphin --new-window $HOME/Documents >>/out/dolphin.log 2>&1 & sleep 8
+          import -window root /out/b1.png
+          xdotool search --class dolphin key --window %@ F11 2>/dev/null; sleep 1
+          xdotool search --class dolphin key --window %@ F4 2>/dev/null; sleep 1
+          xdotool search --class dolphin key --window %@ F7 2>/dev/null; sleep 2
+          import -window root /out/b2.png; quitd
+          cp $HOME/.local/state/dolphinstaterc /out/b-dolphinstaterc.txt
+          # C) restart: are the panels still closed?
+          dolphin --new-window $HOME/Documents >>/out/dolphin.log 2>&1 & sleep 8
+          import -window root /out/c.png; quitd
+          # D) our skel state file
+          export HOME=/tmp/d; mkdir -p $HOME/Documents; cp -a /etc/skel/. $HOME/
+          cat $HOME/.local/state/dolphinstaterc > /out/d-skel-state.txt
+          dolphin --new-window $HOME/Documents >>/out/dolphin.log 2>&1 & sleep 8
+          import -window root /out/d.png; quitd
           EOI
           mkdir -p /out && chmod 777 /out
           dbus-run-session -- bash /tmp/inner.sh
@@ -71,9 +75,9 @@ jobs:
 
       - name: Save to ci-shots-dolphin
         run: |
-          cp shots/*.png shots/*.log shots/*.xbel /tmp/ 2>/dev/null || true
+          cp shots/*.png shots/*.log shots/*.xbel shots/*.txt /tmp/ 2>/dev/null || true
           git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
           git checkout --orphan ci-shots-dolphin; git rm -rfq . >/dev/null
-          cp /tmp/*.png /tmp/*.log /tmp/*.xbel . 2>/dev/null || true
+          cp /tmp/*.png /tmp/*.log /tmp/*.xbel /tmp/*.txt . 2>/dev/null || true
           git add -A; git commit -qm "Explorer render" || exit 0
           git push -f origin ci-shots-dolphin
