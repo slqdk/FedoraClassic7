@@ -194,14 +194,15 @@ test -d /usr/share/themes/Breeze
 if dnf5 -y install sddm sddm-wayland-plasma sddm-kcm; then
     systemctl disable plasmalogin.service || true
     systemctl enable --force sddm.service
-    systemctl enable classic7-sddm-accounts.service
-    chmod 0755 /usr/libexec/classic7-sddm-accounts
+    systemctl enable classic7-sddm-accounts.service classic7-sddm-keyboard.service classic7-sddm-keyboard.path
+    chmod 0755 /usr/libexec/classic7-sddm-accounts /usr/libexec/classic7-sddm-keyboard
     # a Current= in the main file would override our conf.d file
     [[ -f /etc/sddm.conf ]] && sed -i 's/^\s*Current=/#Current=/' /etc/sddm.conf
     test -f /usr/share/sddm/themes/classic7/Main.qml
     test -x /usr/bin/sddm-greeter-qt6
     [[ "$(readlink -f /etc/systemd/system/display-manager.service)" == */sddm.service ]]
     grep -q '^Current=classic7' /etc/sddm.conf.d/classic7.conf
+    systemctl is-enabled classic7-sddm-keyboard.service classic7-sddm-keyboard.path
 else
     echo "WARNING: SDDM not available; keeping Plasma Login Manager (blue background only)"
 fi

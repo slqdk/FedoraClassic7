@@ -2,3 +2,5 @@
 enable sddm.service
 disable plasmalogin.service
 enable classic7-sddm-accounts.service
+enable classic7-sddm-keyboard.service
+enable classic7-sddm-keyboard.path

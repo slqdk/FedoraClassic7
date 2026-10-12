@@ -1,0 +1,10 @@
+[Unit]
+Description=Classic 7: watch the system keyboard layout for the login screen
+
+[Path]
+# systemd-localed writes the X11 layout here (localectl set-x11-keymap)
+PathChanged=/etc/X11/xorg.conf.d/00-keyboard.conf
+PathChanged=/etc/vconsole.conf
+
+[Install]
+WantedBy=multi-user.target

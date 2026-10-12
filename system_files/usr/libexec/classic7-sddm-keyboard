@@ -1,0 +1,30 @@
+#!/usr/bin/bash
+# Classic 7: give the SDDM login screen the system keyboard layout (systemd-localed),
+# the same way System Settings > Login Screen > "Apply Plasma Settings" does: a kxkbrc in
+# SDDM's home. Runs before SDDM starts and whenever the system layout changes; the
+# desktop sets the system layout to the user's own at login (classic7-update).
+set -uo pipefail
+status="$(localectl status 2>/dev/null)"
+get() { sed -n "s/^ *X11 $1: *//p" <<<"$status" | head -n1; }
+layout="$(get Layout)"; variant="$(get Variant)"; model="$(get Model)"; options="$(get Options)"
+if [[ -z "$layout" || "$layout" == "n/a" ]]; then
+    # no X11 layout recorded: derive it from the console keymap (e.g. "dk", "de-nodeadkeys")
+    layout="$(sed -n 's/^ *VC Keymap: *//p' <<<"$status" | head -n1 | cut -d- -f1)"
+fi
+[[ -n "$layout" && "$layout" != "n/a" ]] || exit 0
+home="$(getent passwd sddm | cut -d: -f6)"; home="${home:-/var/lib/sddm}"
+install -d -m 0750 -o sddm -g sddm "$home" "$home/.config" 2>/dev/null || mkdir -p "$home/.config"
+nlay=$(tr ',' '\n' <<<"$layout" | wc -l)
+[[ -n "$variant" || "$nlay" -lt 2 ]] || variant="$(printf ',%.0s' $(seq 2 "$nlay"))"
+cat > "$home/.config/kxkbrc.new" <<KX
+[Layout]
+LayoutList=$layout
+VariantList=$variant
+Model=${model:-pc105}
+Options=$options
+ResetOldOptions=true
+Use=true
+KX
+mv -f "$home/.config/kxkbrc.new" "$home/.config/kxkbrc"
+chown sddm:sddm "$home/.config/kxkbrc" 2>/dev/null || true
+echo "login screen keyboard: $layout"

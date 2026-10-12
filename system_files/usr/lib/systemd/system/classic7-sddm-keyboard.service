@@ -1,0 +1,12 @@
+[Unit]
+Description=Classic 7: login screen keyboard layout = system keyboard layout
+After=classic7-sddm-accounts.service systemd-localed.service
+Before=sddm.service
+ConditionPathExists=/usr/lib/sysusers.d/sddm.conf
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/classic7-sddm-keyboard
+
+[Install]
+WantedBy=multi-user.target

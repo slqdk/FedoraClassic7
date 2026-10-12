@@ -1,5 +1,6 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
-# "Classic 7 was updated" message after a restart. Format: "## 2026-10-12  Desktop colour fix
+# "Classic 7 was updated" message after a restart. Format: "## 2026-10-12  Desktop colour fix, login keyboard
+- The login screen gets the keyboard layout through its own keyboard file too (as System Settings > Login Screen > "Apply Plasma Settings" does), written at boot and whenever the system layout changes.
 - The desktop no longer turns black after Appearance > Apply or an update (the colour was handed to Plasma in a format it can't read while the desktop is running).
 
 ## 2026-10-12  Clean-up, Breeze icons, no splash, no auto-lock, Danish keyboard at login, nicer Ribbon
