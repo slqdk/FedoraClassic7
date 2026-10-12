@@ -1,6 +1,10 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
+## 2026-10-12  Network icon (really), no search bar when typing on the desktop
+- The second network icon is gone after the next restart: the tray's list of entries is in a different place than the first fix assumed.
+- Typing on the desktop no longer opens the KRunner search bar (Alt+Space or Alt+F2 still open it; the Start menu search is unchanged).
+
 ## 2026-10-12  Pin to Taskbar, one network icon, Explorer layout
 - **Pin to Taskbar**: right-click a program in the Start menu > Pin to Taskbar (or Unpin from Taskbar); or drag it from the Start menu onto the icons next to Start; or right-click a program file (.desktop) in Explorer > Pin to Taskbar. Right-click a taskbar icon to remove it.
 - The second (Plasma's) network icon is now removed for good: the panel layout is fixed at login before the desktop starts.

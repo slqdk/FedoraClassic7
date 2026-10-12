@@ -451,6 +451,13 @@ def _explorer_layout_2(log: Log) -> bool:
     return res.ok
 
 
+def _no_type_to_search(log: Log) -> bool:
+    """Typing on the desktop no longer opens KRunner's search bar (Windows 7 doesn't)."""
+    ok = _kwrite("krunnerrc", ["General"], "ActivateWhenTypingOnDesktop", "false")
+    log("  desktop: typing no longer opens the search bar")
+    return ok
+
+
 # (id, function) - each runs once per account, in this order. Add new ones at the end.
 MIGRATIONS: list[tuple[str, Callable[[Log], bool]]] = [
     ("2026-10-12-no-autolock", _no_autolock),
@@ -461,6 +468,7 @@ MIGRATIONS: list[tuple[str, Callable[[Log], bool]]] = [
     ("2026-10-12-network-tray", lambda log: True),          # replaced by the one below
     ("2026-10-12-network-tray-2", _network_tray),
     ("2026-10-12-explorer-2", _explorer_layout_2),
+    ("2026-10-12-no-type-to-search", _no_type_to_search),
 ]
 
 

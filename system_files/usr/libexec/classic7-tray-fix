@@ -18,7 +18,7 @@ from pathlib import Path
 NM, OURS = "org.kde.plasma.networkmanagement", "org.classic7.network"
 CONFIG = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
 APPLETSRC = CONFIG / "plasma-org.kde.plasma.desktop-appletsrc"
-MARKER = CONFIG / "classic7" / "tray-fixed"
+MARKER = CONFIG / "classic7" / "tray-fixed-2"     # -2: the entry lists live in the tray applet's [General]
 
 
 def plasma_running() -> bool:
@@ -81,8 +81,9 @@ def fix(text: str) -> tuple[str, bool]:
     for head, lines in sections:
         if head and any(head == r or head.startswith(r[:-1] + "][") for r in remove):
             continue
-        m = re.fullmatch(r"\[Containments\]\[(\d+)\]\[General\]", head or "")
-        if m and m.group(1) in trays:
+        # the tray's entry lists: in Plasma 6 they are in the system tray applet's own
+        # [Containments][panel][Applets][tray][General] group (older: the inner containment's)
+        if head and key(lines, "extraItems") is not None:
             extra = [x for x in (key(lines, "extraItems") or "").split(",") if x and x != NM]
             if OURS not in extra:
                 extra.append(OURS)
