@@ -1,0 +1,7 @@
+# Word documents open in Write
+[Default Applications]
+application/vnd.openxmlformats-officedocument.wordprocessingml.document=classic7-write.desktop;
+application/vnd.openxmlformats-officedocument.wordprocessingml.template=classic7-write.desktop;
+application/msword=classic7-write.desktop;
+application/rtf=classic7-write.desktop;
+text/rtf=classic7-write.desktop;

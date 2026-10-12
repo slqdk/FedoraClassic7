@@ -21,6 +21,7 @@ image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomic + KDE Plas
 | Computer | Classic **Computer** window: drives as tiles with free-space bars (red when nearly full), grouped into hard disks, removable storage and network; opens with Win+E, from the desktop icon and the Start menu |
 | Right-click menus | Windows-style: **Send to ▸** (Compressed (zipped) folder, Desktop (create shortcut), Documents, Mail recipient, Removable Disk), **Create shortcut**, KDE extras hidden; desktop menu with Display Configuration and Configure Desktop and Wallpaper |
 | Command Prompt | Terminal with a built-in assistant that asks **your own** language model (Ollama or OpenAI-compatible): plain-language questions become commands you run with one click, errors get explained, risky commands are stopped by built-in rules; offline task library; default terminal (Ctrl+Alt+T) |
+| Write | Word processor in the Word 2007 style (Ribbon, page view): opens and saves .docx, .rtf and .doc, exports PDF; styles, lists, tables, pictures, headers/footers with page numbers, find/replace, spell check (Danish/English) |
 | Appearance | Start > Settings > **Appearance**: classic-style dialog with colour schemes, per-item colours, font size and live preview |
 | Gaming | Everything Bazzite ships (Steam, Lutris, GameMode, MangoHud, AMD/Mesa stack) + LACT for GPU fan/power control |
 | Updates | Atomic: whole-system updates and rollback, rebuilt daily from Bazzite |
@@ -137,6 +138,24 @@ Command line: `classic7-prompt --check`, `--set-server http://IP:11434`, `--set-
 `--ask "find big files"`, `--tasks usb`, `-e COMMAND`, `--workdir DIR`, `--hold`.
 Konsole is still installed (File > Open Konsole Here).
 
+## Write
+
+![Write](docs/write.png)
+
+Start > **Write**, or double-click a Word file (Write is the default for .docx, .doc and .rtf).
+Our own word processor laid out like Word 2007: Office button, Quick Access Toolbar, Ribbon, pages on a grey background.
+
+- **Home:** clipboard, Format Painter, font/size, bold/italic/underline/strike, sub/superscript, change case,
+  text and highlight colour, clear formatting; bullets, numbering, indents, alignment, line and paragraph spacing,
+  show ¶; Quick Styles (Normal, No Spacing, Heading 1-3, Title, Subtitle, Quote …); Find, Replace, Select.
+- **Insert:** page break, table (grid picker or dialog), picture (also paste/drag), hyperlink, header, footer,
+  page number, date and time, horizontal line, symbol.
+- **Page Layout:** margins, orientation, size (A4, Letter, A5, Legal …), breaks, Page Setup dialog.
+- **Review:** spelling (hunspell, Danish and English), word count. **View:** Print Layout / Draft.
+- Right-click: spelling suggestions, table rows/columns, picture size, links, styles.
+- **Files:** opens .docx, .doc, .rtf, .txt, .html; saves .docx (default), .rtf, .doc, .odt, .txt; exports PDF; prints.
+  Calibri and Cambria are shown with the metric-compatible Carlito and Caladea, so line breaks match Word.
+
 ## Appearance dialog
 
 ![Appearance dialog](docs/appearance-dialog.png)
@@ -204,6 +223,10 @@ Other knobs:
   "Move to Trash" keeps its KDE name, and *Share with*, *Restore previous versions*, *Paste shortcut* and the
   desktop's *Gadgets* have no equivalent. Firefox, Steam and Electron apps keep their own menus.
 - In GTK apps, theme images are recoloured by exact colour match, so a few shaded pixels can look off in non-grey schemes.
+- Write covers the everyday Word features, not all of them: no track changes, comments, footnotes,
+  text boxes, columns, tables of contents, mail merge or macros; pictures are inline only (no text wrapping);
+  one header/footer per document. Old binary .doc files open with full formatting when `wv` is installed,
+  otherwise as text with tables. ".doc" is saved in Rich Text Format, which Word opens normally.
 - Command Prompt is a small terminal of its own: no tabs, no mouse support inside full-screen programs
   (htop/mc take keyboard only), no ligatures or sixel images. Use Konsole for those.
 

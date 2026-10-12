@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=Write
+GenericName=Word Processor
+Comment=Create and edit documents (.docx, .doc, .rtf)
+Exec=classic7-write %F
+Icon=x-office-document
+Terminal=false
+Categories=Qt;Office;WordProcessor;
+Keywords=word;docx;doc;rtf;document;letter;tekstbehandling;dokument;office;
+MimeType=application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/msword;application/rtf;text/rtf;application/vnd.ms-word.document.macroEnabled.12;application/vnd.openxmlformats-officedocument.wordprocessingml.template;
+StartupWMClass=classic7-write
+Actions=NewDocument;
+
+[Desktop Action NewDocument]
+Name=New Document
+Exec=classic7-write

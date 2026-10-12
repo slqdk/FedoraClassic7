@@ -29,7 +29,7 @@ merge_ini() {
     done < "$src"
 }
 
-for f in kdeglobals kwinrc dolphinrc; do
+for f in kdeglobals kwinrc dolphinrc mimeapps.list; do
     merge_ini "/usr/share/classic7/xdg-defaults/$f" "/etc/xdg/$f"
 done
 
@@ -71,9 +71,21 @@ if ! dnf5 -y install python3-pyte; then
     dnf5 -y install python3-pip python3-wcwidth
     python3 -m pip install --no-cache-dir --prefix=/usr --no-deps pyte
 fi
+# Write (word processor): .docx via python-docx, old .doc via olefile (+ wv when available),
+# spell checking via enchant/hunspell, and metric-compatible fonts for Calibri and Cambria
+dnf5 -y install python3-docx python3-olefile || {
+    dnf5 -y install python3-pip python3-lxml
+    python3 -m pip install --no-cache-dir --prefix=/usr python-docx olefile
+}
+dnf5 -y install python3-enchant || echo "WARNING: no spell checking (python3-enchant)"
+for pkg in hunspell-da hunspell-en hunspell-en-US hunspell-en-GB google-carlito-fonts \
+           google-crosextra-caladea-fonts google-caladea-fonts wv; do
+    rpm -q "$pkg" >/dev/null 2>&1 || dnf5 -y install "$pkg" || echo "NOTE: $pkg not available"
+done
+chmod 0755 /usr/bin/classic7-write
 chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
-python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PIL, pyte"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui"
+python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PySide6.QtPrintSupport, PIL, pyte, docx, olefile"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_app"
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
 command -v udisksctl
@@ -115,6 +127,10 @@ test -f /usr/share/plasma/plasmoids/org.classic7.startmenu/contents/ui/main.qml
 test -f /usr/share/classic7/start-button-pressed.svg
 test -f /usr/share/applications/classic7-run.desktop
 test -x /usr/bin/classic7-run
+# Write
+test -x /usr/bin/classic7-write
+test -f /usr/share/applications/classic7-write.desktop
+grep -q "^application/msword=classic7-write.desktop" /etc/xdg/mimeapps.list
 
 # --- Repositories ------------------------------------------------------------------------
 # The installer ISO build (bootc-image-builder) reads the repos enabled in this image but
