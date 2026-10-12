@@ -151,7 +151,7 @@ Start > Settings > **Appearance** (or run `classic7-appearance`). Like the class
 - **Restore Default** goes back to the system theme files.
 - **Explorer tab:** applies the Classic 7 Dolphin layout and right-click menus to your account (old files kept as `.bak`; the desktop menu changes at the next login).
 
-Command line: `classic7-appearance --list`, `--apply Night --size Large`, `--reset`, `--explorer`, `--dry-run`.
+Command line: `classic7-appearance --list`, `--apply Night --size Large`, `--reset`, `--explorer`, `--taskbar` (rebuild the taskbar with Start on the left), `--dry-run`.
 
 ## Updates on the installed PC
 

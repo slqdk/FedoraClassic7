@@ -6,6 +6,7 @@
     classic7-appearance --apply NAME    apply a scheme (built-in or saved)
     classic7-appearance --size SIZE     with --apply: Normal, Large or "Extra Large"
     classic7-appearance --reset         back to Classic 7 Standard
+    classic7-appearance --taskbar       rebuild the taskbar: Start | Quick Launch | tasks | tray | clock
     classic7-appearance --explorer      give this account the Classic 7 Dolphin layout
     classic7-appearance --preview FILE  write the sample-windows preview as SVG
 Add --dry-run to print the commands instead of running them.
@@ -50,6 +51,7 @@ parser.add_argument("--apply", metavar="NAME")
 parser.add_argument("--size", choices=list(t.FONT_SIZES), default=None)
 parser.add_argument("--reset", action="store_true")
 parser.add_argument("--explorer", action="store_true")
+parser.add_argument("--taskbar", action="store_true")
 parser.add_argument("--preview", metavar="FILE")
 parser.add_argument("--dry-run", action="store_true")
 args, rest = parser.parse_known_args()
@@ -68,6 +70,8 @@ elif args.apply or args.reset:
     sys.exit(report(backend.apply(p, runner)))
 elif args.explorer:
     sys.exit(report(backend.explorer_layout(runner)))
+elif args.taskbar:
+    sys.exit(report(backend.reset_taskbar(runner)))
 elif args.preview:
     p = backend.State.load().palette
     with open(args.preview, "w") as f:

@@ -9,6 +9,7 @@ for (var j = 0; j < desktopsArray.length; j++) {
     desk.writeConfig("Color", "58,110,165");
 }
 
+// BEGIN TASKBAR (classic7-appearance --taskbar runs this part again; keep it self-contained)
 var panel = new Panel;
 panel.location = "bottom";
 panel.height = 30;
@@ -78,6 +79,7 @@ if (clock) {
     clock.currentConfigGroup = ["Appearance"];
     clock.writeConfig("showDate", false);
 }
+// END TASKBAR
 
 // Desktop right-click menu: keep Display Configuration ("Screen resolution") and
 // Configure Desktop and Wallpaper ("Personalize"); drop Edit Mode and Activities.

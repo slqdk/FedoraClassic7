@@ -268,7 +268,25 @@ class ExplorerTab(QWidget):
         row.addStretch(1)
         lay.addLayout(row)
         lay.addWidget(self.status)
+
+        bar = QLabel("<p><b>Taskbar</b><br>Put the taskbar back the Classic 7 way: Start button on the "
+                     "left, Quick Launch, task buttons, notification area and clock. Use it if the Start "
+                     "button is in the wrong place or the taskbar got changed.</p>")
+        bar.setWordWrap(True)
+        bar.setTextFormat(Qt.RichText)
+        self.bar_button = QPushButton("Restore Classic 7 &Taskbar")
+        self.bar_button.clicked.connect(self._taskbar)
+        lay.addWidget(bar)
+        row2 = QHBoxLayout()
+        row2.addWidget(self.bar_button)
+        row2.addStretch(1)
+        lay.addLayout(row2)
         lay.addStretch(1)
+
+    def _taskbar(self):
+        res = backend.reset_taskbar()
+        self.status.setText("The taskbar was rebuilt." if res.ok else "Could not rebuild the taskbar: "
+                            + "; ".join(res.notes))
 
     def _apply(self):
         QApplication.setOverrideCursor(Qt.WaitCursor)

@@ -211,43 +211,56 @@ def apply_fonts(size: int, run: Runner):
     run("gsettings", "set", "org.gnome.desktop.interface", "font-name", f"{t.UI_FONT} {size}")
 
 
+LAYOUT_JS = Path(os.environ.get(
+    "CLASSIC7_LAYOUT_JS",
+    "/usr/share/plasma/look-and-feel/org.classic7.desktop/contents/layouts/org.kde.plasma.desktop-layout.js"))
+
+
+def taskbar_js(start_button: str = SYSTEM_START_BUTTON) -> str:
+    """The taskbar part of the Classic 7 layout script, run on its own: removes the bottom
+    panel(s) and builds the Classic 7 taskbar again (Start | Quick Launch | tasks | tray | clock)."""
+    try:
+        text = LAYOUT_JS.read_text()
+        body = text[text.index("// BEGIN TASKBAR"):text.index("// END TASKBAR")]
+    except (OSError, ValueError):
+        return "// layout script not found"
+    body = body.replace('"/usr/share/classic7/start-button.svg"', json.dumps(start_button))
+    return ('panels().forEach(function (p) { if (p.location === "bottom") { p.remove(); } });\n'
+            + body)
+
+
+def reset_taskbar(runner: "Runner | None" = None) -> "Result":
+    """Rebuild this account's taskbar the Classic 7 way (fixes the Start button position)."""
+    run = runner or Runner()
+    state = State.load()
+    start = SYSTEM_START_BUTTON
+    if state.slot:
+        start = str(data_home() / t.slot_ids(state.slot, state.palette.name).start_button)
+    run_plasma_script(taskbar_js(start), run)
+    return Result(ok=not run.failures, notes=list(run.failures), commands=run.log)
+
+
 def plasma_script(start_button: str, desktop: str) -> str:
     ours = [SYSTEM_START_BUTTON, str(data_home() / "classic7")]
     return f"""
 var img = "{start_button}";
 var ours = {json.dumps(ours)};
+var rebuildTaskbar = false;
 panels().forEach(function (panel) {{
-    // The Classic 7 Start menu replaces the Classic 7-styled Kicker menu (first in the panel)
-    var hasStart = panel.widgets("org.classic7.startmenu").length > 0;
+    // A Classic 7-styled Kicker menu means a taskbar from before the Classic 7 Start menu:
+    // rebuild it (below) so the new Start button sits at the left end.
     panel.widgets("org.kde.plasma.kicker").forEach(function (w) {{
         w.currentConfigGroup = ["General"];
         var cur = String(w.readConfig("customButtonImage", ""));
         var isOurs = cur === "" || ours.some(function (o) {{ return cur.indexOf(o) !== -1; }});
-        if (!isOurs) {{
-            return;
+        if (isOurs && knownWidgetTypes.indexOf("org.classic7.startmenu") !== -1) {{
+            rebuildTaskbar = true;
+        }} else if (isOurs) {{
+            w.writeConfig("useCustomButtonImage", true);
+            w.writeConfig("customButtonImage", img);
+            w.writeConfig("showIconsRootLevel", true);
+            w.reloadConfig();
         }}
-        if (!hasStart && knownWidgetTypes.indexOf("org.classic7.startmenu") !== -1) {{
-            var favs = w.readConfig("favoriteApps", []);
-            var start = panel.addWidget("org.classic7.startmenu");
-            if (start) {{
-                start.currentConfigGroup = ["General"];
-                if (favs && favs.length) {{
-                    start.writeConfig("favoriteApps", favs);
-                }}
-                w.remove();
-                hasStart = true;
-                try {{
-                    var ids = panel.widgetIds.filter(function (i) {{ return i !== start.id; }});
-                    panel.currentConfigGroup = ["General"];
-                    panel.writeConfig("AppletOrder", [start.id].concat(ids).join(";"));
-                }} catch (e) {{}}
-                return;
-            }}
-        }}
-        w.writeConfig("useCustomButtonImage", true);
-        w.writeConfig("customButtonImage", img);
-        w.writeConfig("showIconsRootLevel", true);
-        w.reloadConfig();
     }});
     panel.widgets("org.classic7.startmenu").forEach(function (w) {{
         w.currentConfigGroup = ["General"];
@@ -281,6 +294,9 @@ desktops().forEach(function (d) {{
     d.writeConfig("Color", "{t.rgb(desktop)}");
     d.reloadConfig();
 }});
+if (rebuildTaskbar) {{
+{taskbar_js(start_button)}
+}}
 """
 
 
