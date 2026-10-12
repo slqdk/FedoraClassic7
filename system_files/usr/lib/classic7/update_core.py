@@ -384,6 +384,21 @@ def _no_splash(log: Log) -> bool:
     return ok
 
 
+def _network_tray(log: Log) -> bool:
+    """Tray: the Classic 7 network icon (IP address shown at once) instead of Plasma's."""
+    snippet = SHARE / "tray-network.js"
+    try:
+        js = snippet.read_text()
+    except OSError:
+        return False
+    js += '\npanels().forEach(function (p) { p.widgets("org.kde.plasma.systemtray").forEach(classic7Tray); });\n'
+    r = subprocess.run(["dbus-send", "--session", "--dest=org.kde.plasmashell", "--type=method_call",
+                        "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript", "string:" + js],
+                       capture_output=True, timeout=30)
+    log("  network icon: Classic 7 (shows the IP address)")
+    return r.returncode == 0
+
+
 # (id, function) - each runs once per account, in this order. Add new ones at the end.
 MIGRATIONS: list[tuple[str, Callable[[Log], bool]]] = [
     ("2026-10-12-no-autolock", _no_autolock),
@@ -391,6 +406,7 @@ MIGRATIONS: list[tuple[str, Callable[[Log], bool]]] = [
     ("2026-10-12-breeze-icons", _breeze_icons),
     ("2026-10-12-small-desktop-icons", _small_desktop_icons),
     ("2026-10-12-no-splash", _no_splash),
+    ("2026-10-12-network-tray", _network_tray),
 ]
 
 

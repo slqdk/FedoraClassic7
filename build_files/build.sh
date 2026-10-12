@@ -86,7 +86,7 @@ for pkg in hunspell-da hunspell-en hunspell-en-US hunspell-en-GB google-carlito-
            google-crosextra-caladea-fonts google-caladea-fonts wv; do
     rpm -q "$pkg" >/dev/null 2>&1 || dnf5 -y install "$pkg" || echo "NOTE: $pkg not available"
 done
-chmod 0755 /usr/bin/classic7-write /usr/libexec/classic7-update-system
+chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-network /usr/libexec/classic7-update-system
 # Classic 7 Update: which build this is (the updater compares it at login to bring each
 # account's settings up to date after a new version starts)
 base="$(. /usr/lib/os-release; echo "${VERSION_ID:-}${OSTREE_VERSION:+ ($OSTREE_VERSION)}")"
@@ -95,7 +95,7 @@ printf '{"build": "%s", "base": "%s", "content": "%s"}\n' "$(date -u +%Y-%m-%dT%
     "$base" "$content" > /usr/share/classic7/build-info.json
 chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
 python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PySide6.QtPrintSupport, PIL, pyte, docx, olefile"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_app, update_core, update_gui"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_app, update_core, update_gui, netconf, netconn_gui"
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
 command -v udisksctl
@@ -144,6 +144,13 @@ test -x /usr/bin/classic7-run
 test -x /usr/bin/classic7-write
 test -f /usr/share/applications/classic7-write.desktop
 grep -q "^application/msword=classic7-write.desktop" /etc/xdg/mimeapps.list
+# Network Connections and the network popup
+test -x /usr/bin/classic7-network
+test -f /usr/share/applications/classic7-network.desktop
+test -f /usr/share/plasma/plasmoids/org.classic7.network/contents/ui/main.qml
+test -f /usr/share/classic7/tray-network.js
+command -v nmcli
+/usr/bin/classic7-network --help >/dev/null
 # Classic 7 Update
 test -x /usr/libexec/classic7-update-system
 test -f /usr/share/polkit-1/actions/org.classic7.update.policy

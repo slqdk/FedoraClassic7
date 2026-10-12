@@ -31,6 +31,13 @@ ALIASES = {
     "devmgmt.msc": ["systemsettings", "kcm_about-distro"],
     "computer": ["classic7-computer"],
     "appwiz.cpl": ["bazaar"],
+    "ncpa.cpl": ["classic7-network"],
+    "control netconnections": ["classic7-network"],
+    "write": ["classic7-write"],
+    "winword": ["classic7-write"],
+    "wordpad": ["classic7-write"],
+    "wuapp": ["classic7-update", "--gui"],
+    "control update": ["classic7-update", "--gui"],
 }
 
 

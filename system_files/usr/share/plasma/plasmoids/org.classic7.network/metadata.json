@@ -1,0 +1,18 @@
+{
+    "KPlugin": {
+        "Authors": [{ "Name": "Classic 7" }],
+        "Category": "System Information",
+        "Description": "Network status with the IP address shown at once, and quick access to the adapter settings",
+        "EnabledByDefault": true,
+        "FormFactors": ["desktop"],
+        "Icon": "preferences-system-network",
+        "Id": "org.classic7.network",
+        "License": "GPL-2.0-or-later",
+        "Name": "Network (Classic 7)",
+        "Version": "1.0"
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-KDE-Keywords": "network,internet,ethernet,wireless,wifi,wlan,ip,dhcp,netværk",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-NotificationAreaCategory": "Hardware"
+}

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Network Connections
+GenericName=Network adapter settings
+Comment=See your network adapters and change the IP address, subnet mask, gateway and DNS (or use DHCP)
+Exec=classic7-network
+Icon=preferences-system-network
+Terminal=false
+Categories=Qt;System;Settings;Network;
+Keywords=network;ip;ipv4;dhcp;static;address;gateway;dns;subnet;ncpa.cpl;adapter;netværk;ip-adresse;
+StartupWMClass=classic7-network

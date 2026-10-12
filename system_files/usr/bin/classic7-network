@@ -1,0 +1,46 @@
+#!/usr/bin/python3
+"""Network Connections (ncpa.cpl): network adapters, their status, and the
+Internet Protocol Version 4 (TCP/IPv4) Properties (DHCP or a fixed IP address).
+
+    classic7-network                 the Network Connections window
+    classic7-network --status DEV    straight to the Status window of an adapter (e.g. enp3s0)
+    classic7-network --ipv4 DEV      straight to its TCP/IPv4 Properties
+    classic7-network --list          adapters and addresses as text
+    classic7-network --json          the same as JSON (used by the network popup)
+"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+if __name__ == "__main__":
+    args = sys.argv[1:]
+    if args[:1] in (["-h"], ["--help"]):
+        print(__doc__.strip())
+        sys.exit(0)
+    if args[:1] == ["--list"]:
+        import netconf as nc
+        for a in nc.adapters():
+            print(f"{a.title}  [{a.device}]  {a.status_text}")
+            for ip, pre in a.ipv4:
+                print(f"    IPv4 {ip} / {nc.prefix_to_mask(pre)}")
+            if a.gateway:
+                print(f"    Gateway {a.gateway}")
+            if a.dns:
+                print(f"    DNS {', '.join(a.dns)}")
+        sys.exit(0)
+    if args[:1] == ["--json"]:
+        import json
+        import netconf as nc
+        try:
+            items = nc.adapters()
+        except nc.NetError:
+            items = []
+        print(json.dumps({a.device: {
+            "title": a.title, "state": a.state, "status": a.status_text,
+            "ipv4": [[ip, nc.prefix_to_mask(pre), pre] for ip, pre in a.ipv4],
+            "gateway": a.gateway, "dns": a.dns, "mac": a.mac,
+            "speed": nc.human_speed(a.speed_mbit), "dhcp": bool(a.dhcp)} for a in items}))
+        sys.exit(0)
+    from netconn_gui import main
+    sys.exit(main(args))

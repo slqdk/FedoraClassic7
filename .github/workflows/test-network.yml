@@ -1,0 +1,73 @@
+# Renders the Classic 7 network applet from this branch inside the published image
+# (Xvfb + plasmawindowed, with a real NetworkManager in the container) and saves a
+# screenshot plus the logs to the ci-shots-network branch.
+name: Test network applet
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Render in the image
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/fedoraclassic7:latest"
+          mkdir -p shots
+          cat > shots/run.sh <<'EOS'
+          set -x
+          dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool >/dev/null 2>&1 || true
+          cp -a /src/system_files/usr/share/plasma/plasmoids/. /usr/share/plasma/plasmoids/
+          cp -a /src/system_files/usr/lib/classic7/. /usr/lib/classic7/
+          cp -a /src/system_files/usr/bin/classic7-network /usr/bin/
+          cp -a /src/system_files/usr/share/plasma/desktoptheme/. /usr/share/plasma/desktoptheme/
+          chmod +x /usr/bin/classic7-network
+          # a system bus and NetworkManager, so the applet has real data
+          mkdir -p /run/dbus && dbus-daemon --system --fork
+          (NetworkManager --no-daemon > /out/nm.log 2>&1 &)
+          sleep 6
+          nmcli device status > /out/nmcli.txt 2>&1
+          /usr/bin/classic7-network --json > /out/network.json 2>&1
+          /usr/bin/classic7-network --list >> /out/nmcli.txt 2>&1
+          cat > /tmp/inner.sh <<'EOI'
+          export HOME=/tmp/home XDG_RUNTIME_DIR=/tmp/xdg-root DISPLAY=:99 QT_QPA_PLATFORM=xcb
+          mkdir -p $HOME/.config $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
+          Xvfb :99 -screen 0 1024x768x24 >/dev/null 2>&1 &
+          sleep 2
+          kbuildsycoca6 --noincremental > /out/sycoca.log 2>&1
+          plasma-apply-colorscheme Classic7 >> /out/sycoca.log 2>&1
+          plasma-apply-desktoptheme classic7 >> /out/sycoca.log 2>&1
+          export XDG_CURRENT_DESKTOP=KDE KDE_FULL_SESSION=true KDE_SESSION_VERSION=6
+          export QT_LOGGING_RULES="qml=true;js=true"
+          plasmawindowed org.classic7.network > /out/plasmawindowed.log 2>&1 &
+          sleep 15
+          import -window root /out/network.png
+          pkill plasmawindowed
+          sleep 1
+          EOI
+          mkdir -p /out && chmod 777 /out
+          dbus-run-session -- bash /tmp/inner.sh
+          EOS
+          sudo podman run --rm --privileged -v "$PWD:/src:ro" -v "$PWD/shots:/out" "$IMAGE" bash /out/run.sh > shots/container.log 2>&1 || true
+          ls -la shots
+          tail -n 60 shots/plasmawindowed.log || true
+          msg="$( (cat shots/nmcli.txt; echo ---; grep -iE 'qml|error|warning|cannot|undefined|not a type|unavailable' shots/plasmawindowed.log | grep -v 'kf\.' | head -40) | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
+          echo "::warning title=QML log::${msg:-no messages}"
+
+      - name: Save screenshots to the ci-shots-network branch
+        run: |
+          cp shots/*.png shots/*.log shots/*.txt shots/*.json /tmp/ 2>/dev/null || true
+          git config user.name "github-actions"
+          git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan ci-shots-network
+          git rm -rfq . >/dev/null
+          cp /tmp/*.png /tmp/*.log /tmp/*.txt /tmp/*.json . 2>/dev/null || true
+          git add -A
+          git commit -qm "Network applet render ${GITHUB_SHA::7}" || exit 0
+          git push -f origin ci-shots-network
