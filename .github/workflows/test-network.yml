@@ -54,6 +54,10 @@ jobs:
           plasmawindowed org.classic7.network > /out/plasmawindowed.log 2>&1 &
           sleep 15
           import -window root /out/network.png
+          # the IP Settings... button must open the TCP/IPv4 dialog
+          xdotool mousemove 141 149 click 1; sleep 6
+          import -window root /out/ipv4-button.png
+          pkill -f netconn_gui; pkill -f classic7-network
           pkill plasmawindowed
           sleep 1
           EOI
