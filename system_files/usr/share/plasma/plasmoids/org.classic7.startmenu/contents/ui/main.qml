@@ -16,6 +16,7 @@ import org.kde.plasma.core as PlasmaCore
 import org.kde.kirigami as Kirigami
 import org.kde.coreaddons as KCoreAddons
 import org.kde.plasma.private.kicker as Kicker
+import org.kde.plasma.plasma5support as P5Support
 
 PlasmoidItem {
     id: root
@@ -118,7 +119,40 @@ PlasmoidItem {
         return Plasmoid.configuration.favoriteApps.indexOf(favoriteId) !== -1;
     }
 
+    // ---- taskbar (Quick Launch) pins: "Pin to Taskbar" in the right-click menu ----------
+    property var taskbarUrls: []
+    function fileName(url) {
+        return decodeURIComponent(String(url || "").split("/").pop());
+    }
+    function isOnTaskbar(url) {
+        const name = fileName(url);
+        return name !== "" && taskbarUrls.some(u => fileName(u) === name);
+    }
+    function pinToTaskbar(url, add) {
+        if (!url) {
+            return;
+        }
+        const name = fileName(url);
+        taskbarUrls = add ? taskbarUrls.concat([String(url)]) : taskbarUrls.filter(u => fileName(u) !== name);
+        shell.connectSource("classic7-taskbar-pin " + (add ? "--add" : "--remove") + " '"
+                            + String(url).replace(/'/g, "") + "' # " + Date.now());
+    }
+    P5Support.DataSource {
+        id: shell
+        engine: "executable"
+        connectedSources: []
+        onNewData: (source, data) => {
+            if (source.indexOf("classic7-taskbar-pin --list") === 0) {
+                root.taskbarUrls = String(data["stdout"] || "").split("\n").filter(u => u.length > 0);
+            }
+            disconnectSource(source);
+        }
+    }
+
     onExpandedChanged: {
+        if (expanded) {
+            shell.connectSource("classic7-taskbar-pin --list # " + Date.now());
+        }
         if (!expanded) {
             runnerModel.query = "";
             reset();

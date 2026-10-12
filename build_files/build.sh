@@ -90,7 +90,10 @@ for pkg in hunspell-da hunspell-en hunspell-en-US hunspell-en-GB google-carlito-
            google-crosextra-caladea-fonts google-caladea-fonts wv; do
     rpm -q "$pkg" >/dev/null 2>&1 || dnf5 -y install "$pkg" || echo "NOTE: $pkg not available"
 done
-chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-mail /usr/bin/classic7-network /usr/bin/classic7-netdrive /usr/libexec/classic7-update-system /usr/libexec/classic7-netdrive-helper
+chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-mail /usr/bin/classic7-network /usr/bin/classic7-netdrive /usr/libexec/classic7-update-system /usr/libexec/classic7-netdrive-helper \
+    /usr/bin/classic7-taskbar-pin /usr/libexec/classic7-tray-fix
+# one network icon in the tray: fixes the saved panel layout at login, before Plasma starts
+systemctl --global enable classic7-tray-fix.service
 # Classic 7 Update: which build this is (the updater compares it at login to bring each
 # account's settings up to date after a new version starts)
 base="$(. /usr/lib/os-release; echo "${VERSION_ID:-}${OSTREE_VERSION:+ ($OSTREE_VERSION)}")"
@@ -150,6 +153,9 @@ test -x /usr/bin/classic7-write
 test -f /usr/share/applications/classic7-write.desktop
 grep -q "^application/msword=classic7-write.desktop" /etc/xdg/mimeapps.list
 test -f /usr/share/kio/servicemenus/classic7-write-pdf.desktop
+test -f /usr/share/kio/servicemenus/classic7-taskbar-pin.desktop
+/usr/bin/classic7-taskbar-pin --help >/dev/null
+test -L /etc/systemd/user/plasma-core.target.wants/classic7-tray-fix.service
 PYTHONPATH=/usr/lib/classic7 python3 -c "import write_pdf"
 # Mail
 test -x /usr/bin/classic7-mail

@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Service
+MimeType=application/x-desktop;
+X-KDE-Protocols=file,desktop
+X-KDE-Priority=TopLevel
+X-KDE-StartupNotify=false
+Icon=window-pin
+Actions=pin_to_taskbar
+
+[Desktop Action pin_to_taskbar]
+Name=Pin to Taskbar
+Icon=window-pin
+Exec=classic7-taskbar-pin %F

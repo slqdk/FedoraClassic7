@@ -26,7 +26,7 @@ jobs:
           cp -a /src/system_files/usr/share/plasma/plasmoids/. /usr/share/plasma/plasmoids/
           cp -a /src/system_files/usr/share/applications/. /usr/share/applications/
           cp -a /src/system_files/usr/share/classic7/. /usr/share/classic7/
-          cp -a /src/system_files/usr/bin/classic7-run /usr/bin/
+          cp -a /src/system_files/usr/bin/classic7-run /src/system_files/usr/bin/classic7-taskbar-pin /usr/bin/
           cat > /tmp/inner.sh <<'EOI'
           export HOME=/tmp/home XDG_RUNTIME_DIR=/tmp/xdg-root DISPLAY=:99 QT_QPA_PLATFORM=xcb
           mkdir -p $HOME $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
@@ -48,6 +48,12 @@ jobs:
           xdotool mousemove 60 40 click 1
           sleep 5
           import -window root /out/startmenu.png
+          # right-click a pinned program: Pin to Taskbar / Unpin from Start Menu
+          xdotool mousemove 100 221 click 3
+          sleep 2
+          import -window root /out/pinmenu.png
+          xdotool key Escape
+          sleep 1
           # type a search (the search field has focus)
           xdotool type --delay 80 "term"
           sleep 5

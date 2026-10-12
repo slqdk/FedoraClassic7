@@ -44,6 +44,8 @@ ListView {
         iconSize: list.iconSize
         arrow: list.folders && (model.hasChildren ?? false)
         current: ListView.isCurrentItem && list.activeFocus
+        // programs can be dragged to the Quick Launch icons on the taskbar (or the desktop)
+        dragUrl: (model.hasChildren ?? false) ? "" : String(model.url ?? "")
         onActivated: {
             if (list.folders && (model.hasChildren ?? false)) {
                 list.startMenu.openFolder(list.model, index, model.display);
@@ -56,6 +58,7 @@ ListView {
                 return;
             }
             list.contextMenu.favoriteId = model.favoriteId;
+            list.contextMenu.url = String(model.url ?? "");
             list.contextMenu.visualParent = row;
             list.contextMenu.open(x, y);
         }

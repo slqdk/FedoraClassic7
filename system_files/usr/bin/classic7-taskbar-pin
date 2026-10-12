@@ -1,0 +1,129 @@
+#!/usr/bin/python3
+"""Pin programs to the taskbar (the Quick Launch icons next to Start), like Windows'
+"Pin to Taskbar".
+
+    classic7-taskbar-pin PROGRAM            pin (a .desktop file, its path, URL or id)
+    classic7-taskbar-pin --add PROGRAM      the same
+    classic7-taskbar-pin --remove PROGRAM   unpin
+    classic7-taskbar-pin --list             what is pinned (file URLs)
+"""
+import json
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+from urllib.parse import quote, unquote
+
+CONFIG = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
+APPLETSRC = CONFIG / "plasma-org.kde.plasma.desktop-appletsrc"
+
+
+def data_dirs() -> list[Path]:
+    home = Path(os.environ.get("XDG_DATA_HOME") or Path.home() / ".local/share")
+    dirs = [home] + [Path(d) for d in (os.environ.get("XDG_DATA_DIRS") or "/usr/local/share:/usr/share").split(":") if d]
+    for extra in (home / "flatpak/exports/share", Path("/var/lib/flatpak/exports/share")):
+        if extra not in dirs:
+            dirs.append(extra)
+    return dirs
+
+
+def resolve(program: str) -> str:
+    """-> file:// URL of the program's .desktop file."""
+    p = program.strip()
+    if p.startswith("file://"):
+        p = unquote(p[7:])
+    p = re.sub(r"^applications:", "", p)
+    if os.path.isabs(p) or os.path.exists(p):
+        path = Path(p).resolve()
+        if path.is_file():
+            return "file://" + quote(str(path))
+        raise SystemExit(f"classic7-taskbar-pin: {program} not found")
+    name = p if p.endswith(".desktop") else p + ".desktop"
+    for d in data_dirs():
+        cand = d / "applications" / name
+        if cand.is_file():
+            return "file://" + quote(str(cand))
+        # ids like kde-foo.desktop may live in applications/kde/foo.desktop
+        if "-" in name:
+            sub = d / "applications" / name.replace("-", "/", 1)
+            if sub.is_file():
+                return "file://" + quote(str(sub))
+    raise SystemExit(f"classic7-taskbar-pin: no program called {program}")
+
+
+def pinned() -> list[str]:
+    """launcherUrls of the Quick Launch widgets, from the saved panel layout."""
+    try:
+        text = APPLETSRC.read_text(errors="replace")
+    except OSError:
+        return []
+    groups, cur = {}, None
+    for line in text.splitlines():
+        if line.startswith("["):
+            cur = line.strip()
+            groups.setdefault(cur, {})
+        elif cur and "=" in line:
+            k, v = line.split("=", 1)
+            groups[cur][k] = v
+    out = []
+    for head, kv in groups.items():
+        if kv.get("plugin") == "org.kde.plasma.quicklaunch":
+            cfg = groups.get(head + "[Configuration][General]", {})
+            for u in re.split(r"(?<!\\),", cfg.get("launcherUrls", "")):
+                u = u.replace("\\,", ",").strip()
+                if u and u not in out:
+                    out.append(u)
+    return out
+
+
+def _same(a: str, b: str) -> bool:
+    return Path(unquote(a.replace("file://", ""))).name == Path(unquote(b.replace("file://", ""))).name
+
+
+def change(url: str, add: bool) -> bool:
+    js = """
+var url = %s, add = %s, done = false;
+panels().forEach(function (p) {
+    p.widgets("org.kde.plasma.quicklaunch").forEach(function (w) {
+        if (done) return;
+        w.currentConfigGroup = ["General"];
+        var l = w.readConfig("launcherUrls", []);
+        if (typeof l === "string") l = l ? l.split(",") : [];
+        var name = url.split("/").pop();
+        var has = l.filter(function (u) { return String(u).split("/").pop() === name; });
+        if (add && has.length === 0) l.push(url);
+        if (!add) l = l.filter(function (u) { return String(u).split("/").pop() !== name; });
+        w.writeConfig("launcherUrls", l);
+        w.reloadConfig();
+        done = true;
+    });
+});
+""" % (json.dumps(url), "true" if add else "false")
+    r = subprocess.run(["dbus-send", "--session", "--dest=org.kde.plasmashell", "--type=method_call",
+                        "--print-reply", "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript", "string:" + js],
+                       capture_output=True, text=True, timeout=20)
+    return r.returncode == 0
+
+
+def main(argv) -> int:
+    if not argv or argv[0] in ("-h", "--help"):
+        print(__doc__.strip())
+        return 0
+    if argv[0] == "--list":
+        print("\n".join(pinned()))
+        return 0
+    add = True
+    if argv[0] in ("--add", "--remove"):
+        add = argv[0] == "--add"
+        argv = argv[1:]
+    ok = True
+    for prog in argv:
+        ok &= change(resolve(prog), add)
+    if not ok:
+        print("classic7-taskbar-pin: the taskbar could not be changed (is the desktop running?)", file=sys.stderr)
+    return 0 if ok else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

@@ -123,6 +123,14 @@ FocusScope {
     PlasmaExtras.Menu {
         id: pinMenu
         property string favoriteId: ""
+        property string url: ""          // the program's .desktop file
+        readonly property bool program: url.endsWith(".desktop")
+        PlasmaExtras.MenuItem {
+            text: root.isOnTaskbar(pinMenu.url) ? i18n("Unpin from Taskbar") : i18n("Pin to Taskbar")
+            icon: root.isOnTaskbar(pinMenu.url) ? "window-unpin" : "window-pin"
+            visible: pinMenu.program
+            onClicked: root.pinToTaskbar(pinMenu.url, !root.isOnTaskbar(pinMenu.url))
+        }
         PlasmaExtras.MenuItem {
             text: root.isPinned(pinMenu.favoriteId) ? i18n("Unpin from Start Menu") : i18n("Pin to Start Menu")
             icon: root.isPinned(pinMenu.favoriteId) ? "window-unpin" : "window-pin"

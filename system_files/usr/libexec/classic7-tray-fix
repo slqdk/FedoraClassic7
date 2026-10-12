@@ -1,0 +1,136 @@
+#!/usr/bin/python3
+"""Classic 7: one network icon in the system tray.
+
+Runs at login before Plasma's desktop starts (classic7-tray-fix.service) and edits the saved
+panel layout directly: Plasma's own network applet is removed from the system tray(s),
+Classic 7's network icon is kept once, and the tray's entry lists say so. Done once per
+account (~/.config/classic7/tray-fixed); doing it while Plasma runs doesn't stick, because
+Plasma writes its in-memory tray list back.
+"""
+import os
+import re
+import shutil
+import subprocess
+import sys
+from pathlib import Path
+
+NM, OURS = "org.kde.plasma.networkmanagement", "org.classic7.network"
+CONFIG = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
+APPLETSRC = CONFIG / "plasma-org.kde.plasma.desktop-appletsrc"
+MARKER = CONFIG / "classic7" / "tray-fixed"
+
+
+def plasma_running() -> bool:
+    return subprocess.run(["pgrep", "-u", str(os.getuid()), "-x", "plasmashell"],
+                          capture_output=True).returncode == 0
+
+
+def parse(text: str):
+    """[(group header or None, [lines])] in file order."""
+    sections, cur = [], (None, [])
+    for line in text.splitlines():
+        if line.startswith("[") and line.rstrip().endswith("]"):
+            sections.append(cur)
+            cur = (line.rstrip(), [])
+        else:
+            cur[1].append(line)
+    sections.append(cur)
+    return sections
+
+
+def key(lines, name):
+    for ln in lines:
+        if ln.startswith(name + "="):
+            return ln.split("=", 1)[1]
+    return None
+
+
+def set_key(lines, name, value):
+    for i, ln in enumerate(lines):
+        if ln.startswith(name + "="):
+            lines[i] = f"{name}={value}"
+            return
+    # before trailing blank lines
+    i = len(lines)
+    while i > 0 and not lines[i - 1].strip():
+        i -= 1
+    lines.insert(i, f"{name}={value}")
+
+
+def fix(text: str) -> tuple[str, bool]:
+    sections = parse(text)
+    trays = {key(lines, "SystrayContainmentId") for _h, lines in sections if key(lines, "SystrayContainmentId")}
+    trays.discard(None)
+    if not trays:
+        return text, False
+    remove: set[str] = set()          # "[Containments][8][Applets][20]" prefixes
+    for tray in trays:
+        ours_seen = False
+        for head, lines in sections:
+            m = re.fullmatch(rf"\[Containments\]\[{re.escape(tray)}\]\[Applets\]\[(\d+)\]", head or "")
+            if not m:
+                continue
+            plugin = key(lines, "plugin")
+            if plugin == NM or (plugin == OURS and ours_seen):
+                remove.add(head)
+            elif plugin == OURS:
+                ours_seen = True
+    changed = bool(remove)
+    out = []
+    for head, lines in sections:
+        if head and any(head == r or head.startswith(r[:-1] + "][") for r in remove):
+            continue
+        m = re.fullmatch(r"\[Containments\]\[(\d+)\]\[General\]", head or "")
+        if m and m.group(1) in trays:
+            extra = [x for x in (key(lines, "extraItems") or "").split(",") if x and x != NM]
+            if OURS not in extra:
+                extra.append(OURS)
+            known = [x for x in (key(lines, "knownItems") or "").split(",") if x]
+            for x in (NM, OURS):
+                if x not in known:
+                    known.append(x)
+            new_extra, new_known = ",".join(extra), ",".join(known)
+            if key(lines, "extraItems") != new_extra or key(lines, "knownItems") != new_known:
+                set_key(lines, "extraItems", new_extra)
+                set_key(lines, "knownItems", new_known)
+                changed = True
+        out.append((head, lines))
+    if not changed:
+        return text, False
+    body = []
+    for head, lines in out:
+        if head:
+            body.append(head)
+        body += lines
+    return "\n".join(body).rstrip("\n") + "\n", True
+
+
+def main() -> int:
+    force = "--force" in sys.argv
+    if MARKER.exists() and not force:
+        return 0
+    if not Path(f"/usr/share/plasma/plasmoids/{OURS}").is_dir():
+        return 0
+    if plasma_running() and not force:
+        print("classic7-tray-fix: Plasma is running; the change is made at the next login")
+        return 0
+    try:
+        text = APPLETSRC.read_text()
+    except OSError:
+        return 0                       # new account: the Classic 7 layout is created later
+    new, changed = fix(text)
+    if changed:
+        backup = APPLETSRC.with_name(APPLETSRC.name + ".before-tray-fix")
+        if not backup.exists():
+            shutil.copy2(APPLETSRC, backup)
+        tmp = APPLETSRC.with_name(APPLETSRC.name + ".tmp")
+        tmp.write_text(new)
+        tmp.replace(APPLETSRC)
+        print("classic7-tray-fix: removed Plasma's network icon from the system tray")
+    MARKER.parent.mkdir(parents=True, exist_ok=True)
+    MARKER.write_text("1\n")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
