@@ -16,7 +16,7 @@ from pathlib import Path
 
 NMCLI = os.environ.get("CLASSIC7_NMCLI", "nmcli")
 SYS_NET = Path(os.environ.get("CLASSIC7_SYS_NET", "/sys/class/net"))
-HIDDEN_TYPES = {"loopback", "wifi-p2p", "tun", "dummy"}
+HIDDEN_TYPES = {"loopback", "wifi-p2p", "tun"} | (set() if os.environ.get("CLASSIC7_NET_SHOW_DUMMY") else {"dummy"})
 
 
 class NetError(Exception):

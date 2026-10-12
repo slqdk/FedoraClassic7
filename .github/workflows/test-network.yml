@@ -37,6 +37,7 @@ jobs:
             ipv4.addresses 30.11.11.194/16 ipv4.gateway 30.11.0.1 ipv4.dns 30.11.0.1 ipv6.method disabled >> /out/nmcli.txt 2>&1
           nmcli connection up "Wired connection 1" >> /out/nmcli.txt 2>&1
           sleep 3
+          export CLASSIC7_NET_SHOW_DUMMY=1     # the test adapter below is a dummy interface
           nmcli device status > /out/nmcli.txt 2>&1
           /usr/bin/classic7-network --json > /out/network.json 2>&1
           /usr/bin/classic7-network --list >> /out/nmcli.txt 2>&1
