@@ -1,0 +1,42 @@
+set -x
+dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool >/dev/null 2>&1 || true
+cp -a /src/system_files/usr/share/plasma/plasmoids/. /usr/share/plasma/plasmoids/
+cp -a /src/system_files/usr/lib/classic7/. /usr/lib/classic7/
+cp -a /src/system_files/usr/bin/classic7-network /usr/bin/
+cp -a /src/system_files/usr/share/plasma/desktoptheme/. /usr/share/plasma/desktoptheme/
+chmod +x /usr/bin/classic7-network
+# a system bus and NetworkManager, so the applet has real data
+mkdir -p /run/dbus && dbus-daemon --system --fork
+(NetworkManager --no-daemon > /out/nm.log 2>&1 &)
+sleep 6
+# a connected adapter like the VM's (a dummy interface with a fixed address)
+nmcli connection add type dummy ifname dummy0 con-name "Wired connection 1" ipv4.method manual \
+  ipv4.addresses 30.11.11.194/16 ipv4.gateway 30.11.0.1 ipv4.dns 30.11.0.1 ipv6.method disabled >> /out/nmcli.txt 2>&1
+nmcli connection up "Wired connection 1" >> /out/nmcli.txt 2>&1
+sleep 3
+export CLASSIC7_NET_SHOW_DUMMY=1     # the test adapter below is a dummy interface
+nmcli device status > /out/nmcli.txt 2>&1
+/usr/bin/classic7-network --json > /out/network.json 2>&1
+/usr/bin/classic7-network --list >> /out/nmcli.txt 2>&1
+cat > /tmp/inner.sh <<'EOI'
+export HOME=/tmp/home XDG_RUNTIME_DIR=/tmp/xdg-root DISPLAY=:99 QT_QPA_PLATFORM=xcb
+mkdir -p $HOME/.config $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
+Xvfb :99 -screen 0 1024x768x24 >/dev/null 2>&1 &
+sleep 2
+kbuildsycoca6 --noincremental > /out/sycoca.log 2>&1
+plasma-apply-colorscheme Classic7 >> /out/sycoca.log 2>&1
+plasma-apply-desktoptheme classic7 >> /out/sycoca.log 2>&1
+export XDG_CURRENT_DESKTOP=KDE KDE_FULL_SESSION=true KDE_SESSION_VERSION=6
+export QT_LOGGING_RULES="qml=true;js=true"
+plasmawindowed org.classic7.network > /out/plasmawindowed.log 2>&1 &
+sleep 15
+import -window root /out/network.png
+# the IP Settings... button must open the TCP/IPv4 dialog
+xdotool mousemove 141 149 click 1; sleep 6
+import -window root /out/ipv4-button.png
+pkill -f netconn_gui; pkill -f classic7-network
+pkill plasmawindowed
+sleep 1
+EOI
+mkdir -p /out && chmod 777 /out
+dbus-run-session -- bash /tmp/inner.sh

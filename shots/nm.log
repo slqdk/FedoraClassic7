@@ -1,0 +1,2 @@
+
+(NetworkManager:71): nm-CRITICAL **: 12:01:21.009: ((../src/libnm-systemd-core/src/libsystemd/sd-event/sd-event.c:4458)): assertion '<dropped>' failed

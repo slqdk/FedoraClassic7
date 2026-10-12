@@ -1,0 +1,11 @@
+DEVICE  TYPE      STATE      CONNECTION         
+dummy0  dummy     connected  Wired connection 1 
+eth0    ethernet  unmanaged  --                 
+lo      loopback  unmanaged  --                 
+Wired connection 1  [dummy0]  Connected · 30.11.11.194
+    IPv4 30.11.11.194 / 255.255.0.0
+    Gateway 30.11.0.1
+    DNS 30.11.0.1
+Local Area Connection  [eth0]  Not managed
+    IPv4 10.88.0.2 / 255.255.0.0
+    Gateway 10.88.0.1
