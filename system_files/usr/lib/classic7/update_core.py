@@ -442,6 +442,15 @@ def _network_tray(log: Log) -> bool:
     return False
 
 
+def _explorer_layout_2(log: Log) -> bool:
+    """Explorer (Dolphin) like Windows 7: no menu bar, only the navigation pane on the left
+    (no Folders/Information/Terminal panels), no Recent/Search For/Tags sections."""
+    import classic7appearance as backend
+    res = backend.explorer_layout()
+    log("  Explorer: Windows 7 layout (old files kept as .bak)")
+    return res.ok
+
+
 # (id, function) - each runs once per account, in this order. Add new ones at the end.
 MIGRATIONS: list[tuple[str, Callable[[Log], bool]]] = [
     ("2026-10-12-no-autolock", _no_autolock),
@@ -451,6 +460,7 @@ MIGRATIONS: list[tuple[str, Callable[[Log], bool]]] = [
     ("2026-10-12-no-splash", _no_splash),
     ("2026-10-12-network-tray", lambda log: True),          # replaced by the one below
     ("2026-10-12-network-tray-2", _network_tray),
+    ("2026-10-12-explorer-2", _explorer_layout_2),
 ]
 
 

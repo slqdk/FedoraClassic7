@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Generate Dolphin's saved window layout (QMainWindow state) for the Classic 7 Explorer look:
-  - left: Places on top, Folders tree below (like the Windows 7 navigation pane)
+  - left: Places only, like the Windows 7 navigation pane (Folders tree below it, hidden; F7)
   - Information, Terminal panels hidden
   - toolbars: mainToolBar (Back/Forward/Up + address bar), then commandBar on its own row
 
@@ -50,8 +50,9 @@ terminal = dock("terminalDock", Qt.BottomDockWidgetArea)
 
 win.show()
 app.processEvents()
-win.resizeDocks([places], [230], Qt.Horizontal)
+win.resizeDocks([places], [210], Qt.Horizontal)
 win.resizeDocks([places, folders], [230, 330], Qt.Vertical)
+folders.hide()
 info.hide()
 terminal.hide()
 app.processEvents()

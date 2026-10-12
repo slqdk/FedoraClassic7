@@ -13,12 +13,17 @@ IconSize=16
 PreviewSize=16
 ExpandableFolders=false
 
+[PlacesPanel]
+# compact navigation pane like Windows 7
+IconSize=16
+
 [IconsMode]
 IconSize=48
 PreviewSize=48
 
 [MainWindow]
-MenuBar=Enabled
+# like Windows 7: no menu bar (the menu button at the right of the address bar has the menus)
+MenuBar=Disabled
 ToolBarsMovable=Disabled
 
 [ContextMenu]

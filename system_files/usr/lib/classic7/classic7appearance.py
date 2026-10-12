@@ -447,6 +447,60 @@ desktopMenu.writeEntry("configure", true);
 """
 
 
+# Places panel sections Windows 7's navigation pane doesn't have
+HIDDEN_PLACE_GROUPS = ("RecentlySaved", "SearchFor", "Tags")
+XBEL_HEAD = ('<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE xbel>\n'
+             '<xbel xmlns:bookmark="http://www.freedesktop.org/standards/desktop-bookmarks" '
+             'xmlns:mime="http://www.freedesktop.org/standards/shared-mime-info" '
+             'xmlns:kdepriv="http://www.kde.org/kdepriv">\n')
+
+
+def hide_place_groups(home: Path | None = None) -> bool:
+    """Hide the Recent / Search For / Tags sections of Dolphin's Places panel (stored as
+    root metadata in user-places.xbel). A missing file is created with just these flags:
+    KDE adds its default places to an empty one."""
+    path = (home or _home()) / ".local/share/user-places.xbel"
+    flags = "".join(f"   <GroupState-{g}-IsHidden>true</GroupState-{g}-IsHidden>\n" for g in HIDDEN_PLACE_GROUPS)
+    try:
+        text = path.read_text()
+    except OSError:
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(XBEL_HEAD + ' <info>\n  <metadata owner="http://www.kde.org">\n' + flags
+                        + "  </metadata>\n </info>\n</xbel>\n")
+        return True
+    new = text
+    missing = []
+    for g in HIDDEN_PLACE_GROUPS:
+        key = f"GroupState-{g}-IsHidden"
+        if f"<{key}>" in new:
+            new = re.sub(rf"<{key}>[^<]*</{key}>", f"<{key}>true</{key}>", new)
+        else:
+            missing.append(f"   <{key}>true</{key}>\n")
+    if missing:
+        first = min([i for i in (new.find("<bookmark"), new.find("<separator"), new.find("</xbel>")) if i >= 0]
+                    or [len(new)])
+        head = new[:first]
+        m = re.search(r'<metadata owner="http://www\.kde\.org">', head)
+        if m:
+            end = head.find("</metadata>", m.end())
+            new = new[:end] + "".join(missing) + "  " + new[end:]
+        else:
+            root = re.search(r"<xbel[^>]*>\s*", new)
+            if not root:
+                return False
+            info = re.match(r"<info>\s*", new[root.end():])
+            block = '  <metadata owner="http://www.kde.org">\n' + "".join(missing) + "  </metadata>\n"
+            if info:
+                at = root.end() + info.end()
+                new = new[:at] + block.lstrip() + " " + new[at:]
+            else:
+                new = new[:root.end()] + " <info>\n" + block + " </info>\n " + new[root.end():]
+    if new != text:
+        shutil.copy2(path, path.with_name(path.name + ".bak"))
+        path.write_text(new)
+    return True
+
+
 def explorer_layout(runner: Runner | None = None) -> Result:
     """Give this account the Classic 7 Dolphin layout and right-click menus
     (replaced files are kept as .bak). The desktop menu changes apply at the next login."""
@@ -474,6 +528,12 @@ def explorer_layout(runner: Runner | None = None) -> Result:
         if dst.exists():
             shutil.copy2(dst, dst.with_name(dst.name + ".bak"))
         shutil.copy2(src, dst)
+    if not run.dry_run:
+        run.log.append("# hide Recent / Search For / Tags in Places")
+        try:
+            hide_place_groups(home)
+        except OSError as e:
+            notes.append(f"places: {e}")
     run_plasma_script(DESKTOP_MENU_SCRIPT, run)
     return Result(ok=not notes, notes=notes, commands=run.log)
 
