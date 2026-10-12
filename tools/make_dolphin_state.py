@@ -6,7 +6,8 @@ Generate Dolphin's saved window layout (QMainWindow state) for the Classic 7 Exp
   - toolbars: mainToolBar (Back/Forward/Up + address bar), then commandBar on its own row
 
 Qt restores dock and toolbar layout by objectName, so a stand-in window using Dolphin's
-names produces a state Dolphin accepts. Writes etc/skel/.local/state/dolphinstaterc.
+names produces a state Dolphin accepts. Writes etc/skel/.local/state/dolphinstaterc
+(Dolphin 26 / KF6 keep it in the [State] group).
 
     pip install PySide6-Essentials
     QT_QPA_PLATFORM=offscreen python3 tools/make_dolphin_state.py
@@ -59,5 +60,5 @@ app.processEvents()
 
 state = bytes(win.saveState().toBase64()).decode()
 OUT.parent.mkdir(parents=True, exist_ok=True)
-OUT.write_text(f"[MainWindow]\nState={state}\n")
+OUT.write_text(f"[State]\nState={state}\n")
 print("wrote", OUT, f"({len(state)} chars)")

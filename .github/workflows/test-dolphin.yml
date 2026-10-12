@@ -33,6 +33,7 @@ jobs:
             if [[ "$line" =~ ^\[(.*)\]$ ]]; then g="${BASH_REMATCH[1]}"; continue; fi
             kwriteconfig6 --file /etc/xdg/dolphinrc --group "$g" --key "${line%%=*}" -- "${line#*=}"
           done < $S/usr/share/classic7/xdg-defaults/dolphinrc
+          kwriteconfig6 --file /etc/xdg/dolphinrc --group General --key Version --delete
           cat > /tmp/inner.sh <<'EOI'
           export XDG_RUNTIME_DIR=/tmp/xdg; mkdir -p $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
           export DISPLAY=:99 QT_QPA_PLATFORM=xcb XDG_CURRENT_DESKTOP=KDE KDE_FULL_SESSION=true KDE_SESSION_VERSION=6
@@ -41,29 +42,29 @@ jobs:
           shot() {   # name, url
             dolphin --new-window "$2" >>/out/dolphin.log 2>&1 & p=$!; sleep 8
             xdotool search --class dolphin windowsize %@ 1000 640 windowmove %@ 40 30 2>/dev/null; sleep 2
-            import -window root /out/$1.png; kill $p; sleep 2
+            import -window root /out/$1.png
+            dbus-send --session --type=method_call --dest=org.kde.dolphin-$p /dolphin/Dolphin_1/actions/file_quit org.qtproject.Qt.QAction.trigger >/dev/null 2>&1
+            sleep 3; kill $p 2>/dev/null; sleep 1
           }
-          quitd() {   # quit like File > Quit, so Dolphin saves its layout
-            pid=$(pgrep -x dolphin | head -1)
-            dbus-send --session --type=method_call --dest=org.kde.dolphin-$pid /dolphin/Dolphin_1/actions/file_quit org.qtproject.Qt.QAction.trigger >>/out/dolphin.log 2>&1
-            sleep 3; pkill -x dolphin; sleep 1
-          }
-          start() { dolphin --new-window "$1" >>/out/dolphin.log 2>&1 & sleep 8; }
-          # A) image defaults, no account files: toggle panels off, quit, see what is saved where
-          export HOME=/tmp/a; mkdir -p $HOME/Documents; touch /tmp/stamp
-          start $HOME/Documents; import -window root /out/a1.png
-          for k in F11 F4 F7; do xdotool search --class dolphin key --window %@ $k 2>/dev/null; sleep 1; done
-          import -window root /out/a2.png; quitd
-          (cd $HOME && find . -type f -newer /tmp/stamp | sort) > /out/a-files.txt
-          for f in $(cd $HOME && find . -type f -newer /tmp/stamp); do echo "=== $f"; head -c 1500 "$HOME/$f"; echo; done > /out/a-contents.txt
-          start $HOME/Documents; import -window root /out/a3.png; quitd
-          # E) without Version in /etc/xdg/dolphinrc (first run), with our skel files
-          kwriteconfig6 --file /etc/xdg/dolphinrc --group General --key Version --delete
-          export HOME=/tmp/e; mkdir -p $HOME/Documents; cp -a /etc/skel/. $HOME/
-          start $HOME/Documents; import -window root /out/e.png; quitd
-          # F) without Version, no skel files at all
-          export HOME=/tmp/f; mkdir -p $HOME/Documents
-          start $HOME/Documents; import -window root /out/f.png; quitd
+          # 1) a new account
+          export HOME=/tmp/new; mkdir -p $HOME; cp -a /etc/skel/. $HOME/
+          mkdir -p $HOME/Documents $HOME/Downloads $HOME/Pictures $HOME/Music $HOME/Videos $HOME/Desktop
+          touch "$HOME/Documents/Rapport.docx" "$HOME/Documents/Tegning.pdf"; mkdir -p "$HOME/Documents/Projekter"
+          kbuildsycoca6 --noincremental >/dev/null 2>&1
+          plasma-apply-colorscheme Classic7 >/dev/null 2>&1
+          bash /usr/libexec/classic7-first-login
+          shot new-documents $HOME/Documents
+          shot new-trash trash:/
+          cp $HOME/.local/share/user-places.xbel /out/new-user-places.xbel 2>/dev/null
+          # 2) an existing account with Dolphin's own defaults + panels open, then the migration
+          export HOME=/tmp/old; mkdir -p $HOME/Documents $HOME/.config $HOME/.local/state
+          printf '[General]\nVersion=202\n' > $HOME/.config/dolphinrc
+          touch "$HOME/Documents/Rapport.docx"
+          plasma-apply-colorscheme Classic7 >/dev/null 2>&1
+          shot old-before $HOME/Documents
+          PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7appearance as a; r=a.explorer_layout(); print(r.ok, r.notes)" >> /out/dolphin.log 2>&1
+          shot old-after $HOME/Documents
+          cp $HOME/.local/share/user-places.xbel /out/old-user-places.xbel 2>/dev/null
           EOI
           mkdir -p /out && chmod 777 /out
           dbus-run-session -- bash /tmp/inner.sh
