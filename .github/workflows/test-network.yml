@@ -32,6 +32,11 @@ jobs:
           mkdir -p /run/dbus && dbus-daemon --system --fork
           (NetworkManager --no-daemon > /out/nm.log 2>&1 &)
           sleep 6
+          # a connected adapter like the VM's (a dummy interface with a fixed address)
+          nmcli connection add type dummy ifname dummy0 con-name "Wired connection 1" ipv4.method manual \
+            ipv4.addresses 30.11.11.194/16 ipv4.gateway 30.11.0.1 ipv4.dns 30.11.0.1 ipv6.method disabled >> /out/nmcli.txt 2>&1
+          nmcli connection up "Wired connection 1" >> /out/nmcli.txt 2>&1
+          sleep 3
           nmcli device status > /out/nmcli.txt 2>&1
           /usr/bin/classic7-network --json > /out/network.json 2>&1
           /usr/bin/classic7-network --list >> /out/nmcli.txt 2>&1
@@ -57,7 +62,7 @@ jobs:
           sudo podman run --rm --privileged -v "$PWD:/src:ro" -v "$PWD/shots:/out" "$IMAGE" bash /out/run.sh > shots/container.log 2>&1 || true
           ls -la shots
           tail -n 60 shots/plasmawindowed.log || true
-          msg="$( (cat shots/nmcli.txt; echo ---; grep -iE 'qml|error|warning|cannot|undefined|not a type|unavailable' shots/plasmawindowed.log | grep -v 'kf\.' | head -40) | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
+          msg="$( (cat shots/nmcli.txt; echo ---; grep -iE 'classic7-network|qml|error|warning|cannot|undefined|not a type|unavailable' shots/plasmawindowed.log | grep -v 'kf\.' | head -40) | sed -e 's/%/%25/g' | sed -e ':a;N;$!ba;s/\n/%0A/g')"
           echo "::warning title=QML log::${msg:-no messages}"
 
       - name: Save screenshots to the ci-shots-network branch

@@ -40,7 +40,8 @@ if __name__ == "__main__":
             "title": a.title, "state": a.state, "status": a.status_text,
             "ipv4": [[ip, nc.prefix_to_mask(pre), pre] for ip, pre in a.ipv4],
             "gateway": a.gateway, "dns": a.dns, "mac": a.mac,
-            "speed": nc.human_speed(a.speed_mbit), "dhcp": bool(a.dhcp)} for a in items}))
+            "speed": nc.human_speed(a.speed_mbit), "dhcp": bool(a.dhcp), "uuid": a.uuid or "",
+            "connection": a.connection or ""} for a in items}))
         sys.exit(0)
     from netconn_gui import main
     sys.exit(main(args))

@@ -384,19 +384,62 @@ def _no_splash(log: Log) -> bool:
     return ok
 
 
+def _appletsrc() -> Path:
+    return Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config") / "plasma-org.kde.plasma.desktop-appletsrc"
+
+
+def _tray_plugins() -> tuple[bool, set[str]]:
+    """(a system tray exists, plugins running inside the system trays) from the saved layout."""
+    try:
+        text = _appletsrc().read_text(errors="replace")
+    except OSError:
+        return False, set()
+    groups: dict[str, dict[str, str]] = {}
+    cur = None
+    for line in text.splitlines():
+        if line.startswith("["):
+            cur = line.strip()
+            groups.setdefault(cur, {})
+        elif cur and "=" in line:
+            k, v = line.split("=", 1)
+            groups[cur][k.strip()] = v.strip()
+    trays = {v["SystrayContainmentId"] for v in groups.values() if v.get("SystrayContainmentId")}
+    plugins = set()
+    for name, kv in groups.items():
+        m = re.match(r"^\[Containments\]\[(\d+)\]\[Applets\]\[\d+\]$", name)
+        if m and m.group(1) in trays and kv.get("plugin"):
+            plugins.add(kv["plugin"])
+    return bool(trays), plugins
+
+
 def _network_tray(log: Log) -> bool:
-    """Tray: the Classic 7 network icon (IP address shown at once) instead of Plasma's."""
+    """Tray: the Classic 7 network icon (IP address shown at once) instead of Plasma's.
+    Done only when the saved layout shows Plasma's icon gone, so it is retried at the next
+    login if Plasma wasn't ready."""
     snippet = SHARE / "tray-network.js"
     try:
         js = snippet.read_text()
     except OSError:
         return False
     js += '\npanels().forEach(function (p) { p.widgets("org.kde.plasma.systemtray").forEach(classic7Tray); });\n'
+    for _ in range(30):                      # the tray is created a moment after login
+        has_tray, _plugins = _tray_plugins()
+        if has_tray:
+            break
+        time.sleep(1)
     r = subprocess.run(["dbus-send", "--session", "--dest=org.kde.plasmashell", "--type=method_call",
                         "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript", "string:" + js],
                        capture_output=True, timeout=30)
-    log("  network icon: Classic 7 (shows the IP address)")
-    return r.returncode == 0
+    if r.returncode != 0:
+        return False
+    for _ in range(20):                      # Plasma saves its layout a few seconds later
+        has_tray, plugins = _tray_plugins()
+        if has_tray and "org.kde.plasma.networkmanagement" not in plugins:
+            log("  network icon: Classic 7 (shows the IP address)")
+            return True
+        time.sleep(1)
+    log("  network icon: Plasma's icon is still in the tray; trying again at the next login")
+    return False
 
 
 # (id, function) - each runs once per account, in this order. Add new ones at the end.
@@ -406,7 +449,8 @@ MIGRATIONS: list[tuple[str, Callable[[Log], bool]]] = [
     ("2026-10-12-breeze-icons", _breeze_icons),
     ("2026-10-12-small-desktop-icons", _small_desktop_icons),
     ("2026-10-12-no-splash", _no_splash),
-    ("2026-10-12-network-tray", _network_tray),
+    ("2026-10-12-network-tray", lambda log: True),          # replaced by the one below
+    ("2026-10-12-network-tray-2", _network_tray),
 ]
 
 

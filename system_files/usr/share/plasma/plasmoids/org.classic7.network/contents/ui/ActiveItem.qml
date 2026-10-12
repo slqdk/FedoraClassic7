@@ -12,8 +12,26 @@ ColumnLayout {
     property var popup
 
     readonly property bool isActive: model.ConnectionState === PlasmaNM.Enums.Activated
-    readonly property string device: String(model.DeviceName || "").replace(/[^A-Za-z0-9_.:-]/g, "")
+    // The adapter behind this connection, as Network Connections knows it (interface name).
+    // Plasma's model gives a display name ("Wired Ethernet") in DeviceName, so match on the
+    // connection's UUID first, then its name, then the interface name.
+    readonly property string device: {
+        const d = popup ? popup.details : null;
+        if (!d) return "";
+        let found = "";
+        for (const k in d) {
+            if (d[k].uuid && d[k].uuid === model.Uuid) { found = k; break; }
+        }
+        if (!found) {
+            for (const k in d) {
+                if (d[k].connection && d[k].connection === model.Name) { found = k; break; }
+            }
+        }
+        if (!found && d[String(model.DeviceName || "")]) found = String(model.DeviceName);
+        return found.replace(/[^A-Za-z0-9_.:-]/g, "");
+    }
     readonly property var info: (popup && popup.details && device) ? (popup.details[device] || null) : null
+    onDeviceChanged: console.log("classic7-network: connection", model.Name, model.Uuid, "->", device)
 
     visible: isActive
     spacing: Kirigami.Units.smallSpacing
