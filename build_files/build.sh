@@ -39,6 +39,9 @@ for f in /etc/xdg/kscreenlockerrc ${KDE_PROFILE_DIR:-/usr/share/kde-settings/kde
     [[ -d "$(dirname "$f")" ]] || continue
     kwriteconfig6 --file "$f" --group Greeter --key WallpaperPlugin org.kde.color
     kwriteconfig6 --file "$f" --group Greeter --group Wallpaper --group org.kde.color --group General --key Color "58,110,165"
+    # like Windows: the screen locks with Win+L, not by itself after idle time or after sleep
+    kwriteconfig6 --file "$f" --group Daemon --key Autolock false
+    kwriteconfig6 --file "$f" --group Daemon --key LockOnResume false
 done
 
 # Fedora's KDE profile also names a default Global Theme; point it at ours too
@@ -127,6 +130,8 @@ test -x /usr/bin/classic7-prompt
 test -f /usr/share/applications/classic7-prompt.desktop
 grep -q '^TerminalApplication=classic7-prompt' /etc/xdg/kdeglobals
 grep -q '^WallpaperPlugin=org.kde.color' /etc/xdg/kscreenlockerrc
+grep -q '^Autolock=false' /etc/xdg/kscreenlockerrc
+test -f /usr/share/polkit-1/rules.d/50-classic7.rules
 # Start menu
 test -f /usr/share/plasma/plasmoids/org.classic7.startmenu/metadata.json
 test -f /usr/share/plasma/plasmoids/org.classic7.startmenu/contents/ui/main.qml

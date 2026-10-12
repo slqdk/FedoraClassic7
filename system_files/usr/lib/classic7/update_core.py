@@ -74,6 +74,7 @@ class UpdateState:
     last_install: float = 0
     last_result: str = ""
     seen_pins: list[str] = field(default_factory=list)
+    done_migrations: list[str] = field(default_factory=list)
 
     @classmethod
     def load(cls) -> "UpdateState":
@@ -301,6 +302,100 @@ def plasma_running() -> bool:
                           capture_output=True).returncode == 0
 
 
+# ---- one-time changes for existing accounts -------------------------------------------------
+def _kwrite(file: str, groups: list[str], key: str, value: str) -> bool:
+    if not shutil.which("kwriteconfig6"):
+        return False
+    g = []
+    for x in groups:
+        g += ["--group", x]
+    return subprocess.run(["kwriteconfig6", "--file", file, *g, "--key", key, "--", value],
+                          capture_output=True).returncode == 0
+
+
+def _no_autolock(log: Log) -> bool:
+    """Lock only with Win+L (like Windows), not after a few idle minutes or after sleep."""
+    ok = _kwrite("kscreenlockerrc", ["Daemon"], "Autolock", "false")
+    ok &= _kwrite("kscreenlockerrc", ["Daemon"], "LockOnResume", "false")
+    subprocess.run(["dbus-send", "--session", "--type=method_call", "--dest=org.freedesktop.ScreenSaver",
+                    "/ScreenSaver", "org.kde.screensaver.configure"], capture_output=True)
+    log("  the screen no longer locks by itself (Win+L still locks)")
+    return ok
+
+
+# (id, function) - each runs once per account, in this order. Add new ones at the end.
+MIGRATIONS: list[tuple[str, Callable[[Log], bool]]] = [
+    ("2026-10-12-no-autolock", _no_autolock),
+]
+
+
+def run_migrations(log: Log, state: "UpdateState") -> list[str]:
+    problems = []
+    for mid, fn in MIGRATIONS:
+        if mid in state.done_migrations:
+            continue
+        try:
+            if fn(log):
+                state.done_migrations.append(mid)
+            else:
+                problems.append(f"could not apply {mid}")
+        except Exception as e:  # noqa: BLE001
+            problems.append(f"{mid}: {e}")
+    return problems
+
+
+# ---- keyboard layout of the login screen ----------------------------------------------------
+def session_keyboard() -> dict | None:
+    """The layouts this account uses in Plasma (System Settings > Keyboard), first = primary."""
+    cfg = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config") / "kxkbrc"
+    kx = _ini_read(cfg).get("Layout", {})
+    if kx.get("Use", "false").strip().lower() != "true" or not kx.get("LayoutList", "").strip():
+        return None
+    return {"layout": kx.get("LayoutList", "").strip(), "variant": _no_empty(kx.get("VariantList", "")),
+            "model": kx.get("Model", "").strip(), "options": kx.get("Options", "").strip()}
+
+
+def system_keyboard() -> dict:
+    """The system layout (systemd-localed), which the login screen uses."""
+    out = {"layout": "", "variant": "", "model": "", "options": ""}
+    try:
+        text = subprocess.run(["localectl", "status"], capture_output=True, text=True, timeout=10).stdout
+    except (OSError, subprocess.SubprocessError):
+        return out
+    for line in text.splitlines():
+        m = re.match(r"\s*X11 (Layout|Variant|Model|Options):\s*(.*)", line)
+        if m:
+            out[m.group(1).lower()] = m.group(2).strip()
+    out["variant"] = _no_empty(out["variant"])
+    return out
+
+
+def _no_empty(v: str) -> str:
+    """"," (no variant for two layouts) means the same as ""."""
+    v = v.strip()
+    return "" if not v.replace(",", "").strip() else v
+
+
+def sync_keyboard(log: Log) -> bool:
+    """Give the login screen the same keyboard layout(s) as this account's desktop.
+    Allowed without a password for administrators at the computer (classic7.rules)."""
+    want = session_keyboard()
+    if want is None or not shutil.which("localectl"):
+        return True
+    have = system_keyboard()
+    if (have["layout"], have["variant"]) == (want["layout"], want["variant"]):
+        return True
+    model = want["model"] or have["model"]
+    options = want["options"] or have["options"]
+    r = subprocess.run(["localectl", "--no-ask-password", "set-x11-keymap", want["layout"], model,
+                        want["variant"], options], capture_output=True, text=True)
+    if r.returncode == 0:
+        log(f"  login screen keyboard: {have['layout'] or 'us'} -> {want['layout']}")
+        return True
+    log(f"  could not set the login screen keyboard: {(r.stderr or r.stdout).strip()[:200]}")
+    return False
+
+
 def refresh_account(log: Log) -> list[str]:
     """Give this account the current Classic 7 settings. Returns problems (empty = all fine)."""
     problems: list[str] = []
@@ -313,6 +408,10 @@ def refresh_account(log: Log) -> list[str]:
         apps = Path.home() / ".local/share/applications"
         if apps.is_dir():
             subprocess.run(["update-desktop-database", str(apps)], capture_output=True, check=False)
+
+    log("Keyboard layout of the login screen")
+    if not sync_keyboard(log):
+        problems.append("the login screen keyboard layout could not be set")
 
     log("Adding new keyboard shortcuts")
     if merge_skel(log) == 0:
@@ -344,6 +443,9 @@ def refresh_account(log: Log) -> list[str]:
                     state.seen_pins += new_pins
             except Exception as e:  # noqa: BLE001
                 problems.append(f"Start menu: {e}")
+    log("One-time changes for this account")
+    problems += run_migrations(log, state)
+
     if Path("/usr/libexec/classic7-first-login").exists():
         subprocess.run(["/usr/libexec/classic7-first-login"], check=False)
 

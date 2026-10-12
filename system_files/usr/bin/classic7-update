@@ -96,7 +96,10 @@ def run_all():
 
 
 def after_login():
-    """Autostart: after booting a new version, update this account's settings once."""
+    """Autostart: after booting a new version, update this account's settings once.
+    The login screen's keyboard layout is checked at every login (cheap, and the user
+    may have changed the layout in System Settings)."""
+    core.sync_keyboard(lambda _line: None)
     if not core.needs_refresh():
         return 0
     # wait for the desktop (plasmashell answers on D-Bus) so the look can be applied live

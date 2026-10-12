@@ -1,0 +1,9 @@
+// Classic 7: administrators sitting at the computer may set the system keyboard layout
+// without a password, so the login screen follows the layout chosen on the desktop
+// (classic7-update does this at login).
+polkit.addRule(function (action, subject) {
+    if (action.id == "org.freedesktop.locale1.set-keyboard" &&
+        subject.local && subject.active && subject.isInGroup("wheel")) {
+        return polkit.Result.YES;
+    }
+});

@@ -1,5 +1,9 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
-# "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
+# "Classic 7 was updated" message after a restart. Format: "## 2026-10-12  No automatic lock, same keyboard at login
+- The screen no longer locks by itself after a few idle minutes or after sleep; Win+L still locks. (Can be turned back on in System Settings > Screen Locking.)
+- The login screen uses the same keyboard layout as your desktop (e.g. Danish), checked at every login.
+
+## YYYY-MM-DD  Title", then "- item".
 
 ## 2026-10-12  Classic 7 Update, Classic login screen
 - **Classic 7 Update** (Start > All Programs, or `classic7-update`): one click installs the newest Classic 7, app updates and new settings for your account, then offers a restart.
