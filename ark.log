@@ -1,0 +1,57 @@
+total 24
+drwxr-xr-x 3 root root 4096 Oct 12 21:26 .
+drwxr-xr-x 7 root root 4096 Oct 12 21:26 ..
+-rw-r--r-- 1 root root  190 Oct 12 21:26 Archive.7z
+-rw-r--r-- 1 root root    6 Oct 12 21:26 b.txt
+-rw-r--r-- 1 root root  114 Oct 12 21:26 b.zip
+drwxr-xr-x 2 root root 4096 Oct 12 21:26 folder
+
+7-Zip 26.04 (x64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-10-05
+ 64-bit locale=C.UTF-8 Threads:4 OPEN_MAX:1048576
+
+Scanning the drive for archives:
+1 file, 190 bytes (1 KiB)
+
+Listing archive: /tmp/home/arc/Archive.7z
+
+--
+Path = /tmp/home/arc/Archive.7z
+Type = 7z
+Physical Size = 190
+Headers Size = 174
+Method = LZMA2:12
+Solid = +
+Blocks = 1
+
+   Date      Time    Attr         Size   Compressed  Name
+------------------- ----- ------------ ------------  ------------------------
+2026-10-12 21:26:46 D....            0            0  folder
+2026-10-12 21:26:46 ....A            6           16  b.txt
+2026-10-12 21:26:46 ....A            6               folder/a.txt
+------------------- ----- ------------ ------------  ------------------------
+2026-10-12 21:26:46                 12           16  2 files, 1 folders
+
+7-Zip 26.04 (x64) : Copyright (c) 1999-2026 Igor Pavlov : 2026-10-05
+ 64-bit locale=C.UTF-8 Threads:4 OPEN_MAX:1048576
+
+Scanning the drive for archives:
+1 file, 114 bytes (1 KiB)
+
+Listing archive: /tmp/home/arc/b.zip
+
+--
+Path = /tmp/home/arc/b.zip
+Type = zip
+Physical Size = 114
+
+   Date      Time    Attr         Size   Compressed  Name
+------------------- ----- ------------ ------------  ------------------------
+2026-10-12 21:26:46 .....            6            6  b.txt
+------------------- ----- ------------ ------------  ------------------------
+2026-10-12 21:26:46                  6            6  1 files
+/tmp/home/x
+/tmp/home/x/Archive
+/tmp/home/x/Archive/folder
+/tmp/home/x/Archive/folder/a.txt
+/tmp/home/x/Archive/b.txt
+/tmp/home/x/Archive.7z

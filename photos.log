@@ -1,0 +1,17 @@
+OK   open 01-photo.jpg
+OK   open 02-avif.avif
+OK   open 02-bmp.bmp
+OK   open 02-gif.gif
+OK   open 02-heic.heic
+OK   open 02-jxl.jxl
+OK   open 02-png.png
+OK   open 02-tiff.tiff
+OK   open 02-webp.webp
+OK   open 03-anim.gif
+OK   open 04-exif-rotated.jpg
+window active: True
+OK   Right Right moves two pictures
+OK   turn saved as EXIF orientation 6
+OK   slide show is full screen
+FAILURES: []
+exit 0

@@ -1,0 +1,4 @@
+7zip-26.04-1.fc44.x86_64
+ark-26.08.1-1.fc44.x86_64
+qt6-qtimageformats-6.11.2-1.fc44.x86_64
+kf6-kimageformats-6.30.0-1.fc44.x86_64

@@ -1,0 +1,14 @@
+total 4768
+drwxr-xr-x 2 root root    4096 Oct 12 21:26 .
+drwxr-xr-x 6 root root    4096 Oct 12 21:26 ..
+-rw-r--r-- 1 root root   64438 Oct 12 21:26 01-photo.jpg
+-rw-r--r-- 1 root root   30744 Oct 12 21:26 02-avif.avif
+-rw-r--r-- 1 root root 2304138 Oct 12 21:26 02-bmp.bmp
+-rw-r--r-- 1 root root   33863 Oct 12 21:26 02-gif.gif
+-rw-r--r-- 1 root root   30744 Oct 12 21:26 02-heic.heic
+-rw-r--r-- 1 root root   11422 Oct 12 21:26 02-jxl.jxl
+-rw-r--r-- 1 root root   26590 Oct 12 21:26 02-png.png
+-rw-r--r-- 1 root root 2304302 Oct 12 21:26 02-tiff.tiff
+-rw-r--r-- 1 root root    7252 Oct 12 21:26 02-webp.webp
+-rw-r--r-- 1 root root    1113 Oct 12 21:26 03-anim.gif
+-rw-r--r-- 1 root root   38932 Oct 12 21:26 04-exif-rotated.jpg
