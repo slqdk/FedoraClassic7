@@ -143,7 +143,7 @@ Konsole is still installed (File > Open Konsole Here).
 
 Start > Settings > **Appearance** (or run `classic7-appearance`). Like the classic Display Properties > Appearance page:
 
-- **Color scheme:** Classic 7 Standard, Classic Grey, Slate, Sandstone, Terracotta, Pine, Night, High Contrast, plus your own (*Save As…*).
+- **Color scheme:** Classic 7 Standard, XP Blue, Seven Basic, Eleven Light (rounded corners, flat title buttons), Classic Grey, Slate, Sandstone, Terracotta, Pine, Night, High Contrast, plus your own (*Save As…*). The layout stays the same; only colours (and for Eleven Light the window corners and title buttons) change.
 - **Item / Color 1 / Color 2 / Text:** Desktop, Active and Inactive Title Bar (two-colour gradient), 3D Objects, Window, Selected Items, ToolTip. Bevel shades follow the 3D Objects colour.
 - **Font size:** Normal, Large, Extra Large.
 - **Apply** redraws the window borders, taskbar, Start button, colours and desktop colour for your account, live.

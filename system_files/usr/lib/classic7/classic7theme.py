@@ -76,6 +76,8 @@ class Palette:
     shadow: str | None = None     # 3D shadow (inner bottom-right)
     dkshadow: str | None = None   # 3D dark shadow (outer bottom-right)
     font_size: int = 9
+    radius: int = 0               # rounded window corners (px, at most the border width)
+    flat: bool = False            # thin 1-px window outline and flat title buttons (modern look)
 
     # --- derived bevel shades -------------------------------------------------
     @property
@@ -129,6 +131,34 @@ SCHEMES: list[Palette] = [
         title_inactive="#808080", title_inactive2="#C0C0C0", title_inactive_text="#D4D0C8",
         tooltip="#FFFFE1", tooltip_text="#000000",
         hilight="#FFFFFF", light="#D4D0C8", shadow="#808080", dkshadow="#404040",
+    ),
+    Palette(
+        name="XP Blue",
+        desktop="#004E98", face="#ECE9D8", face_text="#000000",
+        window="#FFFFFF", window_text="#000000", select="#316AC5", select_text="#FFFFFF",
+        title_active="#0A55E0", title_active2="#3D95FF", title_active_text="#FFFFFF",
+        title_inactive="#7A96DF", title_inactive2="#A9C1F0", title_inactive_text="#D8E4F8",
+        tooltip="#FFFFE1", tooltip_text="#000000",
+        hilight="#FFFFFF", light="#F1EFE2", shadow="#ACA899", dkshadow="#716F64",
+    ),
+    Palette(
+        name="Seven Basic",
+        desktop="#1C4F8C", face="#F0F0F0", face_text="#000000",
+        window="#FFFFFF", window_text="#000000", select="#3399FF", select_text="#FFFFFF",
+        title_active="#99B4D1", title_active2="#B9D1EA", title_active_text="#000000",
+        title_inactive="#BFCDDB", title_inactive2="#D7E4F2", title_inactive_text="#434E54",
+        tooltip="#FFFFE1", tooltip_text="#000000",
+        hilight="#FFFFFF", light="#E3E3E3", shadow="#A0A0A0", dkshadow="#696969",
+    ),
+    Palette(
+        name="Eleven Light",
+        desktop="#3C6EB4", face="#F3F3F3", face_text="#1B1B1B",
+        window="#FFFFFF", window_text="#1B1B1B", select="#0067C0", select_text="#FFFFFF",
+        title_active="#F3F3F3", title_active2="#F3F3F3", title_active_text="#1B1B1B",
+        title_inactive="#F3F3F3", title_inactive2="#F3F3F3", title_inactive_text="#8A8A8A",
+        tooltip="#F9F9F9", tooltip_text="#1B1B1B",
+        hilight="#FFFFFF", light="#F9F9F9", shadow="#CFCFCF", dkshadow="#9E9E9E",
+        radius=4, flat=True,
     ),
     Palette(
         name="Classic Grey",
@@ -257,19 +287,62 @@ class Canvas:
                     self.set(x + dx, y + dy, c)
 
     def svg(self, x0: int, y0: int, w: int, h: int, ox: float = 0, oy: float = 0) -> str:
-        """SVG rects for a sub-region (horizontal runs merged), placed at (ox, oy)."""
+        """SVG rects for a sub-region, placed at (ox, oy). Horizontal runs are merged, and
+        identical runs on consecutive rows become one tall rect: 1-px-high strips would show
+        thin seams (lines) when Plasma stretches or tiles a frame piece."""
         out = []
+        open_runs: dict[tuple, list] = {}          # (x, width, colour) -> [first row, height]
+
+        def emit(key, start):
+            xx, run, c = key
+            first, height = start
+            fill = f'fill="{c}"' if c is not None else 'fill="#000" fill-opacity="0"'
+            if c is None:
+                return                              # transparent: nothing to draw
+            out.append(f'<rect x="{ox + xx - x0}" y="{oy + first - y0}" width="{run}" height="{height}" {fill}/>')
+
         for yy in range(y0, y0 + h):
+            row_keys = set()
             xx = x0
             while xx < x0 + w:
                 c = self.px[yy][xx]
                 run = 1
                 while xx + run < x0 + w and self.px[yy][xx + run] == c:
                     run += 1
-                fill = f'fill="{c}"' if c is not None else 'fill="#000" fill-opacity="0"'
-                out.append(f'<rect x="{ox + xx - x0}" y="{oy + yy - y0}" width="{run}" height="1" {fill}/>')
+                key = (xx, run, c)
+                row_keys.add(key)
+                if key in open_runs:
+                    open_runs[key][1] += 1
+                else:
+                    open_runs[key] = [yy, 1]
                 xx += run
+            for key in [k for k in open_runs if k not in row_keys]:
+                emit(key, open_runs.pop(key))
+        for key, start in open_runs.items():
+            emit(key, start)
         return "".join(out)
+
+    def round_corners(self, r: int, border: str | None, top: bool = True, bottom: bool = True):
+        """Cut rounded corners of radius r (pixels outside become transparent); the pixels on
+        the arc get the border colour so the outline follows the curve."""
+        if r <= 0:
+            return
+        corners = []
+        if top:
+            corners += [(0, 0, 1, 1), (self.w - r, 0, -1, 1)]
+        if bottom:
+            corners += [(0, self.h - r, 1, -1), (self.w - r, self.h - r, -1, -1)]
+        for cx0, cy0, sx, sy in corners:
+            for dy in range(r):
+                for dx in range(r):
+                    # distance of the pixel centre from the arc's centre (in corner space)
+                    px_ = dx if sx == 1 else r - 1 - dx
+                    py_ = dy if sy == 1 else r - 1 - dy
+                    d = ((r - px_ - 0.5) ** 2 + (r - py_ - 0.5) ** 2) ** 0.5
+                    if d > r:
+                        self.set(cx0 + dx, cy0 + dy, None)
+                    elif d > r - 1.3 and border:
+                        self.set(cx0 + dx, cy0 + dy, border)
 
 
 class Bevels:
@@ -485,7 +558,14 @@ def decoration_svg(p: Palette) -> str:
         gid = f"grad-{i}"
         defs += title_gradient(gid, c1, c2)
         cv = Canvas(W, H, p.face)
-        cv.bevel(0, 0, W, H, *bv.window)
+        outline = mix(p.c_shadow, p.c_dkshadow, 0.3)
+        if p.flat:
+            cv.edge(0, 0, W, H, outline, outline)
+            # the title band colour reaches into the side borders, like a modern title bar
+            cv.rect(1, 1, W - 2, TOP - 1, c1)
+        else:
+            cv.bevel(0, 0, W, H, *bv.window)
+        cv.round_corners(min(p.radius, BORDER), outline if p.flat else p.c_dkshadow)
         oy = i * (H + 10)
         band = f'<rect x="{BORDER}" y="{oy + BORDER}" width="{stretch}" height="{TITLE_H}" fill="url(#{gid})"/>'
         body += nine_slice(state, cv, (BORDER, TOP, BORDER, BORDER), 0, oy, {"top": band})
@@ -501,10 +581,23 @@ def decoration_svg(p: Palette) -> str:
     return svg_doc(W * 2 + 80, (H + 10) * 2, body, defs)
 
 
-def button_canvas(p: Palette, kind: str, state: str) -> Canvas:
+def button_canvas(p: Palette, kind: str, state: str, inactive: bool = False) -> Canvas:
     bv = Bevels(p)
-    cv = Canvas(BTN_W, BTN_H, p.face)
     gx, gy, pat = GLYPHS[kind]
+    if p.flat:
+        # glyph on the title bar; a light box on hover, red for Close
+        cv = Canvas(BTN_W, BTN_H, None)
+        glyph = p.title_inactive_text if inactive else p.title_active_text
+        if state in ("hover", "pressed"):
+            box = "#C42B1C" if kind == "close" else mix(p.title_active, "#000000", 0.08 if state == "hover" else 0.16)
+            cv.rect(0, 0, BTN_W, BTN_H, box)
+            if kind == "close":
+                glyph = "#FFFFFF"
+        if state == "deactivated":
+            glyph = p.c_shadow
+        cv.stamp(pat, gx, gy, glyph)
+        return cv
+    cv = Canvas(BTN_W, BTN_H, p.face)
     if state == "pressed":
         cv.bevel(0, 0, BTN_W, BTN_H, *bv.pressed)
         cv.stamp(pat, gx + 1, gy + 1, p.face_text)
@@ -523,7 +616,7 @@ def button_svg(p: Palette, kind: str) -> str:
     states = ["active", "hover", "pressed", "inactive", "hover-inactive", "pressed-inactive", "deactivated"]
     for i, st in enumerate(states):
         base = st if st == "deactivated" else st.split("-")[0]
-        cv = button_canvas(p, kind, "pressed" if base == "pressed" else base)
+        cv = button_canvas(p, kind, "pressed" if base == "pressed" else base, st.endswith("inactive"))
         body += group(f"{st}-center", cv.svg(0, 0, BTN_W, BTN_H, i * (BTN_W + 4), 0))
     return svg_doc(len(states) * (BTN_W + 4), BTN_H, body)
 
@@ -569,6 +662,10 @@ def frame(items: list[tuple[str, Canvas, tuple[int, int, int, int]]],
         y += cv.h + 6
         maxw = max(maxw, cv.w)
     hx = maxw + 10
+    body += hint("hint-stretch-borders", hx, 30, 4, 4)
+    for prefix, _cv, _b in items:
+        if prefix:
+            body += hint(f"{prefix}-hint-stretch-borders", hx, 30, 4, 4)
     for prefix, (l, t, r, b) in (hints or {}).items():
         pre = f"{prefix}-" if prefix else ""
         body += hint(f"{pre}hint-left-margin", hx, 0, l, 4)
