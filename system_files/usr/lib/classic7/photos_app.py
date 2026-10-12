@@ -138,6 +138,7 @@ class Loader(QObject):
         self.cache: OrderedDict[str, Loaded] = OrderedDict()
         self.pending: set[str] = set()
         self.keep = keep
+        self.closed = False
         self._finished.connect(self._store)
 
     def get(self, path: Path) -> Loaded | None:
@@ -158,7 +159,7 @@ class Loader(QObject):
 
     def request(self, path: Path):
         key = str(path)
-        if key in self.pending or self.get(path) is not None:
+        if self.closed or key in self.pending or self.get(path) is not None:
             return
         self.pending.add(key)
         fut = self.pool.submit(load_picture, path)
@@ -1138,7 +1139,7 @@ class PhotoViewer(QMainWindow):
             self.canvas.set_message("Loading picture...")
 
     def _loaded(self, res: Loaded):
-        if self.slideshow is not None:
+        if self.slideshow is not None or self.loader.closed:
             return
         if self.path is not None and res.path == self.path and self.current is None:
             self._display(res)
@@ -1496,6 +1497,7 @@ class PhotoViewer(QMainWindow):
     def closeEvent(self, e):
         self.commit()
         self.settings.setValue("window/geometry", self.saveGeometry())
+        self.loader.closed = True
         self.loader.pool.shutdown(wait=False, cancel_futures=True)
         super().closeEvent(e)
 

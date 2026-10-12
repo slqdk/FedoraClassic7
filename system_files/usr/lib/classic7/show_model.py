@@ -244,6 +244,8 @@ class Shape:
     extra_level: dict | None = None   # defaults for every level (built-in layouts)
     inherit: bool = False            # a slide placeholder that keeps the layout's position
     style_text_color: dict | None = None   # p:style fontRef colour (text on shapes)
+    chart: dict | None = None        # a chart's series, for drawing (show_chart.parse)
+    raw_parts: dict | None = None    # the parts a raw graphic frame points to (charts and their data)
 
     def rect(self) -> tuple[int, int, int, int]:
         return self.x, self.y, self.cx, self.cy

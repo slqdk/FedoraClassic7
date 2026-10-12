@@ -23,6 +23,9 @@ image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomic + KDE Plas
 | Right-click menus | Windows-style: **Send to ▸** (Compressed (zipped) folder, Desktop (create shortcut), Documents, Mail recipient, Removable Disk), **Create shortcut**, KDE extras hidden; desktop menu with Display Configuration and Configure Desktop and Wallpaper |
 | Command Prompt | Terminal with a built-in assistant that asks **your own** language model (Ollama or OpenAI-compatible): plain-language questions become commands you run with one click, errors get explained, risky commands are stopped by built-in rules; offline task library; default terminal (Ctrl+Alt+T) |
 | Write | Word processor in the Word 2007 style (Ribbon, page view): opens and saves .docx, .rtf and .doc, opens PDFs as editable documents, exports PDF; styles, lists, tables, pictures, headers/footers with page numbers, find/replace, spell check (Danish/English) |
+| Show | Presentations in the PowerPoint 2007 style: opens .pptx/.ppsx and old .ppt, saves .pptx/.ppsx/PDF; layouts, designs, text, shapes, pictures, tables, transitions, entrance animations, full-screen slide show with pen, handouts and notes printing |
+| Photo Viewer | Windows 7 Photo Viewer look: next/previous with the arrow keys, zoom, rotate and flip (JPEG turned without quality loss), slide show, delete, print, e-mail; JPEG, PNG, GIF, WebP, TIFF, HEIC, AVIF, JPEG XL, RAW, PSD... |
+| 7-Zip | 7-Zip (`7z`) and the 7-Zip File Manager (Ark), with the right-click **7-Zip ▸** menu: Add to archive, Add to .7z/.zip, Extract files, Extract Here, Extract to own folder |
 | Mail | E-mail and contacts in the Outlook 2007 style: IMAP/SMTP, Gmail (app password), Outlook.com (Microsoft sign-in); folders, date groups, Reading Pane with pictures blocked until allowed; messages written in Write's editor; Address Cards, vCard import/export |
 | Classic 7 Update | One click installs the newest Classic 7, app updates and new settings for your account; settings follow automatically after a restart |
 | Login screen | Classic "Log On" dialog on the desktop blue (SDDM theme) |
@@ -205,6 +208,28 @@ Navigation Pane (Favorite Folders, Mail Folders, Mail/Contacts buttons), message
 - **Contacts**: Address Cards or Phone List, contact form, Address Book (Ctrl+Shift+B), vCard import/export.
 - Keys like Outlook: Ctrl+N new, Ctrl+R reply, Ctrl+Shift+R reply all, Ctrl+F forward, F9 Send/Receive,
   Ctrl+Q/Ctrl+U read/unread, Ctrl+Shift+V move, Ctrl+1 Mail, Ctrl+3 Contacts, Ctrl+Enter or Alt+S send.
+
+## Show
+
+Start menu > **Show** (`classic7-show`, or `powerpnt` in Run). Presentations in the PowerPoint 2007 layout:
+Slides/Outline pane on the left, the slide in the middle, notes below; Slide Sorter and zoom in the status bar.
+
+- **Files**: opens .pptx, .ppsx, .potx, .pptm and PowerPoint 97-2003 .ppt/.pps; saves .pptx and .ppsx
+  (macros are not kept), Save As PDF and pictures (PNG/JPEG of one or all slides). An old .ppt is saved as .pptx.
+  A .ppsx (or right-click > *Show*) starts the slide show directly.
+- **Home**: New Slide with the layout gallery, Layout, Reset, Delete; font, size, bold/italic/underline, colours
+  (theme colours), bullets and numbering, list levels (Tab/Shift+Tab), alignment, line spacing; Shapes, Arrange,
+  Quick Styles, Shape Fill/Outline (colours, gradients, pictures, weights, dashes, arrows).
+- **Insert**: Table (grid), Picture, Shapes, Text Box, Hyperlink, Header & Footer, Date & Time, Slide Number, Symbol.
+- **Design**: Page Setup (4:3, 16:9, 16:10, A4...), orientation, nine designs, theme Colors and Fonts, Background
+  Styles, Format Background, Hide Background Graphics.
+- **Animations**: entrance animations (Appear, Fade, Wipe, Fly In, Zoom), 20+ transitions, speed, Apply To All,
+  advance on click and/or after a time. **Slide Show**: From Beginning (F5), From Current Slide (Shift+F5), Set Up
+  Show (loop, range, timings), Hide Slide. In the show: arrows/space/click, B/W for black/white screen, Ctrl+P pen,
+  number + Enter to jump, right-click menu, Esc ends.
+- Drag shapes to move them, the handles to size and the green dot to turn them (Shift keeps proportions or 15°
+  steps, Ctrl+drag copies); Ctrl+G group, Ctrl+D duplicate, Ctrl+M new slide; drop pictures from Explorer.
+- Print slides, handouts (1-9 per page) or notes pages; Office button > Send > E-mail (as .pptx or PDF).
 
 ## Updates on the installed PC
 

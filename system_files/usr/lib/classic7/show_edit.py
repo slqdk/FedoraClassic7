@@ -1183,6 +1183,29 @@ class SlideView(QGraphicsView):
     def focusNextPrevChild(self, nxt):
         return False
 
+    def _tab_key(self, e) -> bool:
+        """Tab and Shift+Tab belong to the slide (list levels, next cell, next shape), never to
+        moving the keyboard focus to another part of the window."""
+        if e.type() == QEvent.KeyPress and e.key() in (Qt.Key_Tab, Qt.Key_Backtab) and \
+                not e.modifiers() & (Qt.ControlModifier | Qt.AltModifier):
+            if self.editing is not None:
+                if not self.text_key(self.editing, e):
+                    self.editing.textCursor().insertText("\t")
+            else:
+                self.keyPressEvent(e)
+            return True
+        return False
+
+    def event(self, e):
+        if self._tab_key(e):
+            return True
+        return super().event(e)
+
+    def viewportEvent(self, e):
+        if self._tab_key(e):
+            return True
+        return super().viewportEvent(e)
+
     # ---- drops: pictures from Explorer --------------------------------------------------------
     def dragEnterEvent(self, e):
         if e.mimeData().hasUrls() or e.mimeData().hasImage():

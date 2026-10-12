@@ -1065,7 +1065,13 @@ class ShowWindow(QMainWindow):
         QTimer.singleShot(0, self._theme_previews)
 
     def rebuild_lists(self):
-        for lst, width in ((self.slides_list, 150), (self.sorter, 200)):
+        lists = [(self.slides_list, 150)]
+        if self.stack.currentWidget() is self.sorter:
+            lists.append((self.sorter, 200))
+            self._sorter_dirty = False
+        else:
+            self._sorter_dirty = True
+        for lst, width in lists:
             lst.blockSignals(True)
             lst.clear()
             dpr = self.devicePixelRatioF()
@@ -1089,7 +1095,10 @@ class ShowWindow(QMainWindow):
         if self.slide is None:
             return
         dpr = self.devicePixelRatioF()
-        for lst, width in ((self.slides_list, 150), (self.sorter, 200)):
+        lists = [(self.slides_list, 150)] + ([(self.sorter, 200)] if self.stack.currentWidget() is self.sorter else [])
+        if self.stack.currentWidget() is not self.sorter:
+            self._sorter_dirty = True
+        for lst, width in lists:
             it = lst.item(self.current)
             if it is not None:
                 it.setData(Qt.DecorationRole, QPixmap.fromImage(self.renderer.thumbnail(self.slide, width,
@@ -2661,6 +2670,8 @@ class ShowWindow(QMainWindow):
         self._update_current_thumb()
         if which == "sorter":
             self.stack.setCurrentWidget(self.sorter)
+            if getattr(self, "_sorter_dirty", True):
+                self.rebuild_lists()
             self.a_sorter.setChecked(True)
             self.sorter.setCurrentRow(self.current)
         else:
@@ -2755,6 +2766,8 @@ class ShowWindow(QMainWindow):
 
     def paste(self):
         md = QApplication.clipboard().mimeData()
+        if md is None:
+            return
         ed = self.view.editing
         if ed is not None:
             if md.hasImage() and not md.hasText():

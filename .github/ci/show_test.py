@@ -14,7 +14,6 @@ from PySide6.QtWidgets import QApplication         # noqa: E402
 
 app = QApplication(sys.argv[:1])
 import show_app as sa      # noqa: E402
-import show_model as sm    # noqa: E402
 import show_pptx as spx    # noqa: E402
 
 failures = []

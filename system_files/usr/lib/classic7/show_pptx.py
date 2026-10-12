@@ -761,6 +761,14 @@ class Reader:
             s.kind = "chart" if uri.endswith("/chart") else "other"
             s.raw = etree.tostring(el)
             s.raw_parts = self.collect_parts(el, part)
+            if s.kind == "chart":
+                try:
+                    import show_chart
+                    tree = next((t for t in s.raw_parts.values() if t.get("kind") == "chart"), None)
+                    if tree and tree.get("data"):
+                        s.chart = show_chart.parse(tree["data"])
+                except Exception:   # noqa: BLE001
+                    s.chart = None
             if s.ph is not None and not has_xfrm:
                 self.inherit_placeholder(s, False, MISSING, MISSING, ctx)
             return s

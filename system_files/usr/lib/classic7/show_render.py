@@ -182,7 +182,16 @@ class Renderer:
             self.paint_table(p, s, ctx, w, h)
         elif s.kind in ("chart", "other"):
             img = self.image(s.fallback_image)
-            if not img.isNull():
+            drawn = False
+            if s.kind == "chart" and s.chart:
+                try:
+                    import show_chart
+                    drawn = show_chart.paint(p, QRectF(0, 0, w, h), s.chart, ctx)
+                except Exception:   # noqa: BLE001
+                    drawn = False
+            if drawn:
+                pass
+            elif not img.isNull():
                 p.drawImage(QRectF(0, 0, w, h), img)
             else:
                 p.setPen(QPen(QColor("#A6A6A6"), 1))
