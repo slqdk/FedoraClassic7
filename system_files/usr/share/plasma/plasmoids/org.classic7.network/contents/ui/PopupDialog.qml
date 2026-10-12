@@ -7,7 +7,7 @@ import org.kde.plasma.networkmanagement as PlasmaNM
 import org.kde.networkmanager as NMQt
 
 PlasmaExtras.Representation {
-    id: popup
+    id: dialog
 
     required property PlasmaNM.Handler nmHandler
     required property PlasmaNM.NetworkStatus nmStatus
@@ -57,7 +57,7 @@ PlasmaExtras.Representation {
                 model: proxyModel
                 delegate: ActiveItem {
                     Layout.fillWidth: true
-                    popup: popup
+                    popup: dialog
                     onVisibleChanged: activeRepeater.recount()
                     Component.onCompleted: activeRepeater.recount()
                     Component.onDestruction: Qt.callLater(activeRepeater.recount)
@@ -90,7 +90,7 @@ PlasmaExtras.Representation {
                 model: proxyModel
                 delegate: OtherItem {
                     Layout.fillWidth: true
-                    popup: popup
+                    popup: dialog
                     onVisibleChanged: otherRepeater.recount()
                     Component.onCompleted: otherRepeater.recount()
                     Component.onDestruction: Qt.callLater(otherRepeater.recount)
@@ -115,12 +115,12 @@ PlasmaExtras.Representation {
                 Layout.fillWidth: true
                 LinkText {
                     text: i18n("Open Network Connections")
-                    onClicked: popup.run("classic7-network")
+                    onClicked: dialog.run("classic7-network")
                 }
                 Item { Layout.fillWidth: true }
                 LinkText {
                     text: i18n("Network settings…")
-                    onClicked: popup.configure()
+                    onClicked: dialog.configure()
                 }
             }
         }
