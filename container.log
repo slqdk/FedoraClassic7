@@ -1,0 +1,493 @@
+Trying to pull ghcr.io/slqdk/fedoraclassic7:latest...
+Getting image source signatures
+Copying blob sha256:b359f3165a5654cceab61e5c1f6d35a3e7aedf52064fd11b5392afddd60af92d
+Copying blob sha256:9b4e26e37a1ecf2b6f4c13a01693fff7299b1905289c17be579bc4c8078e1326
+Copying blob sha256:568fc5a11bb09c0e3b6f103746f73ac19df0927e22e522b981219257cbbd7df8
+Copying blob sha256:ef7a2ce82d18b141d77e7fd67082b49d7794fb22741c6fe71b5c060df0a8173b
+Copying blob sha256:141e38c2dcc3d847faa107f7f1eb4ec2d8b2d606c9b0392ed742495043905079
+Copying blob sha256:89d10b98b70c78334cec97d599be064fe7920d6d0f2ce2befa9585be3be10b89
+Copying blob sha256:86dd62813a16240504436baee0aca8a413d29be23c336c07f1611c19fb4d18f4
+Copying blob sha256:b2fe55a44d772ceaedde8594848b76c33698835991018dced4d038646582e66c
+Copying blob sha256:1a408c72fa5d065fa6fbe3c0b166be207f9267db88f07f7366095f0950c689b0
+Copying blob sha256:a8c633784473da6f6afa540e8f06a5c8883531cb7429463db4f68175c10521a7
+Copying blob sha256:2278ad9f1897d0d47778c615ece113e514df0ca168c8873cbcf63acebbabfe62
+Copying blob sha256:95e5737153789030aadca47047a04b9e2a633cd9dcc06f207df2c22d91588d72
+Copying blob sha256:2ea7ec4af76efd990734b93f25b8c3eca9b1d5ee7bb07e5e773d90cd9eee0038
+Copying blob sha256:488d9f27c7a5c1b5574ea4af5e32295eacccb92c322dc79805fe07c1370d13f0
+Copying blob sha256:e9639fb3cc10e645688237cc542439c991c247b215d1955160cf4e86b96e5d2f
+Copying blob sha256:a9306f814b096790bf71f032ff2346503e4ad196339592a055dcf26379c829cc
+Copying blob sha256:cb1d9763711ebba48d73d588f2bcecb977366dd020519428bbca4d59840b1848
+Copying blob sha256:a6b91f6dcf43dae9f966a1bcd9dde684247126158ad5feea13bc9b757bf471dc
+Copying blob sha256:e07ae47d7a0c13868aa77d25fa821ea5a39d0d8d039c2901f102efd50037dc80
+Copying blob sha256:0ce3263b947d823ac75f95bbae398cf56953fa07c3103d370fe2e33e56aa7d9a
+Copying blob sha256:9b1326a4cc6071fc1ff087b30a4965ce23ffd36fdc1fb313b0d76ed9bb33fc4f
+Copying blob sha256:c2016f5f7a7fa158e3e5ff541f6e979d265de5683a82d867d9697f08ca9989b0
+Copying blob sha256:f2fcabda5d38bae0ef98c246141afe5fd323c9467bd4544125274ce27600744d
+Copying blob sha256:faead06e47b048935ba0ebb556ac60c3b38ab5241eb0269123f0b256c12b5519
+Copying blob sha256:3b9cc1bc51609a978add4814ac391d39fc8f5f121d64df3fa804599a2b0a6a4a
+Copying blob sha256:53e48f1df11c04a29266d6b24c5f0ca7e7abccd03d0efe1fe49c97ac5f78111c
+Copying blob sha256:193d6888aaae0230f1f23ced497bbf7b6b8362d7e31e6179cdda4afa407d883f
+Copying blob sha256:c919efb8ce9d1f023b2d12e7da2102398569778cb0659288aefe787fcbfa69ca
+Copying blob sha256:20da6b9959e7209293b96c6d6898ee18c23a59bef20d50160c5d3903d4dc0c8f
+Copying blob sha256:bc982c7d92e9ba24946e849773bf647fa95c4bea27a79e940b9c09c3864dc365
+Copying blob sha256:29476dbc441966de7e4f02e0173e1d1a1443de9c463279cbca3c5100f0f52069
+Copying blob sha256:e82a4a1c33292455dc7751f8366feb7b18d1888075ad45bd3a26c80e044fc5b0
+Copying blob sha256:128e75e11595ae4a8e9e195dae0857aeb0433575409c3bb84c17a945bb9a5b3b
+Copying blob sha256:5bd77419d7957fcf59700c46d87a06e711080bee228baa0d42c4f14f27467b0a
+Copying blob sha256:b53187b89e5a9d19a5387788a84c4c668a3f42365c00a5afa2ea6854b50364e4
+Copying blob sha256:6640d846b6af3cf77589904f68a046eea5ed122226883aceb76177a4e325f4f4
+Copying blob sha256:eb471b81fd248b947e7ca4651d1a61a187ae8b199ef4e5bcb6c42707aa751aae
+Copying blob sha256:dc5b23830caff0d34285cd949871a4556952302145b571ac4c03a082ecb74482
+Copying blob sha256:86a8615cd37db8dfc2492294989a4a9a0cd00008ac3b9c2504c8fe39f92c9adf
+Copying blob sha256:587e093c35db8d6d2b77a037a75b20832504281d3936c0f61502486a1a84c9b2
+Copying blob sha256:d6f3bba04e78b8ba4dc2892b561c6ae5afcebd40d54c5e8272722396f44dd4a7
+Copying blob sha256:95e1427a879de2e65ff5a0f6583d8af1f110019e71b8bb17ecf72a95f4276b82
+Copying blob sha256:55c9d8e3feea6bac38b6d6e82fe06a6108eb385dc00c6764dd365bccbcb328ee
+Copying blob sha256:44e40d2159ba3e4af2e8496ed68869a188e31c63f956f5312697990110665f02
+Copying blob sha256:717697c43ba88f075a912ab9e9859e895e6b87ec38bfc1bfe9479aea434ed954
+Copying blob sha256:029b6d641e154c8caa0185c2d333ba99a1d8b4d381e285383c3fe3674db8b6f0
+Copying blob sha256:81078a60d3ff3a35e304fe896cf02c6cbe2565c6a49f68a58756782fbf4d6059
+Copying blob sha256:99d6b1c0a70c45d7cf57040debe6629f177ec0bb81bac25c8daa1cff6b372ee5
+Copying blob sha256:0d8b5fd7ac05d5cd79a94789688b5ec8200503cd5ed4ce499037f6349bd265ce
+Copying blob sha256:6ddf17b33d1a30517824b7f9702ce95c8d15a4c4a093e8d4fa49e87704a37ab8
+Copying blob sha256:22375bc8aa895dbacc53919857ccd6feee08882d334038d0b721ed2b1df4a218
+Copying blob sha256:531c488f4249af4cf07776f4008dba9bd8a3968b27faa078985752ea4613af4b
+Copying blob sha256:2607c8cbed6719249071ebb3604b319d3e3c61b999cfb8cd4fbe8570d4917e3e
+Copying blob sha256:adee0a04a5fa8307ba513f79f72400dd639b9a8d60964a9ef2fb2c6b12d8aecd
+Copying blob sha256:741a1ba5269e9299b7a5ef0650e9bb6283e70f8cd2e04d3811ab190738128608
+Copying blob sha256:7738b523364cf62be0501a9fa10adb0b3716d04aeafa420cba66b84c7c825c10
+Copying blob sha256:d45ee5d4c268f6593111380e1c360b8233c91aba7f3188ba45ba59db94941f68
+Copying blob sha256:ee7723a2a235b9bcd808231459b6dca0bec5528cdfcdc90b2a97384bd3ead621
+Copying blob sha256:c822630764102ed98e3639433d27a933636dbffd81271ecdf11133fc520ab2fe
+Copying blob sha256:dcd473516657929eea895ee1e6d1da559309888f2a37db8c17af5e2a8536a56d
+Copying blob sha256:6a8a1ef3248d338e55f34fae33a69eee192e0b449c2325fd0d0c2844bae1bf9a
+Copying blob sha256:ed6af2da32af0e462356b2e9099399449de92d62629ce8a4547a779e4afd0d96
+Copying blob sha256:85508df7e5cd31414e5a0dd947f81ca2c6f1ac59867ba87961a84d7017a327e1
+Copying blob sha256:fb86620c90a9a4413a22b93e9708c2682103aa4b6394b9f4e81f663032af1161
+Copying blob sha256:f0b96e5d20f4e6b41f23ba22992eb5030eb6122da85a11d1871220a2e387d792
+Copying blob sha256:b441de3bef64b732e3751a76eb87f8ba03026e44c09e8560aa8a8bcb45a164af
+Copying blob sha256:5bed069b6c806d5d07b3121ba185632db629f99c3c275e1abc3a7383f7b6f75f
+Copying blob sha256:42f4ca90c861c792510e1b0ae71a8bf7769decc95878bba253f625f2912ebd03
+Copying blob sha256:ba07f297f92495c9d05a5610d500c625d2b705342eebc41e6ff4cbf757e90082
+Copying blob sha256:61a0ff9e036b159bda53b1988152614ed758ca10257133cc4b7acc35920b89b2
+Copying blob sha256:1f65aedf97f3e1362f4878640ceb801c030272a0fb9bc177db1cc5d9d7aa83c9
+Copying blob sha256:57087b39d50169e37dff6461877c6c4dbdad86f01404cf28abc0846c6b135f8e
+Copying blob sha256:32fcf1c7fc59d62090834d5ccff4ee6c14d88e21584ed32c53da23cbd27f8266
+Copying blob sha256:16deb8e7d2788cef6489b174194b23db4e9e37b4726f6d05c443eb8b1372cc52
+Copying blob sha256:2f1523be6d8f3e7e2f86df109f2f5e23c596d9c0f8e967ddc7b306b49292a23c
+Copying blob sha256:eb551bc028c934bd6a7422004fc6f2ef5737260f9167e4b05e3742194254013a
+Copying blob sha256:114e2e15cd82307f46d0d1fac91d5119e8f31c8fc24fdb0f510909861cf28026
+Copying blob sha256:c3969c4a7c9e3de01f7ac1055dd4d7e76f7862d0d555805a5b664e4bbb7d392a
+Copying blob sha256:bad5da458ad8eafa7dfbce1b07c0f7502920abcf2cfa5f624e042a9d6a003307
+Copying blob sha256:0c22a5b4ab9209c0806f98e2b75cedc1a11e522a29c72419c162b533d5519451
+Copying blob sha256:b940fd7a2a5d4f328ef4d8f27e6b26c03d2d2a22166a6bc26e7abdc245096a58
+Copying blob sha256:15c4b81f6a658589117099a0dd4292cbd69fdac8504890d681acedbbe4ebe012
+Copying blob sha256:b765b009868dfc832c2c5c69d612671c1ca1157d213ab52db6405480e2a8c3e4
+Copying blob sha256:3ca6b25d480b526a1315d6bc0a95599ec364b5c79b239c8a91773a1c48be265f
+Copying blob sha256:1b4a9a2e65c77f89d8ee3a28859d4e87f4f59b904f1e413e96d5cfc07609215c
+Copying blob sha256:bddb573c0fa414c9372235285ccf70d24c636faf05c4566c01d5c3b909566f13
+Copying blob sha256:2b79b820057c95a5f738004e54ee468c03ee86a550b3daa3059cf9773f82a12b
+Copying blob sha256:11cdde871b9f2adc4e847f3ade1653ef4a25aa98fbccd06a41e99e0e3d01a52e
+Copying blob sha256:dadbcfbbb198299d59365c10a7e1680e0cb46280b183ebf11e8ef284ecab9f51
+Copying blob sha256:a3e4bb8144eb21a0e926051f94812d332d41412c9b08d499ba71b6d4b9459ce3
+Copying blob sha256:3dde5347d251b180f324e7adea935fc9e91af908b3a874895d65514826c66ba9
+Copying blob sha256:ee4385c4150574529087a1f4bb72182fdf4e488760fc3100a08d19a6114645ee
+Copying blob sha256:3ff6012e53b849cded09fe96b932159492dcfaf7dc294bf33d2ab1640ed0eb8a
+Copying blob sha256:d7d9aa95488801857b39edd4ae5286e99dc4fd43dd3c2f4f78306fe4a772da33
+Copying blob sha256:bd92bf6fca189393cc35f92d4e4506a4fe929b71134a8fd3a4a0e34602afc788
+Copying blob sha256:7ec3ee43d4a7fc61740e5cdeffd8109658ad8ada852b85be22365e8bf070ef02
+Copying blob sha256:141737a62e195784343e30fc4d7b858a187c7516d92cb73cd1c4a04c7663393f
+Copying blob sha256:95e526cd6d0c6a8e35a649c580194df88296a8b8b7dcbbc73f46d01bec4fa8c0
+Copying blob sha256:ffb10546d723a407cae2fd34b122486a5cb6040c7424d34d3f291f951f7c2822
+Copying blob sha256:981d25d2e49203e7c1b177a3fd518dafde39b0577a5bca89e720e9503c798b39
+Copying blob sha256:5bb35219fd5e75780765797a322c83dc862906c4a60994f060e9a83f847caa26
+Copying blob sha256:469206f4ddcc56ad6c232705aab5f03a31e64be21b910a8399295db7faa842c1
+Copying blob sha256:6379070e86639ccf2fde9601f8cce3abd17e3d313f5baf68b18a2a7c61692e9c
+Copying blob sha256:06712597d15a9f8d329340205704002949df6929b3bb33afcc28fa123e255f10
+Copying blob sha256:ebc90e0f21463c54c9f879a72f420fbc604fd3c8b992b970464e0d04385fea79
+Copying blob sha256:46dad21a0b2b8e4c3756ab98457c03fad2f21313514e7eea4b2f68817ee65d50
+Copying blob sha256:61877ea7f8794825a8958a8c2e9f6c08573a0c76a48933b5880d16bfc007c620
+Copying blob sha256:f0261b0c672d91c1a123b397eb7a4047fb905089e370eb1df038e85a8d1aaa07
+Copying blob sha256:971b9e371d24b202cd0a9876d13b8c151d86ac70a92820d03ba1423c8e3c9750
+Copying blob sha256:84016e1d70eb53d34cb22469948dbd8469984cf005b144866a29d61c121b373c
+Copying blob sha256:b06f24a0eb79e0ff8bc0ac0a525e3ff3812ff491310f9d429ff655ebb9de6cb9
+Copying blob sha256:a0097f766574369a67038294ae32db953aa6e6b1f7980d1564600d0bbb6b2192
+Copying blob sha256:847a4d0e30fb2435712b7b2b11d83e21c33629f421f8be542fd6a0623502e2a8
+Copying blob sha256:4086ac9f663a277ee8c6f6a8704aa32780b37a4d834258a11a2322ac6b4e515d
+Copying blob sha256:023bdf6cad155d4775ddf06ee811c84cc6d56d0d81ec5d1e38f3ae847f7fc519
+Copying blob sha256:9e8c8f8257b6162d9603b32895b49ed806e7ab8496a80a000e3dbadd9ea95d01
+Copying blob sha256:42f43860b2674aa0b75848156cbc2e30dd8767b7fff0ae4a5295497887ff59f7
+Copying blob sha256:1997ae6dfb1d2363242821bb04fd018fa3928ba08682e65a1e3db9141ddee0c4
+Copying blob sha256:8f73dce411f5c94fb436326cd6cbf01a228984bb52d6707272a8506cd102f536
+Copying blob sha256:d521e5521dc54d1d8362967fde4f804a0aae6bbe66ae8d08f73749140c981d11
+Copying blob sha256:08331764841977f5d6ff914eec889216ebeafa27e535c6e0ce9623a6c3956d9a
+Copying blob sha256:21b8ff2af4ff198fe4407052bd58ba2ca67a6567eb7aeabd29ce75f74226c2a9
+Copying blob sha256:395e7c91ce50ad6cd8492ef947cd7f6ac11650e55b47218526bb5d747d304979
+Copying blob sha256:d6c0112217c1a0eb14e661fd99b201d053bbed573a5f1d96ca4471261c6b5426
+Copying blob sha256:1855036e6422cec216323fe9ee3642bc857a75b59217078756a39230d6bb7b97
+Copying blob sha256:6dc25df7e826f15f632b5cf40334af028cc167e27c5628dfdb5c640fdbf9c04b
+Copying blob sha256:4172d131f245e26885b19ade3711c71e30e5483913e937999c0bb10c91457d5a
+Copying blob sha256:324cc7db9e6968f2ce9e615e901477cb5ffebcdd3844dc079e3f6050a7321020
+Copying config sha256:a3c3ecf7eb6a9f4a499679e6b221fb2ce8bfbc0eb5117bd84f55d36e704e5b56
+Writing manifest to image destination
++ dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool
++ S=/src/system_files
++ cp -a /src/system_files/usr/lib/classic7/. /usr/lib/classic7/
++ cp -a /src/system_files/usr/share/classic7/. /usr/share/classic7/
++ cp -a /src/system_files/etc/skel/. /etc/skel/
++ cp /src/system_files/usr/libexec/classic7-tray-fix /src/system_files/usr/libexec/classic7-first-login /usr/libexec/
++ IFS=
++ read -r line
++ [[ -z [General] ]]
++ [[ [General] == \#* ]]
++ [[ [General] =~ ^\[(.*)]$ ]]
++ g=General
++ continue
++ IFS=
++ read -r line
++ [[ -z GlobalViewProps=true ]]
++ [[ GlobalViewProps=true == \#* ]]
++ [[ GlobalViewProps=true =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group General --key GlobalViewProps -- true
++ IFS=
++ read -r line
++ [[ -z EditableUrl=false ]]
++ [[ EditableUrl=false == \#* ]]
++ [[ EditableUrl=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group General --key EditableUrl -- false
++ IFS=
++ read -r line
++ [[ -z ShowFullPath=true ]]
++ [[ ShowFullPath=true == \#* ]]
++ [[ ShowFullPath=true =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group General --key ShowFullPath -- true
++ IFS=
++ read -r line
++ [[ -z ShowStatusBar=FullWidth ]]
++ [[ ShowStatusBar=FullWidth == \#* ]]
++ [[ ShowStatusBar=FullWidth =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group General --key ShowStatusBar -- FullWidth
++ IFS=
++ read -r line
++ [[ -z ShowZoomSlider=false ]]
++ [[ ShowZoomSlider=false == \#* ]]
++ [[ ShowZoomSlider=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group General --key ShowZoomSlider -- false
++ IFS=
++ read -r line
++ [[ -z LockPanels=true ]]
++ [[ LockPanels=true == \#* ]]
++ [[ LockPanels=true =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group General --key LockPanels -- true
++ IFS=
++ read -r line
++ [[ -z '' ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z [DetailsMode] ]]
++ [[ [DetailsMode] == \#* ]]
++ [[ [DetailsMode] =~ ^\[(.*)]$ ]]
++ g=DetailsMode
++ continue
++ IFS=
++ read -r line
++ [[ -z # Windows Explorer details view: small icons, no tree expanders inside the list ]]
++ [[ # Windows Explorer details view: small icons, no tree expanders inside the list == \#* ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z IconSize=16 ]]
++ [[ IconSize=16 == \#* ]]
++ [[ IconSize=16 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group DetailsMode --key IconSize -- 16
++ IFS=
++ read -r line
++ [[ -z PreviewSize=16 ]]
++ [[ PreviewSize=16 == \#* ]]
++ [[ PreviewSize=16 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group DetailsMode --key PreviewSize -- 16
++ IFS=
++ read -r line
++ [[ -z ExpandableFolders=false ]]
++ [[ ExpandableFolders=false == \#* ]]
++ [[ ExpandableFolders=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group DetailsMode --key ExpandableFolders -- false
++ IFS=
++ read -r line
++ [[ -z '' ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z [PlacesPanel] ]]
++ [[ [PlacesPanel] == \#* ]]
++ [[ [PlacesPanel] =~ ^\[(.*)]$ ]]
++ g=PlacesPanel
++ continue
++ IFS=
++ read -r line
++ [[ -z # compact navigation pane like Windows 7 ]]
++ [[ # compact navigation pane like Windows 7 == \#* ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z IconSize=16 ]]
++ [[ IconSize=16 == \#* ]]
++ [[ IconSize=16 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group PlacesPanel --key IconSize -- 16
++ IFS=
++ read -r line
++ [[ -z '' ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z [IconsMode] ]]
++ [[ [IconsMode] == \#* ]]
++ [[ [IconsMode] =~ ^\[(.*)]$ ]]
++ g=IconsMode
++ continue
++ IFS=
++ read -r line
++ [[ -z IconSize=48 ]]
++ [[ IconSize=48 == \#* ]]
++ [[ IconSize=48 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group IconsMode --key IconSize -- 48
++ IFS=
++ read -r line
++ [[ -z PreviewSize=48 ]]
++ [[ PreviewSize=48 == \#* ]]
++ [[ PreviewSize=48 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group IconsMode --key PreviewSize -- 48
++ IFS=
++ read -r line
++ [[ -z '' ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z [MainWindow] ]]
++ [[ [MainWindow] == \#* ]]
++ [[ [MainWindow] =~ ^\[(.*)]$ ]]
++ g=MainWindow
++ continue
++ IFS=
++ read -r line
++ [[ -z # like Windows 7: no menu bar (the menu button at the right of the address bar has the menus) ]]
++ [[ # like Windows 7: no menu bar (the menu button at the right of the address bar has the menus) == \#* ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z MenuBar=Disabled ]]
++ [[ MenuBar=Disabled == \#* ]]
++ [[ MenuBar=Disabled =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group MainWindow --key MenuBar -- Disabled
++ IFS=
++ read -r line
++ [[ -z ToolBarsMovable=Disabled ]]
++ [[ ToolBarsMovable=Disabled == \#* ]]
++ [[ ToolBarsMovable=Disabled =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group MainWindow --key ToolBarsMovable -- Disabled
++ IFS=
++ read -r line
++ [[ -z '' ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z [ContextMenu] ]]
++ [[ [ContextMenu] == \#* ]]
++ [[ [ContextMenu] =~ ^\[(.*)]$ ]]
++ g=ContextMenu
++ continue
++ IFS=
++ read -r line
++ [[ -z ShowOpenInNewTab=false ]]
++ [[ ShowOpenInNewTab=false == \#* ]]
++ [[ ShowOpenInNewTab=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group ContextMenu --key ShowOpenInNewTab -- false
++ IFS=
++ read -r line
++ [[ -z ShowOpenInNewWindow=true ]]
++ [[ ShowOpenInNewWindow=true == \#* ]]
++ [[ ShowOpenInNewWindow=true =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group ContextMenu --key ShowOpenInNewWindow -- true
++ IFS=
++ read -r line
++ [[ -z ShowOpenInSplitView=false ]]
++ [[ ShowOpenInSplitView=false == \#* ]]
++ [[ ShowOpenInSplitView=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group ContextMenu --key ShowOpenInSplitView -- false
++ IFS=
++ read -r line
++ [[ -z ShowCopyLocation=false ]]
++ [[ ShowCopyLocation=false == \#* ]]
++ [[ ShowCopyLocation=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group ContextMenu --key ShowCopyLocation -- false
++ IFS=
++ read -r line
++ [[ -z ShowDuplicateHere=false ]]
++ [[ ShowDuplicateHere=false == \#* ]]
++ [[ ShowDuplicateHere=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group ContextMenu --key ShowDuplicateHere -- false
++ IFS=
++ read -r line
++ [[ -z ShowAddToPlaces=false ]]
++ [[ ShowAddToPlaces=false == \#* ]]
++ [[ ShowAddToPlaces=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group ContextMenu --key ShowAddToPlaces -- false
++ IFS=
++ read -r line
++ [[ -z ShowOpenTerminal=false ]]
++ [[ ShowOpenTerminal=false == \#* ]]
++ [[ ShowOpenTerminal=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group ContextMenu --key ShowOpenTerminal -- false
++ IFS=
++ read -r line
++ [[ -z ShowCopyMoveMenu=false ]]
++ [[ ShowCopyMoveMenu=false == \#* ]]
++ [[ ShowCopyMoveMenu=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group ContextMenu --key ShowCopyMoveMenu -- false
++ IFS=
++ read -r line
++ [[ -z ShowCopyToOtherSplitView=false ]]
++ [[ ShowCopyToOtherSplitView=false == \#* ]]
++ [[ ShowCopyToOtherSplitView=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group ContextMenu --key ShowCopyToOtherSplitView -- false
++ IFS=
++ read -r line
++ [[ -z ShowMoveToOtherSplitView=false ]]
++ [[ ShowMoveToOtherSplitView=false == \#* ]]
++ [[ ShowMoveToOtherSplitView=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group ContextMenu --key ShowMoveToOtherSplitView -- false
++ IFS=
++ read -r line
++ [[ -z ShowSortBy=true ]]
++ [[ ShowSortBy=true == \#* ]]
++ [[ ShowSortBy=true =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group ContextMenu --key ShowSortBy -- true
++ IFS=
++ read -r line
++ [[ -z ShowViewMode=true ]]
++ [[ ShowViewMode=true == \#* ]]
++ [[ ShowViewMode=true =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group ContextMenu --key ShowViewMode -- true
++ IFS=
++ read -r line
++ kwriteconfig6 --file /etc/xdg/dolphinrc --group General --key Version --delete
++ cat
++ mkdir -p /out
++ chmod 777 /out
++ dbus-run-session -- bash /tmp/inner.sh
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.0' (uid=0 pid=115 comm="plasma-apply-colorscheme Classic7" label="crun (unconfined)")
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.1' (uid=0 pid=118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.1' (uid=0 pid=118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+error: fuse init failed: Unable to create dir /root/.cache/doc
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.471: Document portal fuse mount point unknown: GDBus.Error:org.freedesktop.DBus.Error.ServiceUnknown: The name :1.3 was not provided by any .service files
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.471: Choosing gtk.portal for org.freedesktop.impl.portal.Access as a last-resort fallback
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.1' (uid=0 pid=118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:137): Gtk-WARNING **: 15:21:40.480: cannot open display: 
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): dconf-CRITICAL **: 15:21:40.482: unable to create directory '/root/.cache/dconf': No such file or directory.  dconf will not work properly.
+
+(/usr/libexec/xdg-desktop-portal:118): dconf-CRITICAL **: 15:21:40.482: unable to create directory '/root/.cache/dconf': No such file or directory.  dconf will not work properly.
+
+(/usr/libexec/xdg-desktop-portal:118): dconf-CRITICAL **: 15:21:40.482: unable to create directory '/root/.cache/dconf': No such file or directory.  dconf will not work properly.
+
+(/usr/libexec/xdg-desktop-portal:118): dconf-CRITICAL **: 15:21:40.482: unable to create directory '/root/.cache/dconf': No such file or directory.  dconf will not work properly.
+
+(/usr/libexec/xdg-desktop-portal:118): dconf-CRITICAL **: 15:21:40.482: unable to create directory '/root/.cache/dconf': No such file or directory.  dconf will not work properly.
+
+(/usr/libexec/xdg-desktop-portal:118): dconf-CRITICAL **: 15:21:40.483: unable to create directory '/root/.cache/dconf': No such file or directory.  dconf will not work properly.
+
+(/usr/libexec/xdg-desktop-portal:118): dconf-CRITICAL **: 15:21:40.483: unable to create directory '/root/.cache/dconf': No such file or directory.  dconf will not work properly.
+
+(/usr/libexec/xdg-desktop-portal:118): dconf-CRITICAL **: 15:21:40.484: unable to create directory '/root/.cache/dconf': No such file or directory.  dconf will not work properly.
+
+(/usr/libexec/xdg-desktop-portal:118): dconf-CRITICAL **: 15:21:40.484: unable to create directory '/root/.cache/dconf': No such file or directory.  dconf will not work properly.
+
+(/usr/libexec/xdg-desktop-portal:118): dconf-CRITICAL **: 15:21:40.484: unable to create directory '/root/.cache/dconf': No such file or directory.  dconf will not work properly.
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.484: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.484: Choosing gtk.portal for org.freedesktop.impl.portal.Settings as a last-resort fallback
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.1' (uid=0 pid=118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:142): Gtk-WARNING **: 15:21:40.492: cannot open display: 
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.494: Failed to create settings proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.494: Not providing Settings portal: No working backend
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.494: Choosing gtk.portal for org.freedesktop.impl.portal.FileChooser as a last-resort fallback
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.1' (uid=0 pid=118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:145): Gtk-WARNING **: 15:21:40.502: cannot open display: 
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.503: Failed to create file chooser proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.503: Choosing gtk.portal for org.freedesktop.impl.portal.AppChooser as a last-resort fallback
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.1' (uid=0 pid=118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:148): Gtk-WARNING **: 15:21:40.510: cannot open display: 
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.511: Failed to create app chooser proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.511: Choosing gtk.portal for org.freedesktop.impl.portal.Print as a last-resort fallback
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.1' (uid=0 pid=118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:151): Gtk-WARNING **: 15:21:40.520: cannot open display: 
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.521: Failed to create print proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.521: Choosing gtk.portal for org.freedesktop.impl.portal.Notification as a last-resort fallback
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.1' (uid=0 pid=118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:154): Gtk-WARNING **: 15:21:40.531: cannot open display: 
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.532: Failed to create notification proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.532: Choosing gtk.portal for org.freedesktop.impl.portal.Inhibit as a last-resort fallback
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.1' (uid=0 pid=118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:158): Gtk-WARNING **: 15:21:40.541: cannot open display: 
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.542: Failed to create inhibit proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.542: The location portal requires an access impl
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.542: The camera portal requires an access impl
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.542: Choosing gtk.portal for org.freedesktop.impl.portal.Account as a last-resort fallback
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.1' (uid=0 pid=118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:164): Gtk-WARNING **: 15:21:40.549: cannot open display: 
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.550: Failed to create account proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.550: Choosing gtk.portal for org.freedesktop.impl.portal.Email as a last-resort fallback
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.1' (uid=0 pid=118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:179): Gtk-WARNING **: 15:21:40.558: cannot open display: 
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.559: Failed to create email proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.559: Choosing gtk.portal for org.freedesktop.impl.portal.DynamicLauncher as a last-resort fallback
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.1' (uid=0 pid=118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:182): Gtk-WARNING **: 15:21:40.566: cannot open display: 
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:118): xdg-desktop-portal-WARNING **: 15:21:40.567: Failed to create dynamic_launcher proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[100]: [session uid=0 pid=100 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
