@@ -1,7 +1,6 @@
 #!/bin/bash
 # Builder stage: fetch Chicago95 (GPL-3.0+/MIT) at a pinned commit and turn it into
 #   - the Classic7 GTK theme  (Chicago95 recoloured from Win95 grey to Windows Standard)
-#   - the Chicago95 icon theme (with Breeze as fallback for icons it doesn't have)
 #   - the Chicago95 standard cursors
 # Output lands in /out, which the final image copies to /.
 set -ouex pipefail
@@ -23,7 +22,7 @@ rm -rf "$THEME"/{xfwm4,xfwm4_hidpi,xfce-notify-4.0,cinnamon,gnome-shell,metacity
 
 sed -i -e 's/^Name=.*/Name=Classic7/' -e 's/^GtkTheme=.*/GtkTheme=Classic7/' \
     -e 's/^MetacityTheme=.*/MetacityTheme=Classic7/' \
-    -e 's/^CursorTheme=.*/CursorTheme=Chicago95_Standard_Cursors/' -e 's/^CursorSize=.*/CursorSize=24/' \
+    -e 's/^IconTheme=.*/IconTheme=breeze/' -e 's/^CursorTheme=.*/CursorTheme=Chicago95_Standard_Cursors/' -e 's/^CursorSize=.*/CursorSize=24/' \
     -e 's/^Comment=.*/Comment=Windows Standard palette, based on Chicago95/' "$THEME/index.theme"
 
 # Windows 95 grey -> Windows Standard ("Win2000 / Win7 Classic") palette
@@ -41,12 +40,7 @@ find "$THEME" -type f -name '*.png' -print0 | xargs -0 -r -n 200 \
 find "$THEME" -type f -name '*.svg' -print0 | xargs -0 -r sed -i -E \
     -e 's/#c0c0c0/#d4d0c8/Ig' -e 's/#dfdfdf/#d4d0c8/Ig'
 
-# --- Icons -------------------------------------------------------------------------
-mkdir -p "$OUT/usr/share/icons"
-cp -a "$SRC/Icons/Chicago95" "$OUT/usr/share/icons/Chicago95"
-if ! grep -q '^Inherits=' "$OUT/usr/share/icons/Chicago95/index.theme"; then
-    sed -i '/^Name=/a Inherits=breeze,hicolor' "$OUT/usr/share/icons/Chicago95/index.theme"
-fi
+# (Icons: Classic 7 uses Breeze; the Chicago95 icon set is not installed)
 
 # --- Cursors -----------------------------------------------------------------------
 cp -a "$SRC/Cursors/Chicago95_Standard_Cursors" "$OUT/usr/share/icons/Chicago95_Standard_Cursors"

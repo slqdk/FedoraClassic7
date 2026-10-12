@@ -5,7 +5,7 @@ widgetStyle=Windows
 ColorScheme=Classic7
 
 [kdeglobals][Icons]
-Theme=Chicago95
+Theme=breeze
 
 [plasmarc][Theme]
 name=classic7
@@ -18,4 +18,5 @@ library=org.kde.kwin.aurorae
 theme=__aurorae__svg__Classic7
 
 [ksplashrc][KSplash]
+Engine=none
 Theme=None

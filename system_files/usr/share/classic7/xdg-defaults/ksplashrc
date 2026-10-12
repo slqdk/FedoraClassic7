@@ -1,0 +1,4 @@
+# No "Plasma made by KDE" splash at login: the desktop simply appears, like Windows Classic
+[KSplash]
+Engine=none
+Theme=None

@@ -16,7 +16,8 @@ image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomic + KDE Plas
 | Taskbar & popups | Own Plasma style `classic7` |
 | Colours | `Classic7` colour scheme (Windows Standard palette) |
 | Apps | Qt "Windows" widget style; GTK apps use `Classic7` (Chicago95 recoloured to the Windows Standard palette) |
-| Icons / cursors | Chicago95 icons (Breeze fallback), Chicago95 standard cursors |
+| One look | No dark mode, no login splash; the other Global Themes Bazzite/Fedora ship (Fedora, Valve, Air, Oxygen, Breeze Dark/Twilight) are removed, Breeze stays as the fallback |
+| Icons / cursors | Breeze icons (desktop icons 32 px), Chicago95 standard cursors |
 | Explorer | Dolphin set up like Windows Explorer: Places + folder tree, Back/Forward/Up with a clickable address bar, a command bar (Cut, Copy, Paste, Move to Trash, Create Folder, View Mode, Properties), Details view, menu bar, full-width status bar |
 | Computer | Classic **Computer** window: drives as tiles with free-space bars (red when nearly full), grouped into hard disks, removable storage and network; opens with Win+E, from the desktop icon and the Start menu |
 | Right-click menus | Windows-style: **Send to ▸** (Compressed (zipped) folder, Desktop (create shortcut), Documents, Mail recipient, Removable Disk), **Create shortcut**, KDE extras hidden; desktop menu with Display Configuration and Configure Desktop and Wallpaper |
@@ -268,5 +269,5 @@ just build-iso      # installer ISO in ./output (needs root podman)
 ## Credits
 
 - Base image: [Bazzite](https://github.com/ublue-os/bazzite) / [Universal Blue image template](https://github.com/ublue-os/image-template)
-- GTK theme, icons, cursors: [Chicago95](https://github.com/grassmunk/Chicago95) (GPL-3.0+/MIT), recoloured at build time
+- GTK theme and cursors: [Chicago95](https://github.com/grassmunk/Chicago95) (GPL-3.0+/MIT), recoloured at build time; icons: Breeze (KDE)
 - Window decoration, Plasma style, colour scheme, Start button: this repo (Apache-2.0, see LICENSE)

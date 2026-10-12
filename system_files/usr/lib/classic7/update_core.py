@@ -348,10 +348,49 @@ def _no_dark_mode(log: Log) -> bool:
     return ok
 
 
+def _breeze_icons(log: Log) -> bool:
+    """Classic 7's standard icons are Breeze (the Chicago95 set was removed from the image)."""
+    ok = _kwrite("kdeglobals", ["Icons"], "Theme", "breeze")
+    for gtk in ("gtk-3.0", "gtk-4.0"):
+        cfg = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config") / gtk / "settings.ini"
+        if cfg.exists():
+            _kwrite(str(cfg), ["Settings"], "gtk-icon-theme-name", "breeze")
+    if shutil.which("gsettings"):
+        subprocess.run(["gsettings", "set", "org.gnome.desktop.interface", "icon-theme", "breeze"],
+                       capture_output=True)
+    changer = "/usr/libexec/plasma-changeicons"
+    if Path(changer).exists():
+        subprocess.run([changer, "breeze"], capture_output=True, timeout=60)
+    log("  icons: Breeze")
+    return ok
+
+
+def _small_desktop_icons(log: Log) -> bool:
+    """Desktop icons at 32 px, like Windows (Plasma's default is 64 px)."""
+    r = subprocess.run(["dbus-send", "--session", "--dest=org.kde.plasmashell", "--type=method_call",
+                        "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript",
+                        'string:desktops().forEach(function (d) { d.currentConfigGroup = ["General"]; '
+                        'd.writeConfig("iconSize", 1); d.reloadConfig(); });'],
+                       capture_output=True, timeout=30)
+    log("  desktop icons: 32 px")
+    return r.returncode == 0
+
+
+def _no_splash(log: Log) -> bool:
+    """No "Plasma made by KDE" splash screen at login."""
+    ok = _kwrite("ksplashrc", ["KSplash"], "Engine", "none")
+    ok &= _kwrite("ksplashrc", ["KSplash"], "Theme", "None")
+    log("  login splash screen: off")
+    return ok
+
+
 # (id, function) - each runs once per account, in this order. Add new ones at the end.
 MIGRATIONS: list[tuple[str, Callable[[Log], bool]]] = [
     ("2026-10-12-no-autolock", _no_autolock),
     ("2026-10-12-no-dark-mode", _no_dark_mode),
+    ("2026-10-12-breeze-icons", _breeze_icons),
+    ("2026-10-12-small-desktop-icons", _small_desktop_icons),
+    ("2026-10-12-no-splash", _no_splash),
 ]
 
 

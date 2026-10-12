@@ -23,4 +23,4 @@ TerminalService=classic7-prompt.desktop
 activeFont=Noto Sans,9,-1,5,700,0,0,0,0,0,0,0,0,0,0,1
 
 [Icons]
-Theme=Chicago95
+Theme=breeze
