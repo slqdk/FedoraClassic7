@@ -40,6 +40,17 @@ find "$THEME" -type f -name '*.png' -print0 | xargs -0 -r -n 200 \
 find "$THEME" -type f -name '*.svg' -print0 | xargs -0 -r sed -i -E \
     -e 's/#c0c0c0/#d4d0c8/Ig' -e 's/#dfdfdf/#d4d0c8/Ig'
 
+# Dropdowns as a list under the box (like Windows) instead of a menu laid over it; GTK3's
+# menu-style combo popups end up as an empty strip with two scroll arrows on Wayland.
+cat >> "$THEME/gtk-3.0/gtk-combobox.css" <<'CSS'
+
+/* Classic 7: Windows-style list dropdowns */
+combobox { -GtkComboBox-appears-as-list: true; }
+combobox window scrolledwindow,
+combobox window treeview { background-color: @bg_bright; }
+combobox window treeview:selected { background-color: @selected_bg_color; color: @selected_fg_color; }
+CSS
+
 # (Icons: Classic 7 uses Breeze; the Chicago95 icon set is not installed)
 mkdir -p "$OUT/usr/share/icons"
 
