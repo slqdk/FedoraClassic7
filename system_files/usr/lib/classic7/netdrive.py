@@ -148,7 +148,8 @@ def forget_credentials(m: Mapping):
 
 # ---- mounting ---------------------------------------------------------------------------------
 def _helper(*args: str) -> subprocess.CompletedProcess:
-    cmd = [HELPER, *args] if os.geteuid() == 0 else ["pkexec", HELPER, *args]
+    direct = os.geteuid() == 0 or os.environ.get("CLASSIC7_NETDRIVE_DIRECT") == "1"   # tests
+    cmd = [HELPER, *args] if direct else ["pkexec", HELPER, *args]
     try:
         return subprocess.run(cmd, capture_output=True, text=True, timeout=60)
     except subprocess.TimeoutExpired as e:
@@ -160,6 +161,8 @@ def _helper(*args: str) -> subprocess.CompletedProcess:
 def explain(stderr: str) -> str:
     """mount.cifs messages in plain words."""
     s = stderr.lower()
+    if "cannot run program" in s or "classic7-netdrive-helper: " in s and "mount error" not in s:
+        return stderr.strip().splitlines()[-1]
     if "permission denied" in s or "error(13)" in s:
         return "access-denied"
     if "no such file" in s or "error(2)" in s:

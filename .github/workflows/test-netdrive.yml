@@ -50,8 +50,8 @@ jobs:
           cp /src/system_files/usr/bin/classic7-netdrive /usr/bin/
           chmod 755 /usr/libexec/classic7-netdrive-helper /usr/bin/classic7-netdrive
           useradd -m -u 1000 tester 2>/dev/null || useradd -m -u 1001 tester
-          printf '#!/bin/bash\nexec sudo -n PKEXEC_UID=$(id -u) /usr/libexec/classic7-netdrive-helper "$@"\n' > /usr/local/bin/helper-as-pkexec
-          chmod 755 /usr/local/bin/helper-as-pkexec
+          printf '#!/bin/bash\nexec sudo -n PKEXEC_UID=$(id -u) /usr/libexec/classic7-netdrive-helper "$@"\n' > /usr/bin/helper-as-pkexec
+          chmod 755 /usr/bin/helper-as-pkexec
           echo 'tester ALL=(root) NOPASSWD:SETENV: /usr/libexec/classic7-netdrive-helper' > /etc/sudoers.d/netdrive
           cat > /tmp/t.py <<'PY'
           import os, subprocess, sys
@@ -113,7 +113,7 @@ jobs:
           print("RESULT", "ALL PASSED" if ok else "SOME FAILED")
           PY
           chown tester /tmp/t.py
-          runuser -u tester -- env HOME=/home/tester CLASSIC7_NETDRIVE_HELPER=/usr/local/bin/helper-as-pkexec python3 /tmp/t.py 2>&1
+          runuser -u tester -- env HOME=/home/tester CLASSIC7_NETDRIVE_DIRECT=1 CLASSIC7_NETDRIVE_HELPER=/usr/bin/helper-as-pkexec python3 /tmp/t.py 2>&1
           EOS
           sudo podman run --rm --privileged --network host -v "$PWD:/src:ro" -v "$PWD/test.sh:/test.sh:ro" "$IMAGE" bash /test.sh > result.txt 2>&1 || true
           cat result.txt
