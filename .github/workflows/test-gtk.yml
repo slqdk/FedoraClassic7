@@ -37,16 +37,16 @@ jobs:
           g.attach(c, 1, 2, 1, 1); g.attach(Gtk.Button(label="Download"), 1, 3, 1, 1)
           w.connect("destroy", Gtk.main_quit); w.show_all()
           GLib.timeout_add(1500, lambda: (c.popup(), False)[1])
-          GLib.timeout_add(9000, Gtk.main_quit)
+          GLib.timeout_add(9000, Gtk.main_quit); GLib.timeout_add(15000, lambda: sys.exit(0))
           Gtk.main()
           PY
           export GTK_THEME=Classic7
           shot_x11() {   # name, combo mode
-            DISPLAY=:99 python3 /tmp/combo.py $2 & sleep 4; DISPLAY=:99 import -window root /out/$1.png; wait
+            DISPLAY=:99 python3 /tmp/combo.py $2 & p=$!; sleep 4; DISPLAY=:99 import -window root /out/$1.png; wait $p
           }
           shot_wl() {
-            WAYLAND_DISPLAY=wl-test GDK_BACKEND=wayland python3 /tmp/combo.py $2 & sleep 4
-            spectacle -b -n -f -o /out/$1.png >/dev/null 2>&1 || true; wait
+            WAYLAND_DISPLAY=wl-test GDK_BACKEND=wayland python3 /tmp/combo.py $2 & p=$!; sleep 4
+            WAYLAND_DISPLAY=wl-test QT_QPA_PLATFORM=wayland timeout 20 spectacle -b -n -f -o /out/$1.png >/dev/null 2>&1 || true; wait $p
           }
           cat > /tmp/inner.sh <<'EOI'
           export HOME=/tmp/home XDG_RUNTIME_DIR=/tmp/xdg; mkdir -p $HOME $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
@@ -67,7 +67,7 @@ jobs:
           mkdir -p /out && chmod 777 /out
           dbus-run-session -- bash /tmp/inner.sh
           EOS
-          sudo podman run --rm --privileged -v "$PWD/shots:/out" "$IMAGE" bash /out/run.sh > shots/container.log 2>&1 || true
+          timeout 900 sudo podman run --rm --privileged -v "$PWD/shots:/out" "$IMAGE" bash /out/run.sh > shots/container.log 2>&1 || true
           ls -la shots
           echo "::warning title=GTK test::$(ls shots | tr '\n' ' ')"
 
