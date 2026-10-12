@@ -1848,7 +1848,9 @@ class App:
 
 def main(argv=None) -> int:
     from PySide6.QtCore import QCoreApplication
-    argv = list(argv or [])
+    # files as absolute paths: a running Mail (another working folder) may open them
+    argv = [os.path.abspath(a) if not a.startswith("-") and ":" not in a.split("/")[0] and os.path.exists(a) else a
+            for a in (argv or [])]
     QCoreApplication.setAttribute(Qt.AA_ShareOpenGLContexts)
     qapp = QApplication.instance() or QApplication(sys.argv[:1])
     qapp.setApplicationName("classic7-mail")
