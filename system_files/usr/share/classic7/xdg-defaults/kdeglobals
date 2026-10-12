@@ -1,5 +1,10 @@
 [KDE]
 LookAndFeelPackage=org.classic7.desktop
+# No dark mode: the "Dark Mode" switch (Brightness & Color) swaps between these two Global
+# Themes, so with both set to Classic 7 it can't turn the desktop into Breeze
+DefaultLightLookAndFeel=org.classic7.desktop
+DefaultDarkLookAndFeel=org.classic7.desktop
+AutomaticLookAndFeel=false
 widgetStyle=Windows
 SingleClick=false
 AnimationDurationFactor=0

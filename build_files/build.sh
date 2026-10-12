@@ -7,6 +7,8 @@ set -ouex pipefail
 cp -avf /ctx/system_files/. /
 # GTK theme, icons and cursors built from Chicago95 in the assets stage
 cp -af /ctx/assets/. /
+# readable by everyone (older asset builds left ImageMagick's 0600 files behind)
+chmod -R go+rX /usr/share/themes/Classic7 /usr/share/icons/Chicago95 /usr/share/icons/Chicago95_Standard_Cursors
 
 gtk-update-icon-cache -f -t /usr/share/icons/Chicago95 || true
 glib-compile-schemas /usr/share/glib-2.0/schemas/
@@ -106,6 +108,7 @@ test -f /usr/share/plasma/desktoptheme/classic7/metadata.json
 test -f /usr/share/aurorae/themes/Classic7/decoration.svg
 test -f /usr/share/color-schemes/Classic7.colors
 test -f /usr/share/themes/Classic7/gtk-3.0/gtk.css
+[[ -z "$(find /usr/share/themes/Classic7 /usr/share/icons/Chicago95 ! -perm -o+r -print -quit)" ]]
 test -f /usr/share/icons/Chicago95/index.theme
 test -d /usr/share/icons/Chicago95_Standard_Cursors/cursors
 grep -q '^LookAndFeelPackage=org.classic7.desktop' /etc/xdg/kdeglobals

@@ -2,8 +2,12 @@
 plus small pickers: colour palette, table grid, symbols."""
 from __future__ import annotations
 
-from PySide6.QtCore import QPoint, QRect, QSize, Qt, Signal
-from PySide6.QtGui import QAction, QColor, QFont, QIcon, QPainter, QPen, QPixmap
+import tempfile
+from pathlib import Path
+
+from PySide6.QtCore import QPoint, QPointF, QRect, QRectF, QSize, Qt, Signal
+from PySide6.QtGui import (QAction, QColor, QFont, QIcon, QLinearGradient, QPainter, QPainterPath, QPen,
+                           QPixmap, QPolygonF, QRadialGradient)
 from PySide6.QtWidgets import (QFrame, QGridLayout, QHBoxLayout, QLabel, QMenu, QSizePolicy, QTabWidget,
                                QToolButton, QVBoxLayout, QWidget, QWidgetAction)
 
@@ -41,6 +45,7 @@ def icon(names: str | list[str], fallback: str = "?", size: int = SMALL, **kw) -
 
 class RibbonGroup(QFrame):
     """A labelled box of controls, like "Clipboard" or "Font"."""
+    scheme: dict | None = None          # set by apply_scheme(); None = Classic look
 
     def __init__(self, title: str, parent=None):
         super().__init__(parent)
@@ -52,14 +57,51 @@ class RibbonGroup(QFrame):
         self.body = QHBoxLayout()
         self.body.setSpacing(2)
         outer.addLayout(self.body, 1)
-        label = QLabel(title)
-        label.setAlignment(Qt.AlignCenter)
-        f = label.font()
+        self.label = QLabel(title)
+        self.label.setObjectName("groupLabel")
+        self.label.setAlignment(Qt.AlignCenter)
+        f = self.label.font()
         f.setPointSizeF(max(7.0, f.pointSizeF() - 1))
-        label.setFont(f)
-        label.setStyleSheet("color: palette(dark);")
-        outer.addWidget(label)
+        self.label.setFont(f)
+        self.label.setStyleSheet("color: palette(dark);")
+        outer.addWidget(self.label)
         self.setSizePolicy(QSizePolicy.Maximum, QSizePolicy.Preferred)
+
+    def set_scheme(self, scheme: dict | None):
+        self.scheme = scheme
+        self.setFrameShape(QFrame.NoFrame if scheme else QFrame.StyledPanel)
+        self.label.setStyleSheet(f"color: {scheme['label']}; background: transparent;" if scheme
+                                 else "color: palette(dark);")
+        self.update()
+
+    def paintEvent(self, e):
+        sc = self.scheme
+        if not sc:
+            return super().paintEvent(e)
+        p = QPainter(self)
+        p.setRenderHint(QPainter.Antialiasing)
+        r = QRectF(self.rect()).adjusted(0.5, 0.5, -1.5, -1.5)
+        body = QPainterPath()
+        body.addRoundedRect(r, 3, 3)
+        g = QLinearGradient(0, 0, 0, r.height())
+        g.setColorAt(0, QColor(sc["g1"]))
+        g.setColorAt(1, QColor(sc["g2"]))
+        p.fillPath(body, g)
+        # label strip along the bottom
+        top = self.label.geometry().top() - 2
+        p.save()
+        p.setClipPath(body)
+        sg = QLinearGradient(0, top, 0, r.bottom())
+        sg.setColorAt(0, QColor(sc["strip1"]))
+        sg.setColorAt(1, QColor(sc["strip2"]))
+        p.fillRect(QRectF(r.left(), top, r.width(), r.bottom() - top + 1), sg)
+        p.restore()
+        # white inner highlight, then the outer border
+        p.setPen(QPen(QColor(255, 255, 255, 170), 1))
+        p.drawRoundedRect(r.adjusted(1, 1, -1, -1), 2, 2)
+        p.setPen(QPen(QColor(sc["border"]), 1))
+        p.drawRoundedRect(r, 3, 3)
+        p.end()
 
     def add(self, w: QWidget):
         self.body.addWidget(w)
@@ -86,6 +128,7 @@ class RibbonGroup(QFrame):
 class Ribbon(QTabWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.setObjectName("ribbon")
         self.setDocumentMode(False)
         self.setUsesScrollButtons(True)
         self.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
@@ -245,3 +288,129 @@ def symbol_menu(parent, on_pick) -> QMenu:
     act.setDefaultWidget(w)
     menu.addAction(act)
     return menu
+
+
+# ---- Office 2007 colour schemes ------------------------------------------------------------------
+SCHEMES = {
+    "blue": dict(top="#BFDBFF", pane1="#E9F1FB", pane2="#C8DAF1", border="#8DB2E3",
+                 g1="#F4F8FD", g2="#D6E4F5", strip1="#CADDF3", strip2="#B3CCEA", label="#3E6AAA",
+                 tab="#15428B", tabsel1="#FFFFFF", tabsel2="#E9F1FB", field="#ABC1DE"),
+    "silver": dict(top="#E3E6EB", pane1="#F7F8FA", pane2="#DFE2E7", border="#B4BAC3",
+                   g1="#FCFCFD", g2="#E9EBEF", strip1="#E0E3E8", strip2="#CCD1D8", label="#4C535C",
+                   tab="#3B3F45", tabsel1="#FFFFFF", tabsel2="#F7F8FA", field="#B4BAC3"),
+}
+SCHEME_NAMES = {"blue": "Blue", "silver": "Silver", "classic": "Classic"}
+
+
+def _arrow_png(color: str) -> str:
+    """A small down arrow for the combo boxes (style sheets need an image file)."""
+    path = Path(tempfile.gettempdir()) / f"classic7-write-arrow-{color.strip('#')}.png"
+    if not path.exists():
+        pm = QPixmap(7, 4)
+        pm.fill(Qt.transparent)
+        p = QPainter(pm)
+        p.setRenderHint(QPainter.Antialiasing)
+        p.setPen(Qt.NoPen)
+        p.setBrush(QColor(color))
+        p.drawPolygon(QPolygonF([QPointF(0, 0), QPointF(7, 0), QPointF(3.5, 4)]))
+        p.end()
+        pm.save(str(path))
+    return path.as_posix()
+
+
+def stylesheet(sc: dict) -> str:
+    arrow = _arrow_png("#3B3B3B")
+    hover = ("border: 1px solid #DBCE99; background: qlineargradient(x1:0, y1:0, x2:0, y2:1, "
+             "stop:0 #FFFDE8, stop:0.4 #FFE9A8, stop:0.41 #FFD867, stop:1 #FFE79F);")
+    down = ("border: 1px solid #C2762B; background: qlineargradient(x1:0, y1:0, x2:0, y2:1, "
+            "stop:0 #FCD9A4, stop:0.4 #FBBA66, stop:0.41 #F9A03A, stop:1 #FCCD7C);")
+    checked = ("border: 1px solid #C2A15A; background: qlineargradient(x1:0, y1:0, x2:0, y2:1, "
+               "stop:0 #FFE4B5, stop:0.4 #FFD38A, stop:0.41 #FFC15C, stop:1 #FFDA8E);")
+    return f"""
+#ribbonTop {{ background: {sc['top']}; }}
+#ribbon::pane {{
+    border: 1px solid {sc['border']}; border-radius: 3px; top: -1px;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 {sc['pane1']}, stop:1 {sc['pane2']});
+}}
+#ribbon QTabBar::tab {{
+    color: {sc['tab']}; padding: 3px 13px 4px 13px; margin: 2px 1px 0 1px;
+    border: 1px solid transparent; border-bottom: none;
+    border-top-left-radius: 3px; border-top-right-radius: 3px; background: transparent;
+}}
+#ribbon QTabBar::tab:first {{ margin-left: 6px; }}
+#ribbon QTabBar::tab:selected {{
+    border-color: {sc['border']};
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 {sc['tabsel1']}, stop:1 {sc['tabsel2']});
+}}
+#ribbon QTabBar::tab:hover:!selected {{ background: rgba(255, 255, 255, 110); border-color: {sc['field']}; }}
+#ribbonTop QToolButton {{ border: 1px solid transparent; border-radius: 3px; background: transparent;
+                          color: #000000; padding: 1px 2px; }}
+#ribbonTop QToolButton:hover {{ {hover} }}
+#ribbonTop QToolButton:pressed {{ {down} }}
+#ribbonTop QToolButton:checked {{ {checked} }}
+#ribbonTop QToolButton:checked:hover {{ {down} }}
+#ribbonTop QToolButton:disabled {{ color: #8D8D8D; }}
+#ribbonTop QToolButton[popupMode="1"] {{ padding-right: 13px; }}
+#ribbonTop QToolButton::menu-button {{ border: 1px solid transparent; width: 11px;
+                                       border-top-right-radius: 3px; border-bottom-right-radius: 3px; }}
+#ribbonTop QToolButton::menu-button:hover {{ {hover} }}
+#ribbonTop QToolButton::menu-arrow {{ image: url({arrow}); width: 7px; height: 4px; }}
+#ribbonTop QToolButton::menu-indicator {{ image: url({arrow}); width: 7px; height: 4px;
+                                          subcontrol-origin: padding; subcontrol-position: bottom right; }}
+#ribbonTop QComboBox {{ background: #FFFFFF; border: 1px solid {sc['field']}; border-radius: 2px;
+                        padding: 1px 18px 1px 3px; min-height: 17px; color: #000000; }}
+#ribbonTop QComboBox:hover, #ribbonTop QComboBox:focus {{ border-color: #DBCE99; }}
+#ribbonTop QComboBox::drop-down {{ width: 15px; border: none; }}
+#ribbonTop QComboBox::drop-down:hover {{ {hover} }}
+#ribbonTop QComboBox::down-arrow {{ image: url({arrow}); width: 7px; height: 4px; }}
+#ribbonTop QComboBox QAbstractItemView {{ background: #FFFFFF; border: 1px solid #868686;
+                                         selection-background-color: #FFE69F; selection-color: #000000; }}
+#ribbonTop QToolButton#orb, #ribbonTop QToolButton#orb:hover, #ribbonTop QToolButton#orb:pressed,
+#ribbonTop QToolButton#orb:checked {{ border: none; background: transparent; padding: 0; }}
+#ribbonTop QToolButton#orb::menu-indicator {{ image: none; width: 0; height: 0; }}
+"""
+
+
+def apply_scheme(top: QWidget, ribbon: QTabWidget, key: str):
+    """Colour the ribbon area: "blue", "silver" or "classic" (the system look)."""
+    sc = SCHEMES.get(key)
+    top.setObjectName("ribbonTop")
+    top.setAttribute(Qt.WA_StyledBackground, True)
+    top.setStyleSheet(stylesheet(sc) if sc else
+                      "#orb { border: none; padding: 0; } #orb::menu-indicator { image: none; width: 0; }")
+    for g in ribbon.findChildren(RibbonGroup):
+        g.set_scheme(sc)
+
+
+def office_orb(size: int = 36) -> QIcon:
+    """The round Office button: a glossy blue ball with a W (for Write)."""
+    icon = QIcon()
+    for state, (c1, c2) in ((QIcon.Normal, ("#7DB4F2", "#1A4F9C")), (QIcon.Active, ("#A5D0FF", "#2B69C4"))):
+        pm = QPixmap(size, size)
+        pm.fill(Qt.transparent)
+        p = QPainter(pm)
+        p.setRenderHint(QPainter.Antialiasing)
+        r = QRectF(1, 1, size - 2, size - 2)
+        g = QRadialGradient(QPointF(size * 0.5, size * 0.32), size * 0.7)
+        g.setColorAt(0, QColor(c1))
+        g.setColorAt(1, QColor(c2))
+        p.setPen(QPen(QColor("#4F6584"), 1))
+        p.setBrush(g)
+        p.drawEllipse(r)
+        gl = QLinearGradient(0, r.top(), 0, r.center().y())
+        gl.setColorAt(0, QColor(255, 255, 255, 200))
+        gl.setColorAt(1, QColor(255, 255, 255, 30))
+        p.setPen(Qt.NoPen)
+        p.setBrush(gl)
+        p.drawEllipse(QRectF(r.left() + 4, r.top() + 2, r.width() - 8, r.height() * 0.48))
+        f = QFont("DejaVu Serif")
+        f.setBold(True)
+        f.setPixelSize(int(size * 0.5))
+        p.setFont(f)
+        p.setPen(QColor(0, 0, 0, 100))
+        p.drawText(r.translated(1, 2), Qt.AlignCenter, "W")
+        p.setPen(QColor("#FFFFFF"))
+        p.drawText(r.translated(0, 1), Qt.AlignCenter, "W")
+        p.end()
+        icon.addPixmap(pm, state)
+    return icon

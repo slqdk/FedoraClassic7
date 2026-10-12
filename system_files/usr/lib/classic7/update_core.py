@@ -323,9 +323,35 @@ def _no_autolock(log: Log) -> bool:
     return ok
 
 
+def _read_kdeglobals_lnf() -> str:
+    cfg = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config") / "kdeglobals"
+    return _ini_read(cfg).get("KDE", {}).get("LookAndFeelPackage", "").strip()
+
+
+def _no_dark_mode(log: Log) -> bool:
+    """The Dark Mode switch swaps the Global Theme to Breeze (Dark) and back to Breeze, not
+    Classic 7. Point both of its themes at Classic 7, and bring Classic 7 back if the switch
+    already replaced it. The colour scheme itself is re-applied by the next step."""
+    ok = _kwrite("kdeglobals", ["KDE"], "DefaultLightLookAndFeel", "org.classic7.desktop")
+    ok &= _kwrite("kdeglobals", ["KDE"], "DefaultDarkLookAndFeel", "org.classic7.desktop")
+    ok &= _kwrite("kdeglobals", ["KDE"], "AutomaticLookAndFeel", "false")
+    current = _read_kdeglobals_lnf()
+    if current.startswith("org.kde.breeze") and shutil.which("plasma-apply-lookandfeel"):
+        subprocess.run(["plasma-apply-lookandfeel", "-a", "org.classic7.desktop"], capture_output=True, timeout=60)
+        log(f"  Global Theme {current} -> Classic 7")
+        # the desktop background back to a plain colour (the Appearance step sets the colour)
+        subprocess.run(["dbus-send", "--session", "--dest=org.kde.plasmashell", "--type=method_call",
+                        "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript",
+                        'string:desktops().forEach(function (d) { d.wallpaperPlugin = "org.kde.color"; });'],
+                       capture_output=True, timeout=30)
+    log("  Dark Mode can no longer switch away from Classic 7")
+    return ok
+
+
 # (id, function) - each runs once per account, in this order. Add new ones at the end.
 MIGRATIONS: list[tuple[str, Callable[[Log], bool]]] = [
     ("2026-10-12-no-autolock", _no_autolock),
+    ("2026-10-12-no-dark-mode", _no_dark_mode),
 ]
 
 
@@ -418,6 +444,10 @@ def refresh_account(log: Log) -> list[str]:
         log("  nothing new")
 
     gui = plasma_running()
+    if gui:
+        log("One-time changes for this account")
+        problems += run_migrations(log, state)
+
     log("Applying the Classic 7 look (colours, window borders, taskbar, Start button)")
     if gui:
         try:
@@ -443,9 +473,6 @@ def refresh_account(log: Log) -> list[str]:
                     state.seen_pins += new_pins
             except Exception as e:  # noqa: BLE001
                 problems.append(f"Start menu: {e}")
-    log("One-time changes for this account")
-    problems += run_migrations(log, state)
-
     if Path("/usr/libexec/classic7-first-login").exists():
         subprocess.run(["/usr/libexec/classic7-first-login"], check=False)
 

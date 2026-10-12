@@ -432,15 +432,16 @@ class WriteWindow(QMainWindow):
         qat.setContentsMargins(4, 2, 4, 0)
         qat.setSpacing(1)
         self.office = QToolButton()
-        self.office.setText("Office")
-        self.office.setIcon(self.windowIcon())
-        self.office.setIconSize(QSize(24, 24))
-        self.office.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
+        self.office.setObjectName("orb")
+        self.office.setIcon(rb.office_orb(36))
+        self.office.setIconSize(QSize(36, 36))
+        self.office.setToolButtonStyle(Qt.ToolButtonIconOnly)
         self.office.setPopupMode(QToolButton.InstantPopup)
-        self.office.setToolTip("Office Button: New, Open, Save, Print, Close")
+        self.office.setToolTip("Office Button\nNew, Open, Save, Print, Close")
         self.office.setMenu(self._office_menu())
         self.office.setAutoRaise(True)
         qat.addWidget(self.office)
+        qat.addSpacing(4)
         for a in (self.a_save, self.a_undo, self.a_redo):
             qat.addWidget(rb.small_button(a))
         qat.addStretch(1)
@@ -616,6 +617,8 @@ class WriteWindow(QMainWindow):
         g.add_column([rb.small_button(self.a_marks, with_text=True)])
 
         v.addWidget(r)
+        self.ribbon_top = top
+        rb.apply_scheme(top, r, self.settings.value("ribbon/scheme", "blue"))
         self.setMenuWidget(top)
 
     def _office_menu(self) -> QMenu:
@@ -633,9 +636,24 @@ class WriteWindow(QMainWindow):
         self.recent_menu = menu.addMenu(rb.icon("document-open-recent", "R"), "&Recent Documents")
         self._fill_recent()
         menu.addSeparator()
+        schemes = menu.addMenu(rb.icon("preferences-desktop-color", "C"), "Color &Scheme")
+        group = QActionGroup(schemes)
+        current = self.settings.value("ribbon/scheme", "blue")
+        for key, label in rb.SCHEME_NAMES.items():
+            a = schemes.addAction(label, lambda key=key: self.set_ribbon_scheme(key))
+            a.setCheckable(True)
+            a.setChecked(key == current)
+            group.addAction(a)
+        menu.addSeparator()
         menu.addAction(self.a_close)
         menu.addAction(rb.icon("application-exit", "X"), f"E&xit {APP}", QApplication.closeAllWindows)
         return menu
+
+    def set_ribbon_scheme(self, key: str):
+        self.settings.setValue("ribbon/scheme", key)
+        for w in QApplication.topLevelWidgets():
+            if isinstance(w, WriteWindow):
+                rb.apply_scheme(w.ribbon_top, w.ribbon, key)
 
     def _fill_recent(self):
         self.recent_menu.clear()

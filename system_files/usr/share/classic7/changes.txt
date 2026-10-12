@@ -1,7 +1,10 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
-# "Classic 7 was updated" message after a restart. Format: "## 2026-10-12  No automatic lock, same keyboard at login
+# "Classic 7 was updated" message after a restart. Format: "## 2026-10-12  No automatic lock, keyboard at login, no dark mode, nicer Ribbon
 - The screen no longer locks by itself after a few idle minutes or after sleep; Win+L still locks. (Can be turned back on in System Settings > Screen Locking.)
 - The login screen uses the same keyboard layout as your desktop (e.g. Danish), checked at every login.
+- The Dark Mode switch (Brightness & Color) no longer replaces Classic 7 with Breeze; if it already did, Classic 7 and your colour scheme come back.
+- Appearance: fixed "Permission denied" on GTK theme files, which stopped Apply for every scheme except Classic 7 Standard.
+- Write: the Ribbon in the Office 2007 style (Blue, Silver or Classic, in the Office button menu) with the round Office button.
 
 ## YYYY-MM-DD  Title", then "- item".
 

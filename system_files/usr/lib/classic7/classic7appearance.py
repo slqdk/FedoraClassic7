@@ -172,8 +172,11 @@ def _recolour_png(path: Path, cmap_rgb: dict[tuple, tuple]) -> bool:
         from PIL import Image
     except ImportError:
         return False
-    with Image.open(path) as im:
-        rgba = im.convert("RGBA")
+    try:
+        with Image.open(path) as im:
+            rgba = im.convert("RGBA")
+    except OSError:
+        return True
     px = rgba.load()
     changed = False
     w, h = rgba.size
@@ -185,7 +188,10 @@ def _recolour_png(path: Path, cmap_rgb: dict[tuple, tuple]) -> bool:
                 px[x, y] = (*new, a)
                 changed = True
     if changed:
-        rgba.save(path)
+        try:
+            rgba.save(path)
+        except OSError:
+            pass
     return True
 
 
@@ -196,9 +202,14 @@ def write_gtk_theme(p: t.Palette, runner: Runner) -> str | None:
     if not SYSTEM_GTK_THEME.is_dir():
         return "GTK theme not found; GTK apps keep their colours"
     runner.log.append(f"# recolour GTK theme copy -> {dst}")
+    if runner.dry_run:
+        return None
     if dst.exists():
-        shutil.rmtree(dst)
-    shutil.copytree(SYSTEM_GTK_THEME, dst, symlinks=True)
+        _make_writable(dst)
+        shutil.rmtree(dst, ignore_errors=True)
+    skipped = _copy_tree(SYSTEM_GTK_THEME, dst)
+    if skipped:
+        runner.note(f"GTK theme: {len(skipped)} unreadable files skipped, e.g. {skipped[0]}")
     cmap = t.gtk_color_map(p)
     defines = t.gtk_define_colors(p)
     for f in dst.rglob("*"):
@@ -219,10 +230,46 @@ def write_gtk_theme(p: t.Palette, runner: Runner) -> str | None:
     return note
 
 
+def _copy_tree(src: Path, dst: Path) -> list[str]:
+    """Copy a theme folder as plain user files (0755 folders, 0644 files): the system copy
+    may be read-only or partly unreadable. Returns the files that could not be read."""
+    skipped = []
+    for root, dirs, files in os.walk(src):
+        rel = Path(root).relative_to(src)
+        (dst / rel).mkdir(parents=True, exist_ok=True)
+        os.chmod(dst / rel, 0o755)
+        for name in files + [d for d in dirs if (Path(root) / d).is_symlink()]:
+            s_path, d_path = Path(root) / name, dst / rel / name
+            try:
+                if s_path.is_symlink():
+                    if not d_path.exists() and not d_path.is_symlink():
+                        os.symlink(os.readlink(s_path), d_path)
+                    continue
+                shutil.copyfile(s_path, d_path)
+                os.chmod(d_path, 0o644)
+            except OSError:
+                skipped.append(str(s_path))
+    return skipped
+
+
+def _make_writable(path: Path):
+    for root, dirs, _files in os.walk(path):
+        for d in dirs:
+            try:
+                os.chmod(Path(root) / d, 0o755)
+            except OSError:
+                pass
+    try:
+        os.chmod(path, 0o755)
+    except OSError:
+        pass
+
+
 def remove_gtk_theme():
     dst = data_home() / "themes" / "Classic7"
     if dst.exists():
-        shutil.rmtree(dst)
+        _make_writable(dst)
+        shutil.rmtree(dst, ignore_errors=True)
 
 
 # =============================================================================
@@ -455,7 +502,11 @@ def apply(p: t.Palette, runner: Runner | None = None) -> Result:
         ids = t.slot_ids(new_slot, p.name)
         t.render(p, data_home(), ids)
         start = str(data_home() / ids.start_button)
-        note = write_gtk_theme(p, run)
+        try:
+            note = write_gtk_theme(p, run)
+        except Exception as e:  # noqa: BLE001 - GTK colours are optional, the rest must still apply
+            run.note(f"GTK theme failed: {e!r}")
+            note = "GTK apps keep their old colours (see the log)"
         if note:
             notes.append(note)
 

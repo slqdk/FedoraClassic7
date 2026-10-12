@@ -57,3 +57,7 @@ mkdir -p "$OUT/usr/share/licenses/classic7"
 cp "$SRC/LICENSE" "$OUT/usr/share/licenses/classic7/Chicago95-LICENSE" 2>/dev/null || true
 cp "$SRC/CREDITS" "$OUT/usr/share/licenses/classic7/Chicago95-CREDITS" 2>/dev/null || true
 echo "Chicago95 ${CHICAGO95_REF}" > "$OUT/usr/share/licenses/classic7/SOURCES"
+
+# ImageMagick writes the recoloured files through a temp file (mode 0600); everything here
+# must be readable by every user (GTK apps load these images as the logged-in user).
+chmod -R u+rwX,go+rX,go-w "$OUT"
