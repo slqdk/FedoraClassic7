@@ -171,7 +171,9 @@ done
 # Menu entries that duplicate a Classic 7 program (still installed and runnable by name)
 #   Konsole -> Command Prompt, Bazzite Updater -> Classic 7 Update
 for f in org.kde.konsole.desktop io.github.rfrench3.bazzite-updater.desktop; do
-    [[ -f /usr/share/applications/$f ]] && desktop-file-edit --set-key=NoDisplay --set-value=true "/usr/share/applications/$f"
+    if [[ -f /usr/share/applications/$f ]]; then
+        sed -i -e '/^NoDisplay=/d' -e '0,/^\[Desktop Entry\]/s//[Desktop Entry]\nNoDisplay=true/' "/usr/share/applications/$f"
+    fi
 done
 # what must remain
 test -d /usr/share/plasma/look-and-feel/org.kde.breeze.desktop

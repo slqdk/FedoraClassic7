@@ -41,6 +41,7 @@ find "$THEME" -type f -name '*.svg' -print0 | xargs -0 -r sed -i -E \
     -e 's/#c0c0c0/#d4d0c8/Ig' -e 's/#dfdfdf/#d4d0c8/Ig'
 
 # (Icons: Classic 7 uses Breeze; the Chicago95 icon set is not installed)
+mkdir -p "$OUT/usr/share/icons"
 
 # --- Cursors -----------------------------------------------------------------------
 cp -a "$SRC/Cursors/Chicago95_Standard_Cursors" "$OUT/usr/share/icons/Chicago95_Standard_Cursors"
