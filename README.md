@@ -23,6 +23,7 @@ image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomic + KDE Plas
 | Right-click menus | Windows-style: **Send to ▸** (Compressed (zipped) folder, Desktop (create shortcut), Documents, Mail recipient, Removable Disk), **Create shortcut**, KDE extras hidden; desktop menu with Display Configuration and Configure Desktop and Wallpaper |
 | Command Prompt | Terminal with a built-in assistant that asks **your own** language model (Ollama or OpenAI-compatible): plain-language questions become commands you run with one click, errors get explained, risky commands are stopped by built-in rules; offline task library; default terminal (Ctrl+Alt+T) |
 | Write | Word processor in the Word 2007 style (Ribbon, page view): opens and saves .docx, .rtf and .doc, exports PDF; styles, lists, tables, pictures, headers/footers with page numbers, find/replace, spell check (Danish/English) |
+| Mail | E-mail and contacts in the Outlook 2007 style: IMAP/SMTP, Gmail (app password), Outlook.com (Microsoft sign-in); folders, date groups, Reading Pane with pictures blocked until allowed; messages written in Write's editor; Address Cards, vCard import/export |
 | Classic 7 Update | One click installs the newest Classic 7, app updates and new settings for your account; settings follow automatically after a restart |
 | Login screen | Classic "Log On" dialog on the desktop blue (SDDM theme) |
 | Appearance | Start > Settings > **Appearance**: classic-style dialog with colour schemes, per-item colours, font size and live preview |
@@ -184,6 +185,26 @@ Start > Settings > **Appearance** (or run `classic7-appearance`). Like the class
 - **Explorer tab:** applies the Classic 7 Dolphin layout and right-click menus to your account (old files kept as `.bak`; the desktop menu changes at the next login).
 
 Command line: `classic7-appearance --list`, `--apply Night --size Large`, `--reset`, `--explorer`, `--taskbar` (rebuild the taskbar with Start on the left), `--dry-run`.
+
+## Mail
+
+Start menu > **Mail** (`classic7-mail`, or `outlook` in Run). E-mail and contacts in the Outlook 2007 layout:
+Navigation Pane (Favorite Folders, Mail Folders, Mail/Contacts buttons), message list grouped by date, Reading Pane.
+
+- **Accounts** (Tools > Account Settings): own-domain IMAP/SMTP (settings found automatically, or entered by hand),
+  **Gmail** with an app password (myaccount.google.com/apppasswords), **Outlook.com/Hotmail** with Microsoft sign-in.
+- **Outlook.com needs an Application (client) ID** once: entra.microsoft.com > App registrations > New registration
+  ("Personal Microsoft accounts"), copy the ID, Authentication > *Allow public client flows* = Yes. Mail then shows a
+  code to enter on microsoft.com/devicelogin.
+- Passwords and tokens live in KWallet; mail is kept locally in `~/.local/share/classic7/mail/` (headers of the newest
+  2000 messages per folder; a message is downloaded when opened).
+- Pictures from the Internet are blocked until you click the yellow bar (or add the sender to Safe Senders).
+- New messages, replies and forwards are written in **Write's editor** (Message / Insert / Options / Format Text
+  ribbon, big Send button, To/Cc/Bcc with completion from Contacts). Word attachments open in Write; Write's
+  Office button > Send > E-mail attaches the open document. `mailto:` links open Mail.
+- **Contacts**: Address Cards or Phone List, contact form, Address Book (Ctrl+Shift+B), vCard import/export.
+- Keys like Outlook: Ctrl+N new, Ctrl+R reply, Ctrl+Shift+R reply all, Ctrl+F forward, F9 Send/Receive,
+  Ctrl+Q/Ctrl+U read/unread, Ctrl+Shift+V move, Ctrl+1 Mail, Ctrl+3 Contacts, Ctrl+Enter or Alt+S send.
 
 ## Updates on the installed PC
 
