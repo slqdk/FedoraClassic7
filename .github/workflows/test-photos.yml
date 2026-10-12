@@ -48,22 +48,8 @@ jobs:
           EOP
           ls -la $P > /out/pictures.txt
           QT_QPA_PLATFORM=offscreen PYTHONPATH=/usr/lib/classic7 python3 -c "import photos_app as a; print(sorted(a.picture_extensions()))" > /out/extensions.txt 2>&1
-          view() {   # name, file, [keys...]
-            classic7-photos "$2" >>/out/photos.log 2>&1 & p=$!; sleep 5
-            xdotool search --class classic7-photos windowsize %@ 1000 700 windowmove %@ 40 20 2>/dev/null; sleep 1
-            shift 2
-            for k in "$@"; do xdotool search --class classic7-photos windowactivate --sync %@ 2>/dev/null; xdotool key "$k"; sleep 1.5; done
-            import -window root /out/$name.png
-            kill $p 2>/dev/null; sleep 1
-          }
-          for t in png webp tiff avif heic jxl; do name=type-$t view x $P/02-$t.$t; done
-          name=jpeg-exif view x $P/04-exif-rotated.jpg
-          name=next-twice view x $P/01-photo.jpg Right Right
-          name=rotate view x $P/01-photo.jpg ctrl+period
-          python3 -c "from PIL import Image; print('after rotate', Image.open('$P/01-photo.jpg').getexif().get(274))" >> /out/photos.log
-          name=anim view x $P/03-anim.gif
-          classic7-photos --slideshow $P/01-photo.jpg >>/out/photos.log 2>&1 & p=$!; sleep 7
-          import -window root /out/slideshow.png; kill $p
+          CLASSIC7_LIB=/usr/lib/classic7 timeout 300 python3 /src/.github/ci/photos_test.py /out $P > /out/photos.log 2>&1
+          echo "exit $?" >> /out/photos.log
           # 7-Zip menu commands (Ark)
           A=$HOME/arc; mkdir -p $A/folder; echo hello > $A/folder/a.txt; echo world > $A/b.txt
           (cd $A && ark --changetofirstpath --add --autofilename 7z $A/folder $A/b.txt) >> /out/ark.log 2>&1
@@ -86,6 +72,7 @@ jobs:
           echo "::notice title=files::$(ls shots | tr '\n' ' ')"
           echo "::notice title=ark::$(tail -c 1500 shots/ark.log | tr '\n' '|')"
           echo "::notice title=extensions::$(cat shots/extensions.txt | tr '\n' ' ')"
+          while read -r l; do echo "::notice title=photos::$l"; done < <(grep -E "^(OK|FAIL|FAILURES|exit|Traceback|[A-Za-z]+Error)" shots/photos.log | tail -30)
 
       - name: Save to ci-shots-photos
         run: |

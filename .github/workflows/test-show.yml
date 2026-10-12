@@ -1,0 +1,73 @@
+# Show (presentations) in the published image with this branch's code: build a presentation
+# with the editor, save it, open real PowerPoint files (.pptx/.ppt), and check that LibreOffice
+# reads what Show saved. Screenshots go to the ci-shots-show branch.
+name: Test Show
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  show:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Sample presentations
+        run: |
+          mkdir -p shots/samples && chmod -R 777 shots
+          base=https://raw.githubusercontent.com/apache/poi/trunk/test-data/slideshow
+          for f in alterman_security.pptx themes.pptx smartart-simple.pptx alterman_security.ppt 37625.ppt SampleShow.ppt; do
+            curl -sfL "$base/$f" -o "shots/samples/$f" || echo "no $f"
+          done
+          ls -la shots/samples
+
+      - name: Run
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/fedoraclassic7:latest"
+          cat > shots/run.sh <<'EOS'
+          set -x
+          dnf5 -y -q install xorg-x11-server-Xvfb >/dev/null 2>&1 || true
+          export HOME=/tmp/home XDG_RUNTIME_DIR=/tmp/xdg; mkdir -p $HOME $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
+          Xvfb :99 -screen 0 1300x880x24 >/dev/null 2>&1 & sleep 2
+          export DISPLAY=:99 QT_QPA_PLATFORM=xcb
+          export CLASSIC7_LIB=/src/system_files/usr/lib/classic7
+          kwin_x11 --replace >/out/kwin.log 2>&1 & sleep 3
+          cd /out && timeout 500 dbus-run-session -- python3 /src/.github/ci/show_test.py /out /out/samples > /out/test.log 2>&1
+          echo "exit $?" >> /out/test.log
+          EOS
+          timeout 900 sudo podman run --rm --privileged -v "$PWD:/src:ro" -v "$PWD/shots:/out" "$IMAGE" bash /out/run.sh > shots/container.log 2>&1 || true
+          ls -la shots
+          while read -r l; do echo "::notice title=show::$l"; done < <(grep -E "^(OK|FAIL|FAILURES|exit|Traceback|  File|[A-Za-z]+Error)" shots/test.log | tail -40)
+
+      - name: LibreOffice reads what Show saved
+        run: |
+          sudo apt-get -qq update >/dev/null && sudo apt-get -qq install -y libreoffice-impress poppler-utils >/dev/null 2>&1 || true
+          cd shots
+          for f in made.pptx resaved-*.pptx; do
+            [ -f "$f" ] || continue
+            timeout 120 soffice --headless --convert-to pdf "$f" >/dev/null 2>&1 || true
+            pdf="${f%.pptx}.pdf"
+            if [ -f "$pdf" ]; then
+              pages=$(pdfinfo "$pdf" | awk '/^Pages/ {print $2}')
+              echo "::notice title=libreoffice::$f -> $pages pages"
+              pdftoppm -r 30 -png -l 3 "$pdf" "lo-${f%.pptx}"
+            else
+              echo "::warning title=libreoffice::$f could not be converted"
+            fi
+          done
+          pdftoppm -r 30 -png -l 3 made.pdf show-pdf || true
+
+      - name: Save to ci-shots-show
+        run: |
+          mkdir -p /tmp/o && cp shots/*.png shots/*.log /tmp/o/ 2>/dev/null || true
+          git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
+          git checkout -q --orphan ci-shots-show
+          git rm -rfq --cached . >/dev/null 2>&1 || true
+          git clean -fdxq
+          cp /tmp/o/* . 2>/dev/null || true
+          git add -A; git commit -qm "Show render" || exit 0
+          git push -f origin ci-shots-show
