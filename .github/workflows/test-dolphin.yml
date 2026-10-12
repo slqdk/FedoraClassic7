@@ -1,0 +1,79 @@
+# Explorer (Dolphin) with this branch's Classic 7 layout, in the published image (Xvfb + KWin):
+# a new account (from /etc/skel) and an existing one (Appearance > Explorer). Screenshots go
+# to the ci-shots-dolphin branch.
+name: Test Explorer layout
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  dolphin:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Render
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/fedoraclassic7:latest"
+          mkdir -p shots && chmod 777 shots
+          cat > shots/run.sh <<'EOS'
+          set -x
+          dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool >/dev/null 2>&1 || true
+          S=/src/system_files
+          cp -a $S/usr/lib/classic7/. /usr/lib/classic7/
+          cp -a $S/usr/share/classic7/. /usr/share/classic7/
+          cp -a $S/etc/skel/. /etc/skel/
+          # the image's merged /etc/xdg/dolphinrc gets this branch's defaults on top
+          while IFS= read -r line; do
+            [[ -z "$line" || "$line" == \#* ]] && continue
+            if [[ "$line" =~ ^\[(.*)\]$ ]]; then g="${BASH_REMATCH[1]}"; continue; fi
+            kwriteconfig6 --file /etc/xdg/dolphinrc --group "$g" --key "${line%%=*}" -- "${line#*=}"
+          done < $S/usr/share/classic7/xdg-defaults/dolphinrc
+          cat > /tmp/inner.sh <<'EOI'
+          export XDG_RUNTIME_DIR=/tmp/xdg; mkdir -p $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
+          export DISPLAY=:99 QT_QPA_PLATFORM=xcb XDG_CURRENT_DESKTOP=KDE KDE_FULL_SESSION=true KDE_SESSION_VERSION=6
+          Xvfb :99 -screen 0 1100x720x24 >/dev/null 2>&1 & sleep 2
+          kwin_x11 --replace >/out/kwin.log 2>&1 & sleep 3
+          shot() {   # name, url
+            dolphin --new-window "$2" >>/out/dolphin.log 2>&1 & p=$!; sleep 8
+            xdotool search --class dolphin windowsize %@ 1000 640 windowmove %@ 40 30 2>/dev/null; sleep 2
+            import -window root /out/$1.png; kill $p; sleep 2
+          }
+          # 1) a new account
+          export HOME=/tmp/new; mkdir -p $HOME; cp -a /etc/skel/. $HOME/
+          mkdir -p $HOME/Documents $HOME/Downloads $HOME/Pictures $HOME/Music $HOME/Videos $HOME/Desktop
+          touch "$HOME/Documents/Rapport.docx" "$HOME/Documents/Tegning.pdf"; mkdir -p "$HOME/Documents/Projekter"
+          kbuildsycoca6 --noincremental >/dev/null 2>&1
+          plasma-apply-colorscheme Classic7 >/dev/null 2>&1
+          bash /usr/libexec/classic7-first-login
+          shot new-documents $HOME/Documents
+          shot new-trash trash:/
+          cp $HOME/.local/share/user-places.xbel /out/new-user-places.xbel 2>/dev/null
+          # 2) an existing account with Dolphin's own defaults + panels open, then the migration
+          export HOME=/tmp/old; mkdir -p $HOME/Documents $HOME/.config
+          touch "$HOME/Documents/Rapport.docx"
+          plasma-apply-colorscheme Classic7 >/dev/null 2>&1
+          shot old-before $HOME/Documents
+          PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7appearance as a; r=a.explorer_layout(); print(r.ok, r.notes)" >> /out/dolphin.log 2>&1
+          shot old-after $HOME/Documents
+          cp $HOME/.local/share/user-places.xbel /out/old-user-places.xbel 2>/dev/null
+          EOI
+          mkdir -p /out && chmod 777 /out
+          dbus-run-session -- bash /tmp/inner.sh
+          EOS
+          timeout 900 sudo podman run --rm --privileged -v "$PWD:/src:ro" -v "$PWD/shots:/out" "$IMAGE" bash /out/run.sh > shots/container.log 2>&1 || true
+          ls -la shots
+          echo "::notice title=files::$(ls shots | tr '\n' ' ')"
+
+      - name: Save to ci-shots-dolphin
+        run: |
+          cp shots/*.png shots/*.log shots/*.xbel /tmp/ 2>/dev/null || true
+          git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan ci-shots-dolphin; git rm -rfq . >/dev/null
+          cp /tmp/*.png /tmp/*.log /tmp/*.xbel . 2>/dev/null || true
+          git add -A; git commit -qm "Explorer render" || exit 0
+          git push -f origin ci-shots-dolphin
