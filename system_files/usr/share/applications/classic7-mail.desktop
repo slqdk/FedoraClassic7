@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=Mail
+GenericName=E-mail and Contacts
+Comment=Read and write e-mail, keep your contacts (IMAP, Gmail, Outlook.com)
+Exec=classic7-mail %U
+Icon=internet-mail
+Terminal=false
+Categories=Qt;Office;Network;Email;ContactManagement;
+Keywords=email;e-mail;mail;outlook;imap;smtp;gmail;contacts;address book;post;kontakter;
+MimeType=x-scheme-handler/mailto;message/rfc822;text/vcard;text/x-vcard;
+StartupWMClass=classic7-mail
+Actions=NewMessage;
+
+[Desktop Action NewMessage]
+Name=New Mail Message
+Exec=classic7-mail --compose

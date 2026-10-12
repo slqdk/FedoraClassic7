@@ -5,3 +5,6 @@ application/vnd.openxmlformats-officedocument.wordprocessingml.template=classic7
 application/msword=classic7-write.desktop;
 application/rtf=classic7-write.desktop;
 text/rtf=classic7-write.desktop;
+# e-mail links and saved messages open in Mail
+x-scheme-handler/mailto=classic7-mail.desktop;
+message/rfc822=classic7-mail.desktop;

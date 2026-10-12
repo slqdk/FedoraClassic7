@@ -1,5 +1,14 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
-# "Classic 7 was updated" message after a restart. Format: "## 2026-10-12  Desktop colour fix, login keyboard
+# "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
+
+## 2026-10-12  Mail, network settings, Map Network Drive
+- **Mail**, e-mail and contacts in the Outlook 2007 style (Start menu, or `outlook` in Run): your own IMAP/SMTP account, Gmail (app password) and Outlook.com (Microsoft sign-in). Folders, unread counts, date groups, Reading Pane (pictures from the Internet only when you allow them), drag messages to folders, Contacts with Address Cards and vCard import/export.
+- Messages are written in Write's editor (fonts, colours, lists, tables, pictures); Word attachments open in Write; Write's Office button > Send > E-mail attaches the open document. mailto: links open Mail.
+- Network icon in the taskbar: shows your IP address, gateway and DNS, with links to Network Connections and IP settings (Windows-style IPv4 dialog: DHCP or fixed address).
+- **Map Network Drive** (Computer > Map network drive): \\server\share becomes a drive letter folder that every program can use, reconnected at sign-in (avoids Dolphin crashing on some SMB servers).
+- GTK programs' drop-down lists open as a Windows-style list under the box.
+
+## 2026-10-12  Desktop colour fix, login keyboard
 - The login screen gets the keyboard layout through its own keyboard file too (as System Settings > Login Screen > "Apply Plasma Settings" does), written at boot and whenever the system layout changes.
 - The desktop no longer turns black after Appearance > Apply or an update (the colour was handed to Plasma in a format it can't read while the desktop is running).
 
@@ -14,8 +23,6 @@
 - Kate removed; KWrite is the Notepad.
 - Clean-up: the other look-alike themes (Fedora, Valve, Air, Oxygen, Breeze Dark/Twilight) are removed; Konsole and Bazzite Updater are hidden from the menu (Command Prompt and Classic 7 Update replace them).
 - Write: the Ribbon in the Office 2007 style (Blue, Silver or Classic, in the Office button menu) with the round Office button.
-
-## YYYY-MM-DD  Title", then "- item".
 
 ## 2026-10-12  Classic 7 Update, Classic login screen
 - **Classic 7 Update** (Start > All Programs, or `classic7-update`): one click installs the newest Classic 7, app updates and new settings for your account, then offers a restart.

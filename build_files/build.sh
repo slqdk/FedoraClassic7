@@ -82,11 +82,13 @@ dnf5 -y install python3-docx python3-olefile || {
     python3 -m pip install --no-cache-dir --prefix=/usr python-docx olefile
 }
 dnf5 -y install python3-enchant || echo "WARNING: no spell checking (python3-enchant)"
+# Mail: password store (KWallet via Secret Service) and HTML-to-text for the plain part
+dnf5 -y install python3-keyring python3-secretstorage python3-html2text || echo "WARNING: Mail extras missing"
 for pkg in hunspell-da hunspell-en hunspell-en-US hunspell-en-GB google-carlito-fonts \
            google-crosextra-caladea-fonts google-caladea-fonts wv; do
     rpm -q "$pkg" >/dev/null 2>&1 || dnf5 -y install "$pkg" || echo "NOTE: $pkg not available"
 done
-chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-network /usr/bin/classic7-netdrive /usr/libexec/classic7-update-system /usr/libexec/classic7-netdrive-helper
+chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-mail /usr/bin/classic7-network /usr/bin/classic7-netdrive /usr/libexec/classic7-update-system /usr/libexec/classic7-netdrive-helper
 # Classic 7 Update: which build this is (the updater compares it at login to bring each
 # account's settings up to date after a new version starts)
 base="$(. /usr/lib/os-release; echo "${VERSION_ID:-}${OSTREE_VERSION:+ ($OSTREE_VERSION)}")"
@@ -95,7 +97,8 @@ printf '{"build": "%s", "base": "%s", "content": "%s"}\n' "$(date -u +%Y-%m-%dT%
     "$base" "$content" > /usr/share/classic7/build-info.json
 chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
 python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PySide6.QtPrintSupport, PIL, pyte, docx, olefile"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui"
+python3 -c "import PySide6.QtWebEngineWidgets, keyring, html2text" || echo "WARNING: Mail falls back to the simple message view"
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
 command -v udisksctl
@@ -144,6 +147,11 @@ test -x /usr/bin/classic7-run
 test -x /usr/bin/classic7-write
 test -f /usr/share/applications/classic7-write.desktop
 grep -q "^application/msword=classic7-write.desktop" /etc/xdg/mimeapps.list
+# Mail
+test -x /usr/bin/classic7-mail
+test -f /usr/share/applications/classic7-mail.desktop
+grep -q "^x-scheme-handler/mailto=classic7-mail.desktop" /etc/xdg/mimeapps.list
+/usr/bin/classic7-mail --help >/dev/null
 # Network Connections and the network popup
 test -x /usr/bin/classic7-network
 test -f /usr/share/applications/classic7-network.desktop

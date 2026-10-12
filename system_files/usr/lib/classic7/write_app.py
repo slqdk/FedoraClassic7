@@ -422,12 +422,80 @@ class WriteWindow(QMainWindow):
 
     # ---- ribbon -----------------------------------------------------------------------------
     def _ribbon(self):
+        top, v = self._ribbon_top()
+        r = rb.Ribbon()
+        self.ribbon = r
+
+        # Home
+        home = r.add_tab("Home")
+        self._group_clipboard(r, home)
+        self._group_font(r, home)
+        self._group_paragraph(r, home)
+        self._group_styles(r, home)
+        self._group_editing(r, home)
+
+        # Insert
+        ins = r.add_tab("Insert")
+        g = r.group(ins, "Pages")
+        g.add(rb.big_button(self.a_pagebreak))
+        self._group_tables(r, ins)
+        g = r.group(ins, "Illustrations")
+        g.add(rb.big_button(self.a_picture))
+        g = r.group(ins, "Links")
+        g.add(rb.big_button(self.a_link))
+        g = r.group(ins, "Header & Footer")
+        for a in (self.a_header, self.a_footer, self.a_pagenum):
+            g.add(rb.big_button(a))
+        g = r.group(ins, "Text")
+        g.add(rb.big_button(self.a_date))
+        g.add(rb.big_button(self.a_hr))
+        g = r.group(ins, "Symbols")
+        g.add(rb.big_button(self.a_symbol, rb.symbol_menu(self, self.insert_text)))
+        # Page Layout
+        pl = r.add_tab("Page Layout")
+        g = r.group(pl, "Page Setup")
+        mm = QMenu(self)
+        for name, vals in MARGINS.items():
+            t_, b_, l_, r_ = vals
+            mm.addAction(f"{name}   (Top {t_ / 10:.2f} cm, Left {l_ / 10:.2f} cm)",
+                         lambda vals=vals: self.set_margins(*vals))
+        mm.addSeparator()
+        mm.addAction("Custom Margins...", self.page_setup_dialog)
+        g.add(rb.big_button(self.a_margins, mm))
+        om = QMenu(self)
+        om.addAction("Portrait", lambda: self.set_orientation(False))
+        om.addAction("Landscape", lambda: self.set_orientation(True))
+        g.add(rb.big_button(self.a_orient, om))
+        sm = QMenu(self)
+        for name, (w, h) in PAPER.items():
+            sm.addAction(f"{name}   {w / 10:.1f} cm x {h / 10:.1f} cm", lambda name=name: self.set_paper(name))
+        g.add(rb.big_button(self.a_size, sm))
+        bm = QMenu(self)
+        bm.addAction(self.a_pagebreak)
+        a_breaks = self.act("Breaks", None, None, "insert-page-break", "⤓", size=rb.BIG)
+        g.add(rb.big_button(a_breaks, bm))
+        g.add_column([rb.small_button(self.a_pagesetup, with_text=True)])
+
+        # Review
+        rv = r.add_tab("Review")
+        self._group_proofing(r, rv)
+
+        # View
+        vw = r.add_tab("View")
+        g = r.group(vw, "Document Views")
+        g.add(rb.big_button(self.a_print_layout))
+        g.add(rb.big_button(self.a_draft))
+        g = r.group(vw, "Show/Hide")
+        g.add_column([rb.small_button(self.a_marks, with_text=True)])
+
+        self._ribbon_finish(top, v, r)
+
+    def _ribbon_top(self):
+        """The Office button and Quick Access Toolbar row; returns (widget, its layout)."""
         top = QWidget()
         v = QVBoxLayout(top)
         v.setContentsMargins(0, 0, 0, 0)
         v.setSpacing(0)
-
-        # Office button + Quick Access Toolbar
         qat = QHBoxLayout()
         qat.setContentsMargins(4, 2, 4, 0)
         qat.setSpacing(1)
@@ -442,18 +510,23 @@ class WriteWindow(QMainWindow):
         self.office.setAutoRaise(True)
         qat.addWidget(self.office)
         qat.addSpacing(4)
-        for a in (self.a_save, self.a_undo, self.a_redo):
+        for a in self._qat_actions():
             qat.addWidget(rb.small_button(a))
         qat.addStretch(1)
         v.addLayout(qat)
+        return top, v
 
-        r = rb.Ribbon()
-        self.ribbon = r
-        e = self.editor
+    def _qat_actions(self):
+        return [self.a_save, self.a_undo, self.a_redo]
 
-        # Home
-        home = r.add_tab("Home")
-        g = r.group(home, "Clipboard")
+    def _ribbon_finish(self, top, v, r):
+        v.addWidget(r)
+        self.ribbon_top = top
+        rb.apply_scheme(top, r, self.settings.value("ribbon/scheme", "blue"))
+        self.setMenuWidget(top)
+
+    def _group_clipboard(self, r, tab):
+        g = r.group(tab, "Clipboard")
         paste_menu = QMenu(self)
         paste_menu.addAction(self.a_paste)
         paste_menu.addAction(self.a_paste_text)
@@ -461,15 +534,19 @@ class WriteWindow(QMainWindow):
         g.add(rb.big_button(self.a_paste, paste_menu))
         g.add_column([rb.small_button(self.a_cut, with_text=True)], [rb.small_button(self.a_copy, with_text=True)],
                      [rb.small_button(self.a_painter, with_text=True)])
+        return g
 
-        g = r.group(home, "Font")
+    def _group_font(self, r, tab):
+        g = r.group(tab, "Font")
         self.font_box = QFontComboBox()
         self.font_box.setMaximumWidth(170)
+        self.font_box.setMinimumWidth(120)
         self.font_box.textActivated.connect(self.set_family)
         self.size_box = QComboBox()
         self.size_box.setEditable(True)
         self.size_box.addItems([str(s) for s in FONT_SIZES])
-        self.size_box.setMaximumWidth(56)
+        self.size_box.setMaximumWidth(60)
+        self.size_box.setMinimumWidth(54)
         self.size_box.textActivated.connect(self.set_size)
         self.size_box.lineEdit().returnPressed.connect(lambda: self.set_size(self.size_box.currentText()))
         case_menu = QMenu(self)
@@ -488,8 +565,10 @@ class WriteWindow(QMainWindow):
              rb.small_button(a_case, case_menu, split=True),
              rb.small_button(self.a_highlight, hl_menu, split=True),
              rb.small_button(self.a_color, color_menu, split=True)])
+        return g
 
-        g = r.group(home, "Paragraph")
+    def _group_paragraph(self, r, tab):
+        g = r.group(tab, "Paragraph")
         spacing_menu = QMenu(self)
         for v_ in (100, 115, 150, 200, 250, 300):
             spacing_menu.addAction(f"{v_ / 100:.2g}".rstrip("0").rstrip(".") if v_ != 115 else "1.15",
@@ -509,8 +588,10 @@ class WriteWindow(QMainWindow):
              rb.small_button(self.a_indent_less), rb.small_button(self.a_indent_more), rb.small_button(self.a_marks)],
             [rb.small_button(self.a_left), rb.small_button(self.a_center), rb.small_button(self.a_right),
              rb.small_button(self.a_justify), rb.small_button(a_spacing, spacing_menu)])
+        return g
 
-        g = r.group(home, "Styles")
+    def _group_styles(self, r, tab):
+        g = r.group(tab, "Styles")
         self.style_buttons = {}
         quick = ["Normal", "No Spacing", "Heading 1", "Heading 2", "Title", "Subtitle"]
         rows = [[], []]
@@ -540,19 +621,19 @@ class WriteWindow(QMainWindow):
         mb.setAutoRaise(True)
         rows[0].append(mb)
         g.add_column(*rows)
+        return g
 
-        g = r.group(home, "Editing")
+    def _group_editing(self, r, tab):
+        g = r.group(tab, "Editing")
         select_menu = QMenu(self)
         select_menu.addAction(self.a_select_all)
         a_select = self.act("Select", None, None, "edit-select", "⬚")
         g.add_column([rb.small_button(self.a_find, with_text=True)], [rb.small_button(self.a_replace, with_text=True)],
                      [rb.small_button(a_select, select_menu, with_text=True)])
+        return g
 
-        # Insert
-        ins = r.add_tab("Insert")
-        g = r.group(ins, "Pages")
-        g.add(rb.big_button(self.a_pagebreak))
-        g = r.group(ins, "Tables")
+    def _group_tables(self, r, tab):
+        g = r.group(tab, "Tables")
         table_menu = QMenu(self)
         grid = rb.TableGrid()
         grid.picked.connect(lambda rr, cc: (table_menu.close(), self.insert_table(rr, cc)))
@@ -562,64 +643,15 @@ class WriteWindow(QMainWindow):
         table_menu.addSeparator()
         table_menu.addAction("Insert Table...", self.table_dialog)
         g.add(rb.big_button(self.a_table, table_menu))
-        g = r.group(ins, "Illustrations")
-        g.add(rb.big_button(self.a_picture))
-        g = r.group(ins, "Links")
-        g.add(rb.big_button(self.a_link))
-        g = r.group(ins, "Header & Footer")
-        for a in (self.a_header, self.a_footer, self.a_pagenum):
-            g.add(rb.big_button(a))
-        g = r.group(ins, "Text")
-        g.add(rb.big_button(self.a_date))
-        g.add(rb.big_button(self.a_hr))
-        g = r.group(ins, "Symbols")
-        g.add(rb.big_button(self.a_symbol, rb.symbol_menu(self, self.insert_text)))
+        return g
 
-        # Page Layout
-        pl = r.add_tab("Page Layout")
-        g = r.group(pl, "Page Setup")
-        mm = QMenu(self)
-        for name, vals in MARGINS.items():
-            t_, b_, l_, r_ = vals
-            mm.addAction(f"{name}   (Top {t_ / 10:.2f} cm, Left {l_ / 10:.2f} cm)",
-                         lambda vals=vals: self.set_margins(*vals))
-        mm.addSeparator()
-        mm.addAction("Custom Margins...", self.page_setup_dialog)
-        g.add(rb.big_button(self.a_margins, mm))
-        om = QMenu(self)
-        om.addAction("Portrait", lambda: self.set_orientation(False))
-        om.addAction("Landscape", lambda: self.set_orientation(True))
-        g.add(rb.big_button(self.a_orient, om))
-        sm = QMenu(self)
-        for name, (w, h) in PAPER.items():
-            sm.addAction(f"{name}   {w / 10:.1f} cm x {h / 10:.1f} cm", lambda name=name: self.set_paper(name))
-        g.add(rb.big_button(self.a_size, sm))
-        bm = QMenu(self)
-        bm.addAction(self.a_pagebreak)
-        a_breaks = self.act("Breaks", None, None, "insert-page-break", "⤓", size=rb.BIG)
-        g.add(rb.big_button(a_breaks, bm))
-        g.add_column([rb.small_button(self.a_pagesetup, with_text=True)])
-
-        # Review
-        rv = r.add_tab("Review")
-        g = r.group(rv, "Proofing")
+    def _group_proofing(self, r, tab):
+        g = r.group(tab, "Proofing")
         g.add(rb.big_button(self.a_spell))
         g.add(rb.big_button(self.a_count))
         if not self.speller.available:
             self.a_spell.setToolTip("Spelling: no dictionaries installed")
-
-        # View
-        vw = r.add_tab("View")
-        g = r.group(vw, "Document Views")
-        g.add(rb.big_button(self.a_print_layout))
-        g.add(rb.big_button(self.a_draft))
-        g = r.group(vw, "Show/Hide")
-        g.add_column([rb.small_button(self.a_marks, with_text=True)])
-
-        v.addWidget(r)
-        self.ribbon_top = top
-        rb.apply_scheme(top, r, self.settings.value("ribbon/scheme", "blue"))
-        self.setMenuWidget(top)
+        return g
 
     def _office_menu(self) -> QMenu:
         menu = QMenu(self)
@@ -632,6 +664,10 @@ class WriteWindow(QMainWindow):
         menu.addSeparator()
         menu.addAction(self.a_print)
         menu.addAction(self.a_preview)
+        send = menu.addMenu(rb.icon(["mail-send", "mail-message-new"], "@"), "Sen&d")
+        send.addAction(rb.icon(["mail-message-new"], "@"), "&E-mail", lambda: self.send_by_mail(".docx"))
+        send.addAction(rb.icon(["application-pdf"], "PDF"), "E-mail as &PDF Attachment",
+                       lambda: self.send_by_mail(".pdf"))
         menu.addSeparator()
         self.recent_menu = menu.addMenu(rb.icon("document-open-recent", "R"), "&Recent Documents")
         self._fill_recent()
@@ -1070,7 +1106,7 @@ class WriteWindow(QMainWindow):
         fmt.setName(name)
         # fit to the text column, like Word
         s = self.editor.setup
-        col = s.size_px.width() - (s.left + s.right) * 96 / 25.4
+        col = (self.editor.page_width() if self.editor.fit else s.size_px.width()) - (s.left + s.right) * 96 / 25.4
         w = min(img.width(), col)
         fmt.setWidth(w)
         fmt.setHeight(img.height() * w / max(1, img.width()))
@@ -1503,6 +1539,28 @@ class WriteWindow(QMainWindow):
         dlg.paintRequested.connect(lambda p: print_document(self.editor.document(), self.editor.setup, p))
         dlg.resize(1000, 800)
         dlg.exec()
+
+    def send_by_mail(self, ext: str = ".docx"):
+        """Office button > Send > E-mail: a new Mail message with this document attached."""
+        import shutil
+        import tempfile
+        from PySide6.QtCore import QProcess
+        name = Path(self.path).stem if self.path else self.untitled
+        if ext == ".docx" and self.path and Path(self.path).suffix.lower() in (".docx", ".doc", ".rtf") \
+                and not self.editor.document().isModified():
+            target = self.path
+        else:
+            d = Path(tempfile.mkdtemp(prefix="classic7-send-"))
+            target = str(d / f"{name}{ext}")
+            if ext == ".pdf":
+                self.export_pdf(target)
+            else:
+                import write_docx
+                write_docx.save_docx(self.editor.document(), self.editor.setup, target)
+        if not shutil.which("classic7-mail"):
+            QMessageBox.information(self, APP, "Mail is not installed.")
+            return
+        QProcess.startDetached("classic7-mail", ["--compose", "--attach", target])
 
     def closeEvent(self, ev):
         if self.maybe_save():

@@ -1,0 +1,47 @@
+# Mail in the published image with this branch's code (CLASSIC7_LIB): a real IMAP server
+# (pymap) and SMTP sink (aiosmtpd), on X11 (Xvfb) so QtWebEngine draws the Reading Pane.
+# Screenshots go to the ci-shots-mail branch.
+name: Test Mail
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  mail:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Run
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/fedoraclassic7:latest"
+          mkdir -p shots && chmod 777 shots
+          cat > shots/run.sh <<'EOS'
+          set -x
+          dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick python3-pip >/dev/null 2>&1 || true
+          python3 -m pip install -q pymap aiosmtpd >/dev/null 2>&1 || python3 -m pip install pymap aiosmtpd
+          export HOME=/tmp/home XDG_RUNTIME_DIR=/tmp/xdg; mkdir -p $HOME $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
+          Xvfb :99 -screen 0 1300x820x24 >/dev/null 2>&1 & sleep 2
+          export DISPLAY=:99 QT_QPA_PLATFORM=xcb QTWEBENGINE_DISABLE_SANDBOX=1 QTWEBENGINE_CHROMIUM_FLAGS="--disable-gpu"
+          export CLASSIC7_LIB=/src/system_files/usr/lib/classic7
+          (cd /tmp && pymap --port 1143 --no-tls dict --demo-data > /out/pymap.log 2>&1 &) ; sleep 3
+          cd /out && timeout 400 dbus-run-session -- python3 /src/.github/ci/mail_test.py /out > /out/test.log 2>&1
+          echo "exit $?" >> /out/test.log
+          EOS
+          timeout 900 sudo podman run --rm --privileged -v "$PWD:/src:ro" -v "$PWD/shots:/out" "$IMAGE" bash /out/run.sh > shots/container.log 2>&1 || true
+          ls -la shots
+          grep -v propagateSizeHints shots/test.log | tail -40 || true
+          while read -r l; do echo "::notice title=mail::$l"; done < <(grep -v propagateSizeHints shots/test.log | grep -vE "^\s*$" | tail -30)
+
+      - name: Save to ci-shots-mail
+        run: |
+          cp shots/*.png shots/*.log /tmp/ 2>/dev/null || true
+          git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
+          git checkout --orphan ci-shots-mail; git rm -rfq . >/dev/null
+          cp /tmp/*.png /tmp/*.log . 2>/dev/null || true
+          git add -A; git commit -qm "Mail render" || exit 0
+          git push -f origin ci-shots-mail

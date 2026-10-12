@@ -1,0 +1,20 @@
+#!/usr/bin/python3
+"""Mail: e-mail and contacts in the style of Outlook 2007.
+
+    classic7-mail                      open Mail
+    classic7-mail mailto:ADDRESS       write a new message (mailto: links)
+    classic7-mail --compose [--attach FILE]...
+                                       write a new message, optionally with attachments
+    classic7-mail FILE.eml             open a saved message
+"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
+        print(__doc__.strip())
+        sys.exit(0)
+    from mail_gui import main
+    sys.exit(main(sys.argv[1:]))

@@ -36,6 +36,10 @@ ALIASES = {
     "write": ["classic7-write"],
     "winword": ["classic7-write"],
     "wordpad": ["classic7-write"],
+    "outlook": ["classic7-mail"],
+    "msimn": ["classic7-mail"],
+    "winmail": ["classic7-mail"],
+    "wab": ["classic7-mail"],
     "wuapp": ["classic7-update", "--gui"],
     "control update": ["classic7-update", "--gui"],
 }

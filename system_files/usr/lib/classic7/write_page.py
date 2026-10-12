@@ -68,6 +68,7 @@ class PageEdit(QTextEdit):
         super().__init__(parent)
         self.setup = PageSetup()
         self.draft = False
+        self.fit = False           # mail: text wraps at the window edge, no page
         self.setLineWrapMode(QTextEdit.NoWrap)      # we control the width via the page size
         self.setAcceptRichText(True)
         self.setFrameShape(QTextEdit.NoFrame)
@@ -95,11 +96,10 @@ class PageEdit(QTextEdit):
             self.setup = setup
         doc = self.document()
         was_modified = doc.isModified()
-        size = self.setup.size_px
         opt = doc.defaultTextOption()
         opt.setWrapMode(QTextOption.WrapAtWordBoundaryOrAnywhere)
         doc.setDefaultTextOption(opt)
-        doc.setPageSize(QSizeF(size.width(), -1 if self.draft else size.height()))
+        doc.setPageSize(self._want_size())
         fmt = doc.rootFrame().frameFormat()
         fmt.setTopMargin(self.setup.top * PX_PER_MM)
         fmt.setBottomMargin(self.setup.bottom * PX_PER_MM)
@@ -114,6 +114,23 @@ class PageEdit(QTextEdit):
     def set_draft(self, draft: bool):
         self.draft = draft
         self.apply_setup()
+
+    def set_fit(self, fit: bool):
+        """Mail mode: one white column as wide as the window."""
+        self.fit = fit
+        self.draft = fit or self.draft
+        # the scroll bar stays on: when QTextEdit shows/hides it, it relayouts the document at
+        # width 0 (NoWrap mode), which would put one letter on each line
+        self.apply_setup()
+
+    def page_width(self) -> float:
+        if self.fit:
+            return max(200, self.viewport().width())
+        return self.setup.size_px.width()
+
+    def _want_size(self) -> QSizeF:
+        size = self.setup.size_px
+        return QSizeF(self.page_width(), -1 if self.draft else size.height())
 
     def page_height(self) -> float:
         return self.setup.size_px.height()
@@ -131,6 +148,9 @@ class PageEdit(QTextEdit):
         self.pageChanged.emit(self.current_page(), self.page_count())
 
     def _center(self):
+        if self.fit:
+            self.setViewportMargins(0, 0, 0, 0)
+            return
         width = self.setup.size_px.width()
         free = max(0, self.width() - width - self.style().pixelMetric(QStyle.PM_ScrollBarExtent, None, self) - 4)
         side = int(free // 2)
@@ -140,8 +160,7 @@ class PageEdit(QTextEdit):
         super().resizeEvent(e)
         self._center()
         # QTextEdit resets the page size when it relayouts; put ours back
-        size = self.setup.size_px
-        want = QSizeF(size.width(), -1 if self.draft else size.height())
+        want = self._want_size()
         if self.document().pageSize() != want:
             self.document().setPageSize(want)
 
@@ -151,7 +170,7 @@ class PageEdit(QTextEdit):
         dy = -self.verticalScrollBar().value()
         dx = -self.horizontalScrollBar().value()
         size = self.setup.size_px
-        W, H = size.width(), size.height()
+        W, H = self.page_width(), size.height()
         if self.draft:
             p.fillRect(QRectF(dx, 0, W, self.viewport().height()), Qt.white)
         else:

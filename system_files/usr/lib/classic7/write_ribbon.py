@@ -158,12 +158,12 @@ def big_button(action: QAction, menu: QMenu | None = None, text: str | None = No
     b.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
     b.setIconSize(QSize(BIG, BIG))
     b.setAutoRaise(True)
-    b.setMinimumWidth(48)
     b.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Expanding)
     if menu is not None:
         b.setMenu(menu)
         b.setPopupMode(QToolButton.MenuButtonPopup if action.isCheckable() or action.data() == "split"
                        else QToolButton.InstantPopup)
+    b.setMinimumWidth(max(48, b.sizeHint().width()))      # never cut the label ("Pa...e")
     return b
 
 
