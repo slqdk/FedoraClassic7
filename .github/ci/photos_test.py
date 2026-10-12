@@ -31,7 +31,10 @@ def run():
             w = pa.PhotoViewer(f)
             w.resize(1000, 700)
             w.show()
-            QTest.qWait(900)
+            for _i in range(40):
+                QTest.qWait(100)
+                if w.current is not None:
+                    break
             ok = w.current is not None and not w.current.error
             check(f"open {f.name}" + ("" if ok else f": {w.current.error if w.current else 'not loaded'}"), ok)
             w.grab().save(os.path.join(OUT, "type-" + f.name.replace(".", "_") + ".png"))
@@ -40,6 +43,8 @@ def run():
         w = pa.PhotoViewer(first)
         w.resize(1000, 700)
         w.show()
+        w.activateWindow()
+        print("window active:", QTest.qWaitForWindowActive(w, 5000), flush=True)
         QTest.qWait(800)
         QTest.keyClick(w.canvas, Qt.Key_Right)
         QTest.keyClick(w.canvas, Qt.Key_Right)

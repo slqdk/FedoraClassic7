@@ -158,6 +158,7 @@ class ShowWindow(QMainWindow):
         self.view.context_menu_requested.connect(self.context_menu)
         self.view.zoomChanged.connect(self._zoom_changed)
         self.view.shapeDrawn.connect(self._shape_drawn)
+        self.view.slideStep.connect(lambda d: self.go_to(self.current + d))
         self.thumb_timer = QTimer(self, singleShot=True, interval=350, timeout=self._update_current_thumb)
         self.outline_timer = QTimer(self, singleShot=True, interval=800, timeout=self.refresh_outline)
         self.resize(1180, 820)
@@ -1317,8 +1318,6 @@ class ShowWindow(QMainWindow):
         d = self._current_run_props()
         widgets = (self.a_bold, self.a_italic, self.a_underline, self.a_strike, self.a_sub, self.a_sup, self.a_left,
                    self.a_center, self.a_right, self.a_justify, self.a_bullets, self.a_numbering)
-        for a in widgets:
-            a.blockSignals(True)
         if d is not None:
             run, para = d
             ctx = self.color_ctx()
@@ -1345,12 +1344,7 @@ class ShowWindow(QMainWindow):
             b = para.get("bullet") or {}
             self.a_bullets.setChecked("char" in b and not b.get("none"))
             self.a_numbering.setChecked("auto" in b and not b.get("none"))
-        for a in widgets:
-            a.blockSignals(False)
-        ed = self.view.editing is not None
-        self.a_cut.setEnabled(True)
-        self.a_copy.setEnabled(True)
-        del ed
+        del widgets
 
     def _current_run_props(self):
         ed = self.view.editing

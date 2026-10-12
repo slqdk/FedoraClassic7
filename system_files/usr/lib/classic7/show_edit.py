@@ -257,6 +257,7 @@ class SlideView(QGraphicsView):
     context_menu_requested = Signal(object)
     zoomChanged = Signal(float)
     shapeDrawn = Signal()
+    slideStep = Signal(int)           # wheel / Page Up / Page Down: previous or next slide
 
     def __init__(self, host, parent=None):
         super().__init__(parent)
@@ -362,6 +363,17 @@ class SlideView(QGraphicsView):
         if e.modifiers() & Qt.ControlModifier:
             steps = e.angleDelta().y() / 120.0
             self.set_zoom(self.transform().m11() * (1.1 ** steps))
+            e.accept()
+            return
+        sb = self.verticalScrollBar()
+        dy = e.angleDelta().y()
+        # like PowerPoint: when the slide fits (or the scroll is at its end) the wheel turns the page
+        if self.editing is None and dy and ((dy < 0 and sb.value() >= sb.maximum()) or
+                                            (dy > 0 and sb.value() <= sb.minimum()) or self.fit):
+            self._wheel_acc = getattr(self, "_wheel_acc", 0) + dy
+            if abs(self._wheel_acc) >= 120:
+                self.slideStep.emit(-1 if self._wheel_acc > 0 else 1)
+                self._wheel_acc = 0
             e.accept()
             return
         super().wheelEvent(e)
@@ -1134,6 +1146,10 @@ class SlideView(QGraphicsView):
                 self.cancel_draw()
             else:
                 self.select([])
+            return
+        if k in (Qt.Key_PageDown, Qt.Key_PageUp) or (not self.selection and k in (Qt.Key_Down, Qt.Key_Up,
+                                                                                    Qt.Key_Right, Qt.Key_Left)):
+            self.slideStep.emit(1 if k in (Qt.Key_PageDown, Qt.Key_Down, Qt.Key_Right) else -1)
             return
         if k in (Qt.Key_Delete, Qt.Key_Backspace):
             if self.cell_range is not None:

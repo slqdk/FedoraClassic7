@@ -513,10 +513,57 @@ class SlideShow(QWidget):
         r = self.slide_rect()
         return ((pos.x() - r.left()) / r.width(), (pos.y() - r.top()) / r.height())
 
+    def link_at(self, pos) -> str | None:
+        """A hyperlink under the mouse: on a shape, or on a word in its text."""
+        if self.ended or self.screen_mode:
+            return None
+        import show_geom as geom
+        import show_text as st
+        r = self.slide_rect()
+        k = r.width() / sm.pt(self.pres.width)
+        pt = QPointF((pos.x() - r.left()) / k, (pos.y() - r.top()) / k)
+        slide = self.slide
+        hidden = {x.id for grp in anim_steps(slide)[self.step:] for x in grp}
+        for s in reversed(slide.shapes):
+            if s.id in hidden:
+                continue
+            t = self.renderer.shape_transform(s, flips=False)
+            inv, ok = t.inverted()
+            if not ok:
+                continue
+            lp = inv.map(pt)
+            w, h = sm.pt(s.cx), sm.pt(s.cy)
+            if not (0 <= lp.x() <= w and 0 <= lp.y() <= h):
+                continue
+            if s.link:
+                return s.link
+            if s.text is not None and s.kind == "sp" and not s.text.is_empty():
+                ctx = self.renderer.ctx(slide, s, self.index + 1)
+                area = st.text_area(w, h, s.text, geom.text_rect(s.geom or "rect", w, h))
+                doc = st.layout_doc(s.text, ctx, area)
+                off = st.doc_offset(doc, s.text, area)
+                dp = lp - area.topLeft() - off
+                hit = doc.documentLayout().hitTest(dp, Qt.ExactHit)
+                if hit >= 0:
+                    from PySide6.QtGui import QTextCursor
+                    c = QTextCursor(doc)
+                    c.setPosition(hit + 1)
+                    href = c.charFormat().anchorHref()
+                    if href:
+                        return href
+            return None
+        return None
+
     def mousePressEvent(self, e):
         if e.button() == Qt.LeftButton:
             if self.pen:
                 self.stroke = [self._norm(e.position())]
+                return
+            link = self.link_at(e.position())
+            if link:
+                from PySide6.QtCore import QUrl
+                from PySide6.QtGui import QDesktopServices
+                QDesktopServices.openUrl(QUrl(link))
                 return
             self.next()
         elif e.button() == Qt.RightButton:
@@ -528,7 +575,10 @@ class SlideShow(QWidget):
             self.update()
             return
         if not self.pen:
-            self.unsetCursor()
+            if self.link_at(e.position()):
+                self.setCursor(Qt.PointingHandCursor)
+            else:
+                self.unsetCursor()
             self.hide_mouse.start()
 
     def mouseReleaseEvent(self, e):
