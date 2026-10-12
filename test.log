@@ -1,0 +1,18 @@
+OK   three slides
+OK   save .pptx
+OK   save PDF
+OK   read back: 3 slides
+OK   read back: text
+OK   read back: levels
+OK   read back: table
+OK   read back: notes
+OK   read back: transition
+OK   read back: animation
+OK   open 37625.ppt: 29 slides
+OK   open SampleShow.ppt: 2 slides
+OK   open alterman_security.ppt: 23 slides
+OK   open alterman_security.pptx: 23 slides
+OK   open smartart-simple.pptx: 1 slides
+OK   open themes.pptx: 10 slides
+FAILURES: []
+exit 0
