@@ -50,7 +50,7 @@ def bullet_glyph(ch: str, font: str | None) -> str:
     if 0xF000 <= ord(c) <= 0xF0FF:
         c = chr(ord(c) - 0xF000)
         font = font or "Wingdings"
-    if font and font.lower().startswith(("wingdings", "symbol", "webdings")):
+    if font and font.lower().startswith(("wingdings", "symbol", "webdings", "monotype sorts", "zapf dingbats")):
         if font.lower().startswith("symbol"):
             return {"·": "•", "\xb7": "•", "§": "♣", "¨": "♦", "©": "♥", "ª": "♠"}.get(c, "•")
         return WINGDINGS.get(c, "•")
@@ -525,7 +525,8 @@ def paint_bullets(p: QPainter, doc: QTextDocument, ctx: TextCtx, show_empty: boo
         else:
             fam = b.get("font")
             text = bullet_glyph(b.get("char", "•"), fam)
-            f = QFont("DejaVu Sans" if fam and fam.lower().startswith(("wingdings", "symbol", "webdings"))
+            f = QFont("DejaVu Sans" if fam and fam.lower().startswith(("wingdings", "symbol", "webdings",
+                                                                        "monotype sorts", "zapf dingbats"))
                       else (ctx.font_name(fam) if fam else "Arial"))
         f.setPointSizeF(max(1.0, size * pct))
         f.setHintingPreference(QFont.PreferNoHinting)
