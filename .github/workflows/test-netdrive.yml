@@ -1,6 +1,6 @@
 # Map Network Drive against a real Samba server: the runner shares two folders (guest and
 # password), the published image maps them through the real root helper as a normal user
-# (sudo standing in for pkexec), and the results go into a run annotation.
+# (as root with PKEXEC_UID, as pkexec runs it), and the results go into a run annotation.
 name: Test network drives
 
 on:
@@ -51,13 +51,20 @@ jobs:
           chmod 755 /usr/libexec/classic7-netdrive-helper /usr/bin/classic7-netdrive
           useradd -m -u 1000 tester 2>/dev/null || useradd -m -u 1001 tester
           grep -q '^tester:' /etc/shadow || echo 'tester:!:19000:0:99999:7:::' >> /etc/shadow
-          printf '#!/bin/bash\nexec sudo -n PKEXEC_UID=$(id -u) /usr/libexec/classic7-netdrive-helper "$@"\n' > /usr/bin/helper-as-pkexec
-          chmod 755 /usr/bin/helper-as-pkexec
-          echo 'tester ALL=(root) NOPASSWD:SETENV: /usr/libexec/classic7-netdrive-helper' > /etc/sudoers.d/netdrive
           cat > /tmp/t.py <<'PY'
           import os, subprocess, sys
           sys.path.insert(0, "/usr/lib/classic7")
           import netdrive as nd
+          TUID, TGID = int(os.environ["TUID"]), int(os.environ["TGID"])
+          _connect = nd.connect
+          def connect(m):
+              # as root (pkexec stand-in): give the user's folders and files to the user
+              os.makedirs(m.folder, exist_ok=True)
+              for p in (nd.network_dir(), m.folder, nd.config_dir(), nd.cred_dir(), str(m.cred_file)):
+                  if os.path.exists(p):
+                      os.chown(p, TUID, TGID)
+              return _connect(m)
+          nd.connect = connect
           ok = True
           def check(name, cond, extra=""):
               global ok
@@ -78,7 +85,7 @@ jobs:
               with open(os.path.join(m.folder, "written by classic7.txt"), "w") as f:
                   f.write("ok\n")
               st = os.stat(os.path.join(m.folder, "written by classic7.txt"))
-              check("file writable, owned by user", st.st_uid == os.getuid(), f"uid {st.st_uid}")
+              check("file writable, owned by user", st.st_uid == TUID, f"uid {st.st_uid}")
           except OSError as e:
               check("file writable", False, str(e))
           s = nd.new_mapping(r"\\127.0.0.1\Secure", "Y")
@@ -103,7 +110,7 @@ jobs:
           r = subprocess.run([nd.HELPER, "mount", "//127.0.0.1/Public", "/tmp/elsewhere"], capture_output=True, text=True)
           check("helper refuses a folder outside ~/Network", r.returncode != 0, r.stderr.strip())
           open("/tmp/x.cred", "w").write("username=a\npassword=b\n")
-          os.makedirs(os.path.expanduser("~/Network/evil"), exist_ok=True)
+          os.makedirs(os.path.expanduser("~/Network/evil"), exist_ok=True); os.chown(os.path.expanduser("~/Network/evil"), TUID, TGID)
           r = subprocess.run([nd.HELPER, "mount", "//127.0.0.1/Public", os.path.expanduser("~/Network/evil"), "/tmp/x.cred"], capture_output=True, text=True)
           check("helper refuses a foreign credentials file", r.returncode != 0, r.stderr.strip())
           r = subprocess.run([nd.HELPER, "mount", "//127.0.0.1/Public,uid=0", os.path.expanduser("~/Network/evil")], capture_output=True, text=True)
@@ -113,8 +120,8 @@ jobs:
           check("all disconnected", not any(x.connected for x in nd.load()))
           print("RESULT", "ALL PASSED" if ok else "SOME FAILED")
           PY
-          chown tester /tmp/t.py
-          runuser -u tester -- env HOME=/home/tester CLASSIC7_NETDRIVE_DIRECT=1 CLASSIC7_NETDRIVE_HELPER=/usr/bin/helper-as-pkexec python3 /tmp/t.py 2>&1
+          TUID=$(id -u tester); TGID=$(id -g tester)
+          env HOME=/home/tester PKEXEC_UID=$TUID TUID=$TUID TGID=$TGID python3 /tmp/t.py 2>&1
           EOS
           sudo podman run --rm --privileged --network host -v "$PWD:/src:ro" -v "$PWD/test.sh:/test.sh:ro" "$IMAGE" bash /test.sh > result.txt 2>&1 || true
           cat result.txt
