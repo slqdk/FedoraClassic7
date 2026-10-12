@@ -748,6 +748,26 @@ def write_plasma_style(p: Palette, ids: Ids, w: Writer):
         "normal": (6, 4, 6, 4), "pressed": (6, 4, 6, 4),
         "toolbutton-hover": (4, 4, 4, 4), "toolbutton-pressed": (4, 4, 4, 4)}))
 
+    # Square versions of what Plasma would otherwise borrow from Breeze (rounded):
+    # text fields (Start menu search, KRunner, tray popups), list highlights and frames.
+    w(base + "widgets/lineedit.svg", frame([("base", bevelled(bv.field, p.window), two)],
+                                           {"base": (4, 3, 4, 3)}))
+
+    def tint(amount: float) -> Canvas:
+        cv = Canvas(8, 8, mix(p.window, p.select, amount))
+        cv.edge(0, 0, 8, 8, mix(p.window, p.select, 0.6), mix(p.window, p.select, 0.6))
+        return cv
+    w(base + "widgets/viewitem.svg", frame([
+        ("hover", tint(0.12), one),
+        ("selected", tint(0.25), one),
+        ("selected+hover", tint(0.32), one),
+    ], {"hover": (4, 2, 4, 2), "selected": (4, 2, 4, 2), "selected+hover": (4, 2, 4, 2)}))
+    w(base + "widgets/frame.svg", frame([
+        ("plain", thin((p.c_shadow, p.c_shadow)), one),
+        ("raised", bevelled(bv.button), two),
+        ("sunken", bevelled(bv.field, p.window), two),
+    ], {"plain": (2, 2, 2, 2), "raised": (3, 3, 3, 3), "sunken": (3, 3, 3, 3)}))
+
 
 # =============================================================================
 # 4. Start button

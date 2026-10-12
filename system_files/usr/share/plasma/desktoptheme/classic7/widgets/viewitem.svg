@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="148" height="42" viewBox="0 0 148 42" shape-rendering="crispEdges">
+<defs></defs>
+<g id="hover-topleft"><rect x="0" y="0" width="1" height="1" fill="#6C7CA6"/></g>
+<g id="hover-top"><rect x="1" y="0" width="6" height="1" fill="#6C7CA6"/></g>
+<g id="hover-topright"><rect x="7" y="0" width="1" height="1" fill="#6C7CA6"/></g>
+<g id="hover-left"><rect x="0" y="1" width="1" height="6" fill="#6C7CA6"/></g>
+<g id="hover-center"><rect x="1" y="1" width="6" height="6" fill="#E2E5ED"/></g>
+<g id="hover-right"><rect x="7" y="1" width="1" height="6" fill="#6C7CA6"/></g>
+<g id="hover-bottomleft"><rect x="0" y="7" width="1" height="1" fill="#6C7CA6"/></g>
+<g id="hover-bottom"><rect x="1" y="7" width="6" height="1" fill="#6C7CA6"/></g>
+<g id="hover-bottomright"><rect x="7" y="7" width="1" height="1" fill="#6C7CA6"/></g>
+<g id="selected-topleft"><rect x="0" y="14" width="1" height="1" fill="#6C7CA6"/></g>
+<g id="selected-top"><rect x="1" y="14" width="6" height="1" fill="#6C7CA6"/></g>
+<g id="selected-topright"><rect x="7" y="14" width="1" height="1" fill="#6C7CA6"/></g>
+<g id="selected-left"><rect x="0" y="15" width="1" height="6" fill="#6C7CA6"/></g>
+<g id="selected-center"><rect x="1" y="15" width="6" height="6" fill="#C2C8DA"/></g>
+<g id="selected-right"><rect x="7" y="15" width="1" height="6" fill="#6C7CA6"/></g>
+<g id="selected-bottomleft"><rect x="0" y="21" width="1" height="1" fill="#6C7CA6"/></g>
+<g id="selected-bottom"><rect x="1" y="21" width="6" height="1" fill="#6C7CA6"/></g>
+<g id="selected-bottomright"><rect x="7" y="21" width="1" height="1" fill="#6C7CA6"/></g>
+<g id="selected+hover-topleft"><rect x="0" y="28" width="1" height="1" fill="#6C7CA6"/></g>
+<g id="selected+hover-top"><rect x="1" y="28" width="6" height="1" fill="#6C7CA6"/></g>
+<g id="selected+hover-topright"><rect x="7" y="28" width="1" height="1" fill="#6C7CA6"/></g>
+<g id="selected+hover-left"><rect x="0" y="29" width="1" height="6" fill="#6C7CA6"/></g>
+<g id="selected+hover-center"><rect x="1" y="29" width="6" height="6" fill="#B1B9CF"/></g>
+<g id="selected+hover-right"><rect x="7" y="29" width="1" height="6" fill="#6C7CA6"/></g>
+<g id="selected+hover-bottomleft"><rect x="0" y="35" width="1" height="1" fill="#6C7CA6"/></g>
+<g id="selected+hover-bottom"><rect x="1" y="35" width="6" height="1" fill="#6C7CA6"/></g>
+<g id="selected+hover-bottomright"><rect x="7" y="35" width="1" height="1" fill="#6C7CA6"/></g>
+<rect id="hint-stretch-borders" x="18" y="30" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="hover-hint-stretch-borders" x="18" y="30" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="selected-hint-stretch-borders" x="18" y="30" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="selected+hover-hint-stretch-borders" x="18" y="30" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="hover-hint-left-margin" x="18" y="0" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="hover-hint-top-margin" x="28" y="0" width="4" height="2" fill="#000" fill-opacity="0"/>
+<rect id="hover-hint-right-margin" x="38" y="0" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="hover-hint-bottom-margin" x="48" y="0" width="4" height="2" fill="#000" fill-opacity="0"/>
+<rect id="selected-hint-left-margin" x="58" y="0" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="selected-hint-top-margin" x="68" y="0" width="4" height="2" fill="#000" fill-opacity="0"/>
+<rect id="selected-hint-right-margin" x="78" y="0" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="selected-hint-bottom-margin" x="88" y="0" width="4" height="2" fill="#000" fill-opacity="0"/>
+<rect id="selected+hover-hint-left-margin" x="98" y="0" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="selected+hover-hint-top-margin" x="108" y="0" width="4" height="2" fill="#000" fill-opacity="0"/>
+<rect id="selected+hover-hint-right-margin" x="118" y="0" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="selected+hover-hint-bottom-margin" x="128" y="0" width="4" height="2" fill="#000" fill-opacity="0"/>
+
+</svg>

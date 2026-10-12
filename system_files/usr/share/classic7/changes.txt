@@ -6,6 +6,8 @@
 - Appearance: fixed "Permission denied" on GTK theme files, which stopped Apply for every scheme except Classic 7 Standard.
 - Breeze icons are now the standard (the Chicago95 icon set is gone); desktop icons are 32 px.
 - No "Plasma made by KDE" splash at login.
+- Square corners everywhere except Eleven Light: Plasma's text fields (Start menu search), list highlights and frames no longer borrow Breeze's rounded ones.
+- Kate removed; KWrite is the Notepad.
 - Clean-up: the other look-alike themes (Fedora, Valve, Air, Oxygen, Breeze Dark/Twilight) are removed; Konsole and Bazzite Updater are hidden from the menu (Command Prompt and Classic 7 Update replace them).
 - Write: the Ribbon in the Office 2007 style (Blue, Silver or Classic, in the Office button menu) with the round Office button.
 

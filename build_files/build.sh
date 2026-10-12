@@ -175,6 +175,12 @@ for f in org.kde.konsole.desktop io.github.rfrench3.bazzite-updater.desktop; do
         sed -i -e '/^NoDisplay=/d' -e '0,/^\[Desktop Entry\]/s//[Desktop Entry]\nNoDisplay=true/' "/usr/share/applications/$f"
     fi
 done
+# One plain text editor: KWrite (the Notepad; "notepad" in the Run dialog). Kate goes.
+if rpm -q kate >/dev/null 2>&1; then
+    dnf5 -y remove kate $(rpm -q kate-plugins >/dev/null 2>&1 && echo kate-plugins)
+fi
+if rpm -q kate >/dev/null 2>&1; then echo "ERROR: kate is still installed"; exit 1; fi
+rpm -q kwrite
 # what must remain
 test -d /usr/share/plasma/look-and-feel/org.kde.breeze.desktop
 test -d /usr/share/plasma/desktoptheme/default

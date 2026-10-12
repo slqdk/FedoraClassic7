@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="72" height="20" viewBox="0 0 72 20" shape-rendering="crispEdges">
+<defs></defs>
+<g id="base-topleft"><rect x="0" y="0" width="2" height="1" fill="#808080"/><rect x="0" y="1" width="1" height="1" fill="#808080"/><rect x="1" y="1" width="1" height="1" fill="#404040"/></g>
+<g id="base-top"><rect x="2" y="0" width="8" height="1" fill="#808080"/><rect x="2" y="1" width="8" height="1" fill="#404040"/></g>
+<g id="base-topright"><rect x="10" y="0" width="1" height="1" fill="#808080"/><rect x="11" y="0" width="1" height="2" fill="#FFFFFF"/><rect x="10" y="1" width="1" height="1" fill="#D4D0C8"/></g>
+<g id="base-left"><rect x="0" y="2" width="1" height="8" fill="#808080"/><rect x="1" y="2" width="1" height="8" fill="#404040"/></g>
+<g id="base-center"><rect x="2" y="2" width="8" height="8" fill="#FFFFFF"/></g>
+<g id="base-right"><rect x="10" y="2" width="1" height="8" fill="#D4D0C8"/><rect x="11" y="2" width="1" height="8" fill="#FFFFFF"/></g>
+<g id="base-bottomleft"><rect x="0" y="10" width="1" height="1" fill="#808080"/><rect x="1" y="10" width="1" height="1" fill="#D4D0C8"/><rect x="0" y="11" width="2" height="1" fill="#FFFFFF"/></g>
+<g id="base-bottom"><rect x="2" y="10" width="8" height="1" fill="#D4D0C8"/><rect x="2" y="11" width="8" height="1" fill="#FFFFFF"/></g>
+<g id="base-bottomright"><rect x="10" y="10" width="1" height="1" fill="#D4D0C8"/><rect x="11" y="10" width="1" height="1" fill="#FFFFFF"/><rect x="10" y="11" width="2" height="1" fill="#FFFFFF"/></g>
+<rect id="hint-stretch-borders" x="22" y="30" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="base-hint-stretch-borders" x="22" y="30" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="base-hint-left-margin" x="22" y="0" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="base-hint-top-margin" x="32" y="0" width="4" height="3" fill="#000" fill-opacity="0"/>
+<rect id="base-hint-right-margin" x="42" y="0" width="4" height="4" fill="#000" fill-opacity="0"/>
+<rect id="base-hint-bottom-margin" x="52" y="0" width="4" height="3" fill="#000" fill-opacity="0"/>
+
+</svg>
