@@ -5,6 +5,7 @@
 - **Classic 7 Update** (Start > All Programs, or `classic7-update`): one click installs the newest Classic 7, app updates and new settings for your account, then offers a restart.
 - After a restart into a new version, your account's settings (look, taskbar, Start menu, shortcuts) are brought up to date automatically at login.
 - New login screen in the Classic style: the "Log On to Classic 7" dialog on the desktop blue.
+- Appearance: OK now always applies the shown scheme; Apply never freezes the dialog and says what happened (log: `~/.cache/classic7/appearance.log`).
 
 ## 2026-10-12  Write
 - **Write**, a word processor in the Word 2007 style: opens and saves .docx, .rtf and .doc, exports PDF. Pinned in the Start menu and opens Word files.

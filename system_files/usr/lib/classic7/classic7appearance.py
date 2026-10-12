@@ -18,6 +18,7 @@ import os
 import re
 import shlex
 import shutil
+import time
 import subprocess
 from dataclasses import dataclass, replace
 from pathlib import Path
@@ -53,10 +54,32 @@ def user_schemes_file() -> Path:
 # Command runner (dry-run aware, so the backend can be tested anywhere)
 # =============================================================================
 class Runner:
+    """Runs the desktop commands. Each one gets a time limit, and everything goes to
+    ~/.cache/classic7/appearance.log so a failed Apply can be explained."""
+    TIMEOUT = 30
+
     def __init__(self, dry_run: bool | None = None):
         self.dry_run = bool(os.environ.get("CLASSIC7_DRY_RUN")) if dry_run is None else dry_run
         self.log: list[str] = []
         self.failures: list[str] = []
+
+    @staticmethod
+    def logfile() -> Path:
+        base = Path(os.environ.get("XDG_CACHE_HOME") or _home() / ".cache")
+        return base / "classic7" / "appearance.log"
+
+    def note(self, text: str):
+        if self.dry_run:
+            return
+        try:
+            f = self.logfile()
+            f.parent.mkdir(parents=True, exist_ok=True)
+            if f.exists() and f.stat().st_size > 512_000:
+                f.unlink()
+            with f.open("a") as fh:
+                fh.write(time.strftime("%Y-%m-%d %H:%M:%S ") + text.rstrip() + "\n")
+        except OSError:
+            pass
 
     def __call__(self, *cmd: str, check: bool = False) -> bool:
         line = " ".join(shlex.quote(c) for c in cmd)
@@ -65,11 +88,21 @@ class Runner:
             return True
         if shutil.which(cmd[0]) is None:
             self.failures.append(f"{cmd[0]} not found")
+            self.note(f"MISSING {cmd[0]}")
             return False
-        res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        t0 = time.monotonic()
+        try:
+            res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                                 stdin=subprocess.DEVNULL, timeout=self.TIMEOUT)
+        except subprocess.TimeoutExpired:
+            self.failures.append(f"{cmd[0]} did not answer within {self.TIMEOUT} s")
+            self.note(f"TIMEOUT {line[:300]}")
+            return False
+        msg = (res.stdout + res.stderr).strip()
+        self.note(f"rc={res.returncode} {time.monotonic() - t0:.1f}s {line[:300]}"
+                  + (f"\n    {msg[:600]}" if msg else ""))
         if res.returncode != 0:
             # plasma-apply-* exit non-zero when the theme is already active; not an error
-            msg = (res.stdout + res.stderr).strip()
             if "already set" not in msg:
                 self.failures.append(f"{cmd[0]}: {msg[:200]}")
             return False
@@ -408,6 +441,7 @@ class Result:
 
 def apply(p: t.Palette, runner: Runner | None = None) -> Result:
     run = runner or Runner()
+    run.note(f"== apply {p.name!r} (font size {p.font_size})")
     state = State.load()
     notes: list[str] = []
 

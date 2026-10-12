@@ -4,7 +4,7 @@ from __future__ import annotations
 import sys
 from dataclasses import replace
 
-from PySide6.QtCore import QByteArray, QRectF, QSize, Qt
+from PySide6.QtCore import QByteArray, QRectF, QSize, Qt, QThread, Signal
 from PySide6.QtGui import QColor, QIcon, QPainter, QPixmap
 from PySide6.QtSvg import QSvgRenderer
 from PySide6.QtWidgets import (
@@ -298,6 +298,24 @@ class ExplorerTab(QWidget):
                             if res.ok else "Some files were missing: " + "; ".join(res.notes))
 
 
+class ApplyWorker(QThread):
+    """Applies a scheme off the GUI thread, so the dialog never freezes."""
+    finished_with = Signal(object)
+
+    def __init__(self, palette, parent=None):
+        super().__init__(parent)
+        self.palette = palette
+
+    def run(self):
+        import traceback
+        try:
+            res = backend.apply(self.palette)
+        except Exception as e:  # noqa: BLE001 - shown in the dialog and logged
+            backend.Runner().note("ERROR\n" + traceback.format_exc())
+            res = backend.Result(ok=False, notes=[f"{type(e).__name__}: {e}"], commands=[])
+        self.finished_with.emit(res)
+
+
 class AppearanceDialog(QDialog):
     def __init__(self):
         super().__init__()
@@ -315,7 +333,7 @@ class AppearanceDialog(QDialog):
         self.buttons.button(QDialogButtonBox.RestoreDefaults).setText("Restore &Default")
         self.buttons.accepted.connect(self._ok)
         self.buttons.rejected.connect(self.reject)
-        self.buttons.button(QDialogButtonBox.Apply).clicked.connect(self._apply)
+        self.buttons.button(QDialogButtonBox.Apply).clicked.connect(lambda: self._apply(False))
         self.buttons.button(QDialogButtonBox.RestoreDefaults).clicked.connect(self.appearance.restore_default)
         # Apply is always available: re-applying the current scheme also brings this
         # account up to date after a system update (Start button, taskbar, lock screen).
@@ -333,20 +351,41 @@ class AppearanceDialog(QDialog):
         self._dirty = True
         self.status.clear()
 
-    def _apply(self) -> bool:
+    def _apply(self, close_after: bool = False):
+        if getattr(self, "_worker", None) is not None and self._worker.isRunning():
+            return
+        p = self.appearance.palette
+        self.status.setText(f"Applying {p.name}…")
+        self.buttons.setEnabled(False)
         QApplication.setOverrideCursor(Qt.WaitCursor)
-        try:
-            res = backend.apply(self.appearance.palette)
-        finally:
-            QApplication.restoreOverrideCursor()
+        self._worker = ApplyWorker(p, self)
+        self._worker.finished_with.connect(lambda res: self._applied(res, p.name, close_after))
+        self._worker.start()
+
+    def _applied(self, res, name: str, close_after: bool):
+        QApplication.restoreOverrideCursor()
+        self.buttons.setEnabled(True)
         self._dirty = False
-        self.status.setText(" ".join(res.notes))
-        return res.ok
+        problems = [n for n in res.notes if not n.startswith("Restart open GTK apps")]
+        if res.ok and not problems:
+            self.status.setText(f"{name} is applied. Restart open GTK apps (Firefox, Steam…) to see their new colours.")
+            if close_after:
+                self.accept()
+            return
+        log = backend.Runner.logfile()
+        self.status.setText(f"{name} was applied with problems:\n" + "\n".join(problems[:4])
+                            + f"\nDetails: {log}")
+        # stay open after OK so the message can be read
 
     def _ok(self):
-        if self._dirty:
-            self._apply()
-        self.accept()
+        # OK always applies what is shown (also when only the scheme list was used)
+        self._apply(close_after=True)
+
+    def closeEvent(self, ev):
+        if getattr(self, "_worker", None) is not None and self._worker.isRunning():
+            ev.ignore()
+            return
+        super().closeEvent(ev)
 
 
 def main(argv=None):
