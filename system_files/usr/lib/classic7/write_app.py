@@ -1,6 +1,6 @@
 """Write: a word processor in the Word 2007 layout for Classic 7.
 
-Opens .docx, .doc, .rtf, .txt and .html; saves .docx, .doc (as RTF, which Word opens),
+Opens .docx, .doc, .rtf, .pdf (converted to an editable document), .txt and .html; saves .docx, .doc (as RTF, which Word opens),
 .rtf, .odt, .pdf and .txt.
 """
 from __future__ import annotations
@@ -26,9 +26,12 @@ import write_ribbon as rb
 from write_page import MARGINS, PAPER, PageEdit, PageSetup, print_document
 
 APP = "Write"
-OPEN_FILTER = ("All Word Documents (*.docx *.doc *.rtf);;Word Document (*.docx);;"
-               "Word 97-2003 Document (*.doc);;Rich Text Format (*.rtf);;Text (*.txt);;"
+OPEN_FILTER = ("All Word Documents (*.docx *.doc *.rtf *.pdf);;Word Document (*.docx);;"
+               "Word 97-2003 Document (*.doc);;Rich Text Format (*.rtf);;PDF Files (*.pdf);;Text (*.txt);;"
                "Web Page (*.html *.htm);;All Files (*)")
+PDF_NOTICE = ("Write will now convert your PDF to an editable Write document. This may take a while. "
+              "The resulting document will be optimized to allow you to edit the text, so it might not look "
+              "exactly like the original PDF, especially if the original file contained lots of graphics.")
 SAVE_TYPES = [
     ("Word Document (*.docx)", ".docx"),
     ("Word 97-2003 Document (*.doc)", ".doc"),
@@ -70,6 +73,14 @@ class Speller(QSyntaxHighlighter):
     @property
     def available(self) -> bool:
         return bool(self.dicts)
+
+    def setDocument(self, doc):
+        """The first full spell check of a newly opened document must not mark it as changed
+        (Qt's highlighter does for some documents, e.g. converted PDFs)."""
+        was = doc.isModified() if doc is not None else True
+        super().setDocument(doc)
+        if doc is not None and not was:
+            QTimer.singleShot(0, lambda d=doc: d.setModified(False) if d is self.document() else None)
 
     def ok(self, word: str) -> bool:
         if len(word) < 2 or word.lower() in self.ignored or word.isupper():
@@ -1414,12 +1425,45 @@ class WriteWindow(QMainWindow):
             w = WriteWindow(path)
             w.show()
 
+    def _confirm_pdf(self) -> bool:
+        if self.settings.value("pdf/noNotice", False, bool):
+            return True
+        box = QMessageBox(QMessageBox.Information, APP, PDF_NOTICE, QMessageBox.Ok | QMessageBox.Cancel, self)
+        cb = QCheckBox("Don't show this message again")
+        box.setCheckBox(cb)
+        ok = box.exec() == QMessageBox.Ok
+        if ok and cb.isChecked():
+            self.settings.setValue("pdf/noNotice", True)
+        return ok
+
+    def _pdf_progress(self):
+        """Progress dialog for long PDFs (it appears after a second)."""
+        from PySide6.QtWidgets import QProgressDialog
+        dlg = QProgressDialog("Converting the PDF...", "Cancel", 0, 100, self)
+        dlg.setWindowTitle(APP)
+        dlg.setMinimumDuration(1000)
+        dlg.setWindowModality(Qt.WindowModal)
+
+        def progress(done, total):
+            dlg.setMaximum(max(1, total))
+            dlg.setValue(done)
+            QApplication.processEvents()
+            return not dlg.wasCanceled()
+        self._pdf_dialog = dlg
+        return progress
+
     def open_path(self, path: str):
         ext = Path(path).suffix.lower()
         note = ""
+        is_pdf = ext == ".pdf" or (ext not in (".docx", ".doc", ".rtf", ".txt") and _is_pdf(path))
+        if is_pdf and not self._confirm_pdf():
+            return False
         QApplication.setOverrideCursor(Qt.WaitCursor)
         try:
-            if ext == ".docx":
+            if is_pdf:
+                import write_pdf
+                doc, setup, note = write_pdf.load_pdf(path, self._pdf_progress())
+            elif ext == ".docx":
                 import write_docx
                 doc, setup = write_docx.load_docx(path)
             elif ext == ".doc":
@@ -1439,12 +1483,25 @@ class WriteWindow(QMainWindow):
                 setup = PageSetup()
         except Exception as e:  # noqa: BLE001
             QApplication.restoreOverrideCursor()
-            QMessageBox.critical(self, APP, f"{APP} cannot open \"{Path(path).name}\".\n\n{e}")
+            if getattr(self, "_pdf_dialog", None):
+                self._pdf_dialog.close()
+                self._pdf_dialog = None
+            if str(e) != "cancelled":
+                QMessageBox.critical(self, APP, f"{APP} cannot open \"{Path(path).name}\".\n\n{e}")
             return False
         QApplication.restoreOverrideCursor()
+        if getattr(self, "_pdf_dialog", None):
+            self._pdf_dialog.close()
+            self._pdf_dialog = None
         doc.setModified(False)
         self.set_document(doc, setup)
-        self.path = path
+        if is_pdf:
+            # like Word: the converted PDF is a new document; Save asks where (as .docx)
+            self.path = None
+            self.untitled = Path(path).stem
+            self.source_folder = str(Path(path).parent)
+        else:
+            self.path = path
         self._update_title()
         self._add_recent(path)
         if note:
@@ -1462,7 +1519,8 @@ class WriteWindow(QMainWindow):
         types = [t for t in SAVE_TYPES]
         filters = ";;".join(t[0] for t in types)
         chosen = next((t[0] for t in types if t[1] == ext), types[0][0])
-        base = Path(self.path).with_suffix(ext) if self.path else Path.home() / "Documents" / (self.untitled + ext)
+        folder = Path(getattr(self, "source_folder", "") or Path.home() / "Documents")
+        base = Path(self.path).with_suffix(ext) if self.path else folder / (self.untitled + ext)
         path, filt = QFileDialog.getSaveFileName(self, "Save As", str(base), filters, chosen)
         if not path:
             return False
@@ -1567,6 +1625,14 @@ class WriteWindow(QMainWindow):
             ev.accept()
         else:
             ev.ignore()
+
+
+def _is_pdf(path: str) -> bool:
+    try:
+        with open(path, "rb") as f:
+            return f.read(5) == b"%PDF-"
+    except OSError:
+        return False
 
 
 def _is_rtf(path: str) -> bool:
