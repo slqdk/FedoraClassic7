@@ -452,10 +452,15 @@ def _explorer_layout_2(log: Log) -> bool:
 
 
 def _no_type_to_search(log: Log) -> bool:
-    """Typing on the desktop no longer opens KRunner's search bar (Windows 7 doesn't)."""
-    ok = _kwrite("krunnerrc", ["General"], "ActivateWhenTypingOnDesktop", "false")
-    log("  desktop: typing no longer opens the search bar")
-    return ok
+    """Typing on the desktop selects the icon starting with that letter, like Windows,
+    instead of opening KRunner's search bar (the desktop's "useTypeAhead" setting)."""
+    r = subprocess.run(["dbus-send", "--session", "--dest=org.kde.plasmashell", "--type=method_call",
+                        "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript",
+                        'string:desktops().forEach(function (d) { d.currentConfigGroup = ["General"]; '
+                        'd.writeConfig("useTypeAhead", true); d.reloadConfig(); });'],
+                       capture_output=True, timeout=30)
+    log("  desktop: typing selects icons (no search bar)")
+    return r.returncode == 0
 
 
 # (id, function) - each runs once per account, in this order. Add new ones at the end.

@@ -10,6 +10,7 @@ for (var j = 0; j < desktopsArray.length; j++) {
     // desktop icons at 32 px (0=22, 1=32, 2=48, 3=64 = Plasma default), like Windows
     desk.currentConfigGroup = ["General"];
     desk.writeConfig("iconSize", 1);
+    desk.writeConfig("useTypeAhead", true);     // typing selects an icon, like Windows (not KRunner)
 }
 
 // BEGIN TASKBAR (classic7-appearance --taskbar runs this part again; keep it self-contained)

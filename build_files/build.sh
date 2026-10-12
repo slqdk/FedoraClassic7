@@ -30,7 +30,7 @@ merge_ini() {
     done < "$src"
 }
 
-for f in kdeglobals kwinrc dolphinrc mimeapps.list ksplashrc krunnerrc; do
+for f in kdeglobals kwinrc dolphinrc mimeapps.list ksplashrc; do
     merge_ini "/usr/share/classic7/xdg-defaults/$f" "/etc/xdg/$f"
 done
 
@@ -154,7 +154,6 @@ test -f /usr/share/applications/classic7-write.desktop
 grep -q "^application/msword=classic7-write.desktop" /etc/xdg/mimeapps.list
 test -f /usr/share/kio/servicemenus/classic7-write-pdf.desktop
 test -f /usr/share/kio/servicemenus/classic7-taskbar-pin.desktop
-grep -q '^ActivateWhenTypingOnDesktop=false' /etc/xdg/krunnerrc
 /usr/bin/classic7-taskbar-pin --help >/dev/null
 test -L /etc/systemd/user/plasma-core.target.wants/classic7-tray-fix.service
 PYTHONPATH=/usr/lib/classic7 python3 -c "import write_pdf"

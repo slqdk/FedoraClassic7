@@ -1,3 +1,0 @@
-[General]
-# Windows 7: typing on the desktop does nothing (no KRunner search bar)
-ActivateWhenTypingOnDesktop=false
