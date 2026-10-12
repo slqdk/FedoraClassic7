@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Reconnect network drives
+Comment=Connects the network drives marked "Reconnect at sign-in"
+Exec=/usr/bin/classic7-netdrive --reconnect
+NoDisplay=true
+OnlyShowIn=KDE;
+X-KDE-autostart-phase=2

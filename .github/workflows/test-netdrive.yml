@@ -1,0 +1,121 @@
+# Map Network Drive against a real Samba server: the runner shares two folders (guest and
+# password), the published image maps them through the real root helper as a normal user
+# (sudo standing in for pkexec), and the results go into a run annotation.
+name: Test network drives
+
+on:
+  workflow_dispatch:
+
+jobs:
+  smb:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Samba server on the runner
+        run: |
+          sudo apt-get -qq update && sudo apt-get -qq install -y samba >/dev/null
+          sudo mkdir -p /srv/public /srv/secure
+          echo "hello from public" | sudo tee /srv/public/readme.txt >/dev/null
+          echo "hello from secure" | sudo tee /srv/secure/readme.txt >/dev/null
+          sudo chmod 777 /srv/public /srv/secure
+          sudo useradd -M smbtest || true
+          printf 'Secret123\nSecret123\n' | sudo smbpasswd -s -a smbtest
+          sudo tee -a /etc/samba/smb.conf >/dev/null <<'CONF'
+          [Public]
+             path = /srv/public
+             guest ok = yes
+             read only = no
+             force user = nobody
+             comment = Open share
+          [Secure]
+             path = /srv/secure
+             valid users = smbtest
+             read only = no
+             force user = nobody
+             comment = Password share
+          CONF
+          sudo sed -i 's/^\s*map to guest.*/   map to guest = bad user/' /etc/samba/smb.conf
+          sudo systemctl restart smbd
+          smbclient -N -L //127.0.0.1 -g || true
+
+      - name: Map drives from the image
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/fedoraclassic7:latest"
+          cat > test.sh <<'EOS'
+          set -u
+          cp /src/system_files/usr/lib/classic7/netdrive*.py /usr/lib/classic7/
+          cp /src/system_files/usr/libexec/classic7-netdrive-helper /usr/libexec/
+          cp /src/system_files/usr/bin/classic7-netdrive /usr/bin/
+          chmod 755 /usr/libexec/classic7-netdrive-helper /usr/bin/classic7-netdrive
+          useradd -m -u 1000 tester 2>/dev/null || useradd -m -u 1001 tester
+          printf '#!/bin/bash\nexec sudo -n PKEXEC_UID=$(id -u) /usr/libexec/classic7-netdrive-helper "$@"\n' > /usr/local/bin/helper-as-pkexec
+          chmod 755 /usr/local/bin/helper-as-pkexec
+          echo 'tester ALL=(root) NOPASSWD:SETENV: /usr/libexec/classic7-netdrive-helper' > /etc/sudoers.d/netdrive
+          cat > /tmp/t.py <<'PY'
+          import os, subprocess, sys
+          sys.path.insert(0, "/usr/lib/classic7")
+          import netdrive as nd
+          ok = True
+          def check(name, cond, extra=""):
+              global ok
+              ok &= bool(cond)
+              print(("PASS " if cond else "FAIL ") + name + (f"  [{extra}]" if extra else ""))
+          print("shares (guest):", nd.list_shares("127.0.0.1"))
+          try:
+              print("shares (user):", nd.list_shares("127.0.0.1", "smbtest", "Secret123"))
+          except nd.DriveError as e:
+              print("shares (user) failed:", e)
+          m = nd.new_mapping(r"\\127.0.0.1\Public", "Z")
+          try:
+              nd.add(m); check("guest share mounted", m.connected)
+          except nd.DriveError as e:
+              check("guest share mounted", False, str(e))
+          check("file readable", os.path.exists(os.path.join(m.folder, "readme.txt")))
+          try:
+              with open(os.path.join(m.folder, "written by classic7.txt"), "w") as f:
+                  f.write("ok\n")
+              st = os.stat(os.path.join(m.folder, "written by classic7.txt"))
+              check("file writable, owned by user", st.st_uid == os.getuid(), f"uid {st.st_uid}")
+          except OSError as e:
+              check("file writable", False, str(e))
+          s = nd.new_mapping(r"\\127.0.0.1\Secure", "Y")
+          try:
+              nd.add(s); check("password share refuses guest", False)
+          except nd.DriveError as e:
+              check("password share refuses guest", str(e) == "access-denied", str(e))
+          s.user = "smbtest"
+          try:
+              nd.add(s, "wrong"); check("wrong password refused", False)
+          except nd.DriveError as e:
+              check("wrong password refused", str(e) == "access-denied", str(e))
+          try:
+              nd.add(s, "Secret123"); check("password share mounted", s.connected)
+          except nd.DriveError as e:
+              check("password share mounted", False, str(e))
+          check("secure file readable", os.path.exists(os.path.join(s.folder, "readme.txt")))
+          nd.disconnect(s, forget=False); check("disconnected", not s.connected)
+          check("reconnect at sign-in", not nd.reconnect_all() and s.connected)
+          # misuse of the helper must fail
+          os.makedirs("/tmp/elsewhere", exist_ok=True)
+          r = subprocess.run([nd.HELPER, "mount", "//127.0.0.1/Public", "/tmp/elsewhere"], capture_output=True, text=True)
+          check("helper refuses a folder outside ~/Network", r.returncode != 0, r.stderr.strip())
+          open("/tmp/x.cred", "w").write("username=a\npassword=b\n")
+          os.makedirs(os.path.expanduser("~/Network/evil"), exist_ok=True)
+          r = subprocess.run([nd.HELPER, "mount", "//127.0.0.1/Public", os.path.expanduser("~/Network/evil"), "/tmp/x.cred"], capture_output=True, text=True)
+          check("helper refuses a foreign credentials file", r.returncode != 0, r.stderr.strip())
+          r = subprocess.run([nd.HELPER, "mount", "//127.0.0.1/Public,uid=0", os.path.expanduser("~/Network/evil")], capture_output=True, text=True)
+          check("helper refuses options in the share path", r.returncode != 0, r.stderr.strip())
+          for x in nd.load():
+              nd.disconnect(x)
+          check("all disconnected", not any(x.connected for x in nd.load()))
+          print("RESULT", "ALL PASSED" if ok else "SOME FAILED")
+          PY
+          chown tester /tmp/t.py
+          runuser -u tester -- env HOME=/home/tester CLASSIC7_NETDRIVE_HELPER=/usr/local/bin/helper-as-pkexec python3 /tmp/t.py 2>&1
+          EOS
+          sudo podman run --rm --privileged --network host -v "$PWD:/src:ro" -v "$PWD/test.sh:/test.sh:ro" "$IMAGE" bash /test.sh > result.txt 2>&1 || true
+          cat result.txt
+          msg="$(sed -e 's/%/%25/g' result.txt | tail -40 | sed -e ':a;N;$!ba;s/\n/%0A/g')"
+          echo "::warning title=Network drive test::${msg}"

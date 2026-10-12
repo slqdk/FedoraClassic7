@@ -1,0 +1,61 @@
+#!/usr/bin/bash
+# Classic 7 Map Network Drive: the part that needs root (mounting a CIFS/SMB share).
+# Run through pkexec by classic7-netdrive; see org.classic7.netdrive.policy.
+#
+#   mount  //server/share  MOUNTPOINT  [CREDFILE]   mount for the calling user
+#   umount MOUNTPOINT                               unmount it again
+#
+# Only for the user who called pkexec (PKEXEC_UID), only into that user's ~/Network,
+# and only with a credentials file the user owns in ~/.config/classic7/netdrives.
+set -euo pipefail
+umask 077
+
+die() { echo "classic7-netdrive-helper: $*" >&2; exit 2; }
+
+uid="${PKEXEC_UID:-}"
+[[ -n "$uid" && "$uid" =~ ^[0-9]+$ && "$uid" -ge 1000 ]] || die "must be run through pkexec by a normal user"
+entry="$(getent passwd "$uid")" || die "unknown user $uid"
+user="$(cut -d: -f1 <<<"$entry")"
+gid="$(cut -d: -f4 <<<"$entry")"
+home="$(cut -d: -f6 <<<"$entry")"
+[[ -d "$home" ]] || die "no home folder"
+base="$(realpath -e "$home")/Network"
+
+inside_base() {   # inside_base PATH -> the canonical path if it is a direct child of ~/Network
+    local p
+    p="$(realpath -e -- "$1" 2>/dev/null)" || return 1
+    [[ "$(dirname -- "$p")" == "$base" ]] || return 1
+    [[ "$(stat -c %u -- "$p")" == "$uid" ]] || return 1
+    printf '%s' "$p"
+}
+
+case "${1:-}" in
+mount)
+    unc="${2:-}"; mp="${3:-}"; cred="${4:-}"
+    [[ "$unc" =~ ^//[A-Za-z0-9._-]+/[^/[:cntrl:]][^[:cntrl:]]*$ ]] || die "not a \\\\server\\share path: $unc"
+    [[ "$unc" != *,* ]] || die "commas are not allowed in the share path"
+    mp="$(inside_base "$mp")" || die "the mount point must be a folder of yours in $base"
+    mountpoint -q -- "$mp" && die "$mp is already in use"
+    [[ -z "$(ls -A -- "$mp")" ]] || die "$mp is not empty"
+    opts="uid=$uid,gid=$gid,forceuid,forcegid,file_mode=0644,dir_mode=0755,iocharset=utf8,nobrl,noserverino,soft,echo_interval=10"
+    if [[ -n "$cred" ]]; then
+        cdir="$(realpath -e "$home")/.config/classic7/netdrives"
+        c="$(realpath -e -- "$cred" 2>/dev/null)" || die "credentials file missing"
+        [[ "$(dirname -- "$c")" == "$cdir" ]] || die "credentials file must be in $cdir"
+        [[ "$(stat -c %u -- "$c")" == "$uid" ]] || die "credentials file is not yours"
+        opts+=",credentials=$c"
+    else
+        opts+=",guest"
+    fi
+    exec mount -t cifs -o "$opts" -- "$unc" "$mp"
+    ;;
+umount)
+    mp="$(inside_base "${2:-}")" || die "not one of your network folders"
+    mountpoint -q -- "$mp" || exit 0
+    umount -- "$mp" 2>/dev/null || exec umount -l -- "$mp"
+    ;;
+*)
+    echo "usage: $0 mount //server/share MOUNTPOINT [CREDFILE] | umount MOUNTPOINT" >&2
+    exit 2
+    ;;
+esac

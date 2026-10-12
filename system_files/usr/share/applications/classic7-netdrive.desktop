@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Application
+Name=Map Network Drive
+GenericName=Connect a shared network folder
+Comment=Connect \\server\share as a folder that every program can use
+Exec=classic7-netdrive %u
+Icon=folder-network
+Terminal=false
+Categories=Qt;System;Network;FileTools;
+Keywords=map network drive;smb;samba;cifs;share;windows share;netværksdrev;net use;
+StartupWMClass=classic7-netdrive
+Actions=Disconnect;
+
+[Desktop Action Disconnect]
+Name=Disconnect Network Drive...
+Exec=classic7-netdrive --disconnect

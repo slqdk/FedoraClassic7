@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<policyconfig>
+  <vendor>Classic 7</vendor>
+  <!-- Map Network Drive: the person at the computer may mount a network share into their
+       own Network folder, like on Windows. The helper accepts nothing else. -->
+  <action id="org.classic7.netdrive">
+    <description>Map a network drive</description>
+    <message>Authentication is required to connect a network drive</message>
+    <icon_name>network-server</icon_name>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>yes</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/classic7-netdrive-helper</annotate>
+  </action>
+</policyconfig>

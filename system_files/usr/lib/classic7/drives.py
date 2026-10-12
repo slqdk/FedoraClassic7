@@ -189,7 +189,9 @@ def list_drives() -> list[Drive]:
             device=d.get("path"), parent=parent.get("path"), mountpoint=mountpoint, fstype=fstype,
             total=int(total) if total else None, free=int(free) if free is not None else None, label=label))
 
-    # Network shares
+    # Network shares (mapped drives get their letter, like "Data (\\30.11.0.2) (Z:)")
+    mappings = _mappings()
+    by_folder = {os.path.realpath(m.folder): m for m in mappings}
     seen = set()
     for source, mp, fstype in _mountinfo():
         if fstype not in NETWORK_FSTYPES or mp in seen:
@@ -199,13 +201,40 @@ def list_drives() -> list[Drive]:
         share = source.replace("\\", "/").rstrip("/")
         title = share.split("/")[-1] or share
         host = share.split("//")[-1].split("/")[0].split(":")[0] if "//" in share or ":" in share else ""
+        m = by_folder.get(os.path.realpath(mp))
+        name = m.label if m else (f"{title} ({host})" if host else title)
         drives.append(Drive(
-            key=mp, name=f"{title} ({host})" if host else title, group=NETWORK, kind="Network Drive",
+            key=mp, name=name, group=NETWORK, kind="Network Drive",
             icon="network-server", device=None, parent=None, mountpoint=mp, fstype=fstype,
             total=total, free=free, label=title))
+    # mapped drives that are not connected right now (Windows shows them with a red X)
+    mounted = {os.path.realpath(mp) for mp in seen}
+    for m in mappings:
+        if os.path.realpath(m.folder) not in mounted:
+            drives.append(Drive(
+                key=f"netdrive:{m.letter}", name=m.label, group=NETWORK, kind="Disconnected Network Drive",
+                icon="network-server", device=None, parent=None, mountpoint=None, fstype="cifs",
+                total=None, free=None, label=m.letter))
 
     drives.sort(key=lambda x: (GROUP_ORDER.index(x.group), x.name != "Local Disk (System)", x.name.lower()))
     return drives
+
+
+def _mappings():
+    try:
+        import netdrive
+        return netdrive.load()
+    except Exception:  # noqa: BLE001 - the Computer window works without mapped drives
+        return []
+
+
+def mapping_for(drive: Drive):
+    """The Map Network Drive entry behind a network tile, or None."""
+    for m in _mappings():
+        if drive.key == f"netdrive:{m.letter}" or (
+                drive.mountpoint and os.path.realpath(drive.mountpoint) == os.path.realpath(m.folder)):
+            return m
+    return None
 
 
 # --- actions -------------------------------------------------------------------------
@@ -224,6 +253,14 @@ def mount(drive: Drive) -> tuple[bool, str]:
 def eject(drive: Drive) -> tuple[bool, str]:
     """Unmount, then power off removable disks (like "Safely Remove")."""
     if not drive.device:
+        m = mapping_for(drive)
+        if m is not None:
+            import netdrive
+            try:
+                netdrive.disconnect(m)
+                return True, ""
+            except netdrive.DriveError as e:
+                return False, str(e)
         res = subprocess.run(["umount", drive.mountpoint or ""], capture_output=True, text=True)
         return res.returncode == 0, res.stderr.strip()
     if drive.kind == "CD Drive":

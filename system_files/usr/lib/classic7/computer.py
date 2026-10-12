@@ -450,7 +450,8 @@ class ComputerWindow(QMainWindow):
             cmd.addAction("System properties", lambda: launch("kinfocenter", []))
         if self.store:
             cmd.addAction("Uninstall or change a program", lambda: launch(*self.store))
-        cmd.addAction("Map network drive", lambda: self._go("remote:/"))
+        cmd.addAction("Map network drive", lambda: self._netdrive([]))
+        cmd.addAction("Disconnect network drive", lambda: self._netdrive(["--disconnect"]))
         if shutil.which("systemsettings"):
             cmd.addAction("Open Control Panel", lambda: launch("systemsettings", []))
         self.addToolBar(Qt.TopToolBarArea, cmd)
@@ -651,9 +652,37 @@ class ComputerWindow(QMainWindow):
         else:
             QMessageBox.warning(self, "Computer", "The file manager (Dolphin) could not be started.")
 
+    def _netdrive(self, args: list[str]):
+        """Map / Disconnect Network Drive, then show the result here."""
+        proc = QProcess(self)
+        proc.finished.connect(lambda *_: self.refresh(force=True))
+        proc.start("classic7-netdrive", args)
+
+    def _reconnect(self, d: dr.Drive, keep: bool):
+        m = dr.mapping_for(d)
+        if m is None:
+            return
+        import netdrive
+        QApplication.setOverrideCursor(Qt.BusyCursor)
+        try:
+            netdrive.connect(m)
+        except netdrive.DriveError as e:
+            QApplication.restoreOverrideCursor()
+            if str(e) == "access-denied":
+                self._netdrive([netdrive.to_windows(m.unc)])
+                return
+            QMessageBox.warning(self, d.name, f"{d.name} could not be reconnected.\n\n{e}")
+            return
+        QApplication.restoreOverrideCursor()
+        self.refresh(force=True)
+        self._go(m.folder, keep)
+
     def _open(self, d: dr.Drive, keep: bool = False):
         if d.mounted:
             self._go(d.mountpoint, keep)
+            return
+        if d.key.startswith("netdrive:"):
+            self._reconnect(d, keep)
             return
         if not d.device:
             return

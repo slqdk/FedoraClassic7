@@ -1,0 +1,35 @@
+#!/usr/bin/python3
+"""Map Network Drive: a shared folder (\\\\server\\share) as an ordinary folder for every program.
+
+    classic7-netdrive                    the Map Network Drive dialog
+    classic7-netdrive \\\\server\\share     the dialog with that folder filled in
+    classic7-netdrive --disconnect       Disconnect Network Drives
+    classic7-netdrive --list             mapped drives
+    classic7-netdrive --reconnect        connect the drives marked "Reconnect at sign-in" (at login)
+"""
+import os
+import subprocess
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+import netdrive as nd  # noqa: E402
+
+if __name__ == "__main__":
+    args = sys.argv[1:]
+    if args[:1] in (["-h"], ["--help"]):
+        print(__doc__.strip())
+        sys.exit(0)
+    if args[:1] == ["--list"]:
+        for m in nd.load():
+            print(f"{m.letter}:  {nd.to_windows(m.unc):40} {'connected' if m.connected else 'disconnected':13} {m.folder}")
+        sys.exit(0)
+    if args[:1] == ["--reconnect"]:
+        failed = nd.reconnect_all()
+        if failed:
+            body = "\n".join(f"{m.letter}: {nd.to_windows(m.unc)} – {err}" for m, err in failed)
+            subprocess.run(["notify-send", "-a", "Map Network Drive", "-i", "network-server",
+                            "Could not reconnect all network drives", body], check=False)
+        sys.exit(1 if failed else 0)
+    from netdrive_gui import main
+    sys.exit(main(args))
