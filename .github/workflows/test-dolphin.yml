@@ -75,9 +75,11 @@ jobs:
 
       - name: Save to ci-shots-dolphin
         run: |
-          cp shots/*.png shots/*.log shots/*.xbel shots/*.txt /tmp/ 2>/dev/null || true
+          mkdir -p /tmp/o && cp shots/*.png shots/*.log shots/*.xbel shots/*.txt /tmp/o/ 2>/dev/null || true
           git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
-          git checkout --orphan ci-shots-dolphin; git rm -rfq . >/dev/null
-          cp /tmp/*.png /tmp/*.log /tmp/*.xbel /tmp/*.txt . 2>/dev/null || true
+          git checkout -q --orphan ci-shots-dolphin
+          git rm -rfq --cached . >/dev/null 2>&1 || true
+          git clean -fdxq
+          cp /tmp/o/* . 2>/dev/null || true
           git add -A; git commit -qm "Explorer render" || exit 0
           git push -f origin ci-shots-dolphin
