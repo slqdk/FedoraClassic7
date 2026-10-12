@@ -27,6 +27,7 @@ jobs:
           cp -a $S/usr/lib/classic7/. /usr/lib/classic7/
           cp -a $S/usr/share/classic7/. /usr/share/classic7/
           cp -a $S/etc/skel/. /etc/skel/
+          cp $S/usr/libexec/classic7-tray-fix $S/usr/libexec/classic7-first-login /usr/libexec/
           # the image's merged /etc/xdg/dolphinrc gets this branch's defaults on top
           while IFS= read -r line; do
             [[ -z "$line" || "$line" == \#* ]] && continue
@@ -54,6 +55,8 @@ jobs:
           plasma-apply-colorscheme Classic7 >/dev/null 2>&1
           bash /usr/libexec/classic7-first-login
           shot new-documents $HOME/Documents
+          CLASSIC7_LIB=/usr/lib/classic7 python3 /usr/libexec/classic7-tray-fix >> /out/dolphin.log 2>&1   # the next login
+          ls $HOME/.config/classic7 >> /out/dolphin.log
           shot new-trash trash:/
           cp $HOME/.local/share/user-places.xbel /out/new-user-places.xbel 2>/dev/null
           # 2) an existing account with Dolphin's own defaults + panels open, then the migration

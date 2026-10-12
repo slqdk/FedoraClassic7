@@ -18,8 +18,5 @@ for f in /usr/share/classic7/desktop/*.desktop; do
     fi
 done
 
-# Explorer: no Recent / Search For / Tags sections in the navigation pane
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7appearance as a; a.hide_place_groups()" 2>/dev/null || true
-
 mkdir -p "$(dirname "$marker")"
 touch "$marker"

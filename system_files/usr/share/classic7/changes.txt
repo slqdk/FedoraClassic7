@@ -1,9 +1,10 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
-## 2026-10-12  Pin to Taskbar, one network icon
+## 2026-10-12  Pin to Taskbar, one network icon, Explorer layout
 - **Pin to Taskbar**: right-click a program in the Start menu > Pin to Taskbar (or Unpin from Taskbar); or drag it from the Start menu onto the icons next to Start; or right-click a program file (.desktop) in Explorer > Pin to Taskbar. Right-click a taskbar icon to remove it.
 - The second (Plasma's) network icon is now removed for good: the panel layout is fixed at login before the desktop starts.
+- **Explorer like Windows 7**: no menu bar (the ☰ button at the right of the address bar has the menus; Ctrl+M shows the menu bar), only the navigation pane on the left (no Folders, Information or Terminal panels: F7, F11, F4 bring them back), and no Recent / Search For / Tags sections. Your existing Explorer settings are replaced once (old files kept as .bak).
 
 ## 2026-10-12  Write opens PDF files
 - **Write opens PDF files** as editable documents, like Word: text with its fonts, bold/italic, colours and links, headings, bullet lists, tables, pictures, page breaks, and the page numbers as Write's footer. Open them from Write (Office button > Open) or right-click a PDF > Edit in Write. Scanned PDFs come in as pictures. Save as .docx, or as PDF again.

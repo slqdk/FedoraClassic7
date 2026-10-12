@@ -1,5 +1,5 @@
 [Unit]
-Description=Classic 7: one network icon in the system tray
+Description=Classic 7: login fixes (one network icon, Explorer navigation pane)
 # edit the saved panel layout before Plasma's desktop reads it
 Before=plasma-plasmashell.service
 PartOf=graphical-session.target

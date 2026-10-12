@@ -449,25 +449,19 @@ desktopMenu.writeEntry("configure", true);
 
 # Places panel sections Windows 7's navigation pane doesn't have
 HIDDEN_PLACE_GROUPS = ("RecentlySaved", "SearchFor", "Tags")
-XBEL_HEAD = ('<?xml version="1.0" encoding="UTF-8"?>\n<!DOCTYPE xbel>\n'
-             '<xbel xmlns:bookmark="http://www.freedesktop.org/standards/desktop-bookmarks" '
-             'xmlns:mime="http://www.freedesktop.org/standards/shared-mime-info" '
-             'xmlns:kdepriv="http://www.kde.org/kdepriv">\n')
 
 
 def hide_place_groups(home: Path | None = None) -> bool:
     """Hide the Recent / Search For / Tags sections of Dolphin's Places panel (stored as
-    root metadata in user-places.xbel). A missing file is created with just these flags:
-    KDE adds its default places to an empty one."""
+    root metadata in user-places.xbel). Returns False while KDE hasn't created the file yet
+    (it resets these flags when it fills a new one)."""
     path = (home or _home()) / ".local/share/user-places.xbel"
-    flags = "".join(f"   <GroupState-{g}-IsHidden>true</GroupState-{g}-IsHidden>\n" for g in HIDDEN_PLACE_GROUPS)
     try:
         text = path.read_text()
     except OSError:
-        path.parent.mkdir(parents=True, exist_ok=True)
-        path.write_text(XBEL_HEAD + ' <info>\n  <metadata owner="http://www.kde.org">\n' + flags
-                        + "  </metadata>\n </info>\n</xbel>\n")
-        return True
+        return False
+    if "kde_places_version" not in text:
+        return False
     new = text
     missing = []
     for g in HIDDEN_PLACE_GROUPS:

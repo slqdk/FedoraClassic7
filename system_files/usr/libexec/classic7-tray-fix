@@ -1,11 +1,12 @@
 #!/usr/bin/python3
-"""Classic 7: one network icon in the system tray.
+"""Classic 7 login fixes, run before Plasma's desktop starts (classic7-tray-fix.service):
 
-Runs at login before Plasma's desktop starts (classic7-tray-fix.service) and edits the saved
-panel layout directly: Plasma's own network applet is removed from the system tray(s),
-Classic 7's network icon is kept once, and the tray's entry lists say so. Done once per
-account (~/.config/classic7/tray-fixed); doing it while Plasma runs doesn't stick, because
-Plasma writes its in-memory tray list back.
+ 1. One network icon in the system tray: edits the saved panel layout directly, removing
+    Plasma's own network applet and keeping Classic 7's once. (Doing it while Plasma runs
+    doesn't stick: Plasma writes its in-memory tray list back.)  Marker: tray-fixed
+ 2. Explorer's navigation pane without Recent / Search For / Tags. KDE creates the places
+    file the first time a file window opens, so this is retried at each login until it
+    exists.  Marker: places-fixed
 """
 import os
 import re
@@ -105,8 +106,24 @@ def fix(text: str) -> tuple[str, bool]:
     return "\n".join(body).rstrip("\n") + "\n", True
 
 
+def places_fix():
+    marker = CONFIG / "classic7" / "places-fixed"
+    if marker.exists() or subprocess.run(["pgrep", "-u", str(os.getuid()), "-x", "dolphin"],
+                                         capture_output=True).returncode == 0:
+        return
+    sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+    try:
+        import classic7appearance
+        if classic7appearance.hide_place_groups():
+            marker.parent.mkdir(parents=True, exist_ok=True)
+            marker.write_text("1\n")
+    except Exception as e:   # noqa: BLE001
+        print(f"classic7-tray-fix: places: {e}")
+
+
 def main() -> int:
     force = "--force" in sys.argv
+    places_fix()
     if MARKER.exists() and not force:
         return 0
     if not Path(f"/usr/share/plasma/plasmoids/{OURS}").is_dir():
