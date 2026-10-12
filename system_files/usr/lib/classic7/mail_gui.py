@@ -513,9 +513,9 @@ class MailWindow(QMainWindow):
 
     def _actions(self):
         A = self.act
-        self.a_new_mail = A("&Mail Message", self.new_mail, "Ctrl+N", icons.get("new"))
+        self.a_new_mail = A("&Mail Message", lambda: self.new_mail(), "Ctrl+N", icons.get("new"))
         self.a_new_contact = A("&Contact", self.new_contact, "Ctrl+Shift+C", icons.get("contact"))
-        self.a_new_folder = A("Fold&er...", self.new_folder, "Ctrl+Shift+E", icons.get("folder"))
+        self.a_new_folder = A("Fold&er...", lambda: self.new_folder(), "Ctrl+Shift+E", icons.get("folder"))
         self.a_open_file = A("Open &File...", self.open_file, "Ctrl+O")
         self.a_save_as = A("Save &As...", self.save_as, "F12", icons.theme("document-save-as", "folder"))
         self.a_save_atts = A("Save Attach&ments...", lambda: self.reading.save_all())
@@ -540,7 +540,7 @@ class MailWindow(QMainWindow):
                                 "Send/Receive All Folders")
         self.a_find = A("&Instant Search", lambda: (self.search.setFocus(), self.search.selectAll()),
                         ["Ctrl+E", "F3"], icons.theme("edit-find", "search-folder"))
-        self.a_address_book = A("Address &Book...", self.address_book, "Ctrl+Shift+B", icons.get("address-book"),
+        self.a_address_book = A("Address &Book...", lambda: self.address_book(), "Ctrl+Shift+B", icons.get("address-book"),
                                 "Address Book")
         self.a_accounts = A("Account Settings...", self.account_settings, None, icons.get("account"))
         self.a_add_account = A("Add New E-mail &Account...", self.add_account)

@@ -181,8 +181,12 @@ def _write_file_secrets(d: dict):
     os.chmod(_secret_file(), 0o600)
 
 
+_memo: dict[str, str] = {}      # secrets already read in this session (one password-store prompt)
+
+
 def set_secret(account_id: str, kind: str, value: str):
     key = f"{account_id}:{kind}"
+    _memo[key] = value
     kr = _keyring()
     if kr is not None:
         try:
@@ -201,6 +205,15 @@ def set_secret(account_id: str, kind: str, value: str):
 
 def get_secret(account_id: str, kind: str) -> str:
     key = f"{account_id}:{kind}"
+    if key in _memo:
+        return _memo[key]
+    value = _read_secret(key)
+    if value:
+        _memo[key] = value
+    return value
+
+
+def _read_secret(key: str) -> str:
     d = _file_secrets()
     if key in d:
         return d[key]
@@ -215,6 +228,7 @@ def get_secret(account_id: str, kind: str) -> str:
 
 def delete_secret(account_id: str, kind: str):
     key = f"{account_id}:{kind}"
+    _memo.pop(key, None)
     d = _file_secrets()
     if key in d:
         d.pop(key)

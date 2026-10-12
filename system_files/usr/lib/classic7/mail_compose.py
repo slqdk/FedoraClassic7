@@ -115,6 +115,9 @@ class Composer(wa.WriteWindow):
         self.sending = False
         self.bridge = Bridge()
         super().__init__(None)
+        # Outlook's keys win over Write's: Ctrl+Enter sends, Ctrl+K checks names
+        self.a_pagebreak.setShortcuts([])
+        self.a_link.setShortcuts([])
         self.setWindowIcon(icons.get("new"))
         self.statusBar().hide()
         self.editor.set_fit(True)
