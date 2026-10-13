@@ -1,0 +1,10 @@
+OK   3 windows are open
+OK   Win+Up/Win+Down shortcuts set through kglobalaccel
+OK   Control Panel window found
+OK   Win+Up maximizes (908 -> 1180)
+OK   Win+Down restores a maximized window
+OK   Win+Down again minimizes
+OK   Aero Shake minimizes the other windows: [('Computer', True), ('Task Manager', True)]
+OK   Win+Home brings them back
+FAILURES 0 []
+exit 0

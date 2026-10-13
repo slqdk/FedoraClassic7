@@ -1,0 +1,17 @@
+[Plugins]
+classic7-aeroshakeEnabled=true
+
+[TabBox]
+HighlightWindows=false
+LayoutName=classic7
+
+[Windows]
+ElectricBorderMaximize=true
+ElectricBorderTiling=true
+
+[org.kde.kdecoration2]
+BorderSize=Normal
+ButtonsOnLeft=M
+ButtonsOnRight=IA_X
+library=org.kde.kwin.aurorae
+theme=__aurorae__svg__Classic7

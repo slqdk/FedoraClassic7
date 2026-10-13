@@ -1,0 +1,13 @@
+WINDOWS [('Control Panel', 136, 51, 908, 667, False), ('Computer', 136, 71, 908, 627, False), ('Task Manager', 306, 71, 568, 627, False)]
+OK   3 windows are open
+LOG   Win+Up maximizes, Win+Down restores or minimizes, Win+Home minimizes the other windows
+OK   Win+Up/Win+Down shortcuts set through kglobalaccel
+OK   Control Panel window found
+OK   Win+Up maximizes (908 -> 1180)
+OK   Win+Down restores a maximized window
+OK   Win+Down again minimizes
+BEFORE SHAKE [('Control Panel', 136, 51, False, True), ('Computer', 136, 71, False, False), ('Task Manager', 306, 71, False, False)]
+OK   Aero Shake minimizes the other windows: [('Computer', True), ('Task Manager', True)]
+OK   Win+Home brings them back
+FAILURES 0 []
+exit 0
