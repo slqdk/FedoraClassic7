@@ -6,7 +6,12 @@ set -uo pipefail
 export LANG=C.UTF-8
 case "${1:-}" in
     check)   exec bootc upgrade --check ;;
-    upgrade) exec bootc upgrade ;;
+    upgrade)
+        # machine-readable progress (JSON lines) next to the normal messages, when bootc has it
+        if bootc upgrade --help 2>/dev/null | grep -q -- '--progress-fd'; then
+            exec bootc upgrade --progress-fd 3 3>&1
+        fi
+        exec bootc upgrade ;;
     status)  exec bootc status --format json ;;
     *)       echo "usage: $0 check|upgrade|status" >&2; exit 2 ;;
 esac

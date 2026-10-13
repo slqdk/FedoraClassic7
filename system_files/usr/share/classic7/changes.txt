@@ -1,6 +1,11 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
+## 2026-10-13  Classic 7 Update: check first, then install
+- **Check for updates** only checks: nothing is downloaded until you click **Install updates**. When a new Classic 7 is available, the window lists what's new in it first.
+- Installing shows real progress while the new version downloads (GB downloaded and percent).
+- **Restore Classic 7 settings** asks before it re-applies the look, taskbar and shortcuts.
+
 ## 2026-10-12  Show (PowerPoint), Photo Viewer, 7-Zip
 - **Show**, presentations in the PowerPoint 2007 style (Start menu, or `powerpnt` in Run): Office button, ribbon (Home, Insert, Design, Animations, Slide Show, Review, View, and Format/Table tabs when something is selected), the Slides and Outline pane, notes, Slide Sorter, zoom.
 - Slides with the nine standard layouts and nine designs (themes) with colour and font sets and background styles; text with fonts, sizes, colours, bullets and numbering in levels (Tab/Shift+Tab), alignment; shapes (lines, arrows, rectangles, stars, callouts, flowchart...) with fill, outline and quick styles; pictures, tables (header row, banded rows, merge, insert rows/columns), text boxes, hyperlinks, header and footer, slide numbers; move, size, rotate, flip, group, align, order; undo/redo, copy/paste, Find and Replace, spelling.

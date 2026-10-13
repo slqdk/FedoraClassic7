@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-26.04
 
     permissions:
-      contents: read
+      contents: write
       packages: write
       id-token: write
 
@@ -162,3 +162,28 @@ jobs:
           # https://github.com/coreos/rpm-ostree/issues/5509
           # use old bundle format, so we can use newer cosign 3.X.X instead of 2.X.X
           cosign sign -y --new-bundle-format=false --use-signing-config=false --key env://COSIGN_PRIVATE_KEY ${IMAGE_REGISTRY}/${IMAGE_NAME}@${DIGEST}
+
+      # Classic 7 Update shows what a new image brings before downloading it: the digest of what was
+      # just pushed and its changelog go to the "published" branch (only after the push succeeded)
+      - name: Publish release information
+        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        env:
+          DIGEST: ${{ steps.push-image.outputs.digest }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/pub
+          python3 - <<'EOP' > /tmp/pub/latest.json
+          import json, os, datetime
+          print(json.dumps({
+              "digest": os.environ["DIGEST"],
+              "sha": os.environ["GITHUB_SHA"],
+              "built": datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+              "changes": open("system_files/usr/share/classic7/changes.txt", encoding="utf-8").read(),
+          }, indent=1))
+          EOP
+          cd /tmp/pub
+          git init -q -b published
+          git add latest.json
+          git -c user.name=github-actions -c user.email=github-actions@users.noreply.github.com commit -qm "Image ${DIGEST}"
+          git push -qf "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" published

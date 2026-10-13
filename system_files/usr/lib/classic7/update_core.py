@@ -24,6 +24,10 @@ HELPER = os.environ.get("CLASSIC7_UPDATE_HELPER", "/usr/libexec/classic7-update-
 SHARE = Path(os.environ.get("CLASSIC7_SHARE", "/usr/share/classic7"))
 BUILD_INFO = SHARE / "build-info.json"
 CHANGES = SHARE / "changes.txt"
+# What the newest published image contains: written by the build after each push (branch "published")
+REPO = os.environ.get("CLASSIC7_REPO", "slqdk/FedoraClassic7")
+PUBLISHED_URL = f"https://raw.githubusercontent.com/{REPO}/published/latest.json"
+MAIN_CHANGES_URL = f"https://raw.githubusercontent.com/{REPO}/main/system_files/usr/share/classic7/changes.txt"
 SKEL = Path(os.environ.get("CLASSIC7_SKEL", "/etc/skel"))
 # Skeleton files whose missing entries are added to existing accounts (never overwriting)
 SKEL_MERGE = [".config/kglobalshortcutsrc"]
@@ -164,6 +168,9 @@ def booted_info(status: dict) -> dict:
 CHECK_NONE, CHECK_AVAILABLE, CHECK_STAGED, CHECK_ERROR = "none", "available", "staged", "error"
 
 
+LAST_CHECK: dict = {}
+
+
 def check(log: Log) -> str:
     """Is there a newer Classic 7? Downloads only the image description, not the update."""
     lines: list[str] = []
@@ -173,6 +180,9 @@ def check(log: Log) -> str:
         log(line)
     rc = run_stream(system_cmd("check"), keep)
     text = "\n".join(lines)
+    m = re.search(r"(sha256:[0-9a-f]{64})", text)
+    LAST_CHECK.clear()
+    LAST_CHECK["digest"] = m.group(1) if m else ""
     staged = staged_info(system_status())
     if rc != 0:
         return CHECK_STAGED if staged else CHECK_ERROR
@@ -183,9 +193,34 @@ def check(log: Log) -> str:
     return CHECK_AVAILABLE
 
 
-def upgrade_system(log: Log) -> bool:
-    """Download and stage the newest image. True when it worked (or nothing was needed)."""
-    rc = run_stream(system_cmd("upgrade"), log)
+def _gb(n: float) -> str:
+    return f"{n / 1e9:.1f} GB" if n >= 1e8 else f"{n / 1e6:.0f} MB"
+
+
+def upgrade_system(log: Log, progress: Callable[[float, str], None] | None = None) -> bool:
+    """Download and stage the newest image. True when it worked (or nothing was needed).
+    progress(fraction 0..1, text) gets bootc's progress when it reports it (--progress-fd)."""
+    def line(text: str):
+        if text.startswith("{") and '"type"' in text:
+            try:
+                ev = json.loads(text)
+            except ValueError:
+                log(text)
+                return
+            if progress is None:
+                return
+            t = ev.get("type")
+            if t == "ProgressBytes" and ev.get("bytesTotal"):
+                done, total = ev.get("bytes", 0), ev["bytesTotal"]
+                progress(min(1.0, done / total), f"downloading {_gb(done)} of {_gb(total)}")
+            elif t == "ProgressSteps" and ev.get("stepsTotal"):
+                what = "preparing the new version" if "stag" in str(ev.get("task", "")) else \
+                    str(ev.get("description") or ev.get("task") or "working")
+                progress(min(1.0, ev.get("steps", 0) / ev["stepsTotal"]),
+                         f"{what} ({ev.get('steps', 0)} of {ev['stepsTotal']})")
+            return
+        log(text)
+    rc = run_stream(system_cmd("upgrade"), line)
     if rc == 126 or rc == 127:
         log("The update was not allowed (authentication cancelled or failed).")
     return rc == 0
@@ -624,11 +659,14 @@ def changes() -> list[Change]:
     """Entries of /usr/share/classic7/changes.txt, newest first:
         ## 2026-10-12  Title
         - item"""
-    out: list[Change] = []
     try:
-        text = CHANGES.read_text()
+        return parse_changes(CHANGES.read_text())
     except OSError:
-        return out
+        return []
+
+
+def parse_changes(text: str) -> list[Change]:
+    out: list[Change] = []
     for line in text.splitlines():
         m = re.match(r"##\s*(\d{4}-\d\d-\d\d)\s*(.*)", line)
         if m:
@@ -643,6 +681,48 @@ def changes() -> list[Change]:
 def changes_since(build: str) -> list[Change]:
     day = (build or "")[:10]
     return [c for c in changes() if not day or c.date >= day]
+
+
+def _fetch(url: str, timeout: float = 15) -> bytes | None:
+    import urllib.request
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "classic7-update", "Cache-Control": "no-cache"})
+        with urllib.request.urlopen(req, timeout=timeout) as r:   # noqa: S310 (fixed https URLs)
+            return r.read(2_000_000)
+    except Exception:   # noqa: BLE001 - no network, no file yet: the caller says so
+        return None
+
+
+def published() -> dict:
+    """What the newest published image is: {"digest", "sha", "built", "changes"} ({} if unknown)."""
+    data = _fetch(PUBLISHED_URL)
+    if not data:
+        return {}
+    try:
+        info = json.loads(data)
+    except ValueError:
+        return {}
+    return info if isinstance(info, dict) else {}
+
+
+def pending_changes(log: Log | None = None) -> tuple[list[Change], dict]:
+    """Changelog entries in the newest published Classic 7 that this computer doesn't have yet,
+    and what is known about that image."""
+    info = published()
+    text = info.get("changes") if info else None
+    if not text:
+        raw = _fetch(MAIN_CHANGES_URL)
+        text = raw.decode("utf-8", "replace") if raw else ""
+        info = dict(info or {}, source="main")
+    if not text:
+        if log:
+            log("The list of changes could not be downloaded.")
+        return [], info
+    have = {(c.date, c.title) for c in changes()}
+    new = [c for c in parse_changes(text) if (c.date, c.title) not in have]
+    if log:
+        log(f"New in Classic 7: {len(new)} change entr{'y' if len(new) == 1 else 'ies'}")
+    return new, info
 
 
 def now() -> float:

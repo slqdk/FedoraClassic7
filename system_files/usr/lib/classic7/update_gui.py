@@ -5,7 +5,7 @@ import subprocess
 import sys
 import time
 
-from PySide6.QtCore import QObject, QSize, Qt, QThread, QTimer, Signal
+from PySide6.QtCore import Qt, QThread, QTimer, Signal
 from PySide6.QtGui import QColor, QFont, QIcon, QPainter, QPixmap, QPolygonF
 from PySide6.QtCore import QPointF
 from PySide6.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QFrame, QGridLayout, QHBoxLayout,
@@ -57,6 +57,7 @@ def shield(color: str, size: int = 48) -> QPixmap:
 class Worker(QThread):
     line = Signal(str)
     status = Signal(str)
+    progress = Signal(float, str)
     done = Signal(object)
 
     def __init__(self, fn, parent=None):
@@ -174,6 +175,17 @@ class UpdateWindow(QMainWindow):
         bh.addLayout(tv, 1)
         mv.addWidget(self.box)
 
+        # what the new version brings (after a check found one)
+        self.whatsnew_label = QLabel("<b>What's new in this update</b>")
+        self.whatsnew_label.setStyleSheet("color: #1E395B;")
+        self.whatsnew = QTextBrowser()
+        self.whatsnew.setOpenExternalLinks(True)
+        self.whatsnew.setMinimumHeight(140)
+        self.whatsnew_label.setVisible(False)
+        self.whatsnew.setVisible(False)
+        mv.addWidget(self.whatsnew_label)
+        mv.addWidget(self.whatsnew, 2)
+
         # facts
         grid = QGridLayout()
         grid.setHorizontalSpacing(16)
@@ -255,15 +267,39 @@ class UpdateWindow(QMainWindow):
     def toggle_details(self):
         show = not self.log.isVisible()
         self.log.setVisible(show)
-        self.spacer.setVisible(not show)
+        self.spacer.setVisible(not show and not self.whatsnew.isVisible())
         self.details_btn.setText("Hide details" if show else "Show details")
 
     def busy(self) -> bool:
         return self.worker is not None and self.worker.isRunning()
 
+    def show_whatsnew(self, entries, info: dict | None = None):
+        if not entries:
+            self.whatsnew_label.setVisible(False)
+            self.whatsnew.setVisible(False)
+            self.spacer.setVisible(not self.log.isVisible())
+            return
+        html = []
+        for c in entries:
+            d = "-".join(reversed(c.date.split("-")))
+            html.append(f"<p><b>{d} &nbsp; {_esc(c.title)}</b></p><ul>"
+                        + "".join(f"<li>{_esc(i)}</li>" for i in c.items) + "</ul>")
+        self.whatsnew.setHtml("".join(html))
+        self.whatsnew_label.setVisible(True)
+        self.whatsnew.setVisible(True)
+        self.spacer.setVisible(False)
+
+    def _progress(self, fraction: float, text: str):
+        if self.mode != "installing":
+            return
+        self.progress.setRange(0, 1000)
+        self.progress.setValue(int(fraction * 1000))
+        self.text.setText(f"Step 1 of 3: {text} ({fraction * 100:.0f} %)")
+
     def _start(self, fn, done):
         self.worker = Worker(fn, self)
         self.worker.line.connect(self.add_log)
+        self.worker.progress.connect(self._progress)
         self.worker.status.connect(self.text.setText)
         self.worker.done.connect(done)
         self.worker.start()
@@ -276,11 +312,17 @@ class UpdateWindow(QMainWindow):
     def check(self):
         if self.busy():
             return
-        self.set_state("checking", "Looking for a newer Classic 7, app updates and new settings.", None, busy=True)
+        self.set_state("checking", "Looking for a newer Classic 7, app updates and new settings. Nothing is "
+                       "downloaded or installed yet.", None, busy=True)
+        self.show_whatsnew([])
         self.add_log("== Checking for updates")
 
         def work(log):
             res = {"system": core.check(log)}
+            res["digest"] = core.LAST_CHECK.get("digest", "")
+            res["changes"], res["published"] = ([], {})
+            if res["system"] in (core.CHECK_AVAILABLE, core.CHECK_STAGED):
+                res["changes"], res["published"] = core.pending_changes(log)
             res["apps"] = core.app_updates()
             log(f"App updates: {len(res['apps'])}")
             res["settings"] = core.needs_refresh()
@@ -297,8 +339,14 @@ class UpdateWindow(QMainWindow):
             return
         self.pending = res
         items = []
+        pub = res.get("published") or {}
         if res["system"] == core.CHECK_AVAILABLE:
-            items.append("a new version of Classic 7")
+            built = core.pretty_build(pub.get("built", "")) if pub.get("built") else ""
+            same = pub.get("digest") and res.get("digest") and pub["digest"] == res["digest"]
+            what = "a new version of Classic 7" + (f" (built {built})" if built and same else "")
+            if not res.get("changes"):
+                what += " with the newest Bazzite base and fixes"
+            items.append(what)
         if res["apps"]:
             items.append(f"{len(res['apps'])} app update{'s' if len(res['apps']) != 1 else ''}")
         if res["settings"]:
@@ -309,11 +357,14 @@ class UpdateWindow(QMainWindow):
         elif items:
             extra = (" A new Classic 7 is already downloaded and starts at the next restart."
                      if res["system"] == core.CHECK_STAGED else "")
-            self.set_state("available", "<b>Ready to install:</b> " + ", ".join(items) + "." + extra,
+            self.set_state("available", "<b>Ready to install:</b> " + ", ".join(items) + "." + extra
+                           + " Nothing has been downloaded yet: click <b>Install updates</b> to start.",
                            "Install updates")
+            self.show_whatsnew(res.get("changes") or [])
         elif res["system"] == core.CHECK_STAGED:
             self.set_state("restart", "A new version of Classic 7 is downloaded. It starts when you restart.",
                            "Restart now")
+            self.show_whatsnew(res.get("changes") or [])
         else:
             self.set_state("uptodate", "No new updates are available. Apps and your settings are up to date too.",
                            None)
@@ -331,7 +382,8 @@ class UpdateWindow(QMainWindow):
                 self.worker.status.emit(f"Step {n} of 3: {text}")
             step(1, "downloading the newest Classic 7 (this can take a few minutes)…")
             log("-- System image")
-            steps["system"] = core.upgrade_system(log)
+            steps["system"] = core.upgrade_system(log, self.worker.progress.emit)
+            self.worker.progress.emit(1.0, "downloaded")
             step(2, "updating apps…")
             log("-- Apps (Flatpak)")
             steps["apps"] = core.update_apps(log)
@@ -368,6 +420,18 @@ class UpdateWindow(QMainWindow):
     # ---- other actions ----------------------------------------------------------------------
     def settings_only(self):
         if self.busy():
+            return
+        box = QMessageBox(QMessageBox.Warning, "Restore Classic 7 settings",
+                          "Restore the Classic 7 settings for your account?", parent=self)
+        box.setInformativeText(
+            "This applies the Classic 7 look again (colours, window borders, taskbar, Start button) with your "
+            "chosen colour scheme, adds missing Classic 7 keyboard shortcuts and Start menu programs, and re-runs "
+            "the one-time setup.\n\nChanges you made yourself to the taskbar, panel or window look can be "
+            "undone. The desktop flickers while it is applied. Your files are not touched.")
+        box.setStandardButtons(QMessageBox.Yes | QMessageBox.Cancel)
+        box.button(QMessageBox.Yes).setText("Restore")
+        box.setDefaultButton(QMessageBox.Cancel)
+        if box.exec() != QMessageBox.Yes:
             return
         self.set_state("installing", "Applying the Classic 7 settings to your account…", None, busy=True)
         self.add_log("== Restoring Classic 7 settings")
