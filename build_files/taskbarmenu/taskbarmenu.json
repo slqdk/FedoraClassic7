@@ -1,0 +1,8 @@
+{
+    "KPlugin": {
+        "Name": "Classic 7 Taskbar Menu",
+        "Description": "Windows 7 taskbar right-click menu: Cascade windows, Show windows stacked, Show windows side by side, Show the desktop, Start Task Manager",
+        "Icon": "preferences-desktop"
+    },
+    "X-Plasma-HasConfigurationInterface": false
+}

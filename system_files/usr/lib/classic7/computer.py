@@ -497,13 +497,9 @@ class ComputerWindow(QMainWindow):
         self.content.mousePressEvent = lambda e: self._select(None)
 
     def _find_store(self):
-        if shutil.which("plasma-discover"):
-            return ("plasma-discover", [])
-        if shutil.which("flatpak"):
-            res = subprocess.run(["flatpak", "info", "io.github.kolunmi.Bazaar"], capture_output=True)
-            if res.returncode == 0:
-                return ("flatpak", ["run", "io.github.kolunmi.Bazaar"])
-        return None
+        import programs_data
+        cmd = programs_data.store_command()
+        return (cmd[0], cmd[1:]) if cmd else None
 
     # --- data -------------------------------------------------------------------
     def refresh(self, force: bool = False):

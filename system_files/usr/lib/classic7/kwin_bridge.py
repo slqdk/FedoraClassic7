@@ -43,6 +43,42 @@ BODIES = {
 }
 
 
+# Windows 7's taskbar menu: Cascade windows, Show windows stacked, Show windows side by side.
+# The normal, not minimized windows on the current desktop and the active screen; cascade goes
+# back to front so the front window ends on top.
+ARRANGE_JS = """
+(function () {
+    const mode = "%(mode)s";
+    const scr = workspace.activeScreen;
+    const desk = workspace.currentDesktop;
+    const area = workspace.clientArea(KWin.MaximizeArea, scr, desk);
+    const wins = workspace.stackingOrder.filter(function (w) {
+        return w.normalWindow && !w.minimized && !w.skipTaskbar && w.output === scr && w.moveable
+            && w.resizeable && (w.onAllDesktops || w.desktops.indexOf(desk) >= 0);
+    });
+    const n = wins.length;
+    if (!n) return;
+    const step = 28;
+    wins.forEach(function (w, i) {
+        w.setMaximize(false, false);
+        let g;
+        if (mode === "cascade") {
+            const k = i %% Math.max(1, Math.floor((area.height * 0.35) / step));
+            g = {x: area.x + k * step, y: area.y + k * step, width: Math.round(area.width * 0.62),
+                 height: Math.round(area.height * 0.62)};
+        } else if (mode === "stacked") {
+            const h = Math.floor(area.height / n);
+            g = {x: area.x, y: area.y + i * h, width: area.width, height: h};
+        } else {
+            const wd = Math.floor(area.width / n);
+            g = {x: area.x + i * wd, y: area.y, width: wd, height: area.height};
+        }
+        w.frameGeometry = g;
+    });
+})();
+"""
+
+
 @ClassInfo({"D-Bus Interface": "org.classic7.KWinBridge"})
 class _Receiver(QObject):
     got = Signal(str)
@@ -100,6 +136,11 @@ class KWinBridge(QObject):
 
     def refresh(self):
         self._run(LIST_JS % {"service": self.service})
+
+    def arrange(self, mode: str):
+        """cascade, stacked or side (by side)."""
+        if mode in ("cascade", "stacked", "side"):
+            self._run(ARRANGE_JS % {"mode": mode})
 
     def act(self, window_id: str, what: str):
         if what in BODIES and all(c in "0123456789abcdef-{}" for c in window_id.lower()):

@@ -72,8 +72,8 @@ CATEGORIES = [
 
 
 def _items() -> list[Item]:
-    steam_store = (["flatpak", "run", "io.github.kolunmi.Bazaar"] if shutil.which("flatpak") else []) \
-        if not shutil.which("plasma-discover") else ["plasma-discover"]
+    import programs_data
+    steam_store = programs_data.store_command()
     return [
         # System and Security
         Item("Classic7.System", "System", "computer", "system", ["classic7-system"],
@@ -171,9 +171,9 @@ def _items() -> list[Item]:
              needs="lact"),
         # Programs
         Item("Classic7.ProgramsAndFeatures", "Programs and Features", "system-software-install", "programs",
-             steam_store, [Task("Uninstall a program", steam_store), Task("Install a program", steam_store)],
-             "uninstall install programs software apps store", needs=steam_store[0] if steam_store else "-",
-             cpl=("appwiz.cpl",)),
+             ["classic7-programs"], [Task("Uninstall a program", ["classic7-programs"])]
+             + ([Task("Install a program", steam_store)] if steam_store else []),
+             "uninstall install programs software apps store steam games remove", cpl=("appwiz.cpl",)),
         Item("Classic7.DefaultPrograms", "Default Programs", "preferences-desktop-default-applications", "programs",
              kcm("kcm_componentchooser"),
              [Task("Set your default programs", kcm("kcm_componentchooser")),

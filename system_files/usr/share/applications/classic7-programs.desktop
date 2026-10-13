@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Programs and Features
+GenericName=Uninstall or change a program
+Comment=Uninstall app store apps, Steam games and added system packages
+Exec=classic7-programs
+Icon=system-software-install
+Terminal=false
+NoDisplay=true
+Categories=Qt;Settings;
+Keywords=uninstall;remove;programs;features;appwiz;software;apps;
+StartupWMClass=classic7-programs

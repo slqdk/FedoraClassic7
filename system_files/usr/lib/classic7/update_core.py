@@ -511,6 +511,22 @@ def _show_desktop_button(log: Log) -> bool:
     return r.returncode == 0
 
 
+TASKBAR_MENU_JS = ('var ap = ConfigFile("plasma-org.kde.plasma.desktop-appletsrc", "ActionPlugins");'
+                   ' var panel = ConfigFile(ap, "1");'
+                   ' panel.writeEntry("RightButton;NoModifier", "org.classic7.taskbarmenu");')
+
+
+def _taskbar_menu(log: Log) -> bool:
+    """The taskbar's right-click menu like Windows 7 (Start Task Manager, Cascade windows...)."""
+    if not Path("/usr/lib64/qt6/plugins/plasma/containmentactions/org.classic7.taskbarmenu.so").exists():
+        return True
+    r = subprocess.run(["dbus-send", "--session", "--dest=org.kde.plasmashell", "--type=method_call",
+                        "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript", "string:" + TASKBAR_MENU_JS],
+                       capture_output=True, timeout=30)
+    log("  taskbar: Windows 7 right-click menu (from the next login)")
+    return r.returncode == 0
+
+
 META, KEY_UP, KEY_DOWN = 0x10000000, 0x01000013, 0x01000015
 WIN7_KEYS = [  # (action, its name in the shortcut settings, keys)
     ("Window Quick Tile Top", "Quick Tile Window to the Top", []),
@@ -562,6 +578,7 @@ MIGRATIONS: list[tuple[str, Callable[[Log], bool]]] = [
     ("2026-10-12-no-type-to-search", _no_type_to_search),
     ("2026-10-13-show-desktop-button", _show_desktop_button),
     ("2026-10-13-win7-window-keys", _win7_window_keys),
+    ("2026-10-13-taskbar-menu", _taskbar_menu),
 ]
 
 

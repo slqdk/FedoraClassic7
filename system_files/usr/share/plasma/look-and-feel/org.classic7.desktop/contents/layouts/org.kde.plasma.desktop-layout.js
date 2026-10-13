@@ -14,6 +14,11 @@ for (var j = 0; j < desktopsArray.length; j++) {
 }
 
 // BEGIN TASKBAR (classic7-appearance --taskbar runs this part again; keep it self-contained)
+// Taskbar right-click menu like Windows 7 (Cascade windows... Start Task Manager): the plugin is
+// built into the image (build_files/taskbarmenu). [ActionPlugins][1] = panels; written before
+// the panel exists, because a panel reads its menu plugin when it is created.
+var taskbarActions = ConfigFile(ConfigFile("plasma-org.kde.plasma.desktop-appletsrc", "ActionPlugins"), "1");
+taskbarActions.writeEntry("RightButton;NoModifier", "org.classic7.taskbarmenu");
 var panel = new Panel;
 panel.location = "bottom";
 panel.height = 30;
