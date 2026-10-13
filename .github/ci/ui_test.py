@@ -83,9 +83,12 @@ for i in range(t.apps.topLevelItemCount()):
     if item.text(0) == "Bridge test window":
         t.apps.setCurrentItem(item)
 t._window_act("minimize")
-spin(1.5)
-t.bridge.refresh()
-spin(1.0)
+for _ in range(10):
+    spin(0.6)
+    t.bridge.refresh()
+    spin(0.4)
+    if any(w.get("caption") == "Bridge test window" and w.get("minimized") for w in t.windows):
+        break
 ok(any(w.get("caption") == "Bridge test window" and w.get("minimized") for w in t.windows),
    "Minimize through KWin works")
 t._window_act("close")

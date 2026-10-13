@@ -27,6 +27,11 @@ image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomic + KDE Plas
 | Photo Viewer | Windows 7 Photo Viewer look: next/previous with the arrow keys, zoom, rotate and flip (JPEG turned without quality loss), slide show, delete, print, e-mail; JPEG, PNG, GIF, WebP, TIFF, HEIC, AVIF, JPEG XL, RAW, PSD... |
 | 7-Zip | 7-Zip (`7z`) and the 7-Zip File Manager (Ark), with the right-click **7-Zip ▸** menu: Add to archive, Add to .7z/.zip, Extract files, Extract Here, Extract to own folder |
 | Mail | E-mail and contacts in the Outlook 2007 style: IMAP/SMTP, Gmail (app password), Outlook.com (Microsoft sign-in); folders, date groups, Reading Pane with pictures blocked until allowed; messages written in Write's editor; Address Cards, vCard import/export |
+| Disk Management | `diskmgmt.msc`: volumes and disk bars, drive letters mounted at every start-up (`/var/mnt/D`), format, new/delete partitions, initialize disks, check for errors, Steam libraries on NTFS drives with Proton's compatdata kept on the system disk |
+| Control Panel | Windows 7 Category view, category pages, all items (large/small icons) and search; items open KDE settings modules on their own (`kcmshell6`) or Classic 7 windows; `control`, `*.cpl` and `control /name ...` work in Run |
+| Task Manager | Ctrl+Shift+Esc: Applications (window list through a KWin script), Processes, Services, Performance (LED meters, per-CPU history), Networking, Users; Ctrl+Alt+Del opens the blue Windows 7 security screen |
+| System / Device Manager | Win+Pause System window, System Properties (rename, environment variables, System Restore = rollback), Device Manager (PCI/USB/input/monitors/disks by type, driver and status) |
+| Taskbar and windows | Show desktop button, Classic Alt+Tab, Aero Shake (and Win+Home), Win+Up/Down, snap to edges, Start menu jump lists (recent documents, tasks) |
 | Classic 7 Update | One click installs the newest Classic 7, app updates and new settings for your account; settings follow automatically after a restart |
 | Login screen | Classic "Log On" dialog on the desktop blue (SDDM theme) |
 | Appearance | Start > Settings > **Appearance**: classic-style dialog with colour schemes, per-item colours, font size and live preview |
@@ -230,6 +235,40 @@ Slides/Outline pane on the left, the slide in the middle, notes below; Slide Sor
 - Drag shapes to move them, the handles to size and the green dot to turn them (Shift keeps proportions or 15°
   steps, Ctrl+drag copies); Ctrl+G group, Ctrl+D duplicate, Ctrl+M new slide; drop pictures from Explorer.
 - Print slides, handouts (1-9 per page) or notes pages; Office button > Send > E-mail (as .pptx or PDF).
+
+## Disk Management and drive letters
+
+`classic7-diskmgmt` (or `diskmgmt.msc` in Run) looks like Windows 7's Disk Management. Changes go
+through `/usr/libexec/classic7-disk-helper` (pkexec, `org.classic7.disk`, administrator password,
+remembered a few minutes). The helper checks everything again: nothing that holds the running system,
+nothing in use, and in `/etc/fstab` it only edits the entries it made itself (marked
+`# classic7-drive X`); other entries for the same volume are commented out, never deleted.
+
+A drive letter = mounted at `/var/mnt/<letter>` at start-up with `nofail` (a missing drive doesn't stop
+the boot). NTFS uses the kernel's ntfs3 driver (ntfs-3g if ntfs3 is missing) with your user as owner;
+FAT/exFAT the same; ext4/Btrfs get their top folder handed to you. If Windows left an NTFS drive
+"dirty" (Fast Startup), the drive isn't opened and Disk Management says so; Check for Errors runs
+`ntfsfix -d`.
+
+**Use for Steam Games** makes `<drive>/SteamLibrary/steamapps`; on NTFS/exFAT/FAT it links
+`steamapps/compatdata` to the one on the system disk (Valve's advice for Proton on NTFS). Then add the
+folder in Steam > Settings > Storage > Add Drive.
+
+## Control Panel, Task Manager, System
+
+| Command | What |
+|---|---|
+| `classic7-control [category\|item]` | Control Panel; `classic7-control --list` lists the items this computer has |
+| `classic7-taskmgr [--performance\|--processes\|...]` | Task Manager (one at a time) |
+| `classic7-security` | The Ctrl+Alt+Del screen |
+| `classic7-system [--properties N]` | System window / System Properties |
+| `classic7-devmgmt [--list]` | Device Manager |
+| `classic7-jumplist --json` | What the Start menu shows as jump lists |
+
+Task Manager's Applications tab and the Win+Up/Down/Home keys use KWin scripts
+(`kwin_bridge.py`, `/usr/share/kwin-wayland/scripts/classic7-aeroshake`); Alt+Tab is the window
+switcher `/usr/share/kwin-wayland/tabbox/classic7`; the Show desktop button is the Plasma applet
+`org.classic7.showdesktop`.
 
 ## Updates on the installed PC
 

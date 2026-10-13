@@ -177,7 +177,7 @@ class SystemProperties(QDialog):
     def __init__(self, parent=None, tab: int = 0):
         super().__init__(parent)
         self.setWindowTitle("System Properties")
-        self.resize(480, 500)
+        self.resize(540, 500)
         self.tabs = QTabWidget()
         self.tabs.addTab(self._name_tab(), "Computer Name")
         self.tabs.addTab(self._hardware_tab(), "Hardware")

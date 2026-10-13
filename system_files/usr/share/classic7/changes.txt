@@ -1,6 +1,17 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
+## 2026-10-13  Disk Management, Control Panel, Task Manager, Ctrl+Alt+Del, System and Device Manager, Windows 7 taskbar keys
+- **Disk Management** (`diskmgmt.msc` in Run, Control Panel > System and Security, or Computer > Manage drives): the volume list and the disks drawn as bars. Right-click a volume: **Change Drive Letter and Paths**, Format, Delete Volume, Check for Errors, Use for Steam Games; right-click unallocated space: New Simple Volume; new disks: Initialize Disk (GPT or MBR). An administrator password is asked for changes.
+- **Drive letters**: a drive with a letter is opened at every start-up at /var/mnt/<letter> (an entry in /etc/fstab), so Steam libraries on extra drives are always there. The Computer window shows the letters: Local Disk (C:), Games (D:).
+- **Steam on NTFS/exFAT drives**: Use for Steam Games makes a SteamLibrary folder and keeps Proton's Windows folders (compatdata) on the system disk, so Windows games start from NTFS drives too. Disk Management explains this when you give an NTFS drive a letter.
+- **Control Panel** like Windows 7 (Start > Control Panel, `control` in Run): Category view with the eight categories, category pages, All Control Panel Items (large or small icons) and search. Items open the matching settings window by itself; `control mouse`, `main.cpl`, `desk.cpl`, `mmsys.cpl`, `timedate.cpl` and friends work in Run.
+- **Task Manager** (Ctrl+Shift+Esc, `taskmgr`): Applications (switch to or end a window), Processes (CPU, memory, description; end process or process tree, priority, affinity), Services (start/stop), Performance (CPU and memory meters and history, one graph per CPU), Networking and Users; Shut Down menu.
+- **Ctrl+Alt+Del** shows the blue Windows 7 screen: Lock this computer, Switch User, Log off, Change a password..., Start Task Manager, Cancel; Ease of Access and the red power button with Sleep/Restart/Shut down.
+- **System** (Win+Pause, Computer > System properties): processor, memory, graphics, computer name and workgroup. **System Properties** (`sysdm.cpl`): rename the computer, environment variables, System Restore (go back to the previous Classic 7 version), Remote Desktop. **Device Manager** (`devmgmt.msc`): every device by type with its driver and status; devices without a driver get the yellow sign.
+- **Taskbar and windows**: the narrow **Show desktop** button at the right end of the taskbar; **Alt+Tab** like Windows 7 Classic (a grey box of icons with the window title); **Aero Shake** (shake a window by its title bar to minimize the others, shake again to bring them back; also Win+Home); **Win+Up** maximizes, **Win+Down** restores or minimizes, Win+Left/Right snap to half the screen, dragging a window to the top edge maximizes it.
+- **Jump lists** in the Start menu: rest the mouse on Write or Show to see your recent documents on the right; Mail, Steam, Firefox and others have tasks (New e-mail message, Library, Store, New private window...).
+
 ## 2026-10-13  Classic 7 Update: check first, then install
 - **Check for updates** only checks: nothing is downloaded until you click **Install updates**. When a new Classic 7 is available, the window lists what's new in it first.
 - Installing shows real progress while the new version downloads (GB downloaded and percent).
