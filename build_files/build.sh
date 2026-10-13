@@ -100,7 +100,8 @@ done
 # Taskbar right-click menu like Windows 7: a small Plasma plugin, compiled here against this
 # image's libplasma; the compilers and headers are removed again afterwards
 devel=()
-for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel qt6-qtbase-devel; do
+for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel \
+           kf6-kpackage-devel kf6-kwindowsystem-devel qt6-qtbase-devel qt6-qtdeclarative-devel; do
     rpm -q "$pkg" >/dev/null 2>&1 || devel+=("$pkg")
 done
 ((${#devel[@]})) && dnf5 -y install --setopt=install_weak_deps=False "${devel[@]}"

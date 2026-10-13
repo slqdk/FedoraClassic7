@@ -5,7 +5,8 @@ exec 2>/out/script.log
 dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool >/dev/null 2>&1 || true
 # build the plugin exactly as build.sh does
 devel=()
-for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel qt6-qtbase-devel; do
+for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel \
+           kf6-kpackage-devel kf6-kwindowsystem-devel qt6-qtbase-devel qt6-qtdeclarative-devel; do
     rpm -q "$pkg" >/dev/null 2>&1 || devel+=("$pkg")
 done
 dnf5 -y install --setopt=install_weak_deps=False "${devel[@]}" > /out/dnf.log 2>&1
@@ -14,6 +15,7 @@ cmake -S /src/build_files/taskbarmenu -B /tmp/tbm -DCMAKE_BUILD_TYPE=Release -DC
 cmake --build /tmp/tbm -j4 >> /out/build.log 2>&1
 cmake --install /tmp/tbm >> /out/build.log 2>&1
 ls -la /usr/lib64/qt6/plugins/plasma/containmentactions/ >> /out/build.log
+grep -h "INTERFACE_LINK_LIBRARIES" /usr/lib64/cmake/Plasma/PlasmaTargets.cmake > /out/plasma-deps.txt 2>&1
 S=/src/system_files
 cp -a $S/usr/lib/classic7/. /usr/lib/classic7/
 cp -a $S/usr/bin/. /usr/bin/ && chmod +x /usr/bin/classic7-*
@@ -83,7 +85,8 @@ EOI
 chown tester /tmp/inner.sh
 su tester -c "dbus-run-session -- bash /tmp/inner.sh"
 {
-    tail -3 /out/build.log | sed 's/^/build: /'
+    grep -iE 'error|taskbarmenu.so' /out/build.log | head -8 | sed 's/^/build: /'
+    sed 's/^/deps: /' /out/plasma-deps.txt
     grep -c . /out/programs.txt | sed 's/^/programs listed: /'
     head -3 /out/flatpak.txt | sed 's/^/flatpak: /'
     cat /out/actionplugins.txt
