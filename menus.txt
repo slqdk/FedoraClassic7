@@ -1,0 +1,1330 @@
+== menus
+/etc/xdg/menus/:
+total 76
+drwxr-xr-x 1 root root 4096 Jan  1  1970 .
+drwxr-xr-x 1 root root 4096 Jan  1  1970 ..
+drwxr-xr-x 1 root root 4096 Jan  1  1970 applications-merged
+-rw-r--r-- 2 root root 3623 Jan  1  1970 applications.menu
+-rw-r--r-- 2 root root  653 Jan  1  1970 documentation.menu
+-rw-r--r-- 2 root root 9822 Jan  1  1970 kf5-applications.menu
+-rw-r--r-- 2 root root 9904 Jan  1  1970 plasma-applications.menu
+drwxr-xr-x 2 root root 4096 Jan  1  1970 preferences-merged
+drwxr-xr-x 2 root root 4096 Jan  1  1970 preferences-post-merged
+-rw-r--r-- 2 root root  731 Jan  1  1970 preferences.menu
+-rw-r--r-- 2 root root 1144 Jan  1  1970 server-settings.menu
+drwxr-xr-x 2 root root 4096 Jan  1  1970 settings-merged
+-rw-r--r-- 2 root root 1370 Jan  1  1970 settings.menu
+-rw-r--r-- 2 root root  920 Jan  1  1970 start-here.menu
+-rw-r--r-- 2 root root 1161 Jan  1  1970 system-settings.menu
+
+/etc/xdg/menus/applications-merged/:
+total 16
+drwxr-xr-x 1 root root 4096 Jan  1  1970 .
+drwxr-xr-x 1 root root 4096 Jan  1  1970 ..
+-rw-r--r-- 2 root root  311 Jan  1  1970 waydroid.menu
+-rw-r--r-- 2 root root  332 Jan  1  1970 webapps.menu
+===== /etc/xdg/menus/applications.menu
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+ "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+
+<Menu>
+
+  <Name>Applications</Name>
+  <Directory>X-GNOME-Menu-Applications.directory</Directory>
+
+  <!-- Scan legacy dirs first, as later items take priority -->
+  <LegacyDir>/usr/share/gnome/apps</LegacyDir>
+  <LegacyDir>/etc/X11/applnk</LegacyDir>
+
+  <!-- Read standard .directory and .desktop file locations -->
+  <KDELegacyDirs/>
+  <DefaultAppDirs/>
+  <DefaultDirectoryDirs/>
+
+  <!-- Add stock tarball installs to menus -->
+  <AppDir>/usr/local/share/applications</AppDir>
+
+  <!-- Accessories submenu -->
+  <Menu>
+    <Name>Accessories</Name>
+    <Directory>Utility.directory</Directory>
+    <Include>
+      <And>
+        <Category>Utility</Category>
+        <Not>
+          <Category>System</Category>
+        </Not>
+      </And>
+    </Include>
+  </Menu> <!-- End Accessories -->
+
+  <!-- Development Tools -->
+  <Menu>
+    <Name>Development</Name>
+    <Directory>Development.directory</Directory>
+    <Include>
+      <And>
+        <Category>Development</Category>
+      </And>
+    </Include>
+  </Menu> <!-- End Development Tools -->
+
+  <!-- Education -->
+  <Menu>
+    <Name>Education</Name>
+    <Directory>Education.directory</Directory>
+    <Include>
+      <And>
+        <Category>Education</Category>
+      </And>
+    </Include>
+  </Menu> <!-- End Education -->
+
+  <!-- Games -->
+  <Menu>
+    <Name>Games</Name>
+    <Directory>Game.directory</Directory>
+    <Include>
+      <And>
+        <Category>Game</Category>
+      </And>
+    </Include>
+  </Menu> <!-- End Games -->
+
+  <!-- Graphics -->
+  <Menu>
+    <Name>Graphics</Name>
+    <Directory>Graphics.directory</Directory>
+    <Include>
+      <And>
+        <Category>Graphics</Category>
+      </And>
+    </Include>
+  </Menu> <!-- End Graphics -->
+
+  <!-- Internet -->
+  <Menu>
+    <Name>Internet</Name>
+    <Directory>Network.directory</Directory>
+    <Include>
+      <And>
+        <Category>Network</Category>
+	<Not><Category>Settings</Category></Not>
+      </And>
+    </Include>
+  </Menu>   <!-- End Internet -->
+
+  <!-- Multimedia -->
+  <Menu>
+    <Name>Multimedia</Name>
+    <Directory>AudioVideo.directory</Directory>
+    <Include>
+      <And>
+        <Category>AudioVideo</Category>
+	<Not><Category>Settings</Category></Not>
+      </And>
+    </Include>
+  </Menu>   <!-- End Multimedia -->
+
+  <!-- Office -->
+  <Menu>
+    <Name>Office</Name>
+    <Directory>Office.directory</Directory>
+    <Include>
+      <And>
+        <Category>Office</Category>
+      </And>
+    </Include>
+  </Menu> <!-- End Office -->
+
+  <!-- System Tools-->
+  <Menu>
+    <Name>System Tools</Name>
+    <Directory>System-Tools.directory</Directory>
+    <Include>
+      <And>
+        <Category>System</Category>
+	<Not><Category>Settings</Category></Not>
+        <Not><Category>Screensaver</Category></Not>
+      </And>
+    </Include>
+  </Menu>   <!-- End System Tools -->
+
+  <!-- Other -->
+  <Menu>
+    <Name>Other</Name>
+    <Directory>X-GNOME-Other.directory</Directory>
+    <OnlyUnallocated/>
+    <Include>
+      <And>
+        <Not><Category>Core</Category></Not>
+        <Not><Category>Settings</Category></Not>
+        <Not><Category>SystemSetup</Category></Not>
+        <Not><Category>X-Red-Hat-ServerConfig</Category></Not>
+        <Not><Category>Screensaver</Category></Not>
+        <Not><Category>Documentation</Category></Not>
+      </And>
+    </Include>
+  </Menu> <!-- End Other -->
+
+  <MergeFile>applications-kmenuedit.menu</MergeFile>
+
+  <!-- Read in overrides and child menus from applications.d -->
+  <DefaultMergeDirs/>
+</Menu> <!-- End Applications -->
+===== /etc/xdg/menus/documentation.menu
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+ "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+
+<Menu>
+
+  <Name>Documentation</Name>
+  <Directory>Documentation.directory</Directory>
+
+  <!-- Read standard .directory and .desktop file locations -->
+  <DefaultAppDirs/>
+  <DefaultDirectoryDirs/>
+
+  <!-- No 1-element subdirectories, please -->
+  <DefaultLayout inline="true" inline_limit="1"><Merge type="all"/></DefaultLayout>
+
+  <!-- toplevel menu items -->
+
+  <Include>
+    <And>
+      <Category>X-Red-Hat-Base</Category>
+      <Category>Documentation</Category>
+    </And>
+  </Include>
+
+</Menu>     <!-- End Documentation -->
+===== /etc/xdg/menus/kf5-applications.menu
+ <!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+  "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+
+<Menu>
+	<Name>Applications</Name>
+	<Directory>kde-main.directory</Directory>
+	<!-- Search the default locations -->
+	<DefaultAppDirs/>
+	<DefaultDirectoryDirs/>
+	<DefaultLayout>
+		<Merge type="menus"/>
+		<Merge type="files"/>
+		<Separator/>
+		<Menuname>More</Menuname>
+	</DefaultLayout>
+	<Layout>
+		<Merge type="menus"/>
+		<Menuname>Applications</Menuname>
+		<Merge type="files"/>
+	</Layout>
+
+	<Menu>
+		<Name>Applications</Name>
+		<Directory>kf5-unknown.directory</Directory>
+		<OnlyUnallocated/>
+		<Include>
+			<Not>
+				<!-- Don't list non-KDE core applications -->
+				<And>
+					<Category>Core</Category>
+					<Not><Category>KDE</Category></Not>
+				</And>
+				<Category>X-Red-Hat-Base</Category>
+				<!-- Don't list SUSE's YaST in here -->
+				<Category>X-SuSE-YaST</Category>
+			</Not>
+		</Include>
+	</Menu>
+	<Menu>
+		<Name>System Settings</Name>
+		<Directory>SystemConfig.directory</Directory>
+		<Include>
+			<And>
+				<Category>System</Category>
+				<Category>Settings</Category>
+				<Not><Category>X-Red-Hat-ServerConfig</Category></Not>
+			</And>
+		</Include>
+		<Menu>
+			<Name>Server</Name>
+			<Directory>ServerConfig.directory</Directory>
+			<Include>
+				<Category>X-Red-Hat-ServerConfig</Category>
+			</Include>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Development</Name>
+		<Directory>kf5-development.directory</Directory>
+		<Menu>
+			<Name>Translation</Name>
+			<Directory>kf5-development-translation.directory</Directory>
+			<Include>
+				<And>
+					<Category>Development</Category>
+					<Category>Translation</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Web Development</Name>
+			<Directory>kf5-development-webdevelopment.directory</Directory>
+			<Include>
+				<And>
+					<Category>Development</Category>
+					<Category>WebDevelopment</Category>
+				</And>
+			</Include>
+		</Menu>
+                <Include>
+					<And>
+                        <Category>Development</Category>
+                        <Not><Category>Translation</Category></Not>
+                        <Not><Category>WebDevelopment</Category></Not>
+					</And>
+                </Include>
+        </Menu>
+	<Menu>
+		<Name>Science</Name>
+		<Directory>kf5-science.directory</Directory>
+		<Include>
+			<And><!-- Include /any/ Science app which is not an Education app -->
+				<Or>
+					<Category>Astronomy</Category>
+					<Category>Biology</Category>
+					<Category>Chemistry</Category>
+					<Category>Geology</Category>
+					<Category>MedicalSoftware</Category>
+					<Category>Physics</Category>
+					<Category>Math</Category>
+					<Category>Science</Category>
+				</Or>
+				<Not><Category>Education</Category></Not>
+			</And>
+		</Include>
+	</Menu>
+	<Menu>
+		<Name>Education</Name>
+		<Directory>kf5-education.directory</Directory>
+		<Menu>
+			<Name>Languages</Name>
+			<Directory>kf5-edu-languages.directory</Directory>
+			<Include>
+				<And>
+					<Category>Education</Category>
+					<Category>Languages</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Mathematics</Name>
+			<Directory>kf5-edu-mathematics.directory</Directory>
+			<Include>
+				<And>
+					<Category>Education</Category>
+					<Category>Math</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Miscellaneous</Name>
+			<Directory>kf5-edu-miscellaneous.directory</Directory>
+			<Include>
+				<And>
+					<Category>Education</Category>
+					<Not>
+						<Category>Languages</Category>
+						<Category>Math</Category>
+						<Category>Science</Category>
+						<Category>Teaching</Category>
+					</Not>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Science</Name>
+			<Directory>kf5-edu-science.directory</Directory>
+			<Include>
+				<And>
+					<Category>Education</Category>
+					<Category>Science</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Tools</Name>
+			<Directory>kf5-edu-tools.directory</Directory>
+			<Include>
+				<And>
+					<Category>Education</Category>
+					<Category>Teaching</Category>
+				</And>
+			</Include>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Games</Name>
+		<Directory>kf5-games.directory</Directory>
+		<Menu>
+			<Name>Arcade</Name>
+			<Directory>kf5-games-arcade.directory</Directory>
+			<Include>
+				<And>
+					<Category>Game</Category>
+					<Category>ArcadeGame</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Board</Name>
+			<Directory>kf5-games-board.directory</Directory>
+			<Include>
+				<And>
+					<Category>Game</Category>
+					<Category>BoardGame</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Card</Name>
+			<Directory>kf5-games-card.directory</Directory>
+			<Include>
+				<And>
+					<Category>Game</Category>
+					<Category>CardGame</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Kidsgames</Name>
+			<Directory>kf5-games-kids.directory</Directory>
+			<Include>
+				<And>
+					<Category>Game</Category>
+					<Category>KidsGame</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>TacticStrategy</Name>
+			<Directory>kf5-games-strategy.directory</Directory>
+			<Include>
+				<And>
+					<Category>Game</Category>
+					<Category>StrategyGame</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Logic</Name>
+			<Directory>kf5-games-logic.directory</Directory>
+			<Include>
+				<And>
+					<Category>Game</Category>
+					<Category>LogicGame</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Include>
+			<And>
+				<Category>Game</Category>
+				<Not>
+					<Category>ArcadeGame</Category>
+					<Category>BoardGame</Category>
+					<Category>CardGame</Category>
+					<Category>KidsGame</Category>
+					<Category>StrategyGame</Category>
+					<Category>LogicGame</Category>
+				</Not>
+			</And>
+		</Include>
+	</Menu>
+	<Menu>
+		<Name>Graphics</Name>
+		<Directory>kf5-graphics.directory</Directory>
+		<Include>
+			<And>
+				<Category>Graphics</Category>
+				<Not><Category>X-KDE-More</Category></Not>
+			</And>
+		</Include>
+		<Menu>
+			<Name>More</Name>
+			<Directory>kf5-more.directory</Directory>
+			<Include>
+				<And>
+					<Category>Graphics</Category>
+					<Category>X-KDE-More</Category>
+				</And>
+			</Include>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Internet</Name>
+		<Directory>kf5-internet.directory</Directory>
+		<Include>
+			<And>
+				<Category>Network</Category>
+				<Not><Category>X-KDE-More</Category></Not>
+			</And>
+		</Include>
+		<Menu>
+			<Name>Terminal</Name>
+			<Directory>kf5-internet-terminal.directory</Directory>
+		</Menu>
+		<Menu>
+			<Name>More</Name>
+			<Directory>kf5-more.directory</Directory>
+			<Include>
+				<And>
+					<Category>Network</Category>
+					<Category>X-KDE-More</Category>
+				</And>
+			</Include>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Multimedia</Name>
+		<Directory>kf5-multimedia.directory</Directory>
+		<Include>
+			<And>
+				<Category>AudioVideo</Category>
+				<Not><Category>X-KDE-More</Category></Not>
+			</And>
+		</Include>
+		<Menu>
+			<Name>More</Name>
+			<Directory>kf5-more.directory</Directory>
+			<Include>
+				<And>
+					<Category>AudioVideo</Category>
+					<Category>X-KDE-More</Category>
+				</And>
+			</Include>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Office</Name>
+		<Directory>kf5-office.directory</Directory>
+		<Layout>
+			<Merge type="menus"/>
+			<Filename>kde-koshell.desktop</Filename>
+			<Filename>kde-Kontact.desktop</Filename>
+			<Separator/>
+			<Filename>kde-kword.desktop</Filename>
+			<Filename>kde-kspread.desktop</Filename>
+			<Filename>kde-kpresenter.desktop</Filename>
+			<Merge type="files"/>
+			<Separator/>
+			<Menuname>More</Menuname>
+		</Layout>
+		<Include>
+			<And>
+				<Category>Office</Category>
+				<Not><Category>X-KDE-More</Category></Not>
+			</And>
+		</Include>
+		<Menu>
+			<Name>More</Name>
+			<Directory>kf5-more.directory</Directory>
+			<Include>
+				<And>
+					<Category>Office</Category>
+					<Category>X-KDE-More</Category>
+				</And>
+			</Include>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Settingsmenu</Name>
+		<Directory>kf5-settingsmenu.directory</Directory>
+		<Include>
+			<And>
+				<Category>Settings</Category>
+				<Not><Category>System</Category></Not>
+				<Not><Category>X-Red-Hat-ServerConfig</Category></Not>
+			</And>
+		</Include>
+	</Menu>
+	<Menu>
+		<Name>System</Name>
+		<Directory>kf5-system.directory</Directory>
+		<Include>
+			<And>
+				<Category>System</Category>
+				<Not><Category>Settings</Category></Not>
+				<Not><Category>X-KDE-More</Category></Not>
+				<Not><Category>X-Red-Hat-ServerConfig</Category></Not>
+			</And>
+		</Include>
+		<Menu>
+			<Name>More</Name>
+			<Directory>kf5-more.directory</Directory>
+			<Include>
+				<And>
+					<Category>System</Category>
+					<Category>X-KDE-More</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>ScreenSavers</Name>
+			<Directory>kf5-system-screensavers.directory</Directory>
+		</Menu>
+		<Menu>
+			<Name>Terminal</Name>
+			<Directory>kf5-system-terminal.directory</Directory>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Utilities</Name>
+		<Directory>kf5-utilities.directory</Directory>
+		<Include>
+			<And>
+				<Category>Utility</Category>
+				<Not><Category>X-KDE-More</Category></Not>
+			</And>
+			<Category>TextEditor</Category>
+			<Category>Accessibility</Category>
+			<Category>X-KDE-Utilities-Desktop</Category>
+			<Category>X-KDE-Utilities-File</Category>
+			<Category>X-KDE-Utilities-Peripherals</Category>
+			<Category>X-KDE-Utilities-PIM</Category>
+		</Include>
+		<Menu>
+			<Name>XUtilities</Name>
+			<Directory>kf5-utilities-xutils.directory</Directory>
+		</Menu>
+		<Menu>
+			<Name>More</Name>
+			<Directory>kf5-more.directory</Directory>
+			<Include>
+				<And>
+					<Category>Utility</Category>
+					<Category>X-KDE-More</Category>
+				</And>
+			</Include>
+		</Menu>
+	</Menu>
+	<Include>
+		<And>
+			<Category>KDE</Category>
+			<Category>Core</Category>
+		</And>
+	</Include>
+	<DefaultMergeDirs/>
+	<MergeFile>applications-kmenuedit.menu</MergeFile>
+</Menu>
+===== /etc/xdg/menus/plasma-applications.menu
+ <!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+  "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+
+<Menu>
+	<Name>Applications</Name>
+	<Directory>kde-main.directory</Directory>
+	<!-- Search the default locations -->
+	<DefaultAppDirs/>
+	<DefaultDirectoryDirs/>
+	<DefaultLayout>
+		<Merge type="menus"/>
+		<Merge type="files"/>
+		<Separator/>
+		<Menuname>More</Menuname>
+	</DefaultLayout>
+	<Layout>
+		<Merge type="menus"/>
+		<Menuname>Applications</Menuname>
+		<Merge type="files"/>
+	</Layout>
+
+	<Menu>
+		<Name>Applications</Name>
+		<Directory>kf5-unknown.directory</Directory>
+		<OnlyUnallocated/>
+		<Include>
+			<Not>
+				<!-- Don't list non-KDE core applications -->
+				<And>
+					<Category>Core</Category>
+					<Not><Category>KDE</Category></Not>
+				</And>
+				<!-- Don't list SUSE's YaST in here -->
+				<Category>X-SuSE-YaST</Category>
+				<Category>X-KDE-settings-hardware</Category>
+				<Category>X-KDE-settings-accessibility</Category>
+				<Category>X-KDE-settings-components</Category>
+				<Category>X-KDE-settings-desktop</Category>
+				<Category>X-KDE-settings-looknfeel</Category>
+				<Category>X-KDE-settings-network</Category>
+				<Category>X-KDE-settings-webbrowsing</Category>
+				<Category>X-KDE-settings-peripherals</Category>
+				<Category>X-KDE-settings-hardware</Category>
+				<Category>X-KDE-settings-power</Category>
+				<Category>X-KDE-settings-security</Category>
+				<Category>X-KDE-settings-sound</Category>
+				<Category>X-KDE-settings-system</Category>
+				<Category>X-KDE-information</Category>
+				<Filename>kde-kcm_knetworkconfmodule_ss.desktop</Filename>
+				<Filename>kde-medianotifications.desktop</Filename>
+				<Filename>kde-audioencoding.desktop</Filename>
+			</Not>
+		</Include>
+	</Menu>
+	<Menu>
+		<Name>Development</Name>
+		<Directory>kf5-development.directory</Directory>
+		<Menu>
+			<Name>Translation</Name>
+			<Directory>kf5-development-translation.directory</Directory>
+			<Include>
+				<And>
+					<Category>Development</Category>
+					<Category>Translation</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Web Development</Name>
+			<Directory>kf5-development-webdevelopment.directory</Directory>
+			<Include>
+				<And>
+					<Category>Development</Category>
+					<Category>WebDevelopment</Category>
+				</And>
+			</Include>
+		</Menu>
+                <Include>
+					<And>
+                        <Category>Development</Category>
+                        <Not><Category>Translation</Category></Not>
+                        <Not><Category>WebDevelopment</Category></Not>
+					</And>
+                </Include>
+        </Menu>
+	<Menu>
+		<Name>Science</Name>
+		<Directory>kf5-science.directory</Directory>
+		<Include>
+			<And><!-- Include /any/ Science app which is not an Education app -->
+				<Or>
+					<Category>Astronomy</Category>
+					<Category>Biology</Category>
+					<Category>Chemistry</Category>
+					<Category>Geology</Category>
+					<Category>MedicalSoftware</Category>
+					<Category>Physics</Category>
+					<Category>Math</Category>
+					<Category>Science</Category>
+				</Or>
+				<Not><Category>Education</Category></Not>
+			</And>
+		</Include>
+	</Menu>
+	<Menu>
+		<Name>Education</Name>
+		<Directory>kf5-education.directory</Directory>
+		<Menu>
+			<Name>Languages</Name>
+			<Directory>kf5-edu-languages.directory</Directory>
+			<Include>
+				<And>
+					<Category>Education</Category>
+					<Category>Languages</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Mathematics</Name>
+			<Directory>kf5-edu-mathematics.directory</Directory>
+			<Include>
+				<And>
+					<Category>Education</Category>
+					<Category>Math</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Miscellaneous</Name>
+			<Directory>kf5-edu-miscellaneous.directory</Directory>
+			<Include>
+				<And>
+					<Category>Education</Category>
+					<Not>
+						<Category>Languages</Category>
+						<Category>Math</Category>
+						<Category>Science</Category>
+						<Category>Teaching</Category>
+					</Not>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Science</Name>
+			<Directory>kf5-edu-science.directory</Directory>
+			<Include>
+				<And>
+					<Category>Education</Category>
+					<Category>Science</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Tools</Name>
+			<Directory>kf5-edu-tools.directory</Directory>
+			<Include>
+				<And>
+					<Category>Education</Category>
+					<Category>Teaching</Category>
+				</And>
+			</Include>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Games</Name>
+		<Directory>kf5-games.directory</Directory>
+		<Menu>
+			<Name>Arcade</Name>
+			<Directory>kf5-games-arcade.directory</Directory>
+			<Include>
+				<And>
+					<Category>Game</Category>
+					<Category>ArcadeGame</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Board</Name>
+			<Directory>kf5-games-board.directory</Directory>
+			<Include>
+				<And>
+					<Category>Game</Category>
+					<Category>BoardGame</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Card</Name>
+			<Directory>kf5-games-card.directory</Directory>
+			<Include>
+				<And>
+					<Category>Game</Category>
+					<Category>CardGame</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Kidsgames</Name>
+			<Directory>kf5-games-kids.directory</Directory>
+			<Include>
+				<And>
+					<Category>Game</Category>
+					<Category>KidsGame</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>TacticStrategy</Name>
+			<Directory>kf5-games-strategy.directory</Directory>
+			<Include>
+				<And>
+					<Category>Game</Category>
+					<Category>StrategyGame</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>Logic</Name>
+			<Directory>kf5-games-logic.directory</Directory>
+			<Include>
+				<And>
+					<Category>Game</Category>
+					<Category>LogicGame</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Include>
+			<And>
+				<Category>Game</Category>
+				<Not>
+					<Category>ArcadeGame</Category>
+					<Category>BoardGame</Category>
+					<Category>CardGame</Category>
+					<Category>KidsGame</Category>
+					<Category>StrategyGame</Category>
+					<Category>LogicGame</Category>
+				</Not>
+			</And>
+		</Include>
+	</Menu>
+	<Menu>
+		<Name>Graphics</Name>
+		<Directory>kf5-graphics.directory</Directory>
+		<Include>
+			<And>
+				<Category>Graphics</Category>
+				<Not><Category>X-KDE-More</Category></Not>
+			</And>
+		</Include>
+		<Menu>
+			<Name>More</Name>
+			<Directory>kf5-more.directory</Directory>
+			<Include>
+				<And>
+					<Category>Graphics</Category>
+					<Category>X-KDE-More</Category>
+				</And>
+			</Include>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Internet</Name>
+		<Directory>kf5-internet.directory</Directory>
+		<Include>
+			<And>
+				<Category>Network</Category>
+				<Not><Category>X-KDE-More</Category></Not>
+			</And>
+		</Include>
+		<Menu>
+			<Name>Terminal</Name>
+			<Directory>kf5-internet-terminal.directory</Directory>
+		</Menu>
+		<Menu>
+			<Name>More</Name>
+			<Directory>kf5-more.directory</Directory>
+			<Include>
+				<And>
+					<Category>Network</Category>
+					<Category>X-KDE-More</Category>
+				</And>
+			</Include>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Multimedia</Name>
+		<Directory>kf5-multimedia.directory</Directory>
+		<Include>
+			<And>
+				<Category>AudioVideo</Category>
+				<Not><Category>X-KDE-More</Category></Not>
+			</And>
+		</Include>
+		<Menu>
+			<Name>More</Name>
+			<Directory>kf5-more.directory</Directory>
+			<Include>
+				<And>
+					<Category>AudioVideo</Category>
+					<Category>X-KDE-More</Category>
+				</And>
+			</Include>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Office</Name>
+		<Directory>kf5-office.directory</Directory>
+		<Layout>
+			<Merge type="menus"/>
+			<Filename>kde-koshell.desktop</Filename>
+			<Filename>kde-Kontact.desktop</Filename>
+			<Separator/>
+			<Filename>kde-kword.desktop</Filename>
+			<Filename>kde-kspread.desktop</Filename>
+			<Filename>kde-kpresenter.desktop</Filename>
+			<Merge type="files"/>
+			<Separator/>
+			<Menuname>More</Menuname>
+		</Layout>
+		<Include>
+			<And>
+				<Category>Office</Category>
+				<Not><Category>X-KDE-More</Category></Not>
+			</And>
+		</Include>
+		<Menu>
+			<Name>More</Name>
+			<Directory>kf5-more.directory</Directory>
+			<Include>
+				<And>
+					<Category>Office</Category>
+					<Category>X-KDE-More</Category>
+				</And>
+			</Include>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>System</Name>
+		<Directory>kf5-system.directory</Directory>
+		<Include>
+			<Category>Settings</Category>
+			<And>
+				<Category>System</Category>
+				<Not><Category>X-KDE-More</Category></Not>
+			</And>
+		</Include>
+		<Menu>
+			<Name>More</Name>
+			<Directory>kf5-more.directory</Directory>
+			<Include>
+				<And>
+					<Category>System</Category>
+					<Category>X-KDE-More</Category>
+				</And>
+			</Include>
+		</Menu>
+		<Menu>
+			<Name>ScreenSavers</Name>
+			<Directory>kf5-system-screensavers.directory</Directory>
+		</Menu>
+		<Menu>
+			<Name>Terminal</Name>
+			<Directory>kf5-system-terminal.directory</Directory>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Utilities</Name>
+		<Directory>kf5-utilities.directory</Directory>
+		<Include>
+			<And>
+				<Category>Utility</Category>
+				<Not><Category>X-KDE-More</Category></Not>
+			</And>
+			<Category>TextEditor</Category>
+			<Category>Accessibility</Category>
+			<Category>X-KDE-Utilities-Desktop</Category>
+			<Category>X-KDE-Utilities-File</Category>
+			<Category>X-KDE-Utilities-Peripherals</Category>
+			<Category>X-KDE-Utilities-PIM</Category>
+		</Include>
+		<Menu>
+			<Name>XUtilities</Name>
+			<Directory>kf5-utilities-xutils.directory</Directory>
+		</Menu>
+		<Menu>
+			<Name>More</Name>
+			<Directory>kf5-more.directory</Directory>
+			<Include>
+				<And>
+					<Category>Utility</Category>
+					<Category>X-KDE-More</Category>
+				</And>
+			</Include>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Help</Name>
+		<Directory>kf5-help.directory</Directory>
+		<Include>
+			<Category>Documentation</Category>
+		</Include>
+	</Menu>
+	<DefaultMergeDirs/>
+	<MergeFile>applications-kmenuedit.menu</MergeFile>
+</Menu>
+===== /etc/xdg/menus/preferences.menu
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+ "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+
+<Menu>
+  <Name>Preferences</Name>
+  <Directory>Settings.directory</Directory>
+
+  <!-- Read standard .directory and .desktop file locations -->
+  <DefaultAppDirs/>
+  <DefaultDirectoryDirs/>
+
+  <!-- Stuff in the toplevel -->
+  <Include>
+    <And>
+      <Category>Settings</Category>
+      <Not>
+        <Category>System</Category>
+      </Not>
+    </And>
+  </Include>
+
+  <!-- Menu items to exclude from the toplevel -->
+  <Exclude>
+    <Filename>gnomecc.desktop</Filename>
+  </Exclude>
+
+  <!-- Read in overrides and child menus from preferences-merged/ -->
+  <DefaultMergeDirs/>
+
+</Menu>     <!-- End Prefs -->
+===== /etc/xdg/menus/server-settings.menu
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+ "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+
+<Menu>
+
+  <Name>Server</Name>
+  <Directory>ServerConfig.directory</Directory>
+
+  <!-- Scan legacy dirs first, as later items take priority -->
+  <LegacyDir>/usr/share/gnome/apps</LegacyDir>
+  <LegacyDir>/etc/X11/applnk</LegacyDir>
+
+  <!-- Read standard .directory and .desktop file locations -->
+  <DefaultAppDirs/>
+  <DefaultDirectoryDirs/>
+
+  <!-- Read in overrides and child menus from applications.d -->
+  <DefaultMergeDirs/>
+
+  <!-- toplevel menu items -->
+  <Include>
+    <And>
+      <Category>X-Red-Hat-Base</Category>
+      <Category>X-Red-Hat-ServerConfig</Category>
+    </And>
+  </Include>
+
+  <!-- More Server -->
+  <Menu>
+    <Name>MoreServer</Name>
+    <Directory>ServerConfig-More.directory</Directory>
+    <Include>
+      <And>
+        <Not><Category>X-Red-Hat-Base-Only</Category></Not>
+        <Not><Category>X-Red-Hat-Base</Category></Not>
+        <Category>X-Red-Hat-ServerConfig</Category>
+      </And>
+    </Include>
+
+  </Menu> <!-- End More Server Settings -->
+</Menu>   <!-- End Server Settings -->
+
+===== /etc/xdg/menus/settings.menu
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+ "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+
+<Menu>
+
+  <Name>Settings</Name>
+  <Directory>Desktop.directory</Directory>
+
+  <!-- Scan legacy dirs first, as later items take priority -->
+  <LegacyDir>/etc/X11/applnk</LegacyDir>
+  <LegacyDir>/usr/share/gnome/apps</LegacyDir>
+
+  <!-- Read standard .directory and .desktop file locations -->
+  <DefaultAppDirs/>
+  <DefaultDirectoryDirs/>
+
+  <!-- Read in overrides and child menus from applications-merged/ -->
+  <DefaultMergeDirs/>
+
+  <!-- Keep Preferences first -->
+  <Layout>
+    <Menuname>Preferences</Menuname>
+    <Menuname>Administration</Menuname>
+    <Menuname>Documentation</Menuname>
+  </Layout>
+
+  <!-- Merge in these other files as submenus -->
+  <Menu>
+    <Name>Preferences</Name>
+    <MergeFile>preferences.menu</MergeFile>
+    <MergeDir>preferences-post-merged</MergeDir>
+  </Menu>
+
+  <!-- System Settings -->
+  <Menu>
+    <Name>Administration</Name>
+    <Directory>SystemConfig.directory</Directory>
+    <MergeFile>system-settings.menu</MergeFile>
+  </Menu>     <!-- End System Settings -->
+
+  <!-- Documentation -->
+  <Menu>
+    <Name>Documentation</Name>
+    <Directory>Documentation.directory</Directory>
+    <MergeFile>documentation.menu</MergeFile>
+  </Menu>     <!-- End Documentation -->
+
+</Menu> <!-- End Applications -->
+===== /etc/xdg/menus/start-here.menu
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+ "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+
+<Menu>
+
+  <Name>Start Here</Name>
+  <Directory>Applications.directory</Directory>
+
+  <!-- Scan legacy dirs first, as later items take priority -->
+  <LegacyDir>/usr/share/gnome/apps</LegacyDir>
+  <KDELegacyDirs/>
+  <LegacyDir>/etc/X11/applnk</LegacyDir>
+
+  <!-- Read standard .directory and .desktop file locations -->
+  <DefaultAppDirs/>
+  <DefaultDirectoryDirs/>
+
+  <!-- Read in overrides and child menus from applications.d -->
+  <DefaultMergeDirs/>
+
+  <!-- Merge in these other files as submenus -->
+  <Menu>
+    <Name>Applications</Name>
+    <MergeFile>applications.menu</MergeFile>
+  </Menu>
+  <Menu>
+    <Name>Preferences</Name>
+    <MergeFile>preferences.menu</MergeFile>
+  </Menu>
+  <Menu>
+    <Name>System Settings</Name>
+    <MergeFile>system-settings.menu</MergeFile>
+  </Menu>
+
+</Menu>===== /etc/xdg/menus/system-settings.menu
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+ "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+
+<Menu>
+
+  <Name>Administration</Name>
+  <Directory>SystemConfig.directory</Directory>
+
+  <!-- Scan legacy dirs first, as later items take priority -->
+  <LegacyDir>/usr/share/gnome/apps</LegacyDir>
+  <LegacyDir>/etc/X11/applnk</LegacyDir>
+
+  <!-- Read standard .directory and .desktop file locations -->
+  <DefaultAppDirs/>
+  <DefaultDirectoryDirs/>
+
+  <!-- Read in overrides and child menus from applications.d -->
+  <DefaultMergeDirs/>
+
+  <!-- No 1-element subdirectories, please -->
+  <DefaultLayout inline="true" inline_limit="1">
+    <Merge type="all"/>
+  </DefaultLayout>
+
+  <!-- Merge in server settings -->
+  <Menu>
+    <Name>Server</Name>
+    <MergeFile>server-settings.menu</MergeFile>
+  </Menu>   <!-- End Server Settings -->
+
+  <!-- toplevel menu items -->
+
+  <Include>
+    <And>
+      <Category>Settings</Category>
+      <Category>System</Category>
+      <Not><Category>X-Red-Hat-ServerConfig</Category></Not>
+      <Not><Category>Screensaver</Category></Not>
+    </And>
+  </Include>
+
+</Menu>     <!-- End System Settings -->
+== desktop-directories
+Accessories-More.directory
+Advanced-More.directory
+Advanced.directory
+AllPrograms.directory
+Desktop.directory
+Development-More.directory
+Documentation-More.directory
+Documentation.directory
+Edutainment.directory
+Games-More.directory
+Graphics-More.directory
+Internet-More.directory
+Multimedia-More.directory
+Office-More.directory
+Root.directory
+Sawfish.directory
+ServerConfig-More.directory
+ServerConfig.directory
+Settings-More.directory
+System-More.directory
+SystemConfig-More.directory
+SystemConfig.directory
+Utilities-More.directory
+Utilities.directory
+kf5-development-translation.directory
+kf5-development-webdevelopment.directory
+kf5-development.directory
+kf5-editors.directory
+kf5-edu-languages.directory
+kf5-edu-mathematics.directory
+kf5-edu-miscellaneous.directory
+kf5-edu-science.directory
+kf5-edu-tools.directory
+kf5-education.directory
+kf5-games-arcade.directory
+kf5-games-board.directory
+kf5-games-card.directory
+kf5-games-kids.directory
+kf5-games-logic.directory
+kf5-games-roguelikes.directory
+kf5-games-strategy.directory
+kf5-games.directory
+kf5-graphics.directory
+kf5-help.directory
+kf5-internet-terminal.directory
+kf5-internet.directory
+kf5-main.directory
+kf5-more.directory
+kf5-multimedia.directory
+kf5-network.directory
+kf5-office.directory
+kf5-science.directory
+kf5-settingsmenu.directory
+kf5-system-terminal.directory
+kf5-system.directory
+kf5-toys.directory
+kf5-unknown.directory
+kf5-utilities-accessibility.directory
+kf5-utilities-desktop.directory
+kf5-utilities-file.directory
+kf5-utilities-peripherals.directory
+kf5-utilities-pim.directory
+kf5-utilities-xutils.directory
+kf5-utilities.directory
+waydroid.directory
+webapps-webapps.directory
+== XDG_MENU_PREFIX in plasma
+/etc/xdg/plasma-workspace/env/env.sh:15:# XDG_MENU_PREFIX
+/etc/xdg/plasma-workspace/env/env.sh:16:if [ -z "${XDG_MENU_PREFIX}" ] ; then
+/etc/xdg/plasma-workspace/env/env.sh:17:   XDG_MENU_PREFIX="kf5-"
+/etc/xdg/plasma-workspace/env/env.sh:18:   export XDG_MENU_PREFIX
+plasma-
+XDG_MENU_PREFIX
+startplasma-wayland: Shutting down...
+{"type":"rpm","name":"plasma-workspace","version":"6.7.5-1.fc44","architecture":"x86_64","osCpe":"cpe:/o:fedoraproject:fedora:44"}
+startplasma-wayland-6.7.5-1.fc44.x86_64.debug
+== Utility apps
+/usr/share/applications/Waydroid.desktop
+/usr/share/applications/bbrew.desktop
+/usr/share/applications/classic7-7zip.desktop
+/usr/share/applications/discourse.desktop
+/usr/share/applications/fcitx5-wayland-launcher.desktop
+/usr/share/applications/io.github.kolunmi.Bazaar.desktop
+/usr/share/applications/kbd-layout-viewer5.desktop
+/usr/share/applications/org.fcitx.Fcitx5.desktop
+/usr/share/applications/org.gnome.DiskUtility.desktop
+/usr/share/applications/org.gnupg.pinentry-qt.desktop
+/usr/share/applications/org.kde.ConfigurePrinter.desktop
+/usr/share/applications/org.kde.ark.desktop
+/usr/share/applications/org.kde.filelight.desktop
+/usr/share/applications/org.kde.kfind.desktop
+/usr/share/applications/org.kde.kfontinst.desktop
+/usr/share/applications/org.kde.kfontview.desktop
+/usr/share/applications/org.kde.klipper.desktop
+/usr/share/applications/org.kde.knewstuff-dialog.desktop
+/usr/share/applications/org.kde.knewstuff-dialog6.desktop
+/usr/share/applications/org.kde.kwrite.desktop
+/usr/share/applications/org.kde.plasma.emojier.desktop
+/usr/share/applications/org.kde.plasma.printqueue.desktop
+/usr/share/applications/org.kde.spectacle.desktop
+/usr/share/applications/org.kde.xwaylandvideobridge.desktop
+/usr/share/applications/waydroid.market.desktop
+/usr/share/applications/yad-icon-browser.desktop
