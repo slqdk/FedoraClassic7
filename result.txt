@@ -1,0 +1,6 @@
+after a minute without input: 1 screen saver(s): 31861 /usr/bin/python3 /usr/bin/classic7-screensaver --run pipes
+after moving the mouse: 0 screen saver(s)
+mystify: ended by a key
+text: ended by a key
+ribbons: ended by a key
+bubbles: ended by a key

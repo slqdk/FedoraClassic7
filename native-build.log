@@ -1,0 +1,99 @@
+-- The CXX compiler identification is GNU 16.2.1
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/sbin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- No Qt5 qmake executable found. Can't check QT_INSTALL_PREFIX
+Installing in /usr. Run /tmp/native-build/prefix.sh to set the environment for classic7-native.
+fatal: detected dubious ownership in repository at '/src'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /src
+fatal: detected dubious ownership in repository at '/src'
+To add an exception for this directory, call:
+
+	git config --global --add safe.directory /src
+-- Looking for __GLIBC__
+-- Looking for __GLIBC__ - found
+-- Performing Test _OFFT_IS_64BIT
+-- Performing Test _OFFT_IS_64BIT - Success
+-- Performing Test HAVE_DATE_TIME
+-- Performing Test HAVE_DATE_TIME - Success
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Performing Test HAVE_STDATOMIC
+-- Performing Test HAVE_STDATOMIC - Success
+-- Found WrapAtomic: TRUE
+-- Found OpenGL: /usr/lib64/libOpenGL.so
+-- Found WrapOpenGL: TRUE
+-- Found WrapVulkanHeaders: /usr/include
+-- Found KF6CoreAddons: /usr/lib64/cmake/KF6CoreAddons/KF6CoreAddonsConfig.cmake (found version "6.31.0")
+-- Found KF6Config: /usr/lib64/cmake/KF6Config/KF6ConfigConfig.cmake (found version "6.31.0")
+-- Found KF6Package: /usr/lib64/cmake/KF6Package/KF6PackageConfig.cmake (found version "6.31.0")
+-- Found X11: /usr/include
+-- Looking for XOpenDisplay in /usr/lib64/libX11.so
+-- Looking for XOpenDisplay in /usr/lib64/libX11.so - found
+-- Looking for gethostbyname
+-- Looking for gethostbyname - found
+-- Looking for connect
+-- Looking for connect - found
+-- Looking for remove
+-- Looking for remove - found
+-- Looking for shmat
+-- Looking for shmat - found
+-- Found KF6WindowSystem: /usr/lib64/cmake/KF6WindowSystem/KF6WindowSystemConfig.cmake (found version "6.31.0")
+-- Found KF6IdleTime: /usr/lib64/cmake/KF6IdleTime/KF6IdleTimeConfig.cmake (found version "6.31.0")
+-- Found KF6KIO: /usr/lib64/cmake/KF6KIO/KF6KIOConfig.cmake (found version "6.31.0")
+-- Found KF6: success (found version "6.31.0") found components: CoreAddons Config Package WindowSystem IdleTime KIO
+-- Configuring done (1.7s)
+-- Generating done (0.0s)
+-- Build files have been written to: /tmp/native-build
+[  0%] Built target classic7_properties_autogen_timestamp_deps
+[  0%] Built target classic7-grab_autogen_timestamp_deps
+[  0%] Built target classic7-idle_autogen_timestamp_deps
+[  0%] Built target classic7_taskbarmenu_autogen_timestamp_deps
+[ 20%] Automatic MOC for target classic7-grab
+[ 20%] Automatic MOC for target classic7-idle
+[ 20%] Automatic MOC for target classic7_taskbarmenu
+[ 20%] Automatic MOC for target classic7_properties
+[ 20%] Built target classic7-idle_autogen
+[ 20%] Built target classic7-grab_autogen
+[ 30%] Building CXX object CMakeFiles/classic7-grab.dir/classic7-grab_autogen/mocs_compilation.cpp.o
+[ 30%] Building CXX object CMakeFiles/classic7-idle.dir/classic7-idle_autogen/mocs_compilation.cpp.o
+[ 40%] Building CXX object CMakeFiles/classic7-idle.dir/idle.cpp.o
+[ 40%] Building CXX object CMakeFiles/classic7-grab.dir/grab.cpp.o
+[ 40%] Built target classic7_taskbarmenu_autogen
+[ 45%] Building CXX object CMakeFiles/classic7_taskbarmenu.dir/classic7_taskbarmenu_autogen/mocs_compilation.cpp.o
+[ 50%] Building CXX object CMakeFiles/classic7_taskbarmenu.dir/taskbarmenu.cpp.o
+[ 50%] Built target classic7_properties_autogen
+[ 55%] Building CXX object CMakeFiles/classic7_properties.dir/classic7_properties_autogen/mocs_compilation.cpp.o
+[ 60%] Building CXX object CMakeFiles/classic7_properties.dir/properties.cpp.o
+[ 65%] Linking CXX executable classic7-idle
+[ 70%] Linking CXX executable classic7-grab
+[ 75%] Built target classic7-idle
+[ 80%] Built target classic7-grab
+[ 85%] Linking CXX shared module bin/plasma/containmentactions/org.classic7.taskbarmenu.so
+[ 90%] Built target classic7_taskbarmenu
+[ 95%] Linking CXX shared module bin/kf6/propertiesdialog/classic7_properties.so
+[100%] Built target classic7_properties
+-- Install configuration: "Release"
+-- Installing: /usr/lib64/qt6/plugins/plasma/containmentactions/org.classic7.taskbarmenu.so
+-- Installing: /usr/libexec/classic7-grab
+-- Installing: /usr/libexec/classic7-idle
+-- Installing: /usr/lib64/qt6/plugins/kf6/propertiesdialog/classic7_properties.so
+-rwxr-xr-x 1 root root 32176 Oct 13 16:38 /usr/libexec/classic7-grab
+-rwxr-xr-x 1 root root 14104 Oct 13 16:38 /usr/libexec/classic7-idle
+
+/usr/lib64/qt6/plugins/plasma/containmentactions/:
+total 336
+drwxr-xr-x 1 root root  4096 Oct 13 16:38 .
+drwxr-xr-x 1 root root  4096 Jan  1  1970 ..
+-rwxr-xr-x 1 root root 38192 Oct 13 16:38 org.classic7.taskbarmenu.so
+-rwxr-xr-x 2 root root 39040 Jan  1  1970 org.kde.applauncher.so
+-rwxr-xr-x 2 root root 84320 Jan  1  1970 org.kde.contextmenu.so
+-rwxr-xr-x 2 root root 29896 Jan  1  1970 org.kde.paste.so
+-rwxr-xr-x 2 root root 38760 Jan  1  1970 org.kde.switchdesktop.so
+-rwxr-xr-x 2 root root 34768 Jan  1  1970 switchactivity.so
+-rwxr-xr-x 2 root root 51472 Jan  1  1970 switchwindow.so
