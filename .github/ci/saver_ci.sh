@@ -66,6 +66,7 @@ echo "after moving the mouse: $(savers | wc -l) screen saver(s)" >> /out/result.
 for s in mystify text ribbons bubbles; do
     (DISPLAY= timeout 30 classic7-screensaver --run $s > /out/run-$s.log 2>&1 &)
     sleep 6
+    [ $s = bubbles ] && sleep 4         # it takes a picture of the desktop first
     shot 06-$s
     X key space
     sleep 2

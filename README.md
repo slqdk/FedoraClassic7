@@ -33,6 +33,12 @@ image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomic + KDE Plas
 | Task Manager | Ctrl+Shift+Esc: Applications (window list through a KWin script), Processes, Services, Performance (LED meters, per-CPU history), Networking, Users; Ctrl+Alt+Del opens the blue Windows 7 security screen |
 | System / Device Manager | Win+Pause System window, System Properties (rename, environment variables, System Restore = rollback), Device Manager (PCI/USB/input/monitors/disks by type, driver and status) |
 | Taskbar and windows | Windows 7 right-click menu (Cascade, Stacked, Side by side, Start Task Manager), Show desktop button, Classic Alt+Tab, Aero Shake (and Win+Home), Win+Up/Down, snap to edges, Start menu jump lists (recent documents, tasks) |
+| Accessories | Notepad, Calculator (Standard, Scientific, Programmer), Character Map, Sticky Notes, Paint (ribbon) and **Quick Shot** instead of the Snipping Tool: Lightshot-style capture with **Ctrl+Up** or PrtSc (drag an area, draw on it, copy/save/print/e-mail) |
+| Explorer windows | Windows 7 **Recycle Bin** (original location, date deleted, restore, empty; the desktop icon follows), **Properties** for files, folders, shortcuts and drives (General, Security, Details, Customize, Shortcut, Tools), and the **copy / move / delete progress** window with time remaining and More details |
+| Notification area | Clock with calendar and clock face, Date and Time settings; volume slider with **Volume Mixer**; **Action Center** flag (firewall, updates, nearly full drives, programs that stopped working) |
+| System tools | **System Configuration** (`msconfig`), **Event Viewer** over the journal (`eventvwr`), **Resource Monitor** (`resmon`), **Windows Firewall** over firewalld (`firewall.cpl`) |
+| Start-up and shut-down | "Starting Classic 7" start-up screen (Plymouth); Log off / Restart / Shut down show the "Logging off..." / "Restarting..." / "Shutting down..." screen |
+| Screen savers | Mystify, 3D Pipes, Bubbles, Ribbons, 3D Text, Photos and Blank, with Screen Saver Settings (`scrnsave.scr`); films and games that keep the screen on hold them off |
 | Classic 7 Update | One click installs the newest Classic 7, app updates and new settings for your account; settings follow automatically after a restart |
 | Login screen | Classic "Log On" dialog on the desktop blue (SDDM theme) |
 | Appearance | Start > Settings > **Appearance**: classic-style dialog with colour schemes, per-item colours, font size and live preview |
@@ -310,6 +316,29 @@ Task Manager's Applications tab and the Win+Up/Down/Home keys use KWin scripts
 switcher `/usr/share/kwin-wayland/tabbox/classic7`; the Show desktop button is the Plasma applet
 `org.classic7.showdesktop`.
 
+## Accessories, Explorer windows and system tools
+
+| Command (name in Run) | What |
+|---|---|
+| `classic7-quickshot` (Ctrl+Up, PrtSc; `snippingtool`) | Quick Shot: drag over an area; Pen, Line, Arrow, Rectangle, Marker, Text, colour, undo; Open in Paint, E-mail, Print, Copy (Ctrl+C), Save (Ctrl+S). Shift+PrtSc saves the whole screen |
+| `classic7-notepad`, `classic7-calc`, `classic7-charmap`, `classic7-stickynotes`, `classic7-paint` | Notepad, Calculator, Character Map, Sticky Notes, Paint (`notepad`, `calc`, `charmap`, `stikynot`, `mspaint`) |
+| `classic7-recyclebin [--empty \| FILE...]` (`shell:recyclebinfolder`) | Recycle Bin (the freedesktop.org trash Dolphin uses) |
+| `classic7-properties PATH...` | Properties; Alt+Enter in Explorer and on the desktop opens it for one item (KDE plugin `classic7_properties`) |
+| `classic7-timedate`, `classic7-mixer`, `classic7-actioncenter` | Date and Time (`timedate.cpl`), Volume Mixer (`sndvol`), Action Center (`wscui.cpl`) |
+| `classic7-msconfig [--tab ...]` | System Configuration: startup programs (turned off with `Hidden=true` in `~/.config/autostart`), services, boot |
+| `classic7-eventvwr [--problems]` | Event Viewer: Application, Security, Setup, System logs and Problem Reports (coredumps) |
+| `classic7-resmon [--tab ...]` | Resource Monitor: CPU, memory, disk and network per process, a minute of graphs |
+| `classic7-firewall [--allowed\|--onoff]` | Firewall: on/off per network type, allowed programs (firewalld services and ports); changes through `classic7-firewall-helper` (pkexec) |
+| `classic7-screensaver --settings \| --run NAME` (`scrnsave.scr`) | Screen Saver Settings, or a screen saver now |
+| `classic7-goodbye --logoff\|--restart\|--shutdown` | Ends the session with the Windows-style screen (what the Start menu uses) |
+
+`classic7-sessiond` (a user service started before the desktop) shows KDE's file operations in the
+Windows 7 progress window by taking the `org.kde.kuiserver` / `org.kde.JobViewServer` D-Bus names
+before Plasma does, keeps the desktop's Recycle Bin icon right, and starts the screen saver after the
+chosen idle time (`/usr/libexec/classic7-idle`, KIdleTime). The start-up screen is a Plymouth theme
+made by `build_files/plymouth/make_theme.py`; the image build makes the initramfs again with it and
+keeps Bazzite's initramfs if the new one doesn't check out (a build warning says so).
+
 ## Updates on the installed PC
 
 ![Classic 7 Update](docs/update.png)
@@ -384,6 +413,13 @@ Other knobs:
 - Sheet covers the everyday Excel features, not all of them: no pivot tables, macros, what-if analysis,
   sparklines, outline/grouping, sheet protection with passwords, shared workbooks or 3-D charts; a few rarely
   used functions are missing (they show #NAME?). Password-protected workbooks can't be opened.
+- Copy conflicts ("a file with this name already exists") still use KDE's question dialog; only the
+  progress window is Windows 7's. Properties for several selected items at once is KDE's dialog too.
+- Quick Shot has no upload, share or "search similar images" (Lightshot sends pictures to its servers).
+  Ctrl+Up is taken by Quick Shot everywhere, so programs that use Ctrl+Up themselves don't get it.
+- Screen savers: a game pad doesn't count as activity (as for the screen dimming); games and video
+  players that keep the screen on, and full-screen windows, are respected. "On resume, display logon
+  screen" shows KDE's lock screen, and nothing is drawn over the lock screen.
 - Command Prompt is a small terminal of its own: no tabs, no mouse support inside full-screen programs
   (htop/mc take keyboard only), no ligatures or sixel images. Use Konsole for those.
 

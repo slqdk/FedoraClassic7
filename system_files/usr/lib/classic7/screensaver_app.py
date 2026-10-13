@@ -606,7 +606,7 @@ def desktop_parts(screens) -> dict:
     screen saver covers it."""
     try:
         import quickshot_app
-        img = quickshot_app.grab_workspace()
+        img = quickshot_app.grab_workspace(timeout=4, fallback=False)     # never keep the screen waiting
     except Exception:  # noqa: BLE001 - no picture of the desktop: bubbles on black
         img = None
     if img is None or img.isNull() or not screens:

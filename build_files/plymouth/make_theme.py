@@ -14,7 +14,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter
 
-W, H = 220, 150
+W, H = 310, 210
 FRAMES = 60
 LIGHTS = [(42, 112, 224), (60, 196, 60), (240, 192, 32), (224, 64, 48)]   # blue, green, yellow, red
 
@@ -24,7 +24,7 @@ def frame(i: int) -> Image.Image:
     glow = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     core = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     gd, cd = ImageDraw.Draw(glow), ImageDraw.Draw(core)
-    cx, cy, rx, ry = W / 2, H / 2, 62, 30
+    cx, cy, rx, ry = W / 2, H / 2, 90, 43
     t = i / FRAMES
     for k, color in enumerate(LIGHTS):
         # each light runs a little ahead of the next, with a fading trail behind it
@@ -32,14 +32,14 @@ def frame(i: int) -> Image.Image:
             a = 2 * math.pi * (t + k / len(LIGHTS)) - tail * 0.07
             depth = (math.sin(a) + 1) / 2              # 0 = far (top), 1 = near (bottom)
             x, y = cx + rx * math.cos(a), cy + ry * math.sin(a)
-            r = 3.0 + 3.5 * depth - tail * 0.15
+            r = 4.2 + 5.0 * depth - tail * 0.21
             alpha = int(255 * (1 - tail / 15) * (0.55 + 0.45 * depth))
             if r <= 0.5 or alpha <= 0:
                 continue
             gd.ellipse((x - r * 3, y - r * 3, x + r * 3, y + r * 3), fill=color + (alpha // 3,))
             if tail == 0:
                 cd.ellipse((x - r, y - r, x + r, y + r), fill=tuple(min(255, c + 90) for c in color) + (255,))
-    glow = glow.filter(ImageFilter.GaussianBlur(6))
+    glow = glow.filter(ImageFilter.GaussianBlur(8))
     img = Image.alpha_composite(img, glow)
     img = Image.alpha_composite(img, core.filter(ImageFilter.GaussianBlur(0.8)))
     return img.convert("RGB")

@@ -49,7 +49,8 @@ def main() -> int:
         with open(path, "w") as f:
             f.write('import QtQuick\nimport "file:///usr/share/classic7/goodbye"\n'
                     f'Goodbye {{ message: "{message}" }}\n')
-        scripting.loadDeclarativeScript(path, SCRIPT)
+        # KWin offers loadDeclarativeScript(s) and (ss); say which
+        scripting.loadDeclarativeScript(path, SCRIPT, signature="ss")
         scripting.start()
     except dbus.DBusException as e:
         print(f"classic7-goodbye: no screen ({e.get_dbus_message()})", file=sys.stderr)

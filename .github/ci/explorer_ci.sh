@@ -7,7 +7,7 @@ dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool >/dev/null 2>&1 || t
 mkdir -p /out && chmod 777 /out
 . /src/.github/ci/native_build.sh
 cmake -S /src/.github/ci/kiocopy -B /tmp/kiocopy > /out/kiocopy-build.log 2>&1 && cmake --build /tmp/kiocopy >> /out/kiocopy-build.log 2>&1 \
-    && cp /tmp/kiocopy/kiocopy /usr/local/bin/
+    && install -m 755 /tmp/kiocopy/kiocopy /usr/bin/kiocopy
 S=/src/system_files
 cp -a $S/usr/lib/classic7/. /usr/lib/classic7/
 cp -a $S/usr/bin/. /usr/bin/ && chmod +x /usr/bin/classic7-*

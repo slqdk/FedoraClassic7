@@ -41,10 +41,10 @@ TOOLS = [("pen", "Pen", "draw-freehand"), ("line", "Line", "draw-line"), ("arrow
 
 
 # ---- capturing ------------------------------------------------------------------------------
-def grab_workspace() -> QImage | None:
+def grab_workspace(timeout: float = 15, fallback: bool = True) -> QImage | None:
     """The whole desktop (all screens) at full resolution, without Quick Shot's own windows."""
-    img = _grab_kwin()
-    if img is None:
+    img = _grab_kwin(timeout)
+    if img is None and fallback:
         img = _grab_spectacle()
     return img
 
@@ -52,14 +52,14 @@ def grab_workspace() -> QImage | None:
 GRABBER = "/usr/libexec/classic7-grab"
 
 
-def _grab_kwin() -> QImage | None:
+def _grab_kwin(timeout: float = 15) -> QImage | None:
     """KWin's ScreenShot2 through classic7-grab. KWin hands out screen pictures only to programs it
     knows by path (their desktop file asks for it), which a Python script can't be. The helper
     writes "width height stride format scale" on one line, then the pixels."""
     if not os.access(GRABBER, os.X_OK):
         return None
     try:
-        p = subprocess.run([GRABBER], capture_output=True, timeout=15, check=False)
+        p = subprocess.run([GRABBER], capture_output=True, timeout=timeout, check=False)
     except (OSError, subprocess.SubprocessError):
         return None
     head, sep, data = p.stdout.partition(b"\n")

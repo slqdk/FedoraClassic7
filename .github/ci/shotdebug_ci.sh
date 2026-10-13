@@ -18,7 +18,7 @@ run_kwin() {
         kwin_wayland --x11-display :99 --width 1180 --height 800 --no-lockscreen --socket wayland-c7 > /out/kwin-$1.log 2>&1 &
 }
 grab() {
-    /usr/libexec/classic7-grab > /tmp/grab.bin 2> /tmp/grab.err
+    timeout 20 /usr/libexec/classic7-grab > /tmp/grab.bin 2> /tmp/grab.err
     echo "$1: exit $? header: $(head -c 60 /tmp/grab.bin | head -1) bytes: $(stat -c %s /tmp/grab.bin) err: $(cat /tmp/grab.err)"
 }
 run_kwin env
@@ -28,7 +28,7 @@ export WAYLAND_DISPLAY=wayland-c7
 grab "normal"
 ls -la /proc/self/exe /usr/libexec/classic7-grab
 grep -l "classic7-grab" ~/.cache/ksycoca6* 2>/dev/null
-spectacle -b -n -f -o /tmp/spectacle.png > /tmp/spec.log 2>&1; echo "spectacle exit $? $(stat -c %s /tmp/spectacle.png 2>&1) $(tail -3 /tmp/spec.log | tr '\n' ' ')"
+timeout 30 spectacle -b -n -f -o /tmp/spectacle.png > /tmp/spec.log 2>&1; echo "spectacle exit $? $(stat -c %s /tmp/spectacle.png 2>&1) $(tail -3 /tmp/spec.log | tr '\n' ' ')"
 } > /out/debug.txt 2>&1
 pkill -x kwin_wayland; sleep 3
 run_kwin env KWIN_SCREENSHOT_NO_PERMISSION_CHECKS=1
@@ -36,6 +36,6 @@ sleep 8
 grab "no permission checks" >> /out/debug.txt 2>&1
 EOI
 chown tester /tmp/inner.sh
-su tester -c "dbus-run-session -- bash /tmp/inner.sh"
+su tester -c "timeout 300 dbus-run-session -- bash /tmp/inner.sh"
 grep -h -i "interfaces found\|could not find\|screenshot" /out/kwin-env.log | head -20 >> /out/debug.txt
 tail -40 /out/debug.txt > /out/notices.txt

@@ -1,6 +1,18 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
+## 2026-10-13  Accessories, Explorer windows, notification area, system tools, screen savers, start-up and shut-down screens
+- **Accessories** (Start > All Programs > Accessories): Notepad, Calculator (Standard, Scientific and Programmer, History), Character Map, Sticky Notes and Paint, in the Windows 7 look.
+- **Quick Shot** instead of the Snipping Tool, like Lightshot: press **Ctrl+Up** (or PrtSc), drag over the part of the screen you want, draw on it (pen, line, arrow, rectangle, marker, text), then Copy, Save, Print, E-mail or Open in Paint. Shift+PrtSc saves the whole screen.
+- **Recycle Bin** window like Windows 7 (double-click the desktop icon): where each file came from and when it was deleted, Restore this item / Restore all items, Empty the Recycle Bin. The desktop icon shows full or empty whoever deletes or empties.
+- **Properties** like Windows 7 for files, folders, shortcuts and drives (right-click > Properties or Alt+Enter): General with sizes and attributes, Security, Details, Customize (folder icon), Shortcut, and Tools (Check now) for drives.
+- **Copying, moving and deleting** shows the Windows 7 progress window: "Copying 1,250 items from Downloads to Documents", time remaining, More details with speed and items left, Cancel. Quick operations show nothing, as in Windows.
+- **Notification area**: the clock opens a calendar with a clock face (Change date and time settings... opens **Date and Time** with time zone and Internet Time); the speaker opens a volume slider with Mute and **Mixer** (**Volume Mixer**: one slider per program playing sound); the **Action Center** flag lists problems (firewall off, updates, nearly full drives, programs that stopped working) and opens Action Center.
+- **System Configuration** (`msconfig` in Run): turn startup programs and services on or off, see the Classic 7 versions the computer can start. **Event Viewer** (`eventvwr`): the system's log by Application, Security, Setup and System, with levels, sources, filters and Problem Reports.
+- **Resource Monitor** (`resmon`, or Task Manager > Performance > Resource Monitor): CPU, memory, disk and network per program with graphs. **Windows Firewall** (Control Panel > System and Security, or `firewall.cpl`): turn the firewall on or off for home/work and public networks, allow programs through, restore defaults.
+- **Screen savers**: Mystify, 3D Pipes, Bubbles, Ribbons, 3D Text, Photos and Blank. Mystify starts after 4 minutes without mouse or keyboard; choose another one, the time, or (None) in **Screen Saver Settings** (Control Panel > Appearance and Personalization > Screen Saver). Films and games that keep the screen on, and full-screen windows, hold the screen saver off.
+- **Start-up and shut-down**: "Starting Classic 7" with four coloured lights while the computer starts, and Log off, Restart and Shut down in the Start menu show the classic "Logging off..." / "Restarting..." / "Shutting down..." screen until the computer is off.
+
 ## 2026-10-13  Taskbar menu, Programs and Features, one network icon
 - **Right-click the taskbar** for the Windows 7 menu: Cascade windows, Show windows stacked, Show windows side by side, Show the desktop and **Start Task Manager**.
 - **Programs and Features** (Control Panel > Uninstall a program, or `appwiz.cpl` in Run): app store apps, Steam games and packages added to the system, with publisher, install date, size and version. Select one and click Uninstall (Steam games are removed by Steam itself; added packages after a restart). Get new programs opens the app store.
