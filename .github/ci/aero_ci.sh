@@ -4,7 +4,7 @@
 # The nested KWin composites with QPainter (no OpenGL here), so glass is see-through but not blurred.
 set -x
 exec 2>/out/script.log
-dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool kvantum zenity >/out/dnf.log 2>&1 || true
+dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool kvantum >/out/dnf.log 2>&1 || true
 S=/src/system_files
 cp -a $S/usr/lib/classic7/. /usr/lib/classic7/
 cp -a $S/usr/bin/. /usr/bin/ && chmod +x /usr/bin/classic7-*
@@ -74,11 +74,50 @@ X key Escape; sleep 1
 (DISPLAY= classic7-taskbar-properties --tray > /out/tbtray.log 2>&1 &)
 sleep 6; shot 14-notification-icons
 X key Escape; sleep 1
-# a GTK program (zenity) in the Classic7Aero GTK theme
-(DISPLAY= GDK_BACKEND=wayland zenity --forms --title "GTK program" --text "A GTK 3 window in the Aero look" \
-    --add-entry "Name" --add-combo "Look" --combo-values "Aero|Basic|Classic" --add-calendar "Date" > /dev/null 2>&1 &)
+# a GTK 3 program (Python GObject, as Lutris uses) in the Classic7Aero GTK theme
+cat > /tmp/gtk3test.py <<'EOP'
+import gi
+gi.require_version("Gtk", "3.0")
+from gi.repository import Gtk
+w = Gtk.Window(title="GTK 3 program")
+w.set_default_size(470, 330)
+nb = Gtk.Notebook()
+box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=8)
+box.set_border_width(12)
+grid = Gtk.Grid(column_spacing=8, row_spacing=8)
+grid.attach(Gtk.Label(label="Name:", xalign=0), 0, 0, 1, 1)
+e = Gtk.Entry(); e.set_text("Classic 7"); e.set_hexpand(True)
+grid.attach(e, 1, 0, 1, 1)
+grid.attach(Gtk.Label(label="Look:", xalign=0), 0, 1, 1, 1)
+c = Gtk.ComboBoxText()
+for t in ("Aero", "Basic", "Classic"):
+    c.append_text(t)
+c.set_active(0)
+grid.attach(c, 1, 1, 1, 1)
+box.pack_start(grid, False, False, 0)
+cb = Gtk.CheckButton(label="Enable transparency"); cb.set_active(True)
+box.pack_start(cb, False, False, 0)
+r1 = Gtk.RadioButton.new_with_label(None, "Large icons"); r2 = Gtk.RadioButton.new_with_label_from_widget(r1, "Small icons")
+hb = Gtk.Box(spacing=12); hb.pack_start(r1, False, False, 0); hb.pack_start(r2, False, False, 0)
+box.pack_start(hb, False, False, 0)
+sc = Gtk.Scale.new_with_range(Gtk.Orientation.HORIZONTAL, 0, 100, 1); sc.set_value(45)
+box.pack_start(sc, False, False, 0)
+pb = Gtk.ProgressBar(); pb.set_fraction(0.6)
+box.pack_start(pb, False, False, 0)
+bb = Gtk.ButtonBox(layout_style=Gtk.ButtonBoxStyle.END, spacing=6)
+for t in ("OK", "Cancel", "Apply"):
+    bb.add(Gtk.Button(label=t))
+box.pack_end(bb, False, False, 0)
+nb.append_page(box, Gtk.Label(label="General"))
+nb.append_page(Gtk.Label(label="More"), Gtk.Label(label="Advanced"))
+w.add(nb)
+w.connect("destroy", Gtk.main_quit)
+w.show_all()
+Gtk.main()
+EOP
+(DISPLAY= GDK_BACKEND=wayland python3 /tmp/gtk3test.py > /out/gtk3.log 2>&1 &)
 sleep 5; shot 19-gtk
-X key Escape; sleep 1
+pkill -f gtk3test.py; sleep 1
 (DISPLAY= classic7-control >/dev/null 2>&1 &)
 (DISPLAY= classic7-notepad >/dev/null 2>&1 &)
 sleep 7

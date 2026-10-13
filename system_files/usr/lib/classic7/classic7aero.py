@@ -1103,7 +1103,7 @@ def scene(look: str, g: Glass, W: float = 460, H: float = 260) -> list[tuple[str
     layers = []
     for fc, (fx, fy, fw, fh), title, icon, active in (
             (ina, (0.40 * W, 14, 0.56 * W, 0.72 * area), "Documents", "folder", False),
-            (act, (0.07 * W, 0.30 * area, 0.50 * W, 0.62 * area), "Notepad", "page", True)):
+            (act, (0.07 * W, 0.30 * area, 0.52 * W, 0.62 * area), "Notepad", "page", True)):
         d = Defs()
         x, y, w, h = round(fx), round(fy), round(fw), round(fh)
         svg, outer, contents = _window(d, look, fc, pad, x, y, w, h, title, icon, active)

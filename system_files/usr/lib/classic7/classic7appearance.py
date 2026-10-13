@@ -919,10 +919,12 @@ def _apply_modern(look: str, glass: aero.Glass, p: t.Palette, run: Runner, state
     kwin_look(ids.kwin_theme, "Large", "IAX", "classic7aero", run, blur=(look == "aero"))
     apply_fonts(p.font_size, run, bold_titles=False)
     height = 30 if state.small_icons else 40
+    # from Classic: the Aero taskbar and wallpaper; between Aero and Basic the wallpaper stays
+    from_classic = switching and state.look == "classic"
     if switching:
         run_plasma_script(switch_taskbar_script(look, SYSTEM_ORB, height), run)
     run_plasma_script(plasma_script(SYSTEM_ORB, AERO_DESKTOP, look=look,
-                                    wallpaper=AERO_WALLPAPER if switching else None, set_desktop=switching,
+                                    wallpaper=AERO_WALLPAPER if from_classic else None, set_desktop=from_classic,
                                     small_icons=state.small_icons), run)
     lock_screen(AERO_WALLPAPER if Path(AERO_WALLPAPER).is_dir() else None, AERO_DESKTOP, run)
     if not run.dry_run:

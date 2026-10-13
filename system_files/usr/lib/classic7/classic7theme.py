@@ -922,7 +922,7 @@ def classic_scene_svg(p: Palette, W: int = 460, H: int = 260) -> str:
         out.append(_text(lx + 18, fy + 18 + i * 19, name, p.window_text))
 
     # Notepad (active, in front)
-    x, y, w, h = round(0.07 * W), round(0.30 * area), round(0.50 * W), round(0.62 * area)
+    x, y, w, h = round(0.07 * W), round(0.30 * area), round(0.52 * W), round(0.62 * area)
     out.append(_window(p, x, y, w, h, "Untitled - Notepad", True, "sa"))
     my = y + 4 + TITLE_H + 2
     out.append(_text(x + 10, my + 13, "File   Edit   Format   View   Help", p.face_text))
