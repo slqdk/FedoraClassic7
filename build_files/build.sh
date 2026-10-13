@@ -216,6 +216,37 @@ test -f /usr/share/themes/Classic7/gtk-3.0/gtk.css
 test -f /usr/share/icons/breeze/index.theme
 test -d /usr/share/icons/Chicago95_Standard_Cursors/cursors
 grep -q '^LookAndFeelPackage=org.classic7.desktop' /etc/xdg/kdeglobals
+# Aero and Basic; new accounts start in Aero (/etc/skel), older ones keep Classic
+for f in /usr/share/plasma/look-and-feel/org.classic7.aero.desktop/metadata.json \
+         /usr/share/plasma/look-and-feel/org.classic7.aero.desktop/contents/layouts/org.kde.plasma.desktop-layout.js \
+         /usr/share/plasma/desktoptheme/classic7-aero/metadata.json \
+         /usr/share/plasma/desktoptheme/classic7-aero/translucent/widgets/panel-background.svg \
+         /usr/share/plasma/desktoptheme/classic7-basic/metadata.json \
+         /usr/share/aurorae/themes/Classic7Aero/decoration.svg /usr/share/aurorae/themes/Classic7Basic/decoration.svg \
+         /usr/share/color-schemes/Classic7Aero.colors /usr/share/classic7/start-orb.svg \
+         /usr/share/classic7/start-orb-hover.svg /usr/share/classic7/start-orb-pressed.svg \
+         /usr/share/Kvantum/Classic7Aero/Classic7Aero.kvconfig /usr/share/Kvantum/Classic7Aero/Classic7Aero.svg \
+         /usr/share/themes/Classic7Aero/gtk-3.0/gtk.css /usr/share/themes/Classic7Aero/gtk-4.0/gtk.css \
+         /usr/share/wallpapers/Classic7Aero/metadata.json /usr/share/wallpapers/Classic7Aero/contents/images/1920x1080.jpg \
+         /usr/share/kwin-wayland/tabbox/classic7aero/contents/ui/main.qml /etc/xdg/Kvantum/kvantum.kvconfig \
+         /etc/skel/.config/classic7/appearance.json /etc/skel/.config/kdeglobals /etc/skel/.config/kwinrc \
+         /etc/skel/.config/plasmarc /etc/skel/.config/kcminputrc /etc/skel/.config/Kvantum/kvantum.kvconfig; do
+    test -f "$f" || { echo "missing: $f" >&2; exit 1; }
+done
+grep -q '"look": "aero"' /etc/skel/.config/classic7/appearance.json
+grep -q '^LookAndFeelPackage=org.classic7.aero.desktop' /etc/skel/.config/kdeglobals
+[[ -z "$(find /usr/share/themes/Classic7Aero /usr/share/Kvantum/Classic7Aero /usr/share/wallpapers/Classic7Aero \
+            ! -perm -o+r -print -quit)" ]]
+# Windows 7's white cursors: Breeze Light (Plasma's breeze package), else Breeze
+if [[ ! -d /usr/share/icons/Breeze_Light/cursors ]]; then
+    echo "::warning title=Aero::no Breeze_Light cursors: new accounts get breeze_cursors"
+    sed -i 's/Breeze_Light/breeze_cursors/' /etc/skel/.config/kcminputrc \
+        /etc/skel/.config/gtk-3.0/settings.ini /etc/skel/.config/gtk-4.0/settings.ini
+fi
+# Kvantum draws Qt programs' controls in Aero and Basic; without it new accounts get Fusion
+if ! ls /usr/lib*/qt6/plugins/styles/libkvantum.so >/dev/null 2>&1; then
+    sed -i 's/^widgetStyle=kvantum$/widgetStyle=Fusion/' /etc/skel/.config/kdeglobals
+fi
 # Explorer layout for new accounts
 test -f /etc/skel/.local/state/dolphinstaterc
 test -f /etc/skel/.local/share/kxmlgui5/dolphin/dolphinui.rc

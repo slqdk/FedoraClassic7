@@ -142,12 +142,12 @@ class State:
             data = json.loads(state_file().read_text())
         except (OSError, ValueError):
             return cls(t.STANDARD, None)
-        try:
-            pal = t.Palette.from_json(data["palette"]) if data.get("palette") else t.STANDARD
-        except (KeyError, TypeError):
-            pal = t.STANDARD
         if not isinstance(data, dict):
             return cls(t.STANDARD, None)
+        try:
+            pal = t.Palette.from_json(data["palette"]) if data.get("palette") else t.STANDARD
+        except (KeyError, TypeError, ValueError):
+            pal = t.STANDARD
         return cls(pal, data.get("slot"), str(data.get("look") or "classic"),
                    aero.Glass.from_json(data.get("glass") if isinstance(data.get("glass"), dict) else None),
                    data.get("glass_slot"), bool(data.get("small_icons", False)))
@@ -344,27 +344,32 @@ def taskbar_js(start_button: str = SYSTEM_START_BUTTON, layout: Path | None = No
             + body)
 
 
+def look_taskbar_js(look: str, start_button: str, small_icons: bool = False) -> str:
+    """The taskbar of a look, built afresh (Classic: Start button and Quick Launch;
+    Aero and Basic: the Start orb and task buttons with icons)."""
+    if look == "classic":
+        return taskbar_js(start_button)
+    script = taskbar_js(SYSTEM_ORB, AERO_LAYOUT_JS)
+    if look == "basic":
+        script = script.replace('writeConfig("look", "aero")', 'writeConfig("look", "basic")')
+    if small_icons:
+        script = script.replace("panel.height = 40;", "panel.height = 30;")
+    return script
+
+
 def reset_taskbar(runner: "Runner | None" = None) -> "Result":
     """Rebuild this account's taskbar the Classic 7 way for its look (fixes the Start button position)."""
     run = runner or Runner()
     state = State.load()
-    if state.look == "classic":
-        start = SYSTEM_START_BUTTON
-        if state.slot:
-            start = str(data_home() / t.slot_ids(state.slot, state.palette.name).start_button)
-        run_plasma_script(taskbar_js(start), run)
-    else:
-        script = taskbar_js(SYSTEM_ORB, AERO_LAYOUT_JS)
-        if state.look == "basic":
-            script = script.replace('writeConfig("look", "aero")', 'writeConfig("look", "basic")')
-        if state.small_icons:
-            script = script.replace("panel.height = 40;", "panel.height = 30;")
-        run_plasma_script(script, run)
+    start = SYSTEM_START_BUTTON
+    if state.look == "classic" and state.slot:
+        start = str(data_home() / t.slot_ids(state.slot, state.palette.name).start_button)
+    run_plasma_script(look_taskbar_js(state.look, start, state.small_icons), run)
     return Result(ok=not run.failures, notes=list(run.failures), commands=run.log)
 
 
 def plasma_script(start_button: str, desktop: str, look: str = "classic", wallpaper: str | None = None,
-                  set_desktop: bool = True) -> str:
+                  set_desktop: bool = True, small_icons: bool = False) -> str:
     """Settings of the taskbar's applets for a look (Start button image, the look of the Start
     menu and Show desktop button) and, when set_desktop, the desktop's colour or picture."""
     ours = [SYSTEM_START_BUTTON, str(data_home() / "classic7")]
@@ -412,7 +417,7 @@ panels().forEach(function (panel) {{
         var cur = String(w.readConfig("customButtonImage", ""));
         var isOurs = cur === "" || ours.some(function (o) {{ return cur.indexOf(o) !== -1; }});
         if (isOurs && knownWidgetTypes.indexOf("org.classic7.startmenu") !== -1) {{
-            rebuildTaskbar = look === "classic";
+            rebuildTaskbar = true;
         }} else if (isOurs) {{
             w.writeConfig("useCustomButtonImage", true);
             w.writeConfig("customButtonImage", img);
@@ -447,7 +452,7 @@ panels().forEach(function (panel) {{
     }});
 }});{desktop_js}
 if (rebuildTaskbar) {{
-{taskbar_js(start_button)}
+{look_taskbar_js(look, start_button, small_icons)}
 }}
 """
 
@@ -752,11 +757,14 @@ def _apply_classic(p: t.Palette, run: Runner, state: State, switching: bool) -> 
         ids = SYSTEM_IDS
         start = SYSTEM_START_BUTTON
         new_slot = None
-        remove_gtk_theme()
+        if not run.dry_run:
+            remove_gtk_theme()
     else:
         new_slot = "B" if state.slot == "A" else "A"
         ids = t.slot_ids(new_slot, p.name)
-        t.render(p, data_home(), ids)
+        run.log.append(f"# draw {p.name} -> {ids.colors}, {ids.plasma}, {ids.aurorae}")
+        if not run.dry_run:
+            t.render(p, data_home(), ids)
         start = str(data_home() / ids.start_button)
         try:
             note = write_gtk_theme(p, run)
@@ -780,13 +788,12 @@ def _apply_classic(p: t.Palette, run: Runner, state: State, switching: bool) -> 
     # Lock screen: plain desktop colour, like the classic "Computer locked" screen
     lock_screen(None, p.desktop, run)
 
-    for slot in ("A", "B"):
-        if slot != new_slot:
-            remove_slot_files(slot)
-    for slot in ("A", "B"):
-        remove_glass_files(slot)
-
-    State(p, new_slot, "classic", state.glass, None, state.small_icons).save()
+    if not run.dry_run:
+        for slot in ("A", "B"):
+            if slot != new_slot:
+                remove_slot_files(slot)
+            remove_glass_files(slot)
+        State(p, new_slot, "classic", state.glass, None, state.small_icons).save()
     notes.extend(run.failures)
     notes.append("Restart open GTK apps (Firefox, Steam, Lutris…) to see their new colours.")
     return Result(ok=not run.failures, notes=notes, commands=run.log)
@@ -915,12 +922,16 @@ def _apply_modern(look: str, glass: aero.Glass, p: t.Palette, run: Runner, state
     if switching:
         run_plasma_script(switch_taskbar_script(look, SYSTEM_ORB, height), run)
     run_plasma_script(plasma_script(SYSTEM_ORB, AERO_DESKTOP, look=look,
-                                    wallpaper=AERO_WALLPAPER if switching else None, set_desktop=switching), run)
+                                    wallpaper=AERO_WALLPAPER if switching else None, set_desktop=switching,
+                                    small_icons=state.small_icons), run)
     lock_screen(AERO_WALLPAPER if Path(AERO_WALLPAPER).is_dir() else None, AERO_DESKTOP, run)
-    for slot in ("A", "B"):
-        if slot != new_glass_slot:
-            remove_glass_files(slot)
-    State(p, state.slot, look, glass, new_glass_slot, state.small_icons).save()
+    if not run.dry_run:
+        for slot in ("A", "B"):
+            if slot != new_glass_slot:
+                remove_glass_files(slot)
+            # a Classic scheme's own files are drawn again when Classic is chosen
+            remove_slot_files(slot)
+        State(p, None, look, glass, new_glass_slot, state.small_icons).save()
     notes.extend(run.failures)
     notes.append("Restart open programs to give them the new controls.")
     return Result(ok=not run.failures, notes=notes, commands=run.log)

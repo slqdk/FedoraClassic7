@@ -901,6 +901,76 @@ def appearance_preview_svg(p: Palette, W: int = 420, H: int = 250) -> str:
     return svg_doc(W, H, "".join(out), defs)
 
 
+def classic_scene_svg(p: Palette, W: int = 460, H: int = 260) -> str:
+    """Personalization's preview of the Classic look: the same two windows and taskbar as
+    classic7aero.scene() draws for Aero and Basic, so the three previews compare."""
+    bv = Bevels(p)
+    defs = title_gradient("sa", p.title_active, p.title_active2) + title_gradient("si", p.title_inactive, p.title_inactive2)
+    out = [f'<rect width="{W}" height="{H}" fill="{p.desktop}"/>']
+    area = H - 40                     # where Aero's 40 px taskbar starts (same window places)
+
+    # Documents (inactive, behind)
+    x, y, w, h = round(0.40 * W), 14, round(0.56 * W), round(0.72 * area)
+    out.append(_window(p, x, y, w, h, "Documents", False, "si"))
+    my = y + 4 + TITLE_H + 2
+    out.append(_text(x + 10, my + 13, "File   Edit   View   Go   Help", p.face_text))
+    fy = my + 20
+    out.append(_field(p, x + 6, fy, w - 12, h - (fy - y) - 6, p.window))
+    lx = x + round(w * 0.5)               # right of the Notepad window
+    for i, name in enumerate(("Music", "Pictures", "Videos")):
+        out.append(Canvas(12, 10, "#E8C34A").svg(0, 0, 12, 10, lx, fy + 9 + i * 19))
+        out.append(_text(lx + 18, fy + 18 + i * 19, name, p.window_text))
+
+    # Notepad (active, in front)
+    x, y, w, h = round(0.07 * W), round(0.30 * area), round(0.50 * W), round(0.62 * area)
+    out.append(_window(p, x, y, w, h, "Untitled - Notepad", True, "sa"))
+    my = y + 4 + TITLE_H + 2
+    out.append(_text(x + 10, my + 13, "File   Edit   Format   View   Help", p.face_text))
+    fy = my + 20
+    fh = h - (fy - y) - 6
+    out.append(_field(p, x + 6, fy, w - 12, fh, p.window))
+    for i, line in enumerate(("Classic 7", "Grey 3D borders in the", "colour scheme you pick.")):
+        out.append(_text(x + 12, fy + 18 + 17 * i, line, p.window_text))
+    out.append(_scrollbar(p, x + w - 6 - 18, fy + 2, fh - 4))
+
+    # Taskbar: Start | Quick Launch | task buttons | notification area
+    tb_h = 30
+    ty = H - tb_h
+    tb = Canvas(W, tb_h, p.face)
+    for tx in range(W):
+        tb.set(tx, 0, p.c_light)
+        tb.set(tx, 1, p.c_hilight)
+    out.append(tb.svg(0, 0, W, tb_h, 0, ty))
+    out.append(f'<g transform="translate(2,{ty + 4})">{start_button_body(p)}</g>')
+    sep = Canvas(2, 22, None)
+    sep.rect(0, 0, 1, 22, p.c_shadow)
+    sep.rect(1, 0, 1, 22, p.c_hilight)
+    out.append(sep.svg(0, 0, 2, 22, 64, ty + 4))
+    for i, col in enumerate(["#E8C34A", "#2B6CB0", "#2B2B2B"]):
+        cv = Canvas(16, 16, col)
+        cv.edge(0, 0, 16, 16, "#FFFFFF", "#404040")
+        out.append(cv.svg(0, 0, 16, 16, 72 + i * 22, ty + 7))
+    out.append(sep.svg(0, 0, 2, 22, 140, ty + 4))
+    bw = int(max(60, min(160, (W - 148 - 92) / 2 - 4)))
+    for i, (label, active) in enumerate([("Documents", False), ("Notepad", True)]):
+        bx = 148 + i * (bw + 4)
+        cv = Canvas(bw, 22, p.face)
+        if active:
+            cv.bevel(0, 0, bw, 22, *bv.pressed)
+            cv.rect(2, 2, bw - 4, 18, p.task_active)
+        else:
+            cv.bevel(0, 0, bw, 22, *bv.button)
+        out.append(cv.svg(0, 0, bw, 22, bx, ty + 4))
+        out.append(_text(bx + 8, ty + 19, label, p.face_text, 11.5, "bold" if active else "normal"))
+    tray = Canvas(84, 22, p.face)
+    tray.edge(0, 0, 84, 22, p.c_shadow, p.c_hilight)
+    out.append(tray.svg(0, 0, 84, 22, W - 88, ty + 4))
+    out.append(_text(W - 50, ty + 19, "12:00", p.face_text))
+    for i, col in enumerate(["#3C8D2F", "#555555"]):
+        out.append(Canvas(12, 12, col).svg(0, 0, 12, 12, W - 82 + i * 16, ty + 9))
+    return svg_doc(W, H, "".join(out), defs)
+
+
 def desktop_preview_svg(p: Palette, W: int = 960, H: int = 600) -> str:
     """Full desktop mockup (Global Theme preview and README)."""
     bv = Bevels(p)

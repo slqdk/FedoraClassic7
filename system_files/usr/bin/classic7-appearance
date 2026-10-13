@@ -1,32 +1,42 @@
 #!/usr/bin/python3
-"""Classic 7 Appearance: pick or edit the colour scheme, like the classic Appearance dialog.
+"""Classic 7 Personalization: the theme (Aero, Basic or Classic), the Aero window colour, the
+Classic colour scheme and font size.
 
-    classic7-appearance                 open the dialog
-    classic7-appearance --list          list colour schemes
-    classic7-appearance --apply NAME    apply a scheme (built-in or saved)
-    classic7-appearance --size SIZE     with --apply: Normal, Large or "Extra Large"
-    classic7-appearance --reset         back to Classic 7 Standard
-    classic7-appearance --taskbar       rebuild the taskbar: Start | Quick Launch | tasks | tray | clock
-    classic7-appearance --explorer      give this account the Classic 7 Dolphin layout
-    classic7-appearance --preview FILE  write the sample-windows preview as SVG
+    classic7-appearance                     open the dialog (--page theme|color|appearance|explorer)
+    classic7-appearance --look LOOK         apply a theme: aero, basic or classic
+    classic7-appearance --glass COLOR       with or without --look aero: the Aero window colour, by
+                                            name (Sky, Twilight, Ruby... see --list) or as #RRGGBB
+    classic7-appearance --intensity N       Aero colour intensity, 0-100
+    classic7-appearance --transparency on|off   Aero glass see-through or not
+    classic7-appearance --list              list the themes, glass colours and colour schemes
+    classic7-appearance --apply NAME        apply a Classic colour scheme (built-in or saved)
+    classic7-appearance --size SIZE         font size for every theme: Normal, Large or "Extra Large"
+    classic7-appearance --reset             back to Classic 7 Standard (Classic theme)
+    classic7-appearance --taskbar           rebuild the taskbar of the theme in use
+    classic7-appearance --explorer          give this account the Classic 7 Dolphin layout
+    classic7-appearance --preview FILE      write the Classic sample-windows preview as SVG
 Add --dry-run to print the commands instead of running them.
 """
 import argparse
 from dataclasses import replace
 import os
+import re
 import sys
 
 sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
 
+import classic7aero as aero  # noqa: E402
 import classic7appearance as backend  # noqa: E402
 import classic7theme as t  # noqa: E402
+
+
+def key(s):
+    return "".join(c for c in s.lower() if c.isalnum())
 
 
 def find_scheme(name):
     # Tolerant match so no quotes are needed: "Classic 7 Standard", classic-7-standard,
     # classic7standard and night all work.
-    def key(s):
-        return "".join(c for c in s.lower() if c.isalnum())
     schemes = t.SCHEMES + backend.load_user_schemes()
     for p in schemes:
         if key(p.name) == key(name):
@@ -37,6 +47,17 @@ def find_scheme(name):
     sys.exit(f"Unknown scheme: {name}. Try --list.")
 
 
+def find_glass(value, base):
+    if re.fullmatch(r"#?[0-9A-Fa-f]{6}", value):
+        color = "#" + value.lstrip("#").upper()
+        name = next((n for n, c in aero.GLASS_COLORS if c.upper() == color), "Custom")
+        return replace(base, name=name, color=color)
+    for n, c in aero.GLASS_COLORS:
+        if key(n) == key(value):
+            return replace(base, name=n, color=c)
+    sys.exit(f"Unknown glass colour: {value}. Try --list, or give #RRGGBB.")
+
+
 def report(res):
     for line in res.commands if args.dry_run else []:
         print(line)
@@ -45,29 +66,58 @@ def report(res):
     return 0 if res.ok else 1
 
 
-parser = argparse.ArgumentParser(description="Classic 7 Appearance")
+parser = argparse.ArgumentParser(description="Classic 7 Personalization")
 parser.add_argument("--list", action="store_true")
+parser.add_argument("--look", choices=["aero", "basic", "classic"])
+parser.add_argument("--glass", metavar="COLOR")
+parser.add_argument("--intensity", type=int, metavar="0-100")
+parser.add_argument("--transparency", choices=["on", "off"])
 parser.add_argument("--apply", metavar="NAME")
 parser.add_argument("--size", choices=list(t.FONT_SIZES), default=None)
 parser.add_argument("--reset", action="store_true")
 parser.add_argument("--explorer", action="store_true")
 parser.add_argument("--taskbar", action="store_true")
 parser.add_argument("--preview", metavar="FILE")
+parser.add_argument("--page", choices=["theme", "color", "appearance", "explorer"], default="theme")
 parser.add_argument("--dry-run", action="store_true")
 args, rest = parser.parse_known_args()
 
 runner = backend.Runner(dry_run=True) if args.dry_run else None
+glass_options = args.glass is not None or args.intensity is not None or args.transparency is not None
 
 if args.list:
+    state = backend.State.load()
+    print("Themes:")
+    for look in aero.LOOKS:
+        print(f"  {look}" + ("  (in use)" if look == state.look else ""))
+    print("Glass colours (Aero):")
+    for n, c in aero.GLASS_COLORS:
+        print(f"  {n:<10} {c}" + ("  (in use)" if c.upper() == state.glass.color.upper() else ""))
+    print("Colour schemes (Classic):")
     for p in t.SCHEMES:
-        print(p.name)
+        print(f"  {p.name}")
     for p in backend.load_user_schemes():
-        print(f"{p.name} (saved)")
-elif args.apply or args.reset:
-    p = t.STANDARD if args.reset else find_scheme(args.apply)
+        print(f"  {p.name} (saved)")
+elif args.apply or args.reset or args.look or glass_options or args.size:
+    state = backend.State.load()
+    p = state.palette
+    look = args.look
+    if args.reset:
+        p, look = t.STANDARD, "classic"
+    elif args.apply:
+        p, look = replace(find_scheme(args.apply), font_size=p.font_size), look or "classic"
     if args.size:
         p = replace(p, font_size=t.FONT_SIZES[args.size])
-    sys.exit(report(backend.apply(p, runner)))
+    glass = state.glass
+    if args.glass:
+        glass = find_glass(args.glass, glass)
+    if args.intensity is not None:
+        glass = replace(glass, intensity=max(0, min(100, args.intensity)) / 100)
+    if args.transparency:
+        glass = replace(glass, transparency=args.transparency == "on")
+    if glass_options and not look:
+        look = "aero"                       # glass options are about Aero
+    sys.exit(report(backend.apply(p, runner, look=look, glass=glass)))
 elif args.explorer:
     sys.exit(report(backend.explorer_layout(runner)))
 elif args.taskbar:
@@ -78,4 +128,4 @@ elif args.preview:
         f.write(t.appearance_preview_svg(p))
 else:
     from appearance_gui import main
-    sys.exit(main([sys.argv[0]] + rest))
+    sys.exit(main([sys.argv[0]] + rest, page=args.page))

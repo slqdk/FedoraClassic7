@@ -1,9 +1,18 @@
 [Desktop Entry]
 Type=Application
-Name=Appearance
-GenericName=Classic 7 Appearance
-Comment=Choose the color scheme, font size and Explorer layout
+Name=Personalization
+GenericName=Classic 7 Personalization
+Comment=Choose the theme (Aero, Basic or Classic), the window color, the color scheme and the font size
 Exec=classic7-appearance
 Icon=preferences-desktop-theme
 Categories=Qt;KDE;Settings;DesktopSettings;
-Keywords=theme;colors;colour;scheme;appearance;classic;font;explorer;dolphin;
+Keywords=theme;aero;basic;classic;glass;transparency;window color;colors;colour;scheme;appearance;personalization;font;explorer;dolphin;
+Actions=WindowColor;ColorScheme;
+
+[Desktop Action WindowColor]
+Name=Window Color
+Exec=classic7-appearance --page color
+
+[Desktop Action ColorScheme]
+Name=Color Scheme and Font Size
+Exec=classic7-appearance --page appearance

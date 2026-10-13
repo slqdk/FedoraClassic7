@@ -138,7 +138,7 @@ PlasmoidItem {
     // ---- taskbar (Quick Launch) pins: "Pin to Taskbar" in the right-click menu ----------
     property var taskbarUrls: []
     function fileName(url) {
-        return decodeURIComponent(String(url || "").split("/").pop());
+        return decodeURIComponent(String(url || "").replace(/^applications:/, "").split("/").pop());
     }
     function isOnTaskbar(url) {
         const name = fileName(url);

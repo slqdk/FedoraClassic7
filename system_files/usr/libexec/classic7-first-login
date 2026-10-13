@@ -18,5 +18,12 @@ for f in /usr/share/classic7/desktop/*.desktop; do
     fi
 done
 
+# Accounts made with the Aero look (/etc/skel gives new accounts Aero): GTK programs take their
+# theme from gsettings, whose system default is the Classic theme (older accounts keep that)
+state="${XDG_CONFIG_HOME:-$HOME/.config}/classic7/appearance.json"
+if grep -qE '"look": *"(aero|basic)"' "$state" 2>/dev/null; then
+    gsettings set org.gnome.desktop.interface gtk-theme Classic7Aero 2>/dev/null || true
+fi
+
 mkdir -p "$(dirname "$marker")"
 touch "$marker"

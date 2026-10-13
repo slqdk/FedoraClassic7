@@ -892,6 +892,11 @@ ORB_W, ORB_H = 54, 40
 def orb_svg(state: str = "normal") -> str:
     """A round glass button with Classic 7's emblem (a small window). state: normal/hover/pressed."""
     d = Defs()
+    return doc(ORB_W, ORB_H, orb_parts(d, state), d)
+
+
+def orb_parts(d: Defs, state: str = "normal") -> str:
+    """The orb's shapes at (0, 0) - (ORB_W, ORB_H), with gradients in d."""
     cx, cy, r = ORB_W / 2, ORB_H / 2, 17.5
     if state == "hover":
         body = [(0, "#BDEBFF", 1), (0.45, "#3C9BE6", 1), (1, "#0D3D7A", 1)]
@@ -925,7 +930,7 @@ def orb_svg(state: str = "normal") -> str:
     parts.append(f'<rect x="{ex + 1.5}" y="{ey + 4}" width="{ew - 3}" height="{eh - 5.5}" rx="0.8" '
                  f'fill="{d.linear(0, ey + 4, 0, ey + eh, [(0, "#3F8FE0", 1), (1, "#1B5AAE", 1)])}"/>')
     parts.append(f'<rect x="{ex + ew - 5}" y="{ey + 1.2}" width="3.2" height="1.8" rx="0.5" fill="#D9473A"/>')
-    return doc(ORB_W, ORB_H, "".join(parts), d)
+    return "".join(parts)
 
 
 # =============================================================================
@@ -962,6 +967,151 @@ def color_scheme() -> str:
               "activeForeground=0,0,0", f"inactiveBackground={ct.rgb('#D7E4F2')}",
               f"inactiveBlend={ct.rgb('#EBF1F8')}", "inactiveForeground=67,78,84", ""]
     return "\n".join(lines)
+
+
+# =============================================================================
+# 5. Previews (Personalization): a small desktop drawn with the theme's own pieces
+# =============================================================================
+PREVIEW_BAR = 40              # taskbar height in the previews
+
+
+def _all(layers: list[Layer]) -> str:
+    return layer_svg(layers, -1e5, -1e5, 1e5, 1e5)
+
+
+def _text(x: float, y: float, s: str, fill: str = "#000000", size: float = 12, weight: int = 400,
+          anchor: str = "start") -> str:
+    return (f'<text x="{_f(x)}" y="{_f(y)}" font-family="{ct.UI_FONT}" font-size="{_f(size)}" '
+            f'font-weight="{weight}" fill="{fill}" text-anchor="{anchor}">{ct.esc(s)}</text>')
+
+
+def _icon(kind: str, d: Defs, x: float, y: float, s: float = 16) -> str:
+    """Plain program icons for the previews: folder, page or globe, s pixels square."""
+    k = s / 16
+
+    def r(ax, ay, aw, ah, rad=0.0):
+        return rrect(x + ax * k, y + ay * k, aw * k, ah * k, rad * k, rad * k, rad * k, rad * k)
+
+    if kind == "folder":
+        return _all([Layer([r(1, 1.5, 6, 3, 1), r(1, 2.5, 14, 11.5, 1.2)], "#B7862A", 1.0, "nonzero"),
+                     Layer([r(1.5, 5, 13, 8.5, 1)], d.linear(0, y + 5 * k, 0, y + 14 * k,
+                                                              [(0, "#FFE9A6", 1), (1, "#F0B93A", 1)]))])
+    if kind == "page":
+        lines = [r(4.5, 4 + 2.4 * i, 7, 1) for i in range(4)]
+        return _all([Layer([r(2.5, 0.5, 11, 15, 1)], "#6F7F92"), Layer([r(3.5, 1.5, 9, 13, 0.5)], "#FFFFFF"),
+                     Layer(lines, "#5B8FD0")])
+    return _all([Layer([r(1, 1, 14, 14, 7)], "#1A4F8F"),
+                 Layer([r(1.8, 1.8, 12.4, 12.4, 6.2)], d.radial(x + 8 * k, y + 11 * k, 9 * k, 9 * k,
+                                                                [(0, "#9EE2FF", 1), (1, "#2A7FD6", 1)])),
+                 Layer([r(4, 4, 5, 4, 2), r(8.5, 8, 4.5, 4, 2)], "#4FB548", 0.9, "nonzero"),
+                 Layer([r(4, 2.5, 8, 4.5, 2.25)], "#FFFFFF", 0.45)])
+
+
+def _window(d: Defs, look: str, fc: FrameColors, pad: float, x: float, y: float, w: float, h: float,
+            title: str, icon: str, active: bool) -> tuple[str, Poly, Poly]:
+    """A window's border, caption buttons, icon and title; returns (svg, outer edge, contents)."""
+    basic = look == "basic"
+    out = _all(frame_layers(fc, d, x, y, w, h, TOP, basic, pad))
+    bx = x + w - 6                                   # TitleEdgeRight
+    for kind in ("close", "maximize", "minimize"):
+        bx -= BTN_W[kind]
+        bl = button_looks(kind, look)["active" if active else "inactive"]
+        out += _all(button_layers(kind, bl, d, bx, y + TITLE_EDGE_TOP, BTN_W[kind], BTN_H))
+    out += _icon(icon, d, x + 8, y + TITLE_EDGE_TOP + (TITLE_H - 16) / 2)
+    out += _text(x + 8 + 16 + 6, y + TITLE_EDGE_TOP + TITLE_H / 2 + 4.3, title, fc.title_text, 12)
+    outer = rrect(x, y, w, h, R_TOP, R_TOP, R_BOTTOM, R_BOTTOM)
+    contents = rrect(x + BORDER, y + TOP, w - 2 * BORDER, h - TOP - BORDER)
+    return out, outer, contents
+
+
+def _notepad(d: Defs, x: float, y: float, w: float, h: float) -> str:
+    mb, sb = 20, 17
+    out = _all([Layer([rrect(x, y, w, h)], "#FFFFFF"),
+                Layer([rrect(x, y, w, mb)], d.linear(0, y, 0, y + mb, [(0, "#FFFFFF", 1), (1, "#E6ECF4", 1)])),
+                Layer([rrect(x, y + mb - 1, w, 1)], "#D2DAE4")])
+    tx = x + 8
+    for word in ("File", "Edit", "Format", "View", "Help"):
+        out += _text(tx, y + 14, word, "#000000", 11.5)
+        tx += len(word) * 6.6 + 12
+    for i, line in enumerate(("Classic 7", "Glass in the colour", "you pick.")):
+        out += _text(x + 5, y + mb + 17 + 17 * i, line, "#000000", 12)
+    track = rrect(x + w - sb, y + mb, sb, h - mb)
+    thumb = rrect(x + w - sb + 2, y + mb + 18, sb - 4, max(18, (h - mb) * 0.4), 2, 2, 2, 2)
+    out += _all([Layer([track], "#F0F0F0"), Layer([rrect(x + w - sb, y + mb, 1, h - mb)], "#E3E3E3"),
+                 Layer([thumb], d.linear(x + w - sb, 0, x + w, 0, [(0, "#F5F5F5", 1), (1, "#DADADA", 1)])),
+                 Layer(ring(thumb, rrect(x + w - sb + 3, y + mb + 19, sb - 6, max(16, (h - mb) * 0.4 - 2), 1, 1, 1, 1)),
+                       "#979797")])
+    return out
+
+
+def _explorer(d: Defs, x: float, y: float, w: float, h: float) -> str:
+    bar = 24
+    nav = min(84, w * 0.32)
+    out = _all([Layer([rrect(x, y, w, h)], "#FFFFFF"),
+                Layer([rrect(x, y, w, bar)], d.linear(0, y, 0, y + bar, [(0, "#FAFCFE", 1), (1, "#E1EAF5", 1)])),
+                Layer([rrect(x, y + bar - 1, w, 1)], "#B6C6D9"),
+                Layer([rrect(x + nav, y + bar, 1, h - bar)], "#D6E5F5")])
+    out += _text(x + 10, y + 16, "Organize ▾      New folder", "#1E395B", 11)
+    for i, label in enumerate(("Favorites", "Libraries", "Computer", "Network")):
+        out += _icon("folder" if i < 2 else "page" if i == 2 else "globe", d, x + 6, y + bar + 8 + 20 * i, 12)
+        out += _text(x + 22, y + bar + 18 + 20 * i, label, "#1E395B", 11)
+    fx = x + nav + 12
+    for label in ("Music", "Pictures", "Videos"):
+        if fx + 40 > x + w:
+            break
+        out += _icon("folder", d, fx + 4, y + bar + 10, 32)
+        out += _text(fx + 20, y + bar + 56, label, "#000000", 11, anchor="middle")
+        fx += 56
+    return out
+
+
+def _taskbar(d: Defs, look: str, g: Glass, W: float, H: float, translucent: bool) -> str:
+    sc = style_colors(look, g, translucent)
+    y = H - PREVIEW_BAR
+    out = _all(panel_layers(sc, d, 0, y, W, PREVIEW_BAR))
+    out += f'<g transform="translate(0,{_f(y)})">{orb_parts(d)}</g>'
+    boxes = task_boxes(style_colors(look, g, False))
+    bx = ORB_W + 4
+    for icon, state in (("folder", "normal"), ("page", "focus"), ("globe", None)):
+        if state:
+            out += _all(box_layers(boxes[state], d, bx, y + 2, 56, PREVIEW_BAR - 3))
+        out += _icon(icon, d, bx + 16, y + 8, 24)
+        bx += 58
+    fg = "#FFFFFF" if sc.glass else "#000000"
+    # notification area: network bars and a speaker, the clock, then Show desktop
+    tx = W - 15 - 58
+    out += _all([Layer([rrect(tx - 34 + 3.2 * i, y + 26 - 3 * i, 2.2, 3 + 3 * i) for i in range(4)], fg, 0.95),
+                 Layer([[(tx - 16, y + 17), (tx - 13, y + 17), (tx - 9, y + 13), (tx - 9, y + 27), (tx - 13, y + 23),
+                         (tx - 16, y + 23)]], fg, 0.95)])
+    out += _text(tx + 29, y + 25, "12:00", fg, 12, anchor="middle")
+    out += _all([Layer([rrect(W - 15, y + 1, 1, PREVIEW_BAR - 1)], "#000000", 0.45 if sc.glass else 0.30),
+                 Layer([rrect(W - 14, y + 2, 1, PREVIEW_BAR - 2)], "#FFFFFF", 0.35)])
+    return out
+
+
+def scene(look: str, g: Glass, W: float = 460, H: float = 260) -> list[tuple[str, list[list[Poly]]]]:
+    """Personalization's preview of Aero or Basic: a desktop (no wallpaper) with two windows and
+    the taskbar, drawn with the same pieces as the real theme. Layers in painting order, each an
+    SVG of W x H and the glass areas (rings of polygons) where KWin would blur what is behind."""
+    basic = look == "basic"
+    act, ina = basic_frames() if basic else aero_frames(g)
+    pad = 0 if basic else SHADOW
+    see_through = look == "aero" and g.transparency
+    area = H - PREVIEW_BAR
+    layers = []
+    for fc, (fx, fy, fw, fh), title, icon, active in (
+            (ina, (0.40 * W, 14, 0.56 * W, 0.72 * area), "Documents", "folder", False),
+            (act, (0.07 * W, 0.30 * area, 0.50 * W, 0.62 * area), "Notepad", "page", True)):
+        d = Defs()
+        x, y, w, h = round(fx), round(fy), round(fw), round(fh)
+        svg, outer, contents = _window(d, look, fc, pad, x, y, w, h, title, icon, active)
+        fill = _notepad if active else _explorer
+        svg += fill(d, x + BORDER, y + TOP, w - 2 * BORDER, h - TOP - BORDER)
+        layers.append((doc(W, H, svg, d), [[outer, contents]] if see_through else []))
+    d = Defs()
+    layers.append((doc(W, H, _taskbar(d, look, g, W, H, see_through), d),
+                   [[rrect(0, H - PREVIEW_BAR, W, PREVIEW_BAR)]] if see_through else []))
+    return layers
 
 
 # =============================================================================

@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-"""Pin programs to the taskbar (the Quick Launch icons next to Start), like Windows'
-"Pin to Taskbar".
+"""Pin programs to the taskbar, like Windows' "Pin to Taskbar": the Quick Launch icons next to
+Start (Classic), or the task buttons themselves (Aero and Basic: icons-only task manager).
 
     classic7-taskbar-pin PROGRAM            pin (a .desktop file, its path, URL or id)
     classic7-taskbar-pin --add PROGRAM      the same
@@ -52,8 +52,17 @@ def resolve(program: str) -> str:
     raise SystemExit(f"classic7-taskbar-pin: no program called {program}")
 
 
+TASK_MANAGERS = ("org.kde.plasma.icontasks", "org.kde.plasma.taskmanager")
+
+
+def base_name(url: str) -> str:
+    """foo.desktop for file:///.../foo.desktop, applications:foo.desktop or foo.desktop."""
+    return Path(unquote(re.sub(r"^(applications:|file://)", "", url.strip()))).name
+
+
 def pinned() -> list[str]:
-    """launcherUrls of the Quick Launch widgets, from the saved panel layout."""
+    """What is pinned: Quick Launch's launcherUrls and the task manager's launchers, from the
+    saved panel layout (as file:// URLs where the program can be found)."""
     try:
         text = APPLETSRC.read_text(errors="replace")
     except OSError:
@@ -68,34 +77,52 @@ def pinned() -> list[str]:
             groups[cur][k] = v
     out = []
     for head, kv in groups.items():
-        if kv.get("plugin") == "org.kde.plasma.quicklaunch":
-            cfg = groups.get(head + "[Configuration][General]", {})
-            for u in re.split(r"(?<!\\),", cfg.get("launcherUrls", "")):
-                u = u.replace("\\,", ",").strip()
-                if u and u not in out:
-                    out.append(u)
+        key = {"org.kde.plasma.quicklaunch": "launcherUrls"}.get(kv.get("plugin", ""))
+        if not key and kv.get("plugin") in TASK_MANAGERS:
+            key = "launchers"
+        if not key:
+            continue
+        cfg = groups.get(head + "[Configuration][General]", {})
+        for u in re.split(r"(?<!\\),", cfg.get(key, "")):
+            u = u.replace("\\,", ",").strip()
+            if u.startswith("applications:"):
+                try:
+                    u = resolve(u)
+                except SystemExit:
+                    pass
+            if u and not any(base_name(u) == base_name(o) for o in out):
+                out.append(u)
     return out
 
 
-def _same(a: str, b: str) -> bool:
-    return Path(unquote(a.replace("file://", ""))).name == Path(unquote(b.replace("file://", ""))).name
-
-
 def change(url: str, add: bool) -> bool:
+    # Quick Launch when the taskbar has it (Classic), else the icons-only task manager's own
+    # launchers (Aero and Basic); unpinning removes the program from both
     js = """
 var url = %s, add = %s, done = false;
+function base(u) { u = String(u).replace(/^applications:/, ""); return decodeURIComponent(u.split("/").pop()); }
+function edit(w, key) {
+    w.currentConfigGroup = ["General"];
+    var l = w.readConfig(key, []);
+    if (typeof l === "string") l = l ? l.split(",") : [];
+    var name = base(url);
+    var has = l.filter(function (u) { return base(u) === name; });
+    if (add && has.length === 0) l.push(url);
+    if (!add) l = l.filter(function (u) { return base(u) !== name; });
+    w.writeConfig(key, l);
+    w.reloadConfig();
+}
 panels().forEach(function (p) {
     p.widgets("org.kde.plasma.quicklaunch").forEach(function (w) {
-        if (done) return;
-        w.currentConfigGroup = ["General"];
-        var l = w.readConfig("launcherUrls", []);
-        if (typeof l === "string") l = l ? l.split(",") : [];
-        var name = url.split("/").pop();
-        var has = l.filter(function (u) { return String(u).split("/").pop() === name; });
-        if (add && has.length === 0) l.push(url);
-        if (!add) l = l.filter(function (u) { return String(u).split("/").pop() !== name; });
-        w.writeConfig("launcherUrls", l);
-        w.reloadConfig();
+        if (done && add) return;
+        edit(w, "launcherUrls");
+        done = true;
+    });
+});
+panels().forEach(function (p) {
+    p.widgets("org.kde.plasma.icontasks").forEach(function (w) {
+        if (done && add) return;
+        edit(w, "launchers");
         done = true;
     });
 });
