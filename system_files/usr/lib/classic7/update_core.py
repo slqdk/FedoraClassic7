@@ -380,10 +380,14 @@ def _no_dark_mode(log: Log) -> bool:
     if current.startswith("org.kde.breeze") and shutil.which("plasma-apply-lookandfeel"):
         subprocess.run(["plasma-apply-lookandfeel", "-a", lnf], capture_output=True, timeout=60)
         log(f"  Global Theme {current} -> Classic 7")
-        # the desktop background back to a plain colour (the Appearance step sets the colour)
+        # the desktop background back: Classic's plain colour (the Appearance step sets the
+        # colour) or Aero's picture
+        js = ('desktops().forEach(function (d) { d.wallpaperPlugin = "org.kde.color"; });' if not modern else
+              'desktops().forEach(function (d) { d.wallpaperPlugin = "org.kde.image"; '
+              'd.currentConfigGroup = ["Wallpaper", "org.kde.image", "General"]; '
+              'd.writeConfig("Image", "file:///usr/share/wallpapers/Classic7Aero/"); d.reloadConfig(); });')
         subprocess.run(["dbus-send", "--session", "--dest=org.kde.plasmashell", "--type=method_call",
-                        "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript",
-                        'string:desktops().forEach(function (d) { d.wallpaperPlugin = "org.kde.color"; });'],
+                        "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript", "string:" + js],
                        capture_output=True, timeout=30)
     log("  Dark Mode can no longer switch away from Classic 7")
     return ok
