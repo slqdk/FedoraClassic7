@@ -8,8 +8,9 @@ built as an image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomi
 <img src="docs/screens/start-menu.png" alt="Classic 7 in the Classic look with the Start menu open" width="49%">
 </p>
 
-*Taken by the automatic tests in a Plasma session inside the image. The other pictures on this page come from the
-same tests or are drawn off-screen by the programs themselves; the right-click menu picture is a mockup.*
+*Taken by the automatic tests in a Plasma session inside the image (it has no 3D graphics, so Aero's glass is
+see-through there but not blurred). The other pictures on this page come from the same tests or are drawn
+off-screen by the programs themselves; the right-click menu picture is a mockup.*
 
 ## What you get
 
