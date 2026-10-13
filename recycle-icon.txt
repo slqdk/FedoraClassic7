@@ -1,0 +1,4 @@
+Icon=user-trash-full
+Icon=trash-empty
+[Status]
+Empty=false

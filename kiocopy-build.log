@@ -1,0 +1,32 @@
+-- The CXX compiler identification is GNU 16.2.1
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /usr/sbin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+-- Found Threads: TRUE
+-- Performing Test HAVE_STDATOMIC
+-- Performing Test HAVE_STDATOMIC - Success
+-- Found WrapAtomic: TRUE
+-- Found OpenGL: /usr/lib64/libOpenGL.so
+-- Found WrapOpenGL: TRUE
+-- Found WrapVulkanHeaders: /usr/include
+-- Found X11: /usr/include
+-- Looking for XOpenDisplay in /usr/lib64/libX11.so
+-- Looking for XOpenDisplay in /usr/lib64/libX11.so - found
+-- Looking for gethostbyname
+-- Looking for gethostbyname - found
+-- Looking for connect
+-- Looking for connect - found
+-- Looking for remove
+-- Looking for remove - found
+-- Looking for shmat
+-- Looking for shmat - found
+-- Configuring done (1.3s)
+-- Generating done (0.0s)
+-- Build files have been written to: /tmp/kiocopy
+[ 50%] Building CXX object CMakeFiles/kiocopy.dir/kiocopy.cpp.o
+[100%] Linking CXX executable kiocopy
+[100%] Built target kiocopy

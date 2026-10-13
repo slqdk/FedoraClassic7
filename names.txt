@@ -1,0 +1,12 @@
+:1.10                                       601 classic7-sessio tester :1.10         -    -       -
+:1.18                                       678 classic7-idle   tester :1.18         -    -       -
+:1.7                                        601 classic7-sessio tester :1.7          -    -       -
+org.classic7.Session                        601 classic7-sessio tester :1.7          -    -       -
+org.kde.JobViewServer                       601 classic7-sessio tester :1.7          -    -       -
+org.kde.kuiserver                           601 classic7-sessio tester :1.7          -    -       -
+:1.10                                              601 classic7-sessio tester :1.10         -    -       -
+:1.18                                              678 classic7-idle   tester :1.18         -    -       -
+:1.7                                               601 classic7-sessio tester :1.7          -    -       -
+org.classic7.Session                               601 classic7-sessio tester :1.7          -    -       -
+org.kde.JobViewServer                              601 classic7-sessio tester :1.7          -    -       -
+org.kde.kuiserver                                  601 classic7-sessio tester :1.7          -    -       -

@@ -1,0 +1,10 @@
+SambaAcl.so
+baloofilepropertiesplugin.so
+classic7_properties.so
+gdrivepropertiesplugin.so
+rom-properties-kf6.so
+sambausershareplugin.so
+xattrview-kf6.so
+which: no kioclient6 in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
+/usr/sbin/kioclient
+/usr/sbin/dolphin

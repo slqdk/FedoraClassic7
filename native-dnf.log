@@ -1,0 +1,209 @@
+Updating and loading repositories:
+Repositories loaded.
+Package                              Arch   Version                                Repository      Size
+Installing:
+ cmake                               x86_64 0:4.3.0-1.fc44                         fedora      40.5 MiB
+ extra-cmake-modules                 noarch 0:6.31.0-1.fc44                        updates    758.0 KiB
+ kf6-kconfig-devel                   x86_64 0:6.31.0-1.fc44                        updates    732.3 KiB
+ kf6-kcoreaddons-devel               x86_64 0:6.31.0-1.fc44                        updates    911.7 KiB
+ kf6-kidletime-devel                 x86_64 0:6.31.0-1.fc44                        updates     28.4 KiB
+ kf6-kio-devel                       x86_64 0:6.31.0-1.fc44                        updates      2.1 MiB
+ kf6-kpackage-devel                  x86_64 0:6.31.0-1.fc44                        updates     87.9 KiB
+ kf6-kwindowsystem-devel             x86_64 0:6.31.0-1.fc44                        updates    585.8 KiB
+ libplasma-devel                     x86_64 0:6.7.5-1.fc44                         updates    510.2 KiB
+ qt6-qtbase-devel                    x86_64 0:6.11.2-3.fc44                        updates     22.9 MiB
+ qt6-qtdeclarative-devel             x86_64 0:6.11.2-2.fc44                        updates     25.8 MiB
+Installing dependencies:
+ cmake-data                          noarch 0:4.3.0-1.fc44                         fedora       9.4 MiB
+ doxygen                             x86_64 2:1.16.1-3.fc44                        fedora      20.6 MiB
+ graphviz                            x86_64 0:14.1.4-2.fc44                        updates      4.0 MiB
+ gts                                 x86_64 0:0.7.6-52.20121130.fc44               fedora     650.9 KiB
+ js-doxygen                          noarch 2:1.16.1-3.fc44                        fedora     375.0 KiB
+ kde-qdoc-common                     noarch 0:1.0.0^20260721.065046.a5a7228-1.fc44 updates    499.0 KiB
+ kf6-kauth-devel                     x86_64 0:6.31.0-1.fc44                        updates    156.8 KiB
+ kf6-kbookmarks-devel                x86_64 0:6.31.0-1.fc44                        updates    153.7 KiB
+ kf6-kcodecs-devel                   x86_64 0:6.31.0-1.fc44                        updates    141.0 KiB
+ kf6-kcolorscheme-devel              x86_64 0:6.31.0-1.fc44                        updates     89.7 KiB
+ kf6-kcompletion-devel               x86_64 0:6.31.0-1.fc44                        updates    269.4 KiB
+ kf6-kconfigwidgets-devel            x86_64 0:6.31.0-1.fc44                        updates    292.6 KiB
+ kf6-kguiaddons-devel                x86_64 0:6.31.0-1.fc44                        updates    246.1 KiB
+ kf6-kio                             x86_64 0:6.31.0-1.fc44                        updates    185.9 KiB
+ kf6-kirigami-devel                  x86_64 0:6.31.0-1.fc44                        updates    742.7 KiB
+ kf6-kitemviews-devel                x86_64 0:6.31.0-1.fc44                        updates    175.5 KiB
+ kf6-kjobwidgets-devel               x86_64 0:6.31.0-1.fc44                        updates     71.2 KiB
+ kf6-kservice-devel                  x86_64 0:6.31.0-1.fc44                        updates    132.6 KiB
+ kf6-kwidgetsaddons-devel            x86_64 0:6.31.0-1.fc44                        updates      1.6 MiB
+ kf6-kxmlgui-devel                   x86_64 0:6.31.0-1.fc44                        updates    503.5 KiB
+ kf6-rpm-macros                      noarch 0:6.31.0-1.fc44                        updates      4.4 KiB
+ kf6-solid-devel                     x86_64 0:6.31.0-1.fc44                        updates    300.0 KiB
+ lasi                                x86_64 0:1.1.3-18.fc44                        fedora     126.6 KiB
+ libX11-devel                        x86_64 0:1.8.13-3.fc44                        updates      1.0 MiB
+ libXau-devel                        x86_64 0:1.0.12-4.fc44                        fedora       7.3 KiB
+ libfbclient2                        x86_64 0:5.0.4.1812-1.fc44                    updates      3.3 MiB
+ libffi-devel                        x86_64 0:3.5.2-2.fc44                         fedora      33.9 KiB
+ libglvnd-core-devel                 x86_64 1:1.7.0-9.fc44                         fedora      40.3 KiB
+ libglvnd-devel                      x86_64 1:1.7.0-9.fc44                         fedora       2.1 MiB
+ libpq                               x86_64 0:18.0-4.fc44                          fedora       1.0 MiB
+ libxcb-devel                        x86_64 0:1.17.0-7.fc44                        fedora       2.6 MiB
+ libxkbcommon-devel                  x86_64 0:1.13.1-2.fc44                        fedora     393.4 KiB
+ libxml2-devel                       x86_64 0:2.12.10-6.fc44                       fedora       3.4 MiB
+ netpbm                              x86_64 0:11.13.00-2.fc44                      fedora     583.9 KiB
+ poppler-glib                        x86_64 0:26.01.0-3.fc44                       fedora     658.8 KiB
+ qt6-designer                        x86_64 0:6.11.2-1.fc44                        updates    638.0 KiB
+ qt6-doc-devel                       noarch 0:6.9.1-4.fc44                         fedora      45.5 MiB
+ qt6-doctools                        x86_64 0:6.11.2-1.fc44                        updates      2.5 MiB
+ qt6-linguist                        x86_64 0:6.11.2-1.fc44                        updates      5.5 MiB
+ qt6-qtbase-ibase                    x86_64 0:6.11.2-3.fc44                        updates    158.5 KiB
+ qt6-qtbase-odbc                     x86_64 0:6.11.2-3.fc44                        updates    153.9 KiB
+ qt6-qtbase-postgresql               x86_64 0:6.11.2-3.fc44                        updates    138.1 KiB
+ qt6-qttools-devel                   x86_64 0:6.11.2-1.fc44                        updates      2.4 MiB
+ qt6-qttools-libs-designercomponents x86_64 0:6.11.2-1.fc44                        updates      3.3 MiB
+ qt6-rpm-macros                      noarch 0:6.11.2-1.fc44                        updates      3.0 KiB
+ rhash                               x86_64 0:1.4.5-4.fc44                         fedora     354.8 KiB
+ unixODBC                            x86_64 0:2.3.14-3.fc44                        fedora       1.0 MiB
+ vulkan-headers                      noarch 0:1.4.341.0-1.fc44                     fedora      36.1 MiB
+ vulkan-loader-devel                 x86_64 0:1.4.341.0-1.fc44                     fedora       8.0 KiB
+ wayland-devel                       x86_64 0:1.26.0-1.fc44                        updates    724.6 KiB
+ web-assets-filesystem               noarch 0:5-25.fc44                            fedora      34.0   B
+ xorg-x11-proto-devel                noarch 0:2025.1-2.fc44                        fedora       1.8 MiB
+ xz-devel                            x86_64 1:5.8.2-2.fc44                         fedora     258.8 KiB
+
+Transaction Summary:
+ Installing:        64 packages
+
+Total size of inbound packages is 50 MiB. Need to download 50 MiB.
+After this operation, 251 MiB extra will be used (install 251 MiB, remove 0 B).
+[ 1/64] rhash-0:1.4.5-4.fc44.x86_64     100% | 885.4 KiB/s | 201.9 KiB |  00m00s
+[ 2/64] extra-cmake-modules-0:6.31.0-1. 100% |   2.0 MiB/s | 202.8 KiB |  00m00s
+[ 3/64] libplasma-devel-0:6.7.5-1.fc44. 100% |   5.3 MiB/s | 409.4 KiB |  00m00s
+[ 4/64] kf6-kcoreaddons-devel-0:6.31.0- 100% |   3.7 MiB/s | 137.7 KiB |  00m00s
+[ 5/64] cmake-data-0:4.3.0-1.fc44.noarc 100% |   5.9 MiB/s |   2.7 MiB |  00m00s
+[ 6/64] kf6-kconfig-devel-0:6.31.0-1.fc 100% |   5.1 MiB/s |  93.6 KiB |  00m00s
+[ 7/64] kf6-kpackage-devel-0:6.31.0-1.f 100% |   1.7 MiB/s |  26.4 KiB |  00m00s
+[ 8/64] kf6-kwindowsystem-devel-0:6.31. 100% |   1.3 MiB/s |  81.3 KiB |  00m00s
+[ 9/64] kf6-kio-devel-0:6.31.0-1.fc44.x 100% |   5.7 MiB/s | 321.4 KiB |  00m00s
+[10/64] cmake-0:4.3.0-1.fc44.x86_64     100% |  24.1 MiB/s |  14.4 MiB |  00m01s
+[11/64] qt6-qtbase-devel-0:6.11.2-3.fc4 100% |  54.9 MiB/s |   4.3 MiB |  00m00s
+[12/64] kf6-rpm-macros-0:6.31.0-1.fc44. 100% | 724.5 KiB/s |  11.6 KiB |  00m00s
+[13/64] doxygen-2:1.16.1-3.fc44.x86_64  100% | 109.6 MiB/s |   5.7 MiB |  00m00s
+[14/64] qt6-doc-devel-0:6.9.1-4.fc44.no 100% |  26.6 MiB/s |   2.2 MiB |  00m00s
+[15/64] libglvnd-devel-1:1.7.0-9.fc44.x 100% |   5.1 MiB/s | 162.1 KiB |  00m00s
+[16/64] libglvnd-core-devel-1:1.7.0-9.f 100% | 556.2 KiB/s |  17.2 KiB |  00m00s
+[17/64] libxkbcommon-devel-0:1.13.1-2.f 100% |   2.4 MiB/s |  74.8 KiB |  00m00s
+[18/64] qt6-rpm-macros-0:6.11.2-1.fc44. 100% | 734.8 KiB/s |  11.8 KiB |  00m00s
+[19/64] vulkan-loader-devel-0:1.4.341.0 100% | 397.6 KiB/s |  12.3 KiB |  00m00s
+[20/64] vulkan-headers-0:1.4.341.0-1.fc 100% |  44.8 MiB/s |   1.7 MiB |  00m00s
+[21/64] wayland-devel-0:1.26.0-1.fc44.x 100% |   9.1 MiB/s | 159.1 KiB |  00m00s
+[22/64] qt6-qtbase-ibase-0:6.11.2-3.fc4 100% |   4.3 MiB/s |  71.2 KiB |  00m00s
+[23/64] qt6-qtbase-odbc-0:6.11.2-3.fc44 100% |   4.2 MiB/s |  68.4 KiB |  00m00s
+[24/64] unixODBC-0:2.3.14-3.fc44.x86_64 100% |  12.8 MiB/s | 417.9 KiB |  00m00s
+[25/64] qt6-qtdeclarative-devel-0:6.11. 100% |   9.7 MiB/s |   4.8 MiB |  00m00s
+[26/64] qt6-qtbase-postgresql-0:6.11.2- 100% |   3.7 MiB/s |  61.4 KiB |  00m00s
+[27/64] libpq-0:18.0-4.fc44.x86_64      100% |   8.4 MiB/s | 276.8 KiB |  00m00s
+[28/64] kf6-kirigami-devel-0:6.31.0-1.f 100% |   3.7 MiB/s | 121.6 KiB |  00m00s
+[29/64] qt6-qttools-devel-0:6.11.2-1.fc 100% |  18.5 MiB/s | 454.1 KiB |  00m00s
+[30/64] kf6-kbookmarks-devel-0:6.31.0-1 100% |   2.3 MiB/s |  37.8 KiB |  00m00s
+[31/64] kf6-kcompletion-devel-0:6.31.0- 100% |   3.7 MiB/s |  60.7 KiB |  00m00s
+[32/64] kde-qdoc-common-0:1.0.0^2026072 100% |   4.0 MiB/s | 270.3 KiB |  00m00s
+[33/64] kf6-kitemviews-devel-0:6.31.0-1 100% |   2.8 MiB/s |  46.5 KiB |  00m00s
+[34/64] kf6-kjobwidgets-devel-0:6.31.0- 100% |   1.8 MiB/s |  29.5 KiB |  00m00s
+[35/64] kf6-kservice-devel-0:6.31.0-1.f 100% |   2.2 MiB/s |  36.1 KiB |  00m00s
+[36/64] kf6-kxmlgui-devel-0:6.31.0-1.fc 100% |   5.5 MiB/s |  90.9 KiB |  00m00s
+[37/64] kf6-solid-devel-0:6.31.0-1.fc44 100% |   3.2 MiB/s |  51.8 KiB |  00m00s
+[38/64] kf6-kio-0:6.31.0-1.fc44.x86_64  100% |   2.4 MiB/s |  36.4 KiB |  00m00s
+[39/64] libxml2-devel-0:2.12.10-6.fc44. 100% |  15.5 MiB/s | 523.6 KiB |  00m00s
+[40/64] kf6-kwidgetsaddons-devel-0:6.31 100% |   3.9 MiB/s | 234.0 KiB |  00m00s
+[41/64] xz-devel-1:5.8.2-2.fc44.x86_64  100% |   2.1 MiB/s |  67.0 KiB |  00m00s
+[42/64] libX11-devel-0:1.8.13-3.fc44.x8 100% |  42.3 MiB/s |   1.0 MiB |  00m00s
+[43/64] xorg-x11-proto-devel-0:2025.1-2 100% |   9.2 MiB/s | 302.3 KiB |  00m00s
+[44/64] gts-0:0.7.6-52.20121130.fc44.x8 100% |   7.8 MiB/s | 246.9 KiB |  00m00s
+[45/64] graphviz-0:14.1.4-2.fc44.x86_64 100% |  22.7 MiB/s |   1.3 MiB |  00m00s
+[46/64] lasi-0:1.1.3-18.fc44.x86_64     100% |   1.8 MiB/s |  55.7 KiB |  00m00s
+[47/64] poppler-glib-0:26.01.0-3.fc44.x 100% |   6.2 MiB/s | 216.2 KiB |  00m00s
+[48/64] netpbm-0:11.13.00-2.fc44.x86_64 100% |   6.0 MiB/s | 191.1 KiB |  00m00s
+[49/64] libffi-devel-0:3.5.2-2.fc44.x86 100% | 928.3 KiB/s |  29.7 KiB |  00m00s
+[50/64] qt6-qttools-libs-designercompon 100% |  43.9 MiB/s | 988.8 KiB |  00m00s
+[51/64] qt6-designer-0:6.11.2-1.fc44.x8 100% |   8.8 MiB/s | 208.1 KiB |  00m00s
+[52/64] qt6-doctools-0:6.11.2-1.fc44.x8 100% |  45.6 MiB/s | 933.4 KiB |  00m00s
+[53/64] libfbclient2-0:5.0.4.1812-1.fc4 100% |  49.1 MiB/s |   1.2 MiB |  00m00s
+[54/64] qt6-linguist-0:6.11.2-1.fc44.x8 100% |  28.9 MiB/s |   1.3 MiB |  00m00s
+[55/64] kf6-kconfigwidgets-devel-0:6.31 100% |   3.7 MiB/s |  60.2 KiB |  00m00s
+[56/64] libxcb-devel-0:1.17.0-7.fc44.x8 100% |  39.8 MiB/s |   1.4 MiB |  00m00s
+[57/64] kf6-kguiaddons-devel-0:6.31.0-1 100% |   3.3 MiB/s |  54.8 KiB |  00m00s
+[58/64] kf6-kauth-devel-0:6.31.0-1.fc44 100% |   2.9 MiB/s |  47.1 KiB |  00m00s
+[59/64] kf6-kcodecs-devel-0:6.31.0-1.fc 100% |   1.9 MiB/s |  30.4 KiB |  00m00s
+[60/64] kf6-kcolorscheme-devel-0:6.31.0 100% |   1.6 MiB/s |  26.7 KiB |  00m00s
+[61/64] libXau-devel-0:1.0.12-4.fc44.x8 100% | 450.1 KiB/s |  14.0 KiB |  00m00s
+[62/64] js-doxygen-2:1.16.1-3.fc44.noar 100% |   3.5 MiB/s | 109.7 KiB |  00m00s
+[63/64] web-assets-filesystem-0:5-25.fc 100% | 252.3 KiB/s |   7.8 KiB |  00m00s
+[64/64] kf6-kidletime-devel-0:6.31.0-1. 100% |   5.9 KiB/s |  18.3 KiB |  00m03s
+--------------------------------------------------------------------------------
+[64/64] Total                           100% |  12.8 MiB/s |  50.2 MiB |  00m04s
+Running transaction
+[ 1/66] Verify package files            100% | 402.0   B/s |  64.0   B |  00m00s
+[ 2/66] Prepare transaction             100% | 121.0   B/s |  64.0   B |  00m01s
+[ 3/66] Installing qt6-qttools-libs-des 100% | 304.1 MiB/s |   3.3 MiB |  00m00s
+[ 4/66] Installing xorg-x11-proto-devel 100% |  94.5 MiB/s |   1.8 MiB |  00m00s
+[ 5/66] Installing libXau-devel-0:1.0.1 100% | 182.4 KiB/s |   9.1 KiB |  00m00s
+[ 6/66] Installing libxcb-devel-0:1.17. 100% |   5.0 MiB/s |   3.0 MiB |  00m01s
+[ 7/66] Installing libX11-devel-0:1.8.1 100% |   6.5 MiB/s |   1.1 MiB |  00m00s
+[ 8/66] Installing qt6-designer-0:6.11. 100% |  36.7 MiB/s | 639.6 KiB |  00m00s
+[ 9/66] Installing web-assets-filesyste 100% | 835.9 KiB/s | 856.0   B |  00m00s
+[10/66] Installing js-doxygen-2:1.16.1- 100% | 184.0 MiB/s | 376.9 KiB |  00m00s
+[11/66] Installing kf6-kcolorscheme-dev 100% |  45.3 MiB/s |  92.8 KiB |  00m00s
+[12/66] Installing libfbclient2-0:5.0.4 100% | 365.2 MiB/s |   3.3 MiB |  00m00s
+[13/66] Installing qt6-qtbase-ibase-0:6 100% |  52.2 MiB/s | 160.5 KiB |  00m00s
+[14/66] Installing qt6-linguist-0:6.11. 100% | 168.3 MiB/s |   5.6 MiB |  00m00s
+[15/66] Installing qt6-doctools-0:6.11. 100% | 119.0 MiB/s |   2.5 MiB |  00m00s
+[16/66] Installing libffi-devel-0:3.5.2 100% |  11.6 MiB/s |  35.6 KiB |  00m00s
+[17/66] Installing wayland-devel-0:1.26 100% |  29.8 MiB/s | 733.3 KiB |  00m00s
+[18/66] Installing netpbm-0:11.13.00-2. 100% | 143.0 MiB/s | 585.7 KiB |  00m00s
+[19/66] Installing gts-0:0.7.6-52.20121 100% |  23.8 MiB/s | 657.9 KiB |  00m00s
+[20/66] Installing poppler-glib-0:26.01 100% | 161.1 MiB/s | 659.8 KiB |  00m00s
+[21/66] Installing lasi-0:1.1.3-18.fc44 100% |  41.7 MiB/s | 128.1 KiB |  00m00s
+[22/66] Installing graphviz-0:14.1.4-2. 100% |  52.3 MiB/s |   4.1 MiB |  00m00s
+[23/66] Installing doxygen-2:1.16.1-3.f 100% | 332.6 MiB/s |  20.6 MiB |  00m00s
+[24/66] Installing xz-devel-1:5.8.2-2.f 100% |  64.1 MiB/s | 262.6 KiB |  00m00s
+[25/66] Installing libxml2-devel-0:2.12 100% | 110.2 MiB/s |   3.4 MiB |  00m00s
+[26/66] Installing libxkbcommon-devel-0 100% | 128.6 MiB/s | 395.1 KiB |  00m00s
+[27/66] Installing kf6-kio-0:6.31.0-1.f 100% |  92.0 MiB/s | 188.5 KiB |  00m00s
+[28/66] Installing kde-qdoc-common-0:1. 100% |  42.5 MiB/s | 522.8 KiB |  00m00s
+[29/66] Installing kf6-kirigami-devel-0 100% |  61.2 MiB/s | 751.5 KiB |  00m00s
+[30/66] Installing libpq-0:18.0-4.fc44. 100% |  59.7 MiB/s |   1.0 MiB |  00m00s
+[31/66] Installing qt6-qtbase-postgresq 100% |  68.3 MiB/s | 139.9 KiB |  00m00s
+[32/66] Installing unixODBC-0:2.3.14-3. 100% |  32.7 MiB/s |   1.0 MiB |  00m00s
+[33/66] Installing qt6-qtbase-odbc-0:6. 100% |  38.0 MiB/s | 155.7 KiB |  00m00s
+[34/66] Installing vulkan-headers-0:1.4 100% | 722.7 MiB/s |  36.1 MiB |  00m00s
+[35/66] Installing vulkan-loader-devel- 100% |   8.9 MiB/s |   9.1 KiB |  00m00s
+[36/66] Installing libglvnd-core-devel- 100% |  40.1 MiB/s |  41.1 KiB |  00m00s
+[37/66] Installing libglvnd-devel-1:1.7 100% | 235.6 MiB/s |   2.1 MiB |  00m00s
+[38/66] Installing qt6-doc-devel-0:6.9. 100% | 641.6 MiB/s |  45.6 MiB |  00m00s
+[39/66] Installing kf6-kpackage-devel-0 100% |  30.0 MiB/s |  92.1 KiB |  00m00s
+[40/66] Installing rhash-0:1.4.5-4.fc44 100% |  14.7 MiB/s | 360.1 KiB |  00m00s
+[41/66] Installing cmake-0:4.3.0-1.fc44 100% | 334.7 MiB/s |  40.5 MiB |  00m00s
+[42/66] Installing cmake-data-0:4.3.0-1 100% |  20.1 MiB/s |  10.1 MiB |  00m01s
+[43/66] Installing qt6-rpm-macros-0:6.1 100% | 214.8 KiB/s |   4.1 KiB |  00m00s
+[44/66] Installing qt6-qtbase-devel-0:6 100% |  72.3 MiB/s |  23.4 MiB |  00m00s
+[45/66] Installing kf6-kcoreaddons-deve 100% |  90.5 MiB/s | 926.5 KiB |  00m00s
+[46/66] Installing kf6-kwindowsystem-de 100% |  48.3 MiB/s | 593.3 KiB |  00m00s
+[47/66] Installing qt6-qtdeclarative-de 100% |  75.8 MiB/s |  26.4 MiB |  00m00s
+[48/66] Installing kf6-kconfig-devel-0: 100% |  90.7 MiB/s | 743.0 KiB |  00m00s
+[49/66] Installing kf6-kwidgetsaddons-d 100% |  93.0 MiB/s |   1.7 MiB |  00m00s
+[50/66] Installing kf6-kbookmarks-devel 100% |  38.9 MiB/s | 159.2 KiB |  00m00s
+[51/66] Installing kf6-kservice-devel-0 100% |  44.5 MiB/s | 136.7 KiB |  00m00s
+[52/66] Installing kf6-kjobwidgets-deve 100% |  18.6 MiB/s |  76.2 KiB |  00m00s
+[53/66] Installing kf6-kauth-devel-0:6. 100% |  31.5 MiB/s | 161.4 KiB |  00m00s
+[54/66] Installing qt6-qttools-devel-0: 100% |  42.9 MiB/s |   2.5 MiB |  00m00s
+[55/66] Installing kf6-rpm-macros-0:6.3 100% |   4.6 MiB/s |   4.7 KiB |  00m00s
+[56/66] Installing kf6-kcompletion-deve 100% |  53.6 MiB/s | 274.6 KiB |  00m00s
+[57/66] Installing kf6-kitemviews-devel 100% |  44.1 MiB/s | 180.6 KiB |  00m00s
+[58/66] Installing kf6-solid-devel-0:6. 100% |  60.0 MiB/s | 307.2 KiB |  00m00s
+[59/66] Installing kf6-kguiaddons-devel 100% |  49.6 MiB/s | 253.8 KiB |  00m00s
+[60/66] Installing kf6-kcodecs-devel-0: 100% |  70.3 MiB/s | 144.0 KiB |  00m00s
+[61/66] Installing kf6-kconfigwidgets-d 100% |  58.5 MiB/s | 299.5 KiB |  00m00s
+[62/66] Installing kf6-kxmlgui-devel-0: 100% |  71.4 MiB/s | 511.9 KiB |  00m00s
+[63/66] Installing kf6-kio-devel-0:6.31 100% |  84.2 MiB/s |   2.2 MiB |  00m00s
+[64/66] Installing extra-cmake-modules- 100% |  63.6 MiB/s | 781.7 KiB |  00m00s
+[65/66] Installing libplasma-devel-0:6. 100% |  72.6 MiB/s | 520.2 KiB |  00m00s
+[66/66] Installing kf6-kidletime-devel- 100% |  50.5 KiB/s |  30.9 KiB |  00m01s
+Complete!

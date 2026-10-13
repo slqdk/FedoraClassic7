@@ -1,0 +1,37 @@
+:1.10                                       601 classic7-sessio tester :1.10         -    -       -
+:1.18                                       678 classic7-idle   tester :1.18         -    -       -
+:1.7                                        601 classic7-sessio tester :1.7          -    -       -
+org.classic7.Session                        601 classic7-sessio tester :1.7          -    -       -
+org.kde.JobViewServer                       601 classic7-sessio tester :1.7          -    -       -
+org.kde.kuiserver                           601 classic7-sessio tester :1.7          -    -       -
+:1.10                                              601 classic7-sessio tester :1.10         -    -       -
+:1.18                                              678 classic7-idle   tester :1.18         -    -       -
+:1.7                                               601 classic7-sessio tester :1.7          -    -       -
+org.classic7.Session                               601 classic7-sessio tester :1.7          -    -       -
+org.kde.JobViewServer                              601 classic7-sessio tester :1.7          -    -       -
+org.kde.kuiserver                                  601 classic7-sessio tester :1.7          -    -       -
+SambaAcl.so
+baloofilepropertiesplugin.so
+classic7_properties.so
+gdrivepropertiesplugin.so
+rom-properties-kf6.so
+sambausershareplugin.so
+xattrview-kf6.so
+which: no kioclient6 in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
+/usr/sbin/kioclient
+/usr/sbin/dolphin
+Icon=user-trash-full
+Icon=trash-empty
+[Status]
+Empty=false
+48166 /usr/bin/python3 /usr/bin/classic7-properties /home/tester/Documents/big.bin
+classic7-sessiond: screen saver after 4 minutes
+classic7-sessiond: job 1 from org.kde.dolphin: Copying
+classic7-sessiond: job 1 ended after 2.9 s
+copy took 3452 ms, exit 0
+requestView calls: 1
+org.kde.plasma.notificationmanager: Failed to register JobViewServer service on DBus, is kuiserver running?
+org.kde.plasma.notificationmanager: Failed to register JobViewServer DBus object
+org.kde.plasma.notificationmanager: Failed to register JobViewServer DBus object
+org.kde.plasma.notificationmanager: Failed to register JobViewServer DBus object
+org.kde.plasma.notificationmanager: Failed to register JobViewServer DBus object

@@ -1,0 +1,58 @@
+signal time=1791910098.398243 sender=org.freedesktop.DBus -> destination=:1.9527 serial=2 path=/org/freedesktop/DBus; interface=org.freedesktop.DBus; member=NameAcquired
+   string ":1.9527"
+signal time=1791910098.398278 sender=org.freedesktop.DBus -> destination=:1.9527 serial=4 path=/org/freedesktop/DBus; interface=org.freedesktop.DBus; member=NameLost
+   string ":1.9527"
+method call time=1791910099.490133 sender=:1.9803 -> destination=org.kde.kuiserver serial=8 path=/JobViewServer; interface=org.kde.kuiserver; member=requiresJobTracker
+method call time=1791910099.965612 sender=:1.9803 -> destination=org.kde.JobViewServer serial=29 path=/JobViewServer; interface=org.kde.JobViewServerV2; member=requestView
+   string "org.kde.dolphin"
+   int32 3
+   array [
+      dict entry(
+         string "descriptionLabel1"
+         variant             string "Source"
+      )
+      dict entry(
+         string "descriptionLabel2"
+         variant             string "Destination"
+      )
+      dict entry(
+         string "descriptionValue1"
+         variant             string "/home/tester/Downloads/Photos"
+      )
+      dict entry(
+         string "descriptionValue2"
+         variant             string "/home/tester/Documents/"
+      )
+      dict entry(
+         string "destUrl"
+         variant             string "file:///home/tester/Documents/"
+      )
+      dict entry(
+         string "immediate"
+         variant             boolean true
+      )
+      dict entry(
+         string "title"
+         variant             string "Copying"
+      )
+      dict entry(
+         string "totalBytes"
+         variant             uint64 240900000
+      )
+      dict entry(
+         string "totalDirectories"
+         variant             uint64 1
+      )
+      dict entry(
+         string "totalFiles"
+         variant             uint64 1606
+      )
+   ]
+signal time=1791910099.970921 sender=:1.7 -> destination=(null destination) serial=10 path=/JobViewServer; interface=org.kde.kuiserver; member=jobUrlsChanged
+   array [
+      string "file:///home/tester/Documents/"
+   ]
+signal time=1791910102.820833 sender=:1.7 -> destination=(null destination) serial=23 path=/JobViewServer; interface=org.kde.kuiserver; member=jobUrlsChanged
+   array [
+   ]
+signal time=1791910164.030881 sender=(null sender) -> destination=(null destination) serial=0 path=/org/freedesktop/DBus/Local; interface=org.freedesktop.DBus.Local; member=Disconnected
