@@ -35,7 +35,8 @@ def resolve(program: str) -> str:
         p = unquote(p[7:])
     p = re.sub(r"^applications:", "", p)
     if os.path.isabs(p) or os.path.exists(p):
-        path = Path(p).resolve()
+        # not resolve(): a Flatpak's exported file is a link into a folder its next update removes
+        path = Path(os.path.abspath(p))
         if path.is_file():
             return "file://" + quote(str(path))
         raise SystemExit(f"classic7-taskbar-pin: {program} not found")
@@ -96,8 +97,8 @@ def pinned() -> list[str]:
 
 
 def change(url: str, add: bool) -> bool:
-    # Quick Launch when the taskbar has it (Classic), else the icons-only task manager's own
-    # launchers (Aero and Basic); unpinning removes the program from both
+    # Pin: Quick Launch when the taskbar has it (Classic), else the task buttons' own launchers
+    # (Aero and Basic; also text task buttons). Unpin: from all of them. False if nothing could.
     js = """
 var url = %s, add = %s, done = false;
 function base(u) { u = String(u).replace(/^applications:/, ""); return decodeURIComponent(u.split("/").pop()); }
@@ -111,26 +112,26 @@ function edit(w, key) {
     if (!add) l = l.filter(function (u) { return base(u) !== name; });
     w.writeConfig(key, l);
     w.reloadConfig();
+    done = true;
 }
-panels().forEach(function (p) {
-    p.widgets("org.kde.plasma.quicklaunch").forEach(function (w) {
-        if (done && add) return;
-        edit(w, "launcherUrls");
-        done = true;
+[["org.kde.plasma.quicklaunch", "launcherUrls"], ["org.kde.plasma.icontasks", "launchers"],
+ ["org.kde.plasma.taskmanager", "launchers"]].forEach(function (kind) {
+    panels().forEach(function (p) {
+        p.widgets(kind[0]).forEach(function (w) {
+            if (done && add) return;
+            edit(w, kind[1]);
+        });
     });
 });
-panels().forEach(function (p) {
-    p.widgets("org.kde.plasma.icontasks").forEach(function (w) {
-        if (done && add) return;
-        edit(w, "launchers");
-        done = true;
-    });
-});
+print(done ? "C7PINNED" : "C7NOTASKBAR");
 """ % (json.dumps(url), "true" if add else "false")
-    r = subprocess.run(["dbus-send", "--session", "--dest=org.kde.plasmashell", "--type=method_call",
-                        "--print-reply", "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript", "string:" + js],
-                       capture_output=True, text=True, timeout=20)
-    return r.returncode == 0
+    try:
+        r = subprocess.run(["dbus-send", "--session", "--dest=org.kde.plasmashell", "--type=method_call",
+                            "--print-reply=literal", "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript",
+                            "string:" + js], capture_output=True, text=True, timeout=20)
+    except (OSError, subprocess.TimeoutExpired):
+        return False
+    return r.returncode == 0 and "C7PINNED" in r.stdout
 
 
 def main(argv) -> int:

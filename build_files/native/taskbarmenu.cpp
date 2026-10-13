@@ -12,6 +12,7 @@
 #include <QIcon>
 #include <QProcess>
 
+#include <KConfigGroup>
 #include <KPluginFactory>
 #include <Plasma/Containment>
 #include <plasma/containmentactions.h>
@@ -40,6 +41,11 @@ public:
         connect(m_lock, &QAction::triggered, this, [this](bool on) {
             if (Plasma::Containment *c = containment()) {
                 c->setImmutability(on ? Plasma::Types::UserImmutable : Plasma::Types::Mutable);
+                // saved at once, as Plasma's own scripting does (not only at the next config sync)
+                KConfigGroup cg = c->config();
+                if (cg.isValid()) {
+                    cg.writeEntry("immutability", static_cast<int>(c->immutability()));
+                }
                 Q_EMIT c->configNeedsSaving();
             }
         });

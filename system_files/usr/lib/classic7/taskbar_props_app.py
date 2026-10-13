@@ -414,6 +414,9 @@ class TaskbarPropertiesDialog(QDialog):
         self.small.setEnabled(self.look != "classic")
         self.location.setCurrentIndex(max(0, self.location.findData(s.location)))
         self.taskbuttons.setCurrentIndex(max(0, self.taskbuttons.findData(s.buttons)))
+        # what the controls showed at first: a setting Plasma has that the dialog can't show
+        # (e.g. "dodge windows") stays as it is unless its control is changed
+        self._shown = (self.autohide.isChecked(), self.location.currentData())
         self.peek.setChecked(s.peek)
         self.peek.setEnabled(s.has_showdesktop)
         self.customize_tray.setEnabled(s.tray is not None)
@@ -432,11 +435,15 @@ class TaskbarPropertiesDialog(QDialog):
             return
         p = self.pending
         p.locked = self.lock.isChecked()
-        p.hiding = "autohide" if self.autohide.isChecked() else "none"
+        if self.autohide.isChecked() != self._shown[0]:
+            p.hiding = "autohide" if self.autohide.isChecked() else "none"
+        else:
+            p.hiding = self.current.hiding
         # the height changes only with the check box (a taskbar made thicker by hand stays so)
         p.height = (self.current.height if self.small.isChecked() == self._loaded_small
                     else tp.taskbar_height(self.look, self.small.isChecked()))
-        p.location = self.location.currentData()
+        p.location = (self.location.currentData() if self.location.currentData() != self._shown[1]
+                      else self.current.location)
         p.buttons = self.taskbuttons.currentData()
         p.peek = self.peek.isChecked()
         p.start = {**p.start, "powerAction": self.power.currentData(),
@@ -471,6 +478,9 @@ class TaskbarPropertiesDialog(QDialog):
             self.status.setText("The taskbar could not be changed: is the desktop (Plasma) running?")
             return False
         self.current = copy.deepcopy(self.pending)
+        # what is shown now is what the taskbar has
+        self._shown = (self.autohide.isChecked(), self.location.currentData())
+        self._loaded_small = self.small.isChecked()
         return True
 
     def _ok(self):

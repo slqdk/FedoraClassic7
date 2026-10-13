@@ -19,7 +19,8 @@ from __future__ import annotations
 
 import json
 import math
-from dataclasses import asdict, dataclass, fields
+import re
+from dataclasses import asdict, dataclass
 from pathlib import Path
 
 import classic7theme as ct
@@ -49,9 +50,19 @@ class Glass:
 
     @classmethod
     def from_json(cls, data: dict | None) -> "Glass":
-        known = {f.name for f in fields(cls)}
-        g = cls(**{k: v for k, v in (data or {}).items() if k in known})
-        g.intensity = max(0.0, min(1.0, float(g.intensity)))
+        """A saved colour; anything damaged or missing falls back to the default."""
+        g = cls()
+        data = data if isinstance(data, dict) else {}
+        if isinstance(data.get("name"), str) and data["name"]:
+            g.name = data["name"]
+        if isinstance(data.get("color"), str) and re.fullmatch(r"#[0-9A-Fa-f]{6}", data["color"]):
+            g.color = data["color"].upper()
+        try:
+            g.intensity = max(0.0, min(1.0, float(data.get("intensity", g.intensity))))
+        except (TypeError, ValueError):
+            pass
+        if isinstance(data.get("transparency"), bool):
+            g.transparency = data["transparency"]
         return g
 
 

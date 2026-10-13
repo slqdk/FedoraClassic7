@@ -145,19 +145,25 @@ class State:
         if not isinstance(data, dict):
             return cls(t.STANDARD, None)
         try:
-            pal = t.Palette.from_json(data["palette"]) if data.get("palette") else t.STANDARD
-        except (KeyError, TypeError, ValueError):
+            pal = t.Palette.from_json(data["palette"]) if isinstance(data.get("palette"), dict) else t.STANDARD
+        except Exception:  # noqa: BLE001 - a damaged file means the standard scheme
             pal = t.STANDARD
-        return cls(pal, data.get("slot"), str(data.get("look") or "classic"),
+
+        def slot(v):
+            return v if v in ("A", "B") else None
+        return cls(pal, slot(data.get("slot")), str(data.get("look") or "classic"),
                    aero.Glass.from_json(data.get("glass") if isinstance(data.get("glass"), dict) else None),
-                   data.get("glass_slot"), bool(data.get("small_icons", False)))
+                   slot(data.get("glass_slot")), data.get("small_icons") is True)
 
     def save(self):
+        """Written to a new file that then replaces the old one, so it is never half written."""
         f = state_file()
         f.parent.mkdir(parents=True, exist_ok=True)
-        f.write_text(json.dumps({"palette": self.palette.to_json(), "slot": self.slot, "look": self.look,
-                                 "glass": self.glass.to_json(), "glass_slot": self.glass_slot,
-                                 "small_icons": self.small_icons}, indent=2) + "\n")
+        tmp = f.with_name(f.name + ".new")
+        tmp.write_text(json.dumps({"palette": self.palette.to_json(), "slot": self.slot, "look": self.look,
+                                   "glass": self.glass.to_json(), "glass_slot": self.glass_slot,
+                                   "small_icons": self.small_icons}, indent=2) + "\n")
+        os.replace(tmp, f)
 
 
 def load_user_schemes() -> list[t.Palette]:
@@ -340,8 +346,9 @@ def taskbar_js(start_button: str = SYSTEM_START_BUTTON, layout: Path | None = No
         return "// layout script not found"
     body = body.replace('"/usr/share/classic7/start-button.svg"', json.dumps(start_button))
     body = body.replace('"/usr/share/classic7/start-orb.svg"', json.dumps(start_button))
-    return ('panels().forEach(function (p) { if (p.location === "bottom") { p.remove(); } });\n'
-            + body)
+    # the old taskbar goes, also when it was moved to another edge (Taskbar and Start Menu Properties)
+    return ('panels().forEach(function (p) { if (p.location === "bottom" || p.widgets("org.classic7.startmenu").length'
+            ' || p.widgets("org.kde.plasma.kicker").length) { p.remove(); } });\n' + body)
 
 
 def look_taskbar_js(look: str, start_button: str, small_icons: bool = False) -> str:
@@ -369,9 +376,10 @@ def reset_taskbar(runner: "Runner | None" = None) -> "Result":
 
 
 def plasma_script(start_button: str, desktop: str, look: str = "classic", wallpaper: str | None = None,
-                  set_desktop: bool = True, small_icons: bool = False) -> str:
+                  set_desktop: bool = True, small_icons: bool = False, switch_wallpaper: bool = False) -> str:
     """Settings of the taskbar's applets for a look (Start button image, the look of the Start
-    menu and Show desktop button) and, when set_desktop, the desktop's colour or picture."""
+    menu and Show desktop button) and, when set_desktop, the desktop: the picture given, or the
+    colour (a picture the user chose stays unless switch_wallpaper)."""
     ours = [SYSTEM_START_BUTTON, str(data_home() / "classic7")]
     classic = look == "classic"
     desktop_js = ""
@@ -389,7 +397,7 @@ desktops().forEach(function (d) {{
         else:
             desktop_js = f"""
 desktops().forEach(function (d) {{
-    if (d.wallpaperPlugin !== "org.kde.color") d.wallpaperPlugin = "org.kde.color";
+    if ({json.dumps(switch_wallpaper)} && d.wallpaperPlugin !== "org.kde.color") d.wallpaperPlugin = "org.kde.color";
     d.currentConfigGroup = ["Wallpaper", "org.kde.color", "General"];
     // "#rrggbb", not "r,g,b": a running wallpaper takes the value as a QColor, and Qt can't
     // read "r,g,b" there, so the desktop turned black
@@ -461,13 +469,19 @@ APP_DIRS = ["/usr/share/applications", "/var/lib/flatpak/exports/share/applicati
 
 
 def desktop_file_urls() -> dict[str, str]:
-    """Programs' .desktop files by name, as file:// URLs (the user's own win)."""
+    """Programs' .desktop files by name, as file:// URLs (the user's own win), for the programs
+    the saved panel layout mentions (the script that gets them must stay small)."""
+    try:
+        layout = (config_home() / "plasma-org.kde.plasma.desktop-appletsrc").read_text(errors="replace")
+    except OSError:
+        layout = None
     out: dict[str, str] = {}
     dirs = APP_DIRS + [str(data_home() / "flatpak/exports/share/applications"), str(data_home() / "applications")]
     for d in dirs:
         try:
             for f in Path(d).glob("*.desktop"):
-                out[f.name] = "file://" + str(f)
+                if layout is None or f.name in layout:
+                    out[f.name] = "file://" + str(f)
         except OSError:
             continue
     return out
@@ -494,17 +508,21 @@ function c7TaskManager(panel) {
     var t = panel.widgets("org.kde.plasma.icontasks").concat(panel.widgets("org.kde.plasma.taskmanager"));
     return t.length ? t[0] : null;
 }
-// Task buttons with icons only (always combined) or with text; keeps their position and pins
+// addWidget gives an Error object (not null) when it can't add one, e.g. on a locked panel
+function c7Ok(w) { return !!w && typeof w.writeConfig === "function"; }
+// Task buttons with icons only (always combined) or with text; keeps their position and pins.
+// The new one is added before the old one goes, so a failure leaves the taskbar as it was.
 function c7TaskButtons(panel, type) {
     var tm = c7TaskManager(panel);
     var pins = [];
     if (tm) { tm.currentConfigGroup = ["General"]; pins = c7List(tm, "launchers"); }
     if (!tm || tm.type !== type) {
         var index = tm ? tm.index : -1;
+        var fresh = panel.addWidget(type);
+        if (!c7Ok(fresh)) return null;
         if (tm) tm.remove();
-        tm = panel.addWidget(type);
-        if (!tm) return null;
-        if (index >= 0) tm.index = index;
+        if (index >= 0) fresh.index = index;
+        tm = fresh;
         tm.currentConfigGroup = ["General"];
         tm.writeConfig("launchers", pins);
     }
@@ -515,8 +533,9 @@ function c7TaskButtons(panel, type) {
 
 
 def switch_taskbar_script(look: str, start_button: str, height: int) -> str:
-    """Change the taskbar between looks: Aero and Basic put pinned programs on icon-only task
-    buttons (Windows 7) and drop Quick Launch; Classic has Quick Launch and task buttons with text."""
+    """Change the taskbar between Classic and Aero/Basic: Aero and Basic put pinned programs on
+    icon-only task buttons (Windows 7) and drop Quick Launch; Classic has Quick Launch and task
+    buttons with text. The pins move across; a locked taskbar is unlocked meanwhile."""
     return TASKBAR_LIB + f"""
 var paths = {json.dumps(desktop_file_urls())};
 function c7Url(u) {{
@@ -524,8 +543,11 @@ function c7Url(u) {{
     var m = u.match(/([^\\/:]+\\.desktop)$/);
     return (m && paths[m[1]]) ? paths[m[1]] : u;
 }}
+function c7Base(u) {{ return decodeURIComponent(String(u).replace(/^applications:/, "").split("/").pop()); }}
 var panel = c7Taskbar();
 if (panel) {{
+    var wasLocked = panel.locked;
+    panel.locked = false;
     panel.height = {height};
     var ql = panel.widgets("org.kde.plasma.quicklaunch");
     if ({json.dumps(look != "classic")}) {{
@@ -534,8 +556,9 @@ if (panel) {{
         if (tm) {{ tm.currentConfigGroup = ["General"]; pins = c7List(tm, "launchers"); }}
         ql.forEach(function (q) {{
             q.currentConfigGroup = ["General"];
-            c7List(q, "launcherUrls").forEach(function (u) {{ if (pins.indexOf(u) === -1) pins.push(u); }});
-            q.remove();
+            c7List(q, "launcherUrls").forEach(function (u) {{
+                if (!pins.some(function (p) {{ return c7Base(p) === c7Base(u); }})) pins.push(u);
+            }});
         }});
         tm = c7TaskButtons(panel, "org.kde.plasma.icontasks");
         if (tm) {{
@@ -543,14 +566,48 @@ if (panel) {{
             tm.writeConfig("groupingStrategy", 1);
             tm.writeConfig("onlyGroupWhenFull", false);
             tm.reloadConfig();
+            ql.forEach(function (q) {{ q.remove(); }});   // only once the pins are safe
         }}
     }} else {{
         var tm2 = c7TaskManager(panel);
         var pins2 = [];
-        if (tm2) {{ tm2.currentConfigGroup = ["General"]; pins2 = c7List(tm2, "launchers").map(c7Url); }}
+        if (tm2) {{
+            tm2.currentConfigGroup = ["General"];
+            // Quick Launch takes .desktop files: what can't be found as one stays on the task buttons
+            pins2 = c7List(tm2, "launchers").map(c7Url).filter(function (u) {{ return u.indexOf("file://") === 0; }});
+        }}
+        var q = ql.length ? ql[0] : null;
+        if (!q && knownWidgetTypes.indexOf("org.kde.plasma.quicklaunch") !== -1) {{
+            q = panel.addWidget("org.kde.plasma.quicklaunch");
+            if (c7Ok(q)) {{
+                q.index = 1;
+                q.currentConfigGroup = ["General"];
+                q.writeConfig("launcherUrls", pins2.length ? [] : [
+                    "file:///usr/share/applications/org.kde.dolphin.desktop",
+                    "file:///usr/share/applications/steam.desktop",
+                    "file:///usr/share/applications/classic7-prompt.desktop"]);
+            }} else {{
+                q = null;
+            }}
+        }}
+        var moved = false;
+        if (q) {{
+            q.currentConfigGroup = ["General"];
+            var urls = c7List(q, "launcherUrls");
+            pins2.forEach(function (u) {{
+                if (!urls.some(function (x) {{ return c7Base(x) === c7Base(u); }})) urls.push(u);
+            }});
+            q.writeConfig("launcherUrls", urls);
+            q.reloadConfig();
+            moved = true;
+        }}
         tm2 = c7TaskButtons(panel, "org.kde.plasma.taskmanager");
         if (tm2) {{
-            tm2.writeConfig("launchers", []);
+            if (moved) {{
+                tm2.writeConfig("launchers", c7List(tm2, "launchers").filter(function (u) {{
+                    return !pins2.some(function (p) {{ return c7Base(p) === c7Base(u); }});
+                }}));
+            }}
             tm2.writeConfig("groupingStrategy", 1);
             tm2.writeConfig("onlyGroupWhenFull", true);
             tm2.writeConfig("taskMaxWidth", 0);
@@ -558,19 +615,8 @@ if (panel) {{
             tm2.writeConfig("taskHoverEffect", false);
             tm2.reloadConfig();
         }}
-        if (!ql.length && knownWidgetTypes.indexOf("org.kde.plasma.quicklaunch") !== -1) {{
-            var q = panel.addWidget("org.kde.plasma.quicklaunch");
-            if (q) {{
-                q.index = 1;
-                q.currentConfigGroup = ["General"];
-                q.writeConfig("launcherUrls", pins2.length ? pins2 : [
-                    "file:///usr/share/applications/org.kde.dolphin.desktop",
-                    "file:///usr/share/applications/steam.desktop",
-                    "file:///usr/share/applications/classic7-prompt.desktop"]);
-                q.reloadConfig();
-            }}
-        }}
     }}
+    panel.locked = wasLocked;
 }}
 """
 
@@ -747,11 +793,15 @@ def apply(p: t.Palette | None = None, runner: Runner | None = None, look: str | 
     switching = look != state.look
     run.note(f"== apply look={look} (was {state.look}) scheme={p.name!r} glass={glass.to_json()}")
     if look == "classic":
-        return _apply_classic(p, run, state, switching)
+        return _apply_classic(p, run, state, switching, glass)
     return _apply_modern(look, glass, p, run, state, switching)
 
 
-def _apply_classic(p: t.Palette, run: Runner, state: State, switching: bool) -> Result:
+# What a look sets for the whole account (widget style, cursors, GTK theme, window border size,
+# buttons and Alt+Tab, the wallpaper) is only written when the look changes, so applying the same
+# look again (Personalization's OK, or Classic 7 Update after each new version) keeps what the
+# user changed elsewhere. The look's own theme files are always applied, as they can be redrawn.
+def _apply_classic(p: t.Palette, run: Runner, state: State, switching: bool, glass: aero.Glass) -> Result:
     notes: list[str] = []
     if is_system_default(p):
         ids = SYSTEM_IDS
@@ -776,15 +826,17 @@ def _apply_classic(p: t.Palette, run: Runner, state: State, switching: bool) -> 
 
     run("plasma-apply-colorscheme", ids.colors)
     run("plasma-apply-desktoptheme", ids.plasma)
-    set_widget_style("Windows", run)
-    global_theme("org.classic7.desktop", run)
-    set_gtk_theme("Classic7", CLASSIC_CURSORS, run)
-    set_cursors(CLASSIC_CURSORS, run)
-    kwin_look(ids.kwin_theme, "Normal", "IA_X", "classic7", run)
+    if switching:
+        set_widget_style("Windows", run)
+        global_theme("org.classic7.desktop", run)
+        set_gtk_theme("Classic7", CLASSIC_CURSORS, run)
+        set_cursors(CLASSIC_CURSORS, run)
+    kwin_look(ids.kwin_theme, "Normal", "IA_X", "classic7", run, whole=switching)
     apply_fonts(p.font_size, run)
     if switching:
         run_plasma_script(switch_taskbar_script("classic", start, 30), run)
-    run_plasma_script(plasma_script(start, p.desktop, look="classic", wallpaper=None, set_desktop=True), run)
+    run_plasma_script(plasma_script(start, p.desktop, look="classic", wallpaper=None, set_desktop=True,
+                                    switch_wallpaper=switching), run)
     # Lock screen: plain desktop colour, like the classic "Computer locked" screen
     lock_screen(None, p.desktop, run)
 
@@ -793,7 +845,7 @@ def _apply_classic(p: t.Palette, run: Runner, state: State, switching: bool) -> 
             if slot != new_slot:
                 remove_slot_files(slot)
             remove_glass_files(slot)
-        State(p, new_slot, "classic", state.glass, None, state.small_icons).save()
+        State(p, new_slot, "classic", glass, None, state.small_icons).save()
     notes.extend(run.failures)
     notes.append("Restart open GTK apps (Firefox, Steam, Lutris…) to see their new colours.")
     return Result(ok=not run.failures, notes=notes, commands=run.log)
@@ -851,11 +903,16 @@ def global_theme(package: str, run: Runner):
         run("kwriteconfig6", "--file", "kdeglobals", "--group", "KDE", "--key", key, package)
 
 
-def kwin_look(theme: str, border: str, right_buttons: str, tabbox: str, run: Runner, blur: bool = False):
+def kwin_look(theme: str, border: str, right_buttons: str, tabbox: str, run: Runner, blur: bool = False,
+              whole: bool = True):
+    """The window borders; with whole also their size, the buttons, Alt+Tab and (Aero) the blur."""
     def kw(group, key, value):
         run("kwriteconfig6", "--file", "kwinrc", "--group", group, "--key", key, value)
     kw("org.kde.kdecoration2", "library", "org.kde.kwin.aurorae")
     kw("org.kde.kdecoration2", "theme", theme)
+    if not whole:
+        run("dbus-send", "--session", "--type=signal", "/KWin", "org.kde.KWin.reloadConfig")
+        return
     kw("org.kde.kdecoration2", "BorderSize", border)
     kw("org.kde.kdecoration2", "BorderSizeAuto", "false")
     kw("org.kde.kdecoration2", "ButtonsOnLeft", "M")
@@ -908,25 +965,28 @@ def _apply_modern(look: str, glass: aero.Glass, p: t.Palette, run: Runner, state
     run("plasma-apply-desktoptheme", ids.plasma)
     if kvantum_installed():
         set_kvantum_theme("Classic7Aero", run)
-        set_widget_style("kvantum", run)
-    else:
-        notes.append("Kvantum is not installed: programs keep plain controls.")
-        set_widget_style("Fusion", run)
-    global_theme("org.classic7.aero.desktop", run)
-    cursors = aero_cursors()
-    set_gtk_theme("Classic7Aero", cursors, run)
-    set_cursors(cursors, run)
-    kwin_look(ids.kwin_theme, "Large", "IAX", "classic7aero", run, blur=(look == "aero"))
+    if switching:
+        if kvantum_installed():
+            set_widget_style("kvantum", run)
+        else:
+            notes.append("Kvantum is not installed: programs keep plain controls.")
+            set_widget_style("Fusion", run)
+        global_theme("org.classic7.aero.desktop", run)
+        cursors = aero_cursors()
+        set_gtk_theme("Classic7Aero", cursors, run)
+        set_cursors(cursors, run)
+    kwin_look(ids.kwin_theme, "Large", "IAX", "classic7aero", run, blur=(look == "aero"), whole=switching)
     apply_fonts(p.font_size, run, bold_titles=False)
     height = 30 if state.small_icons else 40
-    # from Classic: the Aero taskbar and wallpaper; between Aero and Basic the wallpaper stays
+    # from Classic: the Aero taskbar and wallpaper; between Aero and Basic both stay
     from_classic = switching and state.look == "classic"
-    if switching:
+    if from_classic:
         run_plasma_script(switch_taskbar_script(look, SYSTEM_ORB, height), run)
     run_plasma_script(plasma_script(SYSTEM_ORB, AERO_DESKTOP, look=look,
                                     wallpaper=AERO_WALLPAPER if from_classic else None, set_desktop=from_classic,
                                     small_icons=state.small_icons), run)
-    lock_screen(AERO_WALLPAPER if Path(AERO_WALLPAPER).is_dir() else None, AERO_DESKTOP, run)
+    if from_classic:
+        lock_screen(AERO_WALLPAPER if Path(AERO_WALLPAPER).is_dir() else None, AERO_DESKTOP, run)
     if not run.dry_run:
         for slot in ("A", "B"):
             if slot != new_glass_slot:
@@ -935,5 +995,6 @@ def _apply_modern(look: str, glass: aero.Glass, p: t.Palette, run: Runner, state
             remove_slot_files(slot)
         State(p, None, look, glass, new_glass_slot, state.small_icons).save()
     notes.extend(run.failures)
-    notes.append("Restart open programs to give them the new controls.")
+    if switching:
+        notes.append("Restart open programs to give them the new controls.")
     return Result(ok=not run.failures, notes=notes, commands=run.log)

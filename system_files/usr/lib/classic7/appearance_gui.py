@@ -919,14 +919,17 @@ class PersonalizationDialog(QDialog):
                                    f" ({glass.name})" if look == "aero" else "")
         self.status.setText(f"Applying {name}…")
         self.buttons.setEnabled(False)
+        self.tabs.setEnabled(False)
         QApplication.setOverrideCursor(Qt.WaitCursor)
         self._worker = ApplyWorker(p, look, glass, self)
         self._worker.finished_with.connect(lambda res: self._applied(res, name, look, close_after))
         self._worker.start()
 
     def _applied(self, res, name: str, look: str, close_after: bool):
+        self._worker.wait(5000)        # it has emitted its result; let the thread end
         QApplication.restoreOverrideCursor()
         self.buttons.setEnabled(True)
+        self.tabs.setEnabled(True)
         self._dirty = False
         self.explorer.set_look(look)
         problems = [n for n in res.notes if not n.startswith("Restart open")]
@@ -947,11 +950,20 @@ class PersonalizationDialog(QDialog):
         # OK always applies what is shown (also when only the scheme list was used)
         self._apply(close_after=True)
 
+    def _busy(self) -> bool:
+        return getattr(self, "_worker", None) is not None and self._worker.isRunning()
+
     def closeEvent(self, ev):
-        if getattr(self, "_worker", None) is not None and self._worker.isRunning():
+        if self._busy():
             ev.ignore()
             return
         super().closeEvent(ev)
+
+    def done(self, result: int):
+        # Escape and Cancel come here too: an Apply that is still running must not be cut off
+        if self._busy():
+            return
+        super().done(result)
 
 
 # the old name (scripts and tests)
