@@ -6,7 +6,8 @@ width or text size); the bar under it has Open in Paint, E-mail, Print, Copy (Ct
 (Ctrl+S) and Close (Esc). Shift+PrtSc saves the whole screen straight to the screenshot folder.
 Quick Shot stays in the notification area so a capture starts at once.
 
-The picture comes from KWin's ScreenShot2 D-Bus interface (Spectacle as a fallback)."""
+The picture comes from KWin's ScreenShot2 D-Bus interface through the small classic7-grab
+helper (Spectacle as a fallback)."""
 from __future__ import annotations
 
 import math
@@ -48,33 +49,31 @@ def grab_workspace() -> QImage | None:
     return img
 
 
+GRABBER = "/usr/libexec/classic7-grab"
+
+
 def _grab_kwin() -> QImage | None:
+    """KWin's ScreenShot2 through classic7-grab. KWin hands out screen pictures only to programs it
+    knows by path (their desktop file asks for it), which a Python script can't be. The helper
+    writes "width height stride format scale" on one line, then the pixels."""
+    if not os.access(GRABBER, os.X_OK):
+        return None
     try:
-        import dbus
-        bus = dbus.SessionBus()
-        obj = bus.get_object("org.kde.KWin.ScreenShot2", "/org/kde/KWin/ScreenShot2")
-        iface = dbus.Interface(obj, "org.kde.KWin.ScreenShot2")
-        r, w = os.pipe()
-        try:
-            res = iface.CaptureWorkspace({"native-resolution": True, "include-cursor": False,
-                                          "hide-caller-windows": True}, dbus.types.UnixFd(w), timeout=10)
-        finally:
-            os.close(w)
-        chunks = []
-        while True:
-            b = os.read(r, 1 << 20)
-            if not b:
-                break
-            chunks.append(b)
-        os.close(r)
-        data = b"".join(chunks)
-        width, height = int(res["width"]), int(res["height"])
-        stride, fmt = int(res["stride"]), int(res["format"])
-        if len(data) < stride * height or not width:
-            return None
-        img = QImage(data, width, height, stride, QImage.Format(fmt)).copy()
-        return img
-    except Exception:  # noqa: BLE001 - not on KWin, or not allowed: try Spectacle
+        p = subprocess.run([GRABBER], capture_output=True, timeout=15, check=False)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    head, sep, data = p.stdout.partition(b"\n")
+    if p.returncode != 0 or not sep:
+        return None
+    try:
+        width, height, stride, fmt = (int(x) for x in head.split()[:4])
+    except ValueError:
+        return None
+    if width <= 0 or height <= 0 or len(data) < stride * height:
+        return None
+    try:
+        return QImage(data, width, height, stride, QImage.Format(fmt)).copy()
+    except (ValueError, TypeError):
         return None
 
 

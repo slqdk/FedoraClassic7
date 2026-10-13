@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Quick Shot screen grabber
+Comment=Takes the screen picture for Quick Shot
+Exec=/usr/libexec/classic7-grab
+NoDisplay=true
+Terminal=false
+X-KDE-DBUS-Restricted-Interfaces=org.kde.KWin.ScreenShot2

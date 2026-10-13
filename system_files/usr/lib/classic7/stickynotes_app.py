@@ -325,11 +325,14 @@ class StickyNotes:
         for n in self.notes:
             g = {"x": n.place[0], "y": n.place[1]}
             moves.append({"caption": n.windowTitle(), "x": g["x"], "y": g["y"]})
+        # Qt adds " — Sticky Notes" to the title, and KWin " <2>" to a repeated one
         js = """
 const moves = %s;
+const pid = %d;
 for (const w of workspace.windowList()) {
     for (const m of moves) {
-        if (w.caption !== m.caption) continue;
+        const c = w.caption || "";
+        if (w.pid !== pid || (c !== m.caption && !c.startsWith(m.caption + " "))) continue;
         w.skipTaskbar = true;
         w.skipPager = true;
         if (m.x !== null && m.x !== undefined) {
@@ -338,7 +341,7 @@ for (const w of workspace.windowList()) {
         }
     }
 }
-""" % json.dumps(moves)
+""" % (json.dumps(moves), os.getpid())
         QTimer.singleShot(300, lambda: self.bridge.script(js))
 
     def read_places(self):
@@ -349,7 +352,8 @@ for (const w of workspace.windowList()) {
         changed = False
         for w in windows:
             for n in self.notes:
-                if w.get("caption") == n.windowTitle():
+                cap, title = w.get("caption") or "", n.windowTitle()
+                if w.get("pid") in (None, os.getpid()) and (cap == title or cap.startswith(title + " ")):
                     if n.place != (w.get("x"), w.get("y")):
                         n.place = (w.get("x"), w.get("y"))
                         changed = True

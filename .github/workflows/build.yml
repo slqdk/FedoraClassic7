@@ -71,9 +71,23 @@ jobs:
       - name: Build Image
         id: build-image
         run: |
+          set -o pipefail
           just build \
             ${IMAGE_NAME} \
-            ${DEFAULT_TAG}
+            ${DEFAULT_TAG} 2>&1 | tee /tmp/build.log
+
+      # The end of the build log as annotations on the run's summary page, where they can be read
+      # even when the full log can't be downloaded
+      - name: Show where the build stopped
+        if: failure() && steps.build-image.outcome == 'failure'
+        run: |
+          sed -e 's/\x1b\[[0-9;]*[A-Za-z]//g' -e 's/\r//g' /tmp/build.log | tail -n 120 > /tmp/tail.txt
+          for part in 1 2 3; do
+              msg=$(sed -n "$(( (part - 1) * 40 + 1 )),$(( part * 40 ))p" /tmp/tail.txt | cut -c1-300 \
+                    | sed -e 's/%/%25/g' | awk '{printf "%s%%0A", $0}')
+              [[ -n "$msg" ]] && echo "::error title=Build log, last lines (part $part of 3)::$msg"
+          done
+          exit 0
 
       # This is optional, this provides smaller delta updates
       - name: Rechunk with rpm-ostree

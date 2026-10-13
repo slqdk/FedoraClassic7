@@ -97,21 +97,53 @@ done
 for pkg in ntfs-3g ntfsprogs exfatprogs dosfstools btrfs-progs e2fsprogs util-linux; do
     rpm -q "$pkg" >/dev/null 2>&1 || dnf5 -y install "$pkg" || echo "NOTE: $pkg not available"
 done
-# Taskbar right-click menu like Windows 7: a small Plasma plugin, compiled here against this
-# image's libplasma; the compilers and headers are removed again afterwards
+# Classic 7's small compiled parts (build_files/native), built here against this image's own KDE
+# libraries: the taskbar's right-click menu (a Plasma plugin), classic7-grab (screen pictures for
+# Quick Shot) and classic7-idle (idle time for the screensaver). The compilers and headers come in
+# for this step only. Meanwhile every package already in the image is locked at its version, so the
+# headers can't quietly update the desktop's own libraries (Fedora's archive of older updates has
+# headers for an image that is a few updates behind).
+rpm -qa --qf '%{NAME}.%{ARCH} %{EPOCHNUM}:%{VERSION}-%{RELEASE}\n' | LC_ALL=C sort > /tmp/rpms-before
 devel=()
 for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel \
-           kf6-kpackage-devel kf6-kwindowsystem-devel qt6-qtbase-devel qt6-qtdeclarative-devel; do
+           kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel qt6-qtbase-devel qt6-qtdeclarative-devel; do
     rpm -q "$pkg" >/dev/null 2>&1 || devel+=("$pkg")
 done
-((${#devel[@]})) && dnf5 -y install --setopt=install_weak_deps=False "${devel[@]}"
-cmake -S /ctx/taskbarmenu -B /tmp/taskbarmenu-build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DKDE_INSTALL_PLUGINDIR=lib64/qt6/plugins \
-    -DBUILD_TESTING=OFF
-cmake --build /tmp/taskbarmenu-build -j"$(nproc)"
-cmake --install /tmp/taskbarmenu-build
-rm -rf /tmp/taskbarmenu-build
+if ((${#devel[@]})); then
+    archive=()
+    dnf5 repo list --all 2>/dev/null | grep -q '^updates-archive ' && archive=(--enablerepo=updates-archive)
+    vl=/etc/dnf/versionlock.toml
+    [[ -f $vl ]] && cp -a $vl /tmp/versionlock.orig
+    locked=0
+    # shellcheck disable=SC2046 # one name per word
+    dnf5 versionlock add $(rpm -qa --qf '%{NAME}\n' | LC_ALL=C sort -u) >/dev/null && locked=1
+    if ! dnf5 -y install --setopt=install_weak_deps=False "${archive[@]}" "${devel[@]}"; then
+        echo "NOTE: no headers match this image's library versions; taking the newest"
+        rm -f $vl
+        dnf5 -y install --setopt=install_weak_deps=False "${devel[@]}"
+    fi
+    if [[ -f /tmp/versionlock.orig ]]; then mv /tmp/versionlock.orig $vl; else rm -f $vl; fi
+    echo "native parts: locked=$locked archive=${archive[*]}"
+fi
+cmake -S /ctx/native -B /tmp/native-build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr \
+    -DKDE_INSTALL_PLUGINDIR=lib64/qt6/plugins -DKDE_INSTALL_LIBEXECDIR=libexec -DBUILD_TESTING=OFF
+cmake --build /tmp/native-build -j"$(nproc)"
+cmake --install /tmp/native-build
+rm -rf /tmp/native-build
 ((${#devel[@]})) && dnf5 -y remove "${devel[@]}"
+rpm -qa --qf '%{NAME}.%{ARCH} %{EPOCHNUM}:%{VERSION}-%{RELEASE}\n' | LC_ALL=C sort > /tmp/rpms-after
+updated=$(LC_ALL=C join /tmp/rpms-before /tmp/rpms-after | awk '$2 != $3 {print $1 " " $2 " -> " $3}')
+if [[ -n "$updated" ]]; then
+    # the line shows on the build's summary page in GitHub
+    echo "::warning title=Building the native parts updated image packages::$(tr '\n' ';' <<<"$updated")"
+fi
+left=$(LC_ALL=C join -v2 /tmp/rpms-before /tmp/rpms-after | cut -d' ' -f1 | tr '\n' ' ')
+[[ -n "$left" ]] && echo "NOTE: left from building the native parts: $left"
+rm -f /tmp/rpms-before /tmp/rpms-after
 test -f /usr/lib64/qt6/plugins/plasma/containmentactions/org.classic7.taskbarmenu.so
+test -x /usr/libexec/classic7-grab
+test -x /usr/libexec/classic7-idle
+test -f /usr/share/applications/classic7-grab.desktop
 # Sheet (spreadsheets): .xlsx through openpyxl, old .xls through xlrd
 for pkg in python3-openpyxl python3-xlrd; do
     rpm -q "$pkg" >/dev/null 2>&1 || dnf5 -y install "$pkg" || echo "NOTE: $pkg not available"

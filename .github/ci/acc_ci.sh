@@ -3,6 +3,8 @@
 set -x
 exec 2>/out/script.log
 dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool >/dev/null 2>&1 || true
+mkdir -p /out
+. /src/.github/ci/native_build.sh
 S=/src/system_files
 cp -a $S/usr/lib/classic7/. /usr/lib/classic7/
 cp -a $S/usr/bin/. /usr/bin/ && chmod +x /usr/bin/classic7-*
