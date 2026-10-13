@@ -197,6 +197,34 @@ def _():
     check("window rendered", (OUT / "sheet.png").stat().st_size > 5000)
 
 
+@step("demo")
+def _():
+    import sheet_chart as CH
+    ws = wb.add_sheet("Budget")
+    w.tabs.refresh()
+    rows = [["Month", "Income", "Expenses", "Saved", "Share"]]
+    for i, (m, a, b) in enumerate([("January", 2400, 1850), ("February", 2400, 2100), ("March", 2650, 1900),
+                                   ("April", 2650, 2300), ("May", 2650, 1750), ("June", 3100, 2050)], 2):
+        rows.append([m, str(a), str(b), f"=B{i}-C{i}", f"=D{i}/B{i}"])
+    rows.append(["Total", "=SUM(B2:B7)", "=SUM(C2:C7)", "=SUM(D2:D7)", "=D8/B8"])
+    for r, row in enumerate(rows):
+        for c, t in enumerate(row):
+            wb.set_input(ws, r, c, t)
+    OPS.apply_style(wb, ws, [(0, 0, 0, 4)], bold=True, fill="#4f81bd", color="#ffffff")
+    OPS.apply_style(wb, ws, [(1, 1, 7, 3)], numfmt="#,##0.00")
+    OPS.apply_style(wb, ws, [(1, 4, 7, 4)], numfmt="0.0%")
+    OPS.apply_style(wb, ws, [(7, 0, 7, 4)], bold=True)
+    OPS.set_borders(wb, ws, (0, 0, 7, 4), "all")
+    ws.col_widths[0] = 12
+    ws.charts.append(CH.from_selection(wb, ws, 0, 0, 6, 2, "col"))
+    ws.charts[-1].anchor = (1, 6, 16, 13)
+    w.switch_sheet(wb.sheets.index(ws))
+    g.select(7, 3)
+    app.processEvents()
+    w.grab().save(str(OUT / "sheet-demo.png"))
+    check("demo total", wb.value(ws.name, 7, 3) == 3900.0, repr(wb.value(ws.name, 7, 3)))
+
+
 fails = [r for r in results if not r[1]]
 print(f"{len(results) - len(fails)}/{len(results)} passed")
 with open(OUT / "notices.txt", "a") as f:

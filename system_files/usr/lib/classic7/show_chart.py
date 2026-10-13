@@ -134,9 +134,11 @@ def _nice(lo, hi):
 
 
 def _fmt(v):
+    from PySide6.QtCore import QLocale
+    loc = QLocale()
     if abs(v) >= 1000:
-        return f"{v:,.0f}".replace(",", ".")
-    return f"{v:g}"
+        return f"{v:,.0f}".replace(",", loc.groupSeparator())
+    return f"{v:g}".replace(".", loc.decimalPoint())
 
 
 def paint(p: QPainter, rect: QRectF, chart: dict, ctx):
@@ -290,8 +292,13 @@ def _axes_chart(p, area, chart, series, color, text_color, fm):
     label_w = max(fm.horizontalAdvance(_fmt(lo)), fm.horizontalAdvance(_fmt(hi))) + 6
     if horizontal:
         label_w = max((fm.horizontalAdvance(str(c or "")) for c in cats), default=20) + 6
+    # category labels that don't fit side by side are turned 45 degrees, as in Office
+    cat_w = max((fm.horizontalAdvance(str(c or "")) for c in cats[:ncat]), default=0)
+    slanted = (not horizontal and not scatter and ncat > 1
+               and cat_w > (area.width() - label_w - 4) / ncat - 4)
+    bottom = min(cat_w * 0.72 + fm.height(), area.height() * 0.4) if slanted else fm.height() * 1.8
     plot_r = QRectF(area.left() + label_w, area.top() + fm.height() / 2, area.width() - label_w - 4,
-                    area.height() - fm.height() * 1.8)
+                    area.height() - fm.height() / 2 - bottom)
     if plot_r.width() < 10 or plot_r.height() < 10:
         return
 
@@ -328,6 +335,13 @@ def _axes_chart(p, area, chart, series, color, text_color, fm):
         if horizontal:
             p.drawText(QRectF(area.left(), center - fm.height() / 2, label_w - 4, fm.height()),
                        Qt.AlignRight | Qt.AlignVCenter, text)
+        elif slanted:
+            p.save()
+            p.translate(center + fm.height() * 0.3, plot_r.bottom() + 4)
+            p.rotate(-45)
+            p.drawText(QRectF(-cat_w - 2, -fm.height() / 2, cat_w + 2, fm.height()),
+                       Qt.AlignRight | Qt.AlignVCenter, text)
+            p.restore()
         else:
             p.drawText(QRectF(center - band / 2, plot_r.bottom() + 2, band, fm.height() * 1.6),
                        Qt.AlignHCenter | Qt.AlignTop | Qt.TextWordWrap, text)

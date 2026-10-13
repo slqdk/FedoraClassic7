@@ -504,9 +504,11 @@ class SheetGrid(QAbstractScrollArea):
                 self._paint_freeze(p)
         self._paint_headers(p, rows, cols)
 
-    def _style_font(self, st) -> QFont:
+    def _style_font(self, st, zoom: float | None = None) -> QFont:
         f = QFont(st.font)
-        f.setPixelSize(max(1, round(st.size * 96 / 72 * self.z)))
+        # whole pixels rounded down: 11 pt Calibri is 14 px with 7 px digits, the size Excel's
+        # column widths are measured in (rounding up to 15 px makes "15,850.00" not fit)
+        f.setPixelSize(max(1, int(st.size * 96 / 72 * (self.z if zoom is None else zoom) + 0.01)))
         f.setBold(st.bold)
         f.setItalic(st.italic)
         f.setUnderline(st.underline)
@@ -1349,9 +1351,7 @@ class SheetGrid(QAbstractScrollArea):
                     if cc != c or cell.empty or self.ws.merge_at(r, c):
                         continue
                     st = self.ws.style_of(r, c)
-                    f = QFont(st.font)
-                    f.setPixelSize(round(st.size * 96 / 72))
-                    f.setBold(st.bold)
+                    f = self._style_font(st, 1.0)
                     text = self.wb.display(self.ws, r, c)[0]
                     width = max(QFontMetrics(f).horizontalAdvance(line) for line in text.split("\n")) + 6
                     best = max(best, width)
@@ -1371,9 +1371,7 @@ class SheetGrid(QAbstractScrollArea):
                     if rr != r or cell.empty:
                         continue
                     st = self.ws.style_of(r, c)
-                    f = QFont(st.font)
-                    f.setPixelSize(round(st.size * 96 / 72))
-                    fm = QFontMetrics(f)
+                    fm = QFontMetrics(self._style_font(st, 1.0))
                     text = self.wb.display(self.ws, r, c)[0]
                     if st.wrap:
                         w = self.axes()[0].size(c) / self.z - 4
