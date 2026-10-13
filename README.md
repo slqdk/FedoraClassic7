@@ -445,8 +445,8 @@ Navigation Pane (Favorite Folders, Mail Folders, Mail/Contacts buttons), message
 ## Remote Desktop
 
 <p>
-<img src="docs/screens/remote-settings.png" alt="System Properties > Remote" width="40%">
-<img src="docs/screens/remote-desktop-connection.png" alt="Remote Desktop Connection" width="58%">
+<img src="docs/screens/remote-settings.png" alt="System Properties > Remote" width="34%">
+<img src="docs/screens/remote-desktop-connection.png" alt="Remote Desktop Connection" width="64%">
 </p>
 
 **To this PC from Windows** (Remote Desktop Connection, or any RDP client):

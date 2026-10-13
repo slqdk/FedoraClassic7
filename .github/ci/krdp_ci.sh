@@ -85,16 +85,9 @@ sleep 1
 try users-default 3390 rdpuser 'Rdp pass1'
 sleep 1
 try users-wrongpw 3390 rdpuser 'nope'
-kill $K 2>/dev/null; sleep 1
-# 2) the system user's own password (PAM)
-printf '[General]\nSystemUserEnabled=true\nCertificate=%s\nCertificateKey=%s\n' $C/krdp.crt $C/krdp.key > $HOME/.config/krdpserverrc
-krdpserver --plasma --port 3391 > /out/krdp-$round-pam.log 2>&1 &
-K=$!
-sleep 5
-try pam-default 3391 tester 'Classic7pass!'
 if [ $round = fixed ]; then
-    # 3) Classic 7's Remote Desktop Connection: the dialog, then a session to this same desktop
-    printf 'full address:s:127.0.0.1:3391\r\nscreen mode id:i:1\r\ndesktopwidth:i:800\r\ndesktopheight:i:500\r\nauthentication level:i:0\r\n' \
+    # 2) Classic 7's Remote Desktop Connection: the dialog, then a session to this same desktop as rdpuser
+    printf 'full address:s:127.0.0.1:3390\r\nscreen mode id:i:1\r\ndesktopwidth:i:800\r\ndesktopheight:i:500\r\nauthentication level:i:0\r\n' \
         | iconv -t UTF-16 > $HOME/.config/classic7/Default.rdp
     (CLASSIC7_MSTSC_LOG=/out/mstsc-session.log timeout 60 classic7-mstsc > /out/mstsc.log 2>&1 &)
     sleep 6
@@ -103,13 +96,20 @@ if [ $round = fixed ]; then
     DISPLAY=:99 import -window root /out/11-mstsc-options.png
     DISPLAY=:99 xdotool key alt+n; sleep 3
     DISPLAY=:99 import -window root /out/12-credentials.png
-    DISPLAY=:99 xdotool type --delay 60 'tester'; DISPLAY=:99 xdotool key Tab
-    DISPLAY=:99 xdotool type --delay 60 'Classic7pass!'; DISPLAY=:99 xdotool key Return
+    DISPLAY=:99 xdotool type --delay 60 'rdpuser'; DISPLAY=:99 xdotool key Tab
+    DISPLAY=:99 xdotool type --delay 60 'Rdp pass1'; DISPLAY=:99 xdotool key Return
     sleep 14
     DISPLAY=:99 import -window root /out/13-session.png
     echo "mstsc: $(pgrep -af 'freerdp' | grep -v pgrep | head -1)" >> /out/result.txt
     pkill -f "sdl-freerdp|xfreerdp|wlfreerdp"; sleep 3
 fi
+kill $K 2>/dev/null; sleep 1
+# 3) the system user's own password (PAM)
+printf '[General]\nSystemUserEnabled=true\nCertificate=%s\nCertificateKey=%s\n' $C/krdp.crt $C/krdp.key > $HOME/.config/krdpserverrc
+krdpserver --plasma --port 3391 > /out/krdp-$round-pam.log 2>&1 &
+K=$!
+sleep 5
+try pam-default 3391 tester 'Classic7pass!'
 kill $K 2>/dev/null; sleep 1
 grep -hiE "authenticated|PAM|New client|failure|SAM|NLA|security|certificate|Listening" /out/krdp-$round-*.log | head -24 >> /out/result.txt
 EOI
