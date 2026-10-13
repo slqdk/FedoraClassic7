@@ -86,11 +86,9 @@ class KWinBridge(QObject):
         reply = self.kwin.call("loadScript", path, name)
         args = reply.arguments() if reply.type() == QDBusMessage.ReplyMessage else []
         if args and isinstance(args[0], int) and args[0] >= 0:
-            for obj in (f"/Scripting/Script{args[0]}", f"/{args[0]}"):
-                script = QDBusInterface("org.kde.KWin", obj, "org.kde.kwin.Script", self.bus)
-                if script.isValid():
-                    script.call("run")
-                    break
+            # start() runs every loaded script that isn't running yet (ours); asking the script's
+            # own D-Bus object to run can race with KWin registering it
+            self.kwin.call("start")
 
         def cleanup():
             self.kwin.call("unloadScript", name)
