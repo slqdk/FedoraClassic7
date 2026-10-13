@@ -138,7 +138,11 @@ def split_user(text: str) -> tuple[str, str]:
 
 
 def client_program() -> str | None:
-    for name in ("sdl-freerdp3", "sdl-freerdp", "xfreerdp3", "xfreerdp"):
+    """FreeRDP's SDL client (it asks about certificates in a window), else the X11 one;
+    CLASSIC7_RDP_CLIENT names another."""
+    for name in (os.environ.get("CLASSIC7_RDP_CLIENT", ""), "sdl-freerdp3", "sdl-freerdp", "xfreerdp3", "xfreerdp"):
+        if not name:
+            continue
         path = shutil.which(name)
         if path:
             return path

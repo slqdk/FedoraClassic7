@@ -2,6 +2,9 @@
 # user and with the system user (PAM), first with the packaged KRdp library, then with the one
 # build_files/krdp/fix-krdp.sh builds; then Classic 7's Remote Desktop Connection (classic7-mstsc)
 # connects to the server. Results in /out/result.txt.
+# The nested KWin here draws without OpenGL (Xvfb), and KWin's screencast needs OpenGL: KRdp would
+# drop every connection at once when its screencast fails. So krdpserver doesn't get the screencast
+# interface here; it then logs on as usual and the sessions stay black.
 set -x
 exec 2>/out/script.log
 dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool >/dev/null 2>&1 || true
@@ -20,6 +23,23 @@ cp -a $S/usr/lib/classic7/. /usr/lib/classic7/
 cp -a $S/usr/bin/. /usr/bin/ && chmod +x /usr/bin/classic7-*
 cp -a $S/usr/share/applications/. /usr/share/applications/
 cp -a $S/etc/skel/. /etc/skel/ 2>/dev/null
+sed -i 's/^X-KDE-Wayland-Interfaces=.*/X-KDE-Wayland-Interfaces=org_kde_kwin_fake_input/' /usr/share/applications/org.kde.krdpserver.desktop
+cat > /tmp/probe.py <<'EOP'
+import socket, struct, sys
+# what the server picks when a client offers TLS, NLA and NLA with early user auth (as Windows does)
+cookie = b"Cookie: mstshash=tester\r\n"
+body = bytes([0xE0, 0, 0, 0, 0, 0]) + cookie + struct.pack("<BBHI", 1, 0, 8, 0x0B)
+pdu = struct.pack(">BBH", 3, 0, 5 + len(body)) + bytes([len(body)]) + body
+s = socket.create_connection(("127.0.0.1", int(sys.argv[1])), timeout=5)
+s.sendall(pdu)
+data = s.recv(64)
+names = {1: "TLS", 2: "NLA", 8: "NLA with early user auth (HYBRID_EX)"}
+if len(data) >= 19 and data[5] == 0xD0 and data[11] == 2:
+    sel = struct.unpack("<I", data[15:19])[0]
+    print(f"server picks {names.get(sel, hex(sel))}")
+else:
+    print(f"no negotiation answer: {data.hex(' ')}")
+EOP
 useradd -m -u 1000 tester 2>/dev/null
 echo 'tester:Classic7pass!' | chpasswd
 cat > /tmp/inner.sh <<'EOI'
@@ -57,6 +77,8 @@ try() {
 krdpserver --plasma --port 3390 -u rdpuser -p 'Rdp pass1' $CERT > /out/krdp-$round-users.log 2>&1 &
 K=$!
 sleep 5
+echo "round $round negotiation: $(python3 /tmp/probe.py 3390 2>&1)" >> /out/result.txt
+sleep 1
 try users-default 3390 rdpuser 'Rdp pass1'
 sleep 1
 try users-wrongpw 3390 rdpuser 'nope'
