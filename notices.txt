@@ -1,0 +1,1 @@
+inspect2: 1114 lines, dbus: 268 lines

@@ -1,0 +1,268 @@
+===== kglobalaccel
+method QStringList org.kde.KGlobalAccel.action(int key)
+method QStringList org.kde.KGlobalAccel.actionList(QDBusRawType::(ai key)
+method void org.kde.KGlobalAccel.activateGlobalShortcutContext(QString component, QString context)
+method QDBusRawType::aas org.kde.KGlobalAccel.allActionsForComponent(QStringList actionId)
+method QList<QDBusObjectPath> org.kde.KGlobalAccel.allComponents()
+method QDBusRawType::aas org.kde.KGlobalAccel.allMainComponents()
+method void org.kde.KGlobalAccel.blockGlobalShortcuts(bool)
+method QDBusRawType::ai org.kde.KGlobalAccel.defaultShortcut(QStringList actionId)
+method QDBusRawType::a(ai) org.kde.KGlobalAccel.defaultShortcutKeys(QStringList actionId)
+method void org.kde.KGlobalAccel.doRegister(QStringList actionId)
+method QDBusObjectPath org.kde.KGlobalAccel.getComponent(QString componentUnique)
+method QDBusRawType::a(ssssssaiai) org.kde.KGlobalAccel.getGlobalShortcutsByKey(int key)
+method bool org.kde.KGlobalAccel.globalShortcutAvailable(QDBusRawType::(ai key)
+method QDBusRawType::a(ssssssaiai) org.kde.KGlobalAccel.globalShortcutsByKey(QDBusRawType::(ai key)
+method bool org.kde.KGlobalAccel.isGlobalShortcutAvailable(int key, QString component)
+method void org.kde.KGlobalAccel.setForeignShortcut(QStringList actionId, QDBusRawType::ai keys)
+method void org.kde.KGlobalAccel.setForeignShortcutKeys(QStringList actionId, QDBusRawType::a(ai keys)
+method void org.kde.KGlobalAccel.setInactive(QStringList actionId)
+method QDBusRawType::ai org.kde.KGlobalAccel.setShortcut(QStringList actionId, QDBusRawType::ai keys, uint flags)
+method QDBusRawType::a(ai) org.kde.KGlobalAccel.setShortcutKeys(QStringList actionId, QDBusRawType::a(ai keys)
+method QDBusRawType::ai org.kde.KGlobalAccel.shortcut(QStringList actionId)
+method QDBusRawType::a(ai) org.kde.KGlobalAccel.shortcutKeys(QStringList actionId)
+method void org.kde.KGlobalAccel.unRegister(QStringList actionId)
+method bool org.kde.KGlobalAccel.unregister(QString componentUnique, QString shortcutUnique)
+signal void org.kde.KGlobalAccel.yourShortcutGotChanged(QStringList actionId, QDBusRawType::ai newKeys)
+signal void org.kde.KGlobalAccel.yourShortcutsChanged(QStringList actionId, QDBusRawType::a(ai newKeys)
+method QDBusVariant org.freedesktop.DBus.Properties.Get(QString interface_name, QString property_name)
+method QVariantMap org.freedesktop.DBus.Properties.GetAll(QString interface_name)
+signal void org.freedesktop.DBus.Properties.PropertiesChanged(QString interface_name, QVariantMap changed_properties, QStringList invalidated_properties)
+method void org.freedesktop.DBus.Properties.Set(QString interface_name, QString property_name, QDBusVariant value)
+method QString org.freedesktop.DBus.Introspectable.Introspect()
+method QString org.freedesktop.DBus.Peer.GetMachineId()
+method void org.freedesktop.DBus.Peer.Ping()
+===== component kwin
+property read QString org.kde.kglobalaccel.Component.friendlyName
+property read QString org.kde.kglobalaccel.Component.uniqueName
+method QDBusRawType::a(ssssssaiai) org.kde.kglobalaccel.Component.allShortcutInfos()
+method QDBusRawType::a(ssssssaiai) org.kde.kglobalaccel.Component.allShortcutInfos(QString context)
+method bool org.kde.kglobalaccel.Component.cleanUp()
+method QStringList org.kde.kglobalaccel.Component.getShortcutContexts()
+signal void org.kde.kglobalaccel.Component.globalShortcutPressed(QString componentUnique, QString shortcutUnique, qlonglong timestamp)
+signal void org.kde.kglobalaccel.Component.globalShortcutReleased(QString componentUnique, QString shortcutUnique, qlonglong timestamp)
+signal void org.kde.kglobalaccel.Component.globalShortcutRepeated(QString componentUnique, QString shortcutUnique, qlonglong timestamp)
+method void org.kde.kglobalaccel.Component.invokeShortcut(QString shortcutName)
+method void org.kde.kglobalaccel.Component.invokeShortcut(QString shortcutName, QString context)
+method bool org.kde.kglobalaccel.Component.isActive()
+method QStringList org.kde.kglobalaccel.Component.shortcutNames()
+method QStringList org.kde.kglobalaccel.Component.shortcutNames(QString context)
+method QDBusVariant org.freedesktop.DBus.Properties.Get(QString interface_name, QString property_name)
+method QVariantMap org.freedesktop.DBus.Properties.GetAll(QString interface_name)
+signal void org.freedesktop.DBus.Properties.PropertiesChanged(QString interface_name, QVariantMap changed_properties, QStringList invalidated_properties)
+method void org.freedesktop.DBus.Properties.Set(QString interface_name, QString property_name, QDBusVariant value)
+method QString org.freedesktop.DBus.Introspectable.Introspect()
+method QString org.freedesktop.DBus.Peer.GetMachineId()
+method void org.freedesktop.DBus.Peer.Ping()
+===== shortcut names
+Walk Through Windows
+Switch to Desktop 23
+Switch to Desktop 19
+Decrease Opacity
+Window to Desktop 11
+Window Quick Tile Bottom
+Window to Desktop 4
+Window to Next Screen
+Switch to Previous Screen
+Switch to Desktop 1
+Window Fullscreen
+Window to Screen 2
+MoveZoomRight
+Window Custom Quick Tile Right
+Window Quick Tile Left
+MoveMouseToFocus
+Switch to Desktop 12
+Window to Desktop 6
+Switch to Desktop 15
+Window to Desktop 17
+Switch to Screen 4
+MoveMouseToCenter
+Switch One Desktop Up
+MoveZoomDown
+Window to Desktop 14
+Switch to Desktop 10
+Window Maximize Vertical
+Switch Window Down
+view_zoom_in
+Window to Desktop 5
+Window to Desktop 8
+Switch to Screen Above
+Kill Window
+Window Resize
+Window Quick Tile Bottom Right
+Window Custom Quick Tile Bottom
+Window Pack Right
+Switch to Desktop 2
+Window to Desktop 13
+Window to Previous Desktop
+Switch to Desktop 21
+Window Below Other Windows
+Window No Border
+Window Shrink Vertical
+Window to Screen 6
+Switch to Screen 3
+Walk Through Windows of Current Application
+view_zoom_out
+Window to Desktop 16
+Window Quick Tile Top Left
+Window One Desktop Up
+Activate Window Demanding Attention
+Switch One Desktop to the Right
+Window Maximize
+Setup Window Shortcut
+Switch to Desktop 9
+Window to Desktop 22
+Window Quick Tile Top
+Window One Screen Down
+Toggle Night Color
+Window One Desktop Down
+Window One Desktop to the Left
+Toggle Window Raise/Lower
+Walk Through Windows Alternative (Reverse)
+Window to Screen 7
+Window to Desktop 25
+Window to Screen 5
+Window Shrink Horizontal
+Window to Screen 1
+Switch to Desktop 24
+Window to Desktop 7
+Window to Desktop 20
+Window One Screen to the Right
+Switch to Next Desktop
+disableInputCapture
+Window Move Center
+Window Pack Up
+Walk Through Windows (Reverse)
+Switch One Desktop Down
+Switch One Desktop to the Left
+Window Minimize
+Window Maximize Horizontal
+Window Pack Left
+Window Quick Tile Right
+Window Quick Tile Top Right
+Window to Desktop 3
+Window One Desktop to the Right
+Switch to Desktop 18
+Window Lower
+Switch to Screen 0
+Increase Opacity
+Window Grow Vertical
+Walk Through Windows Alternative
+Switch Window Left
+Window to Desktop 2
+Switch to Desktop 16
+Window Quick Tile Bottom Left
+Switch to Previous Desktop
+Switch to Desktop 13
+Window Move
+Walk Through Windows of Current Application Alternative
+Switch Window Right
+Switch to Desktop 8
+Window to Desktop 21
+Switch to Desktop 5
+Window to Screen 3
+Switch to Screen 6
+Switch to Next Screen
+Switch to Desktop 22
+view_actual_size
+Window Raise
+Window to Desktop 24
+MoveZoomLeft
+Switch to Screen 5
+Window One Screen to the Left
+Switch to Screen 1
+Switch to Desktop 20
+Switch to Screen 7
+Switch to Desktop 6
+Window to Next Desktop
+Switch to Desktop 25
+Window Above Other Windows
+Window to Desktop 18
+Switch to Desktop 4
+Window Custom Quick Tile Top
+Move Tablet to Next LogicalOutput
+Switch Window Up
+Window to Desktop 1
+Window Pack Down
+Window to Screen 0
+Window One Screen Up
+Window Close
+Window Restore
+Switch to Desktop 3
+Walk Through Windows of Current Application Alternative (Reverse)
+Window to Desktop 23
+Switch to Screen 2
+MoveZoomUp
+Window to Previous Screen
+Switch to Desktop 11
+Window to Desktop 19
+Window to Desktop 12
+Switch to Desktop 7
+Window Operations Menu
+Walk Through Windows of Current Application (Reverse)
+Switch to Screen to the Right
+Switch to Desktop 14
+Window On All Desktops
+Window to Screen 4
+Window to Desktop 10
+Window to Desktop 15
+Switch to Desktop 17
+Window to Desktop 9
+Switch to Screen Below
+Switch to Screen to the Left
+Show Desktop
+Window Custom Quick Tile Left
+Window Grow Horizontal
+===== allShortcutInfos
+qdbus: I don't know how to display an argument of type 'a(ssssssaiai)', run with --literal.
+===== KWin
+property read bool org.kde.KWin.showingDesktop
+method QString org.kde.KWin.activeOutputName()
+method int org.kde.KWin.currentDesktop()
+method QVariantMap org.kde.KWin.getWindowInfo(QString)
+method Q_NOREPLY void org.kde.KWin.killWindow()
+method void org.kde.KWin.nextDesktop()
+method void org.kde.KWin.previousDesktop()
+method QVariantMap org.kde.KWin.queryWindowInfo()
+method Q_NOREPLY void org.kde.KWin.reconfigure()
+signal void org.kde.KWin.reloadConfig()
+method void org.kde.KWin.replace()
+method bool org.kde.KWin.setCurrentDesktop(int desktop)
+method void org.kde.KWin.showDebugConsole()
+method Q_NOREPLY void org.kde.KWin.showDesktop(bool showing)
+signal void org.kde.KWin.showingDesktopChanged(bool showing)
+method QString org.kde.KWin.supportInformation()
+method QDBusVariant org.freedesktop.DBus.Properties.Get(QString interface_name, QString property_name)
+method QVariantMap org.freedesktop.DBus.Properties.GetAll(QString interface_name)
+signal void org.freedesktop.DBus.Properties.PropertiesChanged(QString interface_name, QVariantMap changed_properties, QStringList invalidated_properties)
+method void org.freedesktop.DBus.Properties.Set(QString interface_name, QString property_name, QDBusVariant value)
+method QString org.freedesktop.DBus.Introspectable.Introspect()
+method QString org.freedesktop.DBus.Peer.GetMachineId()
+method void org.freedesktop.DBus.Peer.Ping()
+===== Scripting
+method bool org.kde.kwin.Scripting.isScriptLoaded(QString pluginName)
+method int org.kde.kwin.Scripting.loadDeclarativeScript(QString filePath)
+method int org.kde.kwin.Scripting.loadDeclarativeScript(QString filePath, QString pluginName)
+method int org.kde.kwin.Scripting.loadScript(QString filePath)
+method int org.kde.kwin.Scripting.loadScript(QString filePath, QString pluginName)
+method void org.kde.kwin.Scripting.start()
+method bool org.kde.kwin.Scripting.unloadScript(QString pluginName)
+method QDBusVariant org.freedesktop.DBus.Properties.Get(QString interface_name, QString property_name)
+method QVariantMap org.freedesktop.DBus.Properties.GetAll(QString interface_name)
+signal void org.freedesktop.DBus.Properties.PropertiesChanged(QString interface_name, QVariantMap changed_properties, QStringList invalidated_properties)
+method void org.freedesktop.DBus.Properties.Set(QString interface_name, QString property_name, QDBusVariant value)
+method QString org.freedesktop.DBus.Introspectable.Introspect()
+method QString org.freedesktop.DBus.Peer.GetMachineId()
+method void org.freedesktop.DBus.Peer.Ping()
+===== services
+:1.0
+ org.freedesktop.a11y.Manager
+ org.kde.KWin
+ org.kde.KWin.HighlightWindow
+ org.kde.KWin.NightLight
+ org.kde.KWin.ScreenShot2
+ org.kde.keyboard
+ org.kde.kglobalaccel
+ org.kde.touchpad
+:1.7
+org.freedesktop.DBus

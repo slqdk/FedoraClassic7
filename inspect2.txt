@@ -1,0 +1,1114 @@
+===== /usr/share/kwin/tabbox/compact/metadata.json
+{
+    "KPackageStructure": "KWin/WindowSwitcher",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "mgraesslin@kde.org",
+                "Name": "Martin Gräßlin",
+                "Name[ar]": "مارتن جراجلين",
+                "Name[az]": "Martin Gräßlin",
+                "Name[bg]": "Martin Gräßlin",
+                "Name[ca@valencia]": "Martin Gräßlin",
+                "Name[ca]": "Martin Gräßlin",
+                "Name[cs]": "Martin Gräßlin",
+                "Name[da]": "Martin Gräßlin",
+                "Name[de]": "Martin Gräßlin",
+                "Name[en_GB]": "Martin Gräßlin",
+                "Name[eo]": "Martin Gräßlin",
+                "Name[es]": "Martin Gräßlin",
+                "Name[eu]": "Martin Gräßlin",
+                "Name[fi]": "Martin Gräßlin",
+                "Name[fr]": "Martin Gräßlin",
+                "Name[gl]": "Martin Gräßlin",
+                "Name[he]": "מרטין גרייסלין",
+                "Name[hu]": "Martin Gräßlin",
+                "Name[ia]": "Martin Gräßlin",
+                "Name[id]": "Martin Gräßlin",
+                "Name[is]": "Martin Gräßlin",
+                "Name[it]": "Martin Gräßlin",
+                "Name[ja]": "Martin Gräßlin",
+                "Name[ka]": "მარტინ გრესსლინი",
+                "Name[ko]": "Martin Gräßlin",
+                "Name[lt]": "Martin Gräßlin",
+                "Name[lv]": "Martin Gräßlin",
+                "Name[nl]": "Martin Gräßlin",
+                "Name[nn]": "Martin Gräßlin",
+                "Name[pl]": "Martin Gräßlin",
+                "Name[pt]": "Martin Gräßlin",
+                "Name[pt_BR]": "Martin Gräßlin",
+                "Name[ro]": "Martin Gräßlin",
+                "Name[ru]": "Martin Gräßlin",
+                "Name[sa]": "मार्टिन् ग्रास्लिन्",
+                "Name[sk]": "Martin Gräßlin",
+                "Name[sl]": "Martin Gräßlin",
+                "Name[sv]": "Martin Gräßlin",
+                "Name[ta]": "மார்ட்டின் கிராஸ்லின்",
+                "Name[tr]": "Martin Gräßlin",
+                "Name[uk]": "Martin Gräßlin",
+                "Name[vi]": "Martin Gräßlin",
+                "Name[zh_CN]": "Martin Gräßlin",
+                "Name[zh_TW]": "Martin Gräßlin"
+            }
+        ],
+        "Description": "A compact window switcher layout",
+        "Description[ar]": "مخطط مبدل نوافذ متراص",
+        "Description[az]": "Yığcam pəncərə dəyişdirici maketi",
+        "Description[bg]": "Компактно оформление на програмата за превключване на прозорци",
+        "Description[ca@valencia]": "Una disposició compacta del commutador de finestres",
+        "Description[ca]": "Una disposició compacta del commutador de finestres",
+        "Description[cs]": "Kompaktní rozvržení přepínače oken",
+        "Description[da]": "Et kompakt vindueskifterlayout",
+        "Description[de]": "Ein kompaktes Fensterwechsler-Layout",
+        "Description[en_GB]": "A compact window switcher layout",
+        "Description[eo]": "Kompakta fenestra ŝaltilo",
+        "Description[es]": "Un esquema de selección de ventanas compacto",
+        "Description[eu]": "Leiho-trukatzaile antolamendu trinko bat",
+        "Description[fi]": "Tiivis ikkunavaihtoasettelu",
+        "Description[fr]": "Une disposition synthétique pour le basculement de fenêtres",
+        "Description[gl]": "Unha disposición compacta do selector de xanelas",
+        "Description[he]": "פריסת מחליף חלונות מצומצמת",
+        "Description[hu]": "Kompakt ablakváltó elrendezés",
+        "Description[ia]": "Un disposition de commutator de fenestra compacte",
+        "Description[id]": "Sebuah tataletak pengalih jendela yang ringkas",
+        "Description[is]": "Gluggaskiptir með þéttri framsetningu",
+        "Description[it]": "Una disposizione compatta del selettore delle finestre",
+        "Description[ja]": "コンパクトなウィンドウスイッチャー",
+        "Description[ka]": "ფანჯრების გადართვის კომპაქტური განლაგება",
+        "Description[ko]": "소형 창 전환기 레이아웃",
+        "Description[lt]": "Kompaktiškas langų perjungiklio išdėstymas",
+        "Description[lv]": "Kompakts logu pārslēgšanas izkārtojums",
+        "Description[nl]": "Een compacte indeling van de vensterwisselaar",
+        "Description[nn]": "Kompakt vindaugsbytar",
+        "Description[pl]": "Zwarty przełącznik okien",
+        "Description[pt]": "Uma disposição de mudança de janelas compacta",
+        "Description[pt_BR]": "Uma layout compacto do seletor de janelas",
+        "Description[ro]": "Aranjament compact pentru comutatorul de ferestre",
+        "Description[ru]": "Компактный переключатель окон",
+        "Description[sa]": "एकः संकुचितः विण्डो स्विचर विन्यासः",
+        "Description[sk]": "Kompaktné rozloženie prepínača okien",
+        "Description[sl]": "Kompaktna razporeditev preklopa oken",
+        "Description[sv]": "En kompakt layout för fönsterbyte",
+        "Description[ta]": "சுருக்கமான சாளர மாற்றி",
+        "Description[tr]": "Sıkışık bir pencere değiştirici yerleşimi",
+        "Description[uk]": "Компактне компонування засобу перемикання вікон",
+        "Description[vi]": "Bố cục gọn cho trình chuyển cửa sổ",
+        "Description[zh_CN]": "紧凑的窗口切换器布局",
+        "Description[zh_TW]": "簡潔的視窗切換器佈局",
+        "Icon": "preferences-system-windows-switcher-compact",
+        "Id": "compact",
+        "License": "GPL",
+        "Name": "Compact",
+        "Name[ar]": "متراصّ",
+        "Name[az]": "Yığcam",
+        "Name[bg]": "Компактно",
+        "Name[ca@valencia]": "Compacte",
+        "Name[ca]": "Compacte",
+        "Name[cs]": "Kompaktní",
+        "Name[da]": "Kompakt",
+        "Name[de]": "Kompakt",
+        "Name[en_GB]": "Compact",
+        "Name[eo]": "Kompakta",
+        "Name[es]": "Compacto",
+        "Name[eu]": "Trinkoa",
+        "Name[fi]": "Tiivis",
+        "Name[fr]": "Synthétique",
+        "Name[gl]": "Compacta",
+        "Name[he]": "מצומצם",
+        "Name[hu]": "Kompakt",
+        "Name[ia]": "Compacte",
+        "Name[id]": "Ringkas",
+        "Name[is]": "Þétt",
+        "Name[it]": "Compatto",
+        "Name[ja]": "コンパクト",
+        "Name[ka]": "დაპატარავება",
+        "Name[ko]": "축소됨",
+        "Name[lt]": "Kompaktiškas",
+        "Name[lv]": "Kompakts",
+        "Name[nl]": "Compact",
+        "Name[nn]": "Kompakt",
+        "Name[pl]": "Zwarty",
+        "Name[pt]": "Compacto",
+        "Name[pt_BR]": "Compacto",
+        "Name[ro]": "Compact",
+        "Name[ru]": "Компактный",
+        "Name[sa]": "संकुचित",
+        "Name[sk]": "Kompaktný",
+        "Name[sl]": "Kompaktno",
+        "Name[sv]": "Kompakt",
+        "Name[ta]": "சுருக்கமானது",
+        "Name[tr]": "Kompakt",
+        "Name[uk]": "Компактне",
+        "Name[vi]": "Gọn",
+        "Name[zh_CN]": "紧凑",
+        "Name[zh_TW]": "簡潔"
+    }
+}
+===== /usr/share/kwin/tabbox/compact/contents/ui/main.qml
+/*
+ KWin - the KDE window manager
+ This file is part of the KDE project.
+
+ SPDX-FileCopyrightText: 2011 Martin Gräßlin <mgraesslin@kde.org>
+
+ SPDX-License-Identifier: GPL-2.0-or-later
+ */
+import QtQuick
+import QtQuick.Layouts
+import org.kde.plasma.core as PlasmaCore
+import org.kde.kirigami as Kirigami
+import org.kde.ksvg as KSvg
+import org.kde.plasma.components as PlasmaComponents3
+import org.kde.kwin as KWin
+
+KWin.TabBoxSwitcher {
+    id: tabBox
+    currentIndex: compactListView.currentIndex
+
+    /**
+    * Returns the caption with adjustments for minimized items.
+    * @param caption the original caption
+    * @param mimized whether the item is minimized
+    * @return Caption adjusted for minimized state
+    **/
+    function itemCaption(caption, minimized) {
+        if (minimized) {
+            return "(" + caption + ")";
+        }
+        return caption;
+    }
+
+    TextMetrics {
+        id: textMetrics
+        property string longestCaption: tabBox.model?.longestCaption() || placeholderLabel.text
+        text: itemCaption(longestCaption, true)
+        font.bold: true
+    }
+
+    onVisibleChanged: {
+        if (visible) {
+            // Window captions may have change completely
+            textMetrics.longestCaption = tabBox.model?.longestCaption() || placeholderLabel.text;
+        }
+    }
+    onModelChanged: {
+        textMetrics.longestCaption = tabBox.model?.longestCaption() || placeholderLabel.text;
+    }
+
+    // For mouse clicking, we delay the activation just enough to have
+    // visual feedback of the highlight switching to the selected item
+    Timer {
+        id: activationTimer
+        interval: Kirigami.Units.shortDuration
+        onTriggered: {
+            tabBox.model.activate(compactListView.currentIndex)
+        }
+    }
+
+    PlasmaCore.Dialog {
+        id: dialog
+        location: PlasmaCore.Types.Floating
+        visible: tabBox.visible
+        flags: Qt.Popup | Qt.X11BypassWindowManagerHint
+        x: tabBox.screenGeometry.x + tabBox.screenGeometry.width * 0.5 - dialogMainItem.width * 0.5
+        y: tabBox.screenGeometry.y + tabBox.screenGeometry.height * 0.5 - dialogMainItem.height * 0.5
+
+        mainItem: Item {
+            id: dialogMainItem
+
+            property int optimalWidth: textMetrics.width + Kirigami.Units.iconSizes.small + 2 * Kirigami.Units.smallSpacing + hoverItem.margins.right + hoverItem.margins.left
+            property int optimalHeight: compactListView.rowHeight * (compactListView.count || 1)
+            width: Math.min(Math.max(tabBox.screenGeometry.width * 0.2, optimalWidth), tabBox.screenGeometry.width * 0.8)
+            height: Math.min(optimalHeight, tabBox.screenGeometry.height * 0.8)
+
+            // just to get the margin sizes
+            KSvg.FrameSvgItem {
+                id: hoverItem
+                imagePath: "widgets/viewitem"
+                prefix: "hover"
+                visible: false
+            }
+
+            ListView {
+                id: compactListView
+
+                // the maximum text width + icon item width (32 + 4 margin) + margins for hover item
+                property int rowHeight: Math.max(Kirigami.Units.iconSizes.small, textMetrics.height + hoverItem.margins.top + hoverItem.margins.bottom)
+
+                anchors.fill: parent
+                clip: true
+                focus: true
+
+                model: tabBox.model
+                delegate: RowLayout {
+
+                    width: compactListView.width
+                    height: compactListView.rowHeight
+                    opacity: minimized ? 0.75 : 1.0
+
+                    spacing: 2 * Kirigami.Units.smallSpacing
+
+                    Accessible.name: captionItem.text//Accessible.name
+                    Kirigami.Icon {
+                        id: iconItem
+                        source: model.icon
+                        Layout.preferredWidth: Kirigami.Units.iconSizes.small
+                        Layout.preferredHeight: Kirigami.Units.iconSizes.small
+                        Layout.leftMargin: hoverItem.margins.left
+                    }
+                    PlasmaComponents3.Label {
+                        id: captionItem
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignBottom
+                        text: itemCaption(caption, minimized)
+                        textFormat: Text.PlainText
+                        font.weight: index === compactListView.currentIndex ? Font.Bold : Font.Normal
+                        elide: Text.ElideMiddle
+                        Layout.fillWidth: true
+                        Layout.rightMargin: hoverItem.margins.right
+                        Layout.topMargin: hoverItem.margins.top
+                        Layout.bottomMargin: hoverItem.margins.bottom
+                    }
+                    TapHandler {
+                        onTapped: {
+                            compactListView.currentIndex = index;
+                            activationTimer.start();
+                        }
+                    }
+                }
+                highlight: KSvg.FrameSvgItem {
+                    imagePath: "widgets/viewitem"
+                    prefix: "hover"
+                    width: compactListView.width
+                }
+                highlightMoveDuration: 0
+                highlightResizeDuration: 0
+                boundsBehavior: Flickable.StopAtBounds
+                Connections {
+                    target: tabBox
+                    function onCurrentIndexChanged() {compactListView.currentIndex = tabBox.currentIndex;}
+                }
+
+                RowLayout {
+                    visible: compactListView.count === 0
+                    anchors.centerIn: parent
+                    spacing: 2 * Kirigami.Units.smallSpacing
+
+                    Kirigami.Icon {
+                        source:  "edit-none"
+                        Layout.preferredWidth: Kirigami.Units.iconSizes.small
+                        Layout.preferredHeight: Kirigami.Units.iconSizes.small
+                        Layout.leftMargin: hoverItem.margins.left
+                    }
+                    PlasmaComponents3.Label {
+                        id: placeholderLabel
+                        horizontalAlignment: Text.AlignLeft
+                        verticalAlignment: Text.AlignBottom
+                        text: i18ndc("kwin", "@info:placeholder no entries in the task switcher", "No open windows")
+                        textFormat: Text.PlainText
+                        Layout.fillWidth: true
+                        Layout.rightMargin: hoverItem.margins.right
+                        Layout.topMargin: hoverItem.margins.top
+                        Layout.bottomMargin: hoverItem.margins.bottom
+                    }
+                }
+            }
+            /*
+            * Key navigation on outer item for two reasons:
+            * @li we have to emit the change signal
+            * @li on multiple invocation it does not work on the list view. Focus seems to be lost.
+            **/
+            Keys.onPressed: event => {
+                if (event.key === Qt.Key_Up || event.key === Qt.Key_Left) {
+                    if (compactListView.currentIndex === 0) {
+                        compactListView.currentIndex = compactListView.count - 1
+                    } else {
+                        compactListView.decrementCurrentIndex()
+                    }
+                } else if (event.key === Qt.Key_Down || event.key === Qt.Key_Right) {
+                    if (compactListView.currentIndex === compactListView.count - 1) {
+                        compactListView.currentIndex = 0
+                    } else {
+                        compactListView.incrementCurrentIndex()
+                    }
+                }
+            }
+        }
+
+        onSceneGraphError: () => {
+            // This slot is intentionally left blank, otherwise QtQuick may post a qFatal() message on a graphics reset.
+        }
+    }
+}
+===== /usr/share/kwin/tabbox/big_icons/contents/ui/main.qml
+/*
+ KWin - the KDE window manager
+ This file is part of the KDE project.
+
+ SPDX-FileCopyrightText: 2011 Martin Gräßlin <mgraesslin@kde.org>
+
+ SPDX-License-Identifier: GPL-2.0-or-later
+ */
+import QtQuick
+import QtQuick.Layouts
+import org.kde.plasma.core as PlasmaCore
+import org.kde.kirigami as Kirigami
+import org.kde.ksvg as KSvg
+import org.kde.plasma.components as PlasmaComponents3
+import org.kde.kwin as KWin
+
+KWin.TabBoxSwitcher {
+    id: tabBox
+
+    currentIndex: (instantiator.object as BigIconsDialog)?.currentIndex ?? currentIndex
+
+    Instantiator {
+        id: instantiator
+        active: tabBox.visible
+        delegate: BigIconsDialog { }
+    }
+
+    component BigIconsDialog: PlasmaCore.Dialog {
+        property alias currentIndex: icons.currentIndex
+        location: PlasmaCore.Types.Floating
+        visible: tabBox.visible
+        flags: Qt.Popup | Qt.X11BypassWindowManagerHint
+        x: tabBox.screenGeometry.x + tabBox.screenGeometry.width * 0.5 - dialogMainItem.width * 0.5
+        y: tabBox.screenGeometry.y + tabBox.screenGeometry.height * 0.5 - dialogMainItem.height * 0.5
+
+        mainItem: ColumnLayout {
+            id: dialogMainItem
+            spacing: Kirigami.Units.smallSpacing * 2
+
+            width: Math.min(Math.max(tabBox.screenGeometry.width * 0.3, icons.implicitWidth), tabBox.screenGeometry.width * 0.9)
+
+            property int maxItemsPerRow:  Math.floor(tabBox.screenGeometry.width * 0.9 / icons.delegateWidth)
+            property int actualItemsPerRow:  Math.min(tabBox.model.rowCount(), maxItemsPerRow)
+
+            property int gridViewWidth: Math.max(4, actualItemsPerRow) * icons.delegateWidth
+            property int gridViewHeight: Math.ceil(tabBox.model.rowCount() / maxItemsPerRow) * icons.delegateHeight
+
+            GridView {
+                id: icons
+
+                readonly property int iconSize: Kirigami.Units.iconSizes.enormous
+                readonly property int delegateWidth: iconSize + (highlightItem ? highlightItem.margins.left + highlightItem.margins.right : 0)
+                readonly property int delegateHeight: iconSize + (highlightItem ? highlightItem.margins.top + highlightItem.margins.bottom : 0)
+
+                implicitWidth: dialogMainItem.actualItemsPerRow * delegateWidth
+                implicitHeight: dialogMainItem.gridViewHeight
+                Layout.alignment: Qt.AlignHCenter
+                Layout.maximumWidth: tabBox.screenGeometry.width * 0.9
+                Layout.fillWidth: false // to make centering with few icons work
+                Layout.fillHeight: true
+                cellWidth: delegateWidth
+                cellHeight: delegateHeight
+
+                currentIndex: tabBox.currentIndex
+                focus: true
+                flow: GridView.LeftToRight
+                keyNavigationWraps: true
+
+                model: tabBox.model
+                delegate: Kirigami.Icon {
+                    property string caption: model.caption
+
+                    width: icons.delegateWidth
+                    height: icons.delegateHeight
+
+                    source: model.icon
+                    active: index == icons.currentIndex
+
+                    Accessible.name: caption
+
+                    TapHandler {
+                        onSingleTapped: {
+                            if (index === icons.currentIndex) {
+                                icons.model.activate(index);
+                                return;
+                            }
+                            icons.currentIndex = index;
+                        }
+                        onDoubleTapped: icons.model.activate(index)
+                    }
+                }
+
+                highlight: KSvg.FrameSvgItem {
+                    id: highlightItem
+                    imagePath: "widgets/viewitem"
+                    prefix: "hover"
+                    width: icons.iconSize + margins.left + margins.right
+                    height: icons.iconSize + margins.top + margins.bottom
+                }
+
+                Kirigami.PlaceholderMessage {
+                    anchors.centerIn: parent
+                    anchors.verticalCenterOffset: Math.round(captionLabel.height / 2)
+                    width: parent.width - Kirigami.Units.largeSpacing * 2
+                    icon.source: "edit-none"
+                    text: i18ndc("kwin", "@info:placeholder no entries in the task switcher", "No open windows")
+                    visible: icons.count === 0
+                }
+
+                highlightMoveDuration: 0
+                boundsBehavior: Flickable.StopAtBounds
+            }
+
+            PlasmaComponents3.Label {
+                id: captionLabel
+                text: icons.currentItem ? icons.currentItem.caption : ""
+                textFormat: Text.PlainText
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                elide: Text.ElideMiddle
+                font.weight: Font.Bold
+                Layout.fillWidth: true
+                Layout.topMargin: Kirigami.Units.smallSpacing
+                Layout.bottomMargin: Kirigami.Units.smallSpacing
+            }
+
+            Connections {
+                target: tabBox
+                function onCurrentIndexChanged() {
+                    icons.currentIndex = tabBox.currentIndex;
+                }
+            }
+
+            /*
+             * Key navigation on outer item for two reasons:
+             * @li we have to emit the change signal
+             * @li on multiple invocation it does not work on the list view. Focus seems to be lost.
+             **/
+            Keys.onPressed: event => {
+                if (event.key === Qt.Key_Up) {
+                    icons.moveCurrentIndexUp()
+                } else if (event.key === Qt.Key_Down) {
+                    icons.moveCurrentIndexDown()
+                } else if (event.key === Qt.Key_Left) {
+                    icons.moveCurrentIndexLeft()
+                } else if (event.key === Qt.Key_Right) {
+                    icons.moveCurrentIndexRight()
+                }
+            }
+        }
+
+        onSceneGraphError: () => {
+            // This slot is intentionally left blank, otherwise QtQuick may post a qFatal() message on a graphics reset.
+        }
+    }
+}
+===== /usr/share/kwin-wayland/tabbox/thumbnail_grid/metadata.json
+{
+    "KPackageStructure": "KWin/WindowSwitcher",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "zrenfire@gmail.com",
+                "Name": "Chris Holland",
+                "Name[ar]": "كريس هولاند",
+                "Name[be]": "Chris Holland",
+                "Name[bg]": "Chris Holland",
+                "Name[ca@valencia]": "Chris Holland",
+                "Name[ca]": "Chris Holland",
+                "Name[cs]": "Chris Holland",
+                "Name[da]": "Chris Holland",
+                "Name[de]": "Chris Holland",
+                "Name[en_GB]": "Chris Holland",
+                "Name[eo]": "Chris Holland",
+                "Name[es]": "Chris Holland",
+                "Name[eu]": "Chris Holland",
+                "Name[fi]": "Chris Holland",
+                "Name[fr]": "Chris Holland",
+                "Name[ga]": "Chris Holland",
+                "Name[gl]": "Chris Holland",
+                "Name[he]": "כריס הולנד",
+                "Name[hu]": "Chris Holland",
+                "Name[ia]": "Chris Holland",
+                "Name[is]": "Chris Holland",
+                "Name[it]": "Chris Holland",
+                "Name[ja]": "Chris Holland",
+                "Name[ka]": "Chris Holland",
+                "Name[ko]": "Chris Holland",
+                "Name[lt]": "Chris Holland",
+                "Name[lv]": "Chris Holland",
+                "Name[nb]": "Chris Holland",
+                "Name[nl]": "Chris Holland",
+                "Name[nn]": "Chris Holland",
+                "Name[pl]": "Chris Holland",
+                "Name[pt]": "Chris Holland",
+                "Name[pt_BR]": "Chris Holland",
+                "Name[ro]": "Chris Holland",
+                "Name[ru]": "Chris Holland",
+                "Name[sa]": "क्रिस हॉलैण्ड्",
+                "Name[sk]": "Chris Holland",
+                "Name[sl]": "Chris Holland",
+                "Name[sv]": "Chris Holland",
+                "Name[ta]": "கிரிஸ் ஹாளண்டு",
+                "Name[tr]": "Chris Holland",
+                "Name[uk]": "Chris Holland",
+                "Name[zh_CN]": "Chris Holland",
+                "Name[zh_TW]": "Chris Holland"
+            }
+        ],
+        "Description": "A window switcher layout using a small grid of thumbnails",
+        "Description[ar]": "مخطط مبدل نوافذ يستخدم شبكة صغيرة من المصغرات",
+        "Description[be]": "Макет пераключальніка акон у выглядзе сеткі мініяцюр",
+        "Description[bg]": "Оформление на превключвател на прозорци, използващ решетка от миниатюри",
+        "Description[ca@valencia]": "Una disposició del commutador de finestres que utilitza una quadrícula xicoteta de miniatures",
+        "Description[ca]": "Una disposició del commutador de finestres que utilitza una quadrícula petita de miniatures",
+        "Description[cs]": "Přepínač oken používající malou mřížku náhledů",
+        "Description[da]": "Et vindueskifterlayout, der bruger et lille gitter af thumbnails",
+        "Description[de]": "Ein Fensterwechsler-Layout, das ein Raster von kleinen Vorschaubildern verwendet",
+        "Description[en_GB]": "A window switcher layout using a small grid of thumbnails",
+        "Description[eo]": "Fenestroŝaltila aranĝo uzante malgrandan kradon de bildetoj",
+        "Description[es]": "Un esquema de selector de ventanas que usa una pequeña cuadrícula de miniaturas",
+        "Description[eu]": "Koadro txikien sareta txiki bat erabiltzen duen leiho-trukatzaile antolaera bat",
+        "Description[fi]": "Pientä pienoiskuvaruudukkoa käyttävä ikkunavaihto",
+        "Description[fr]": "Une disposition du sélecteur de fenêtres utilisant une petite grille de vignettes.",
+        "Description[gl]": "Unha disposición do selector de xanelas que usa unha pequena grade de miniaturas.",
+        "Description[he]": "מחליף שולחנות עבודה באמצעות רשת קטנה של תמונות ממוזערות",
+        "Description[hu]": "Kis bélyegképekből álló rácsozatot használó ablakváltó elrendezés",
+        "Description[ia]": "Un disposition de commutator de fenestra usante un parve grillia de miniaturas",
+        "Description[is]": "Gluggaskiptir sem notar smámyndir í litlum reitum",
+        "Description[it]": "Una disposizione per il cambio finestra che utilizza una piccola griglia di miniature",
+        "Description[ja]": "サムネイルの小さいグリッドを使用するウィンドウスイッチャー",
+        "Description[ka]": "ფანჯრების განლაგების გადართვა მინიატურების პატარა ბადის ჩვენების საშუალებით",
+        "Description[ko]": "작은 섬네일 격자를 사용하는 창 전환기 레이아웃",
+        "Description[lt]": "Langų perjungiklio išdėstymas, naudojantis mažą miniatiūrų tinklelį",
+        "Description[lv]": "Logu pārslēdzēja izklājums, izmantojot mazu sīktēlu režģi",
+        "Description[nb]": "Vindusbytter som viser et rutenett med miniatyrbilder",
+        "Description[nl]": "Een indeling van de vensterwisselaar met een klein raster van miniaturen",
+        "Description[nn]": "Vindaugsbytar som viser eit rutenett med miniatyrbilete",
+        "Description[pl]": "Układ przełączania okien, używający małej siatki miniatur",
+        "Description[pt]": "Um esquema de comutador de janelas utilizando uma pequena grelha de miniaturas",
+        "Description[pt_BR]": "Um layout de alternador de janelas usando uma pequena grade de miniaturas",
+        "Description[ro]": "Aranjament pentru comutatorul de ferestre folosind o grilă mică de pictograme",
+        "Description[ru]": "Переключатель окон в виде сетки миниатюр окон",
+        "Description[sa]": "लघुचित्रस्य लघुजालस्य उपयोगेन विण्डो स्विचर विन्यासः",
+        "Description[sk]": "Rozloženie prepínača okien používajúce malú mriežku miniatúr",
+        "Description[sl]": "Okenski preklopnik postavitve z uporabo majhne mreže predoglednih sličic",
+        "Description[sv]": "En layout för fönsterbyte som använder ett litet rutnät av miniatyrbilder",
+        "Description[ta]": "சிறுபடங்களை கிரிடாக காட்டும் சாளர மாற்றி",
+        "Description[tr]": "Küçük bir küçük görsel ızgarası kullanan pencere değiştirici yerleşimi",
+        "Description[uk]": "Компонування засобу перемикання вікон з малою таблицею мініатюр поточного стану вікон",
+        "Description[zh_CN]": "将窗口缩略图以小型网格排列的窗口切换器布局",
+        "Description[zh_TW]": "使用小型縮圖格線的視窗切換器佈局",
+        "Icon": "preferences-system-windows-switcher-thumbnail-grid",
+        "Id": "thumbnail_grid",
+        "License": "GPL",
+        "Name": "Thumbnail Grid",
+        "Name[ar]": "شبكة المصغرات",
+        "Name[be]": "Сетка мініяцюр",
+        "Name[bg]": "Миниатюри в решетка",
+        "Name[ca@valencia]": "Quadrícula de miniatures",
+        "Name[ca]": "Quadrícula de miniatures",
+        "Name[cs]": "Mřížka náhledů",
+        "Name[da]": "Thumbnail-gitter",
+        "Name[de]": "Vorschaubilder-Raster",
+        "Name[en_GB]": "Thumbnail Grid",
+        "Name[eo]": "Bildeta Krado",
+        "Name[es]": "Cuadrícula de miniaturas",
+        "Name[eu]": "Koadro txikien sareta",
+        "Name[fi]": "Pienoiskuvaruudukko",
+        "Name[fr]": "Grille de vignettes",
+        "Name[gl]": "Grade de miniaturas",
+        "Name[he]": "רשת תמונות ממוזערות",
+        "Name[hu]": "Ablakbetekintő rács",
+        "Name[ia]": "Grillia de Miniatura",
+        "Name[is]": "Smámyndareitir",
+        "Name[it]": "Griglia delle miniature",
+        "Name[ja]": "サムネイルグリッド",
+        "Name[ka]": "მინიატურის ბადე",
+        "Name[ko]": "섬네일 격자",
+        "Name[lt]": "Miniatiūrų tinklelis",
+        "Name[lv]": "Sīktēlu režģis",
+        "Name[nb]": "Rutenett med miniatyrbilde",
+        "Name[nl]": "Raster voor miniaturen",
+        "Name[nn]": "Rutenett med miniatyrbilete",
+        "Name[pl]": "Siatka miniatur",
+        "Name[pt]": "Grelha de Miniaturas",
+        "Name[pt_BR]": "Grade de miniaturas",
+        "Name[ro]": "Grilă de miniaturi",
+        "Name[ru]": "Сетка миниатюр",
+        "Name[sa]": "लघुचित्र जाल",
+        "Name[sk]": "Mriežka miniatúr",
+        "Name[sl]": "Mreža predoglednih sličic",
+        "Name[sv]": "Miniatyrbildsrutnät",
+        "Name[ta]": "சிறுபட கிரிட்",
+        "Name[tr]": "Küçük Görsel Izgarası",
+        "Name[uk]": "Таблиця мініатюр",
+        "Name[zh_CN]": "缩略图网格",
+        "Name[zh_TW]": "縮圖格線"
+    },
+    "X-Plasma-API": "declarativeappletscript"
+}
+===== find tabbox dirs
+/usr/share/kwin/tabbox
+/usr/share/kwin-wayland/tabbox
+===== showdesktop qml
+/usr/lib64/qt6/plugins/plasma/applets/org.kde.plasma.showdesktop.so
+===== kwin scripts dirs
+/usr/share/kwin-wayland/scripts:
+desktopchangeosd
+minimizeall
+synchronizeskipswitcher
+videowall
+
+/usr/share/kwin/scripts:
+virtualdesktopsonlyonprimary
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "mgraesslin@kde.org",
+                "Name": "Martin Gräßlin",
+                "Name[ar]": "مارتن جراجلين",
+                "Name[be]": "Martin Gräßlin",
+                "Name[bg]": "Martin Gräßlin",
+                "Name[ca@valencia]": "Martin Gräßlin",
+                "Name[ca]": "Martin Gräßlin",
+                "Name[cs]": "Martin Gräßlin",
+                "Name[da]": "Martin Gräßlin",
+                "Name[de]": "Martin Gräßlin",
+                "Name[en_GB]": "Martin Gräßlin",
+                "Name[eo]": "Martin Gräßlin",
+                "Name[es]": "Martin Gräßlin",
+                "Name[et]": "Martin Gräßlin",
+                "Name[eu]": "Martin Gräßlin",
+                "Name[fi]": "Martin Gräßlin",
+                "Name[fr]": "Martin Gräßlin",
+                "Name[ga]": "Martin Gräßlin",
+                "Name[gl]": "Martin Gräßlin.",
+                "Name[he]": "מרטין גרייסלין",
+                "Name[hu]": "Martin Gräßlin",
+                "Name[ia]": "Martin Gräßlin",
+                "Name[id]": "Martin Gräßlin",
+                "Name[is]": "Martin Gräßlin",
+                "Name[it]": "Martin Gräßlin",
+                "Name[ja]": "Martin Gräßlin",
+                "Name[ka]": "მარტინ გრესსლინი",
+                "Name[ko]": "Martin Gräßlin",
+                "Name[lt]": "Martin Gräßlin",
+                "Name[lv]": "Martin Gräßlin",
+                "Name[nb]": "Martin Gräßlin",
+                "Name[nl]": "Martin Gräßlin",
+                "Name[nn]": "Martin Gräßlin",
+                "Name[pl]": "Martin Gräßlin",
+                "Name[pt]": "Martin Gräßlin",
+                "Name[pt_BR]": "Martin Gräßlin",
+                "Name[ro]": "Martin Gräßlin",
+                "Name[ru]": "Martin Gräßlin",
+                "Name[sa]": "मार्टिन् ग्रास्लिन्",
+                "Name[sk]": "Martin Gräßlin",
+                "Name[sl]": "Martin Gräßlin",
+                "Name[sv]": "Martin Gräßlin",
+                "Name[ta]": "மார்ட்டின் கிராஸ்லின்",
+                "Name[tr]": "Martin Gräßlin",
+                "Name[uk]": "Martin Gräßlin",
+                "Name[vi]": "Martin Gräßlin",
+                "Name[zh_CN]": "Martin Gräßlin",
+                "Name[zh_TW]": "Martin Gräßlin"
+            }
+        ],
+        "Description": "Spans fullscreen video player over all attached screens to create a Video Wall",
+        "Description[ar]": "يمتد مشغل الفيديو بملء الشاشة على جميع الشاشات المرفقة لإنشاء حائط فيديو",
+        "Description[be]": "Размяркоўвае поўнаэкранны відэаплэер на ўсе падлучаныя экраны, каб стварыць відэасцяну",
+        "Description[bg]": "Разпределяне на видео предаването на всички прикачени екрани, за да се създаде видео стена",
+        "Description[ca@valencia]": "Expandix el reproductor de vídeo a pantalla completa per a totes les pantalles adjuntades per a crear un mur de vídeo",
+        "Description[ca]": "Expandeix el reproductor de vídeo a pantalla completa per a totes les pantalles adjuntades per a crear un mur de vídeo",
+        "Description[cs]": "Roztáhne přehrávání videa přes všechny plochy pro vytvoření video zdi",
+        "Description[da]": "Spænder  fuldskærmsvinduer over alle tilsluttede skærme for at lave en videovæg",
+        "Description[de]": "Erweitert einen Videospieler im Vollbildmodus über alle Bildschirme, um eine Video-Wand zu erzeugen",
+        "Description[en_GB]": "Spans fullscreen video player over all attached screens to create a Video Wall",
+        "Description[eo]": "Enhavas plenekranan videoludilon super ĉiuj kunigitaj ekranoj por krei Videomuron",
+        "Description[es]": "Amplía el reproductor de video en pantalla completa a todas las pantallas conectadas para crear un muro de vídeo",
+        "Description[et]": "Täisekraan-videomängija laiendamine kõigile ühendatud ekraanile videoseina loomiseks",
+        "Description[eu]": "Bideo-horma bat sortzeko, leiho-osoko bideo jotzailea atxikitako pantaila guzietara hedatzen du",
+        "Description[fi]": "Luo videoseinän ulottamalla koko näytön videon kaikkiin kytkettyihin näyttöihin",
+        "Description[fr]": "Affiche le lecteur vidéo en plein écran sur tous les écrans connectés pour créer un mur d'images",
+        "Description[gl]": "Estende un reprodutor de vídeo a pantalla completa por todas as pantallas anexas para crear unha parede de vídeo.",
+        "Description[he]": "פורש נגן וידאו במסך מלא כל פני כל המסכים המצורפים כדי ליצור מסך סרטונים",
+        "Description[hu]": "Teljes képernyős videólejátszó kiterjesztése az összes csatlakoztatott kijelzőre, létrehozva egy videófalat",
+        "Description[ia]": "Extende jocator de video de schermo plen super omne schermos attachate pro crea un Muro de Video",
+        "Description[is]": "Láta myndskeið sem fylla skjá ná yfir alla tengda skjái til að mynda einn myndvegg",
+        "Description[it]": "Distribuisce il lettore video a schermo intero su tutti gli schermi per creare una parete video",
+        "Description[ja]": "フルスクリーンの動画プレーヤーを接続されたすべてのスクリーンに広げて一つの画面を作ります",
+        "Description[ka]": "მთლიან ეკრანზე დაკვრის შემთხვევაში ვიდეოდამკვრელის ყველა მიერთებულ ეკრანზე გაწელვა და ამით ვიდეოკედლის შექმნა",
+        "Description[ko]": "전체 화면 동영상 재생기를 모든 화면에 걸쳐서 동영상 벽 만들기",
+        "Description[lt]": "Ištempia viso ekrano vaizdo leistuvę taip, kad per visus prijungtus ekranus būtų matoma vaizdo siena",
+        "Description[lv]": "Pilnekrāna video atskaņotāju izpleš pāri visiem pievienotajiem ekrāniem, izveidojot video sienu",
+        "Description[nb]": "Filmfremsyning i fullskjermsmodus over alle tilgjengelige skjermer",
+        "Description[nl]": "Verdeelt de videospeler in modus volledig scherm over alle aangesloten schermen om een Videomuur te creëren",
+        "Description[nn]": "Filmframsyning i fullskjermsmodus over alle tilgjengelege skjermar",
+        "Description[pl]": "Rozciąga pełnoekranowy odtwarzacz filmów na wszystkie podłączone ekrany, tworząc ścianę wideo",
+        "Description[pt]": "Estende o leitor de vídeo em ecrã inteiro por todos os ecrãs ligados para criar uma Parede de Vídeo",
+        "Description[pt_BR]": "Estende o player de vídeo em tela cheia para todas as telas anexadas criando um mural de vídeo",
+        "Description[ro]": "Întinde un lector video în ecran complet peste toate ecranele atașate pentru a crea un perete video",
+        "Description[ru]": "Для создания видеостены вывод видеопроигрывателя распределяется по всем подключённым экранам",
+        "Description[sa]": "Video Wall निर्मातुं सर्वेषु संलग्नस्क्रीन् उपरि पूर्णपर्दे विडियो प्लेयरं व्याप्नोति",
+        "Description[sk]": "Rozšíri prehrávač videa na celú obrazovku na všetky pripojené obrazovky a vytvorí tak veľkoplošnú projekčnú plochu",
+        "Description[sl]": "Raztegne celozaslonski video predvajalnik na vseh pripete zaslone, da ustvarite video steno",
+        "Description[sv]": "Utökar en videospelare med fullskärm över alla anslutna bildskärmar för att skapa en videovägg",
+        "Description[ta]": "முழுத்திரை நிகழ்படத்தை பல திரைகளில் பரப்பி ஒரே திரையை போல் காட்டும்",
+        "Description[tr]": "Tam ekran video oynatıcılarını tüm bağlı ekranlara genişleterek bir tür Video Duvarı oluşturur",
+        "Description[uk]": "Розподіл зображення відеопрогравача у повноекранному режимі на всі екрани з метою створення відеостіни",
+        "Description[vi]": "Trải trình phát phim toàn màn hình ra tất cả các màn hình đang được gắn vào để tạo nên một màn hình ghép",
+        "Description[zh_CN]": "视频播放器在全屏时将显示在全部已连接的屏幕上，组成视频墙",
+        "Description[zh_TW]": "將全螢幕的影片播放器擴展到所有的螢幕，建立一個影片牆",
+        "Icon": "preferences-system-windows-script-test",
+        "Id": "videowall",
+        "License": "GPL",
+        "Name": "Video Wall",
+        "Name[ar]": "حائط الفيديو",
+        "Name[be]": "Відэасцяна",
+        "Name[bg]": "Видео стена",
+        "Name[ca@valencia]": "Mur de vídeo",
+        "Name[ca]": "Mur de vídeo",
+        "Name[cs]": "Video stěna",
+        "Name[da]": "Videovæg",
+        "Name[de]": "Video-Wand",
+        "Name[en_GB]": "Video Wall",
+        "Name[eo]": "Video Muro",
+        "Name[es]": "Video wall",
+        "Name[et]": "Videosein",
+        "Name[eu]": "Bideo-horma",
+        "Name[fi]": "Videoseinä",
+        "Name[fr]": "Mur de vidéos",
+        "Name[gl]": "Parede de vídeo",
+        "Name[he]": "קיר סרטון",
+        "Name[hu]": "Videófal",
+        "Name[ia]": "Muro de Video",
+        "Name[is]": "Myndveggur",
+        "Name[it]": "Parete video",
+        "Name[ja]": "ビデオウォール",
+        "Name[ka]": "ვიდეო კედელი",
+        "Name[ko]": "동영상 벽",
+        "Name[lt]": "Vaizdo siena",
+        "Name[lv]": "Video siena",
+        "Name[nb]": "Videovegg",
+        "Name[nl]": "Videomuur",
+        "Name[nn]": "Videovegg",
+        "Name[pl]": "Ściana wideo",
+        "Name[pt]": "Painel de Vídeo",
+        "Name[pt_BR]": "Parede de vídeo",
+        "Name[ro]": "Perete video",
+        "Name[ru]": "Видеостена",
+        "Name[sa]": "विडियो वाल",
+        "Name[sk]": "Veľkoplošná projekčná plocha",
+        "Name[sl]": "Video stena",
+        "Name[sv]": "Videovägg",
+        "Name[ta]": "நிகழ்பட சுவர்",
+        "Name[tr]": "Video Duvarı",
+        "Name[uk]": "Відеостіна",
+        "Name[vi]": "Màn hình ghép",
+        "Name[zh_CN]": "视频墙",
+        "Name[zh_TW]": "影片牆"
+    },
+    "X-KDE-ConfigModule": "kwin/effects/configs/kcm_kwin4_genericscripted",
+    "X-Plasma-API": "javascript"
+}
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "mgraesslin@kde.org",
+                "Name": "Martin Gräßlin",
+                "Name[ar]": "مارتن جراجلين",
+                "Name[be]": "Martin Gräßlin",
+                "Name[bg]": "Martin Gräßlin",
+                "Name[ca@valencia]": "Martin Gräßlin",
+                "Name[ca]": "Martin Gräßlin",
+                "Name[cs]": "Martin Gräßlin",
+                "Name[da]": "Martin Gräßlin",
+                "Name[de]": "Martin Gräßlin",
+                "Name[en_GB]": "Martin Gräßlin",
+                "Name[eo]": "Martin Gräßlin",
+                "Name[es]": "Martin Gräßlin",
+                "Name[et]": "Martin Gräßlin",
+                "Name[eu]": "Martin Gräßlin",
+                "Name[fi]": "Martin Gräßlin",
+                "Name[fr]": "Martin Gräßlin",
+                "Name[ga]": "Martin Gräßlin",
+                "Name[gl]": "Martin Gräßlin.",
+                "Name[he]": "מרטין גרייסלין",
+                "Name[hu]": "Martin Gräßlin",
+                "Name[ia]": "Martin Gräßlin",
+                "Name[id]": "Martin Gräßlin",
+                "Name[is]": "Martin Gräßlin",
+                "Name[it]": "Martin Gräßlin",
+                "Name[ja]": "Martin Gräßlin",
+                "Name[ka]": "მარტინ გრესსლინი",
+                "Name[ko]": "Martin Gräßlin",
+                "Name[lt]": "Martin Gräßlin",
+                "Name[lv]": "Martin Gräßlin",
+                "Name[nb]": "Martin Gräßlin",
+                "Name[nl]": "Martin Gräßlin",
+                "Name[nn]": "Martin Gräßlin",
+                "Name[pl]": "Martin Gräßlin",
+                "Name[pt]": "Martin Gräßlin",
+                "Name[pt_BR]": "Martin Gräßlin",
+                "Name[ro]": "Martin Gräßlin",
+                "Name[ru]": "Martin Gräßlin",
+                "Name[sa]": "मार्टिन् ग्रास्लिन्",
+                "Name[sk]": "Martin Gräßlin",
+                "Name[sl]": "Martin Gräßlin",
+                "Name[sv]": "Martin Gräßlin",
+                "Name[ta]": "மார்ட்டின் கிராஸ்லின்",
+                "Name[tr]": "Martin Gräßlin",
+                "Name[uk]": "Martin Gräßlin",
+                "Name[vi]": "Martin Gräßlin",
+                "Name[zh_CN]": "Martin Gräßlin",
+                "Name[zh_TW]": "Martin Gräßlin"
+            }
+        ],
+        "Description": "An on screen display indicating the desktop change",
+        "Description[ar]": "عرض تنبيه على الشاشة يشير إلى تغيير سطح المكتب",
+        "Description[be]": "На экране паказваецца змена працоўнага стала",
+        "Description[bg]": "Екранен надпис, показващ промяната на работния плот",
+        "Description[ca@valencia]": "Un missatge a la pantalla indicant el canvi d'escriptori",
+        "Description[ca]": "Un missatge a la pantalla indicant el canvi d'escriptori",
+        "Description[cs]": "Displej označující změnu plochy",
+        "Description[da]": "Et display på skærmen indikerer skrivebordsændringen",
+        "Description[de]": "Ein On-Screen-Display (OSD), das den Wechsel der Arbeitsfläche anzeigt",
+        "Description[en_GB]": "An on screen display indicating the desktop change",
+        "Description[eo]": "Ekrana ekrano indikanta la surtablan ŝanĝon",
+        "Description[es]": "Un visor sobre la pantalla para indicar el cambio de escritorio",
+        "Description[et]": "Töölaua muutumist näitab ekraanikuva",
+        "Description[eu]": "Mahaigain-aldaketa adierazten duen pantailako azalpena",
+        "Description[fi]": "Työpöytävaihdon osoittava ruutunäyttö",
+        "Description[fr]": "Une incrustation vidéo indiquant un changement de bureau",
+        "Description[gl]": "Un visor na pantalla que indica o cambio de escritorio.",
+        "Description[he]": "תצוגה צפה על המסך שמציינת ששולחן העבודה התחלף",
+        "Description[hu]": "Asztalváltást jelző képernyőkijelzés",
+        "Description[ia]": "Un monstrator sur le schermo indicante le modification de scriptorio",
+        "Description[id]": "Sebuah on screen display mengindikasikan perubahan desktop",
+        "Description[is]": "Yfirlagsmynd á skjá sem sýnir þegar skipt er á milli skjáborða",
+        "Description[it]": "Una visualizzazione sullo schermo che indica il cambio di desktop",
+        "Description[ja]": "デスクトップの変更をオンスクリーンディスプレイで通知します",
+        "Description[ka]": "სამუშაო მაგიდის ცვლილების ეკრანზე ჩვენება",
+        "Description[ko]": "바탕 화면 변경 상황을 표시하는 OSD",
+        "Description[lt]": "Ekrane pasirodantis pranešimas, nurodantis, kad buvo perjungtas darbalaukis",
+        "Description[lv]": "Virsekrāna logs, kurā parāda darbvirsmas nomaiņu",
+        "Description[nb]": "Bruk skjermmelding ved skrivebordsbytte",
+        "Description[nl]": "Een on screen display (OSD) die de wijziging van het bureaublad aangeeft",
+        "Description[nn]": "Bruk skjermmelding ved skrivebordbyte",
+        "Description[pl]": "Wyświetlacz na ekranie wskazujący zmianę pulpitu",
+        "Description[pt]": "Uma sobreposição no ecrã a indicar a mudança de ambiente de trabalho",
+        "Description[pt_BR]": "Um indicador na tela que mostra a alteração da área de trabalho",
+        "Description[ro]": "Afișaj pe ecran ce indică schimbarea biroului",
+        "Description[ru]": "Экранные уведомления об изменении рабочего стола",
+        "Description[sa]": "डेस्कटॉप् परिवर्तनं सूचयति पर्दायां प्रदर्शनम्",
+        "Description[sk]": "Zobrazenie na obrazovke indikujúce zmenu pracovnej plochy",
+        "Description[sl]": "Prikaz na zasloni, ki nakazuje spremembo namizja",
+        "Description[sv]": "En skärmvisning som anger skrivbordsändringen",
+        "Description[ta]": "பணிமேடையை மாற்றும்போது காட்டப்படுவது",
+        "Description[tr]": "Masaüstü değişikliğini belirten bir ekran üzeri görüntüsü",
+        "Description[uk]": "Екранна панель спостереження за зміною стільниць",
+        "Description[vi]": "Một ô hiện nổi để biểu thị thay đổi của bàn làm việc",
+        "Description[zh_CN]": "能够突出显示桌面内容变化的辅助显示功能",
+        "Description[zh_TW]": "表示桌面變更用的螢幕顯示（OSD）",
+        "Icon": "preferences-system-windows-script-test",
+        "Id": "desktopchangeosd",
+        "License": "GPL",
+        "Name": "Desktop Change OSD",
+        "Name[ar]": "تنبيه على الشاشة حين تغير سطح المكتب",
+        "Name[be]": "Паказ змены працоўнага стала",
+        "Name[bg]": "Екранен надпис за промяна на работния плот",
+        "Name[ca@valencia]": "OSD al canvi d'escriptori",
+        "Name[ca]": "OSD al canvi d'escriptori",
+        "Name[cs]": "OSD změny plochy",
+        "Name[da]": "Skrivebordsændring OSD",
+        "Name[de]": "Arbeitsflächenwechsel-OSD",
+        "Name[en_GB]": "Desktop Change OSD",
+        "Name[eo]": "Labortablo Ŝanĝi OSD",
+        "Name[es]": "OSD de cambio de escritorio",
+        "Name[et]": "Töölaua muutmise ekraaniesitus",
+        "Name[eu]": "Mahaigain-aldaketari buruzko OSD",
+        "Name[fi]": "Työpöytävaihdon ruutunäyttö",
+        "Name[fr]": "Incrustation vidéo pour le changement de bureau",
+        "Name[gl]": "OSD de cambio de escritorio",
+        "Name[he]": "חיווי צף על החלפת שולחן עבודה",
+        "Name[hu]": "Asztalváltás képernyőkijelzés",
+        "Name[ia]": "Modifica OSD de scriptorio",
+        "Name[id]": "OSD Perubahan Desktop",
+        "Name[is]": "Yfirlagsmynd fyrir skjáborðsskipti",
+        "Name[it]": "OSD di cambio desktop",
+        "Name[ja]": "デスクトップの変更 OSD",
+        "Name[ka]": "OSD სამუშაო მაგიდის ცვლილებისას",
+        "Name[ko]": "바탕 화면 변경 OSD",
+        "Name[lt]": "Pranešimas keičiant darbalaukį",
+        "Name[lv]": "Darbvirsmas izmaiņu virsekrāna logs",
+        "Name[nb]": "Skjermmelding ved skrivebordsbytte",
+        "Name[nl]": "OSD voor bureaubladwijziging",
+        "Name[nn]": "Skjermmelding ved skrivebordsbyte",
+        "Name[pl]": "OSD zmiany pulpitu",
+        "Name[pt]": "OSD de Mudança de Ambiente de Trabalho",
+        "Name[pt_BR]": "Alterar OSD da área de trabalho",
+        "Name[ro]": "OSD la schimbarea biroului",
+        "Name[ru]": "Экранные уведомления об изменении рабочего стола",
+        "Name[sa]": "डेस्कटॉप परिवर्तनं OSD",
+        "Name[sk]": "OSD zmeny plochy",
+        "Name[sl]": "Sprememba namizja OSD",
+        "Name[sv]": "Skärmvisning av skrivbordsändring",
+        "Name[ta]": "பணிமேடை மாற்ற காட்டி",
+        "Name[tr]": "OSD Masaüstü Değişimi",
+        "Name[uk]": "Панель зміни стільниць",
+        "Name[vi]": "Ô hiện nổi thay đổi bàn làm việc",
+        "Name[zh_CN]": "桌面变化突出显示",
+        "Name[zh_TW]": "桌面變更時的螢幕顯示"
+    },
+    "X-Plasma-API": "declarativescript"
+}
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Email": "mgraesslin@kde.org",
+                "Name": "Martin Gräßlin",
+                "Name[ar]": "مارتن جراجلين",
+                "Name[be]": "Martin Gräßlin",
+                "Name[bg]": "Martin Gräßlin",
+                "Name[ca@valencia]": "Martin Gräßlin",
+                "Name[ca]": "Martin Gräßlin",
+                "Name[cs]": "Martin Gräßlin",
+                "Name[da]": "Martin Gräßlin",
+                "Name[de]": "Martin Gräßlin",
+                "Name[en_GB]": "Martin Gräßlin",
+                "Name[eo]": "Martin Gräßlin",
+                "Name[es]": "Martin Gräßlin",
+                "Name[et]": "Martin Gräßlin",
+                "Name[eu]": "Martin Gräßlin",
+                "Name[fi]": "Martin Gräßlin",
+                "Name[fr]": "Martin Gräßlin",
+                "Name[ga]": "Martin Gräßlin",
+                "Name[gl]": "Martin Gräßlin.",
+                "Name[he]": "מרטין גרייסלין",
+                "Name[hu]": "Martin Gräßlin",
+                "Name[ia]": "Martin Gräßlin",
+                "Name[id]": "Martin Gräßlin",
+                "Name[is]": "Martin Gräßlin",
+                "Name[it]": "Martin Gräßlin",
+                "Name[ja]": "Martin Gräßlin",
+                "Name[ka]": "მარტინ გრესსლინი",
+                "Name[ko]": "Martin Gräßlin",
+                "Name[lt]": "Martin Gräßlin",
+                "Name[lv]": "Martin Gräßlin",
+                "Name[nb]": "Martin Gräßlin",
+                "Name[nl]": "Martin Gräßlin",
+                "Name[nn]": "Martin Gräßlin",
+                "Name[pl]": "Martin Gräßlin",
+                "Name[pt]": "Martin Gräßlin",
+                "Name[pt_BR]": "Martin Gräßlin",
+                "Name[ro]": "Martin Gräßlin",
+                "Name[ru]": "Martin Gräßlin",
+                "Name[sa]": "मार्टिन् ग्रास्लिन्",
+                "Name[sk]": "Martin Gräßlin",
+                "Name[sl]": "Martin Gräßlin",
+                "Name[sv]": "Martin Gräßlin",
+                "Name[ta]": "மார்ட்டின் கிராஸ்லின்",
+                "Name[tr]": "Martin Gräßlin",
+                "Name[uk]": "Martin Gräßlin",
+                "Name[vi]": "Martin Gräßlin",
+                "Name[zh_CN]": "Martin Gräßlin",
+                "Name[zh_TW]": "Martin Gräßlin"
+            }
+        ],
+        "Description": "Hides all windows marked as Skip Taskbar to be also excluded from window switchers (e.g. Alt+Tab)",
+        "Description[ar]": "يخفي جميع النوافذ المعلّمة على أنها \"تخطَ شريط المهام\"  من مبدلات النوافذ (مثل Alt + Tab)",
+        "Description[be]": "Хавае ўсе вокны, якія трэба хаваць для панэлі задач, для сродку пераключэння акон (напрыклад, Alt+Tab)",
+        "Description[bg]": "Скрива всички прозорци, с включено  \"Пропускане на лентата на задачите\", за да не се превключват  (напр. с Alt+Tab)",
+        "Description[ca@valencia]": "Oculta totes les finestres marcades com a «Ignora la barra de tasques» que també s'excloguen del commutador de finestres (p. ex., «Alt+Tab»)",
+        "Description[ca]": "Oculta totes les finestres marcades com a «Ignora la barra de tasques» que també s'excloguin del commutador de finestres (p. ex. Alt+Tab)",
+        "Description[cs]": "Skryje všechna okna označená k přeskočení v pruhu úloh také pro přepínače oken (např. Alt+Tab)",
+        "Description[da]": "Skjuler alle vinduer markeret som Skip opgavelinje for også at ekskluderes fra vindueskifteren (f.eks. Alt+Tab)",
+        "Description[de]": "Alle Fenster, die so eingestellt sind, dass sie nicht in der Fensterleiste angezeigt werden, werden ebenfalls aus den Fensterwechslern (z. B. Alt+Tab) ausgeschlossen",
+        "Description[en_GB]": "Hides all windows marked as Skip Taskbar to be also excluded from window switchers (e.g. Alt+Tab)",
+        "Description[eo]": "Kaŝas ĉiujn fenestrojn markitajn kiel Skip Taskbar por ankaŭ esti ekskluditaj de fenestraj ŝaltiloj (ekz. Alt+Tab)",
+        "Description[es]": "Oculta todas las ventanas marcadas como «Omitir barra de tareas» para que también se excluyan de los selectores de ventanas (por ejemplo, Alt+Tab)",
+        "Description[et]": "Kõigi tegumiribalt väljajäetavaks märgitud akende peitmine, et neid ei kaasataks ka aknavahetajatesse (nt Alt+Tab)",
+        "Description[eu]": "'Saltatu ataza-barra' gisa markatuta dauden leiho guztiak ezkutatzen ditu leiho-kommutadoretik kanpo ere uzteko (adib., Alt+Tab)",
+        "Description[fi]": "Piilottaa kaikki tehtäväpalkista poistetut ikkunat myös ikkunavaihdoista (esim. Alt+sarkain)",
+        "Description[fr]": "Masque toutes les fenêtres marquées « Ignorer la barre de tâches » pour être également exclues des commutateurs de fenêtres (par ex. « ALT » + « Tab »)",
+        "Description[gl]": "Agocha todas as xanelas que deban ser ignoradas pola barra de tarefas tamén dos alternadores de xanelas (p.ex. Alt+Tab).",
+        "Description[he]": "הסתרת כל החלונות שמסומנים לדילוג על סרגל המשימות ממחליפי החלונות (למשל: Alt+Tab)",
+        "Description[hu]": "Elrejti az összes olyan ablakot az ablakváltókból (például Alt+Tab) is, amely kimarad a feladatlistából",
+        "Description[ia]": "Cela omne fenestras marcate como barra de cargas de salto pro anque esser excludite ex commutatores de fenestra (p.ex.Alt+Tab)",
+        "Description[is]": "Felur alla glugga sem merktir eru sem Sleppa í verkstiku, þannig að þeir birtist ekki í gluggaskiptum (þ.e. Alt+Tab)",
+        "Description[it]": "Nasconde tutte le finestre marcate come Salta barra delle applicazioni che sono escluse anche dal selettore delle finestre (es. Alt+Tab)",
+        "Description[ja]": "「タスクバーをスキップ」が設定されたすべてのウィンドウをウィンドウスイッチャー (例: Alt+Tab) からも除外します",
+        "Description[ka]": "Skip Taskbar-ით მონიშნული ყველა ფანჯრის Alt+Tab-დან და სხვა გადამრთველებისგან დამალვა",
+        "Description[ko]": "작업 표시줄에서 건너뛰도록 표시한 창을 창 전환기에서도 표시하지 않음 (예: Alt+Tab)",
+        "Description[lt]": "Slepia visus langus, kurie pažymėti kaip „Praleisti užduočių juostą“, ir išbraukia juos iš langų perjungiklių (pvz., Alt+Tab)",
+        "Description[lv]": "Liek visiem logiem, kas ir atzīmēti kā „Izlaist uzdevumu joslu“, neparādīties arī logu pārslēdzējā (proti, Alt+Tab)",
+        "Description[nb]": "Alle vinduer som ikke tilhører «oppgavebehandleren» utelates fra «vindusbytteren» (eksempelvis «Alt + Tab»)",
+        "Description[nl]": "Verbergt alle vensters gemarkeerd als Taakbalkoverslaan om ook te worden uitgesloten van vensterschakelaars (bijv. Alt+Tab)",
+        "Description[nn]": "Alle vindauge som ikkje høyrer til «oppgåvehandsamaren» vert utelatne frå «vindaugsbytaren» (eksempelvis «Alt + Tab»)",
+        "Description[pl]": "Ukrywa wszystkie okna oznaczone jako \"pomiń pasek zadań\", tak aby były one wykluczone także z układów przełączania okien (np. Alt+Tab)",
+        "Description[pt]": "Oculta todas as janelas marcadas como \"Ignorar barra de tarefas\" para também serem excluídas dos comutadores de janelas (ex: Alt+Tab)",
+        "Description[pt_BR]": "Oculta todas as janelas marcadas com 'Ignorar barra de tarefas' para também serem excluídas dos alternadores de janelas (por exemplo, Alt+Tab)",
+        "Description[ro]": "Ascunde toate ferestrele marcate ca „Sari bara de sarcini” ca să fie excluse și din comutatorii de ferestre (ca Alt+Tab)",
+        "Description[ru]": "Скрывает все окна, не показываемые на панели задач, чтобы исключить их также из переключателей окон (например, Alt+Tab)",
+        "Description[sa]": "Skip Taskbar इति चिह्नितानि सर्वाणि विण्डोस् विण्डो स्विचर् (उदा. Alt+Tab) इत्यस्मात् अपि बहिष्कृतानि कर्तुं गोपयति ।",
+        "Description[sk]": "Skryje všetky okná označené ako Vynechať panel úloh na ich vylúčenie z prepínačov okien (napr. Alt+Tab)",
+        "Description[sl]": "Skrije vsa okna, označena kot Preskoči opravilno vrstico, da bi bila izključena tudi iz preklopnikov oken (npr. izmenjalka+tabulatorka)",
+        "Description[sv]": "Dölj alla fönster som är markerade att hoppa över aktivitetsraden så att de också utesluts vid fönsterbyte (t.ex. Alt+Tabulator)",
+        "Description[ta]": "பணிப்பட்டையில் காட்டப்படாதவாறு அமைக்கப்பட்டுள்ள சாளரங்களை, சாளரங்களுக்கிடையே தாவும்போதும் (எ.கா. Alt+Tab மூலமாக) தவிர்க்கும்",
+        "Description[tr]": "Görev Çubuğunu Atla olarak imlenen tüm pencerelerin, değiştiricilerden de (örn. Seçenek+Sekme) dışlanmasını sağlar",
+        "Description[uk]": "Приховує всі вікна, позначені як такі, що не показуються на панелі задач, так, щоб їх не було показано у списках перемикання вікон (наприклад Alt+Tab)",
+        "Description[vi]": "Ẩn tất cả các cửa sổ được đánh dấu là \"Bỏ qua thanh tác vụ\" khỏi các trình chuyển cửa sổ (vd.: Alt+Tab)",
+        "Description[zh_CN]": "窗口切换器 (Alt+Tab) 将不会显示标记为跳过任务栏的窗口",
+        "Description[zh_TW]": "隱藏所有標記為忽略工作列的視窗，讓它們也從視窗切換器（如 Alt+Tab）中排除",
+        "Icon": "preferences-system-windows-script-synchronizeskipswitcher",
+        "Id": "synchronizeskipswitcher",
+        "License": "GPL",
+        "Name": "Synchronize Skip Switcher with Taskbar",
+        "Name[ar]": "زامن بين مبدل التخطي و شريط المهام",
+        "Name[be]": "Сінхранізацыя схаваных акон",
+        "Name[bg]": "Синхронизиране на пропускане на лентата на задачите с диспечера на задачи",
+        "Name[ca@valencia]": "Sincronitza «Ignora el commutador» amb la barra de tasques",
+        "Name[ca]": "Sincronitza «Ignora el commutador» amb la barra de tasques",
+        "Name[cs]": "Synchronizovat přepínač přeskakování s pruhem úloh",
+        "Name[da]": "Synkronisér skip skifter med opgavelinje",
+        "Name[de]": "Fensterwechsler mit Fensterleiste abgleichen",
+        "Name[en_GB]": "Synchronise Skip Switcher with Taskbar",
+        "Name[eo]": "Sinkronigi Skip Switcher kun Taskbreto",
+        "Name[es]": "Sincronizar «Omitir selector» con la barra de tareas",
+        "Name[et]": "Vahelejätmise lülitaja sünkroonimine tegumiribaga",
+        "Name[eu]": "Ataza-barrarekin kommutadorea saihestu sinkronizatzea",
+        "Name[fi]": "Tahdista tehtävänvaihdon ohitus ja tehtäväpalkki",
+        "Name[fr]": "Synchroniser le commutateur de saut avec la barre des tâches",
+        "Name[gl]": "Sincronizar o ignorar o alternador coa barra de tarefas",
+        "Name[he]": "סנכרון דילוג על מחליף חלונות עם סרגל החלונות",
+        "Name[hu]": "Mellőző szinkronizálása a Feladatsávval",
+        "Name[ia]": "Synchronisa Commutator de salto con Barra de carga",
+        "Name[is]": "Samstilla Sleppa í gluggaskiptum við verkstiku",
+        "Name[it]": "Sincronizza selettore di salto con la barra delle applicazioni",
+        "Name[ja]": "スイッチャーもスキップ",
+        "Name[ka]": "Skip Swtcher-ის სინქრონიზაცია მონაცემების ზოლთან",
+        "Name[ko]": "작업 표시줄과 건너뛸 창 동기화",
+        "Name[lt]": "Sinchronizuoti praleidimo perjungiklį su užduočių juosta",
+        "Name[lv]": "Sinhronizēt „Izlaist atlasītāju“ ar Uzdevumu joslu",
+        "Name[nb]": "Synkroniser «hopp over»-bytte med oppgavelinja",
+        "Name[nl]": "Overslaanschakelaar met taakbalk synchroniseren",
+        "Name[nn]": "Synkroniser «hopp over»-byte med oppgåvelinja",
+        "Name[pl]": "Synchronizuj pomijanie przełącznika z paskiem zadań",
+        "Name[pt]": "Sincronizar Comutador de Tarefas com a Barra de Tarefas",
+        "Name[pt_BR]": "Sincronizar o 'Ignorar seletor' com a barra de tarefas",
+        "Name[ro]": "Sincronizează „Sari comutatorul” cu bara de sarcini",
+        "Name[ru]": "Синхронизация пропускаемых окон в переключателе с панелью задач",
+        "Name[sa]": "Skip Switcher इत्यस्य Taskbar इत्यनेन सह समन्वयनं कुर्वन्तु",
+        "Name[sk]": "Synchronizovať Vynechať prepínač s panelom úloh",
+        "Name[sl]": "Uskladi preklopnik preskoka z opravilno vrstico",
+        "Name[sv]": "Synkronisera överhoppning av aktivitetsraden med fönsterbyte",
+        "Name[ta]": "மாற்றியையும் பணிப்பட்டையையும் ஒத்திசைய செய்",
+        "Name[tr]": "Değiştiricide Gösterilmeyenleri Çubukta da Gösterme",
+        "Name[uk]": "Синхронізувати виключення вікон у перемикачі з панеллю задач",
+        "Name[vi]": "Đồng bộ hoá việc bỏ qua trình chuyển với thanh tác vụ",
+        "Name[zh_CN]": "窗口切换器与任务栏同步跳过窗口设置",
+        "Name[zh_TW]": "同步忽略切換器標記與忽略工作列標記"
+    },
+    "X-Plasma-API": "javascript"
+}
