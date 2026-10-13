@@ -100,8 +100,15 @@ if cp:
 
 # ---- Aero Shake: grab the title bar and shake
 cp = find("Control Panel")
+for _ in range(10):
+    if cp and not cp["minimized"] and cp["active"]:
+        break
+    bridge.act(cp["id"], "activate")
+    spin(0.8)
+    cp = find("Control Panel")
+print("BEFORE SHAKE", [(w["caption"], w["x"], w["y"], w["minimized"], w["active"]) for w in windows()], flush=True)
 if cp:
-    tx, ty = int(cp["x"] + 120), int(cp["y"] + 10)
+    tx, ty = int(cp["x"] + cp["w"] / 2), int(cp["y"] + 11)
     x("mousemove", tx, ty)
     spin(0.3)
     x("mousedown", 1)

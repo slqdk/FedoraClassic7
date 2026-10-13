@@ -170,11 +170,11 @@ PlasmoidItem {
     }
 
     onExpandedChanged: {
-        if (expanded) {
+        if (root.expanded) {
             shell.connectSource("classic7-taskbar-pin --list # " + Date.now());
             shell.connectSource("classic7-jumplist --json # " + Date.now());
         }
-        if (!expanded) {
+        if (!root.expanded) {
             runnerModel.query = "";
             reset();
         }
