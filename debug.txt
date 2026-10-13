@@ -1,0 +1,5 @@
+normal: exit 1 header:  bytes: 0 err: classic7-grab: Screenshot got cancelled
+lrwxrwxrwx 1 tester tester     0 Oct 13 16:17 /proc/self/exe -> /usr/bin/ls
+-rwxr-xr-x 1 root   root   32176 Oct 13 16:16 /usr/libexec/classic7-grab
+spectacle exit 124 stat: cannot statx '/tmp/spectacle.png': No such file or directory 
+no permission checks: exit 1 header:  bytes: 0 err: classic7-grab: Screenshot got cancelled

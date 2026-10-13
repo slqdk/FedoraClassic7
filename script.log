@@ -1,0 +1,146 @@
++ dnf5 -y -q install xorg-x11-server-Xvfb
++ mkdir -p /out
++ chmod 777 /out
++ . /src/.github/ci/native_build.sh
+++ devel=()
+++ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+++ rpm -q cmake
+++ devel+=("$pkg")
+++ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+++ rpm -q gcc-c++
+++ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+++ rpm -q extra-cmake-modules
+++ devel+=("$pkg")
+++ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+++ rpm -q libplasma-devel
+++ devel+=("$pkg")
+++ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+++ rpm -q kf6-kcoreaddons-devel
+++ devel+=("$pkg")
+++ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+++ rpm -q kf6-kconfig-devel
+++ devel+=("$pkg")
+++ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+++ rpm -q kf6-kpackage-devel
+++ devel+=("$pkg")
+++ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+++ rpm -q kf6-kwindowsystem-devel
+++ devel+=("$pkg")
+++ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+++ rpm -q kf6-kidletime-devel
+++ devel+=("$pkg")
+++ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+++ rpm -q kf6-kio-devel
+++ devel+=("$pkg")
+++ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+++ rpm -q qt6-qtbase-devel
+++ devel+=("$pkg")
+++ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+++ rpm -q qt6-qtdeclarative-devel
+++ devel+=("$pkg")
+++ (( 11 ))
+++ dnf5 -y install --setopt=install_weak_deps=False cmake extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel
+++ cmake -S /src/build_files/native -B /tmp/native-build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DKDE_INSTALL_PLUGINDIR=lib64/qt6/plugins -DKDE_INSTALL_LIBEXECDIR=libexec -DBUILD_TESTING=OFF
+++ cmake --build /tmp/native-build -j4
+++ cmake --install /tmp/native-build
+++ ls -la /usr/libexec/classic7-grab /usr/libexec/classic7-idle /usr/lib64/qt6/plugins/plasma/containmentactions/
++ cp -a /src/system_files/usr/share/applications/. /usr/share/applications/
++ useradd -m -u 1000 tester
++ cat
++ chown tester /tmp/inner.sh
++ su tester -c 'timeout 300 dbus-run-session -- bash /tmp/inner.sh'
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.2' (uid=1000 pid=459 comm="spectacle -b -n -f -o /tmp/spectacle.png" label="crun (unconfined)")
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.3' (uid=1000 pid=462 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.3' (uid=1000 pid=462 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.107: Choosing gtk.portal for org.freedesktop.impl.portal.Access as a last-resort fallback
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.3' (uid=1000 pid=462 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:488): Gtk-WARNING **: 16:17:01.121: cannot open display: 
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.136: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.136: Choosing gtk.portal for org.freedesktop.impl.portal.Settings as a last-resort fallback
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.3' (uid=1000 pid=462 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:493): Gtk-WARNING **: 16:17:01.146: cannot open display: 
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.148: Failed to create settings proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.148: Not providing Settings portal: No working backend
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.148: Choosing gtk.portal for org.freedesktop.impl.portal.FileChooser as a last-resort fallback
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.3' (uid=1000 pid=462 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:496): Gtk-WARNING **: 16:17:01.157: cannot open display: 
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.158: Failed to create file chooser proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.158: Choosing gtk.portal for org.freedesktop.impl.portal.AppChooser as a last-resort fallback
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.3' (uid=1000 pid=462 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:499): Gtk-WARNING **: 16:17:01.167: cannot open display: 
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.169: Failed to create app chooser proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.169: Choosing gtk.portal for org.freedesktop.impl.portal.Print as a last-resort fallback
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.3' (uid=1000 pid=462 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:502): Gtk-WARNING **: 16:17:01.177: cannot open display: 
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.178: Failed to create print proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.178: Choosing gtk.portal for org.freedesktop.impl.portal.Notification as a last-resort fallback
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.3' (uid=1000 pid=462 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:505): Gtk-WARNING **: 16:17:01.187: cannot open display: 
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.188: Failed to create notification proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.188: Choosing gtk.portal for org.freedesktop.impl.portal.Inhibit as a last-resort fallback
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.3' (uid=1000 pid=462 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:508): Gtk-WARNING **: 16:17:01.197: cannot open display: 
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.198: Failed to create inhibit proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.198: The location portal requires an access impl
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.198: The camera portal requires an access impl
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.198: Choosing gtk.portal for org.freedesktop.impl.portal.Account as a last-resort fallback
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.3' (uid=1000 pid=462 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:511): Gtk-WARNING **: 16:17:01.207: cannot open display: 
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.208: Failed to create account proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.208: Choosing gtk.portal for org.freedesktop.impl.portal.Email as a last-resort fallback
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.3' (uid=1000 pid=462 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:514): Gtk-WARNING **: 16:17:01.217: cannot open display: 
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.218: Failed to create email proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.218: Choosing gtk.portal for org.freedesktop.impl.portal.DynamicLauncher as a last-resort fallback
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.3' (uid=1000 pid=462 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:517): Gtk-WARNING **: 16:17:01.227: cannot open display: 
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Activated service 'org.freedesktop.impl.portal.desktop.gtk' failed: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+
+(/usr/libexec/xdg-desktop-portal:462): xdg-desktop-portal-WARNING **: 16:17:01.228: Failed to create dynamic_launcher proxy: Error calling StartServiceByName for org.freedesktop.impl.portal.desktop.gtk: Process org.freedesktop.impl.portal.desktop.gtk exited with status 1
+dbus-daemon[435]: [session uid=1000 pid=435 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
++ grep -h -i 'interfaces found\|could not find\|screenshot' /out/kwin-env.log
++ head -20
++ tail -40 /out/debug.txt
