@@ -1,0 +1,20 @@
+== image
+{"build": "2026-10-13T17:32Z", "base": "44 (44.20261012.0)", "content": "ddb1361dacfd0929"}
+== plymouth
+Theme=classic7
+/usr/lib/modules/7.2.9-ogc3.1.fc44.x86_64/initramfs.img 254784335 600
+classic7 theme files in initramfs: 67
+-rwxr-xr-x   1 root     root        57184 Jan  1  1970 usr/lib/ostree/ostree-prepare-root
+== menus
+classic7.menu
+classic7-accessories.directory
+classic7-systemtools.directory
+== programs
+blank	Blank bubbles	Bubbles mystify	Mystify photos	Photos ribbons	Ribbons pipes	3D Pipes text	3D Text 
+classic7-goodbye --logoff | --restart | --shutdown [--preview SECONDS]
+exit 2
+-rwxr-xr-x 2 root root 56032 Jan  1  1970 /usr/lib64/qt6/plugins/kf6/propertiesdialog/classic7_properties.so
+-rwxr-xr-x 2 root root 32176 Jan  1  1970 /usr/libexec/classic7-grab
+-rwxr-xr-x 2 root root 14104 Jan  1  1970 /usr/libexec/classic7-idle
+enabled
+2
