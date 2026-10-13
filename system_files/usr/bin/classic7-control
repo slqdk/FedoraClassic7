@@ -1,0 +1,26 @@
+#!/usr/bin/python3
+"""Control Panel, in the style of Windows 7.
+
+    classic7-control               open Control Panel (Category view)
+    classic7-control CATEGORY      open a category: system, network, hardware, programs, users,
+                                   appearance, clock, access
+    classic7-control ITEM          open an item directly: mouse, main.cpl, desk.cpl, mmsys.cpl,
+                                   /name Microsoft.System, ...
+    classic7-control --list        list the items this computer has
+"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
+        print(__doc__.strip())
+        sys.exit(0)
+    if len(sys.argv) > 1 and sys.argv[1] == "--list":
+        import control_items as ci
+        for it in ci.items():
+            print(f"{it.id:34} {it.title:32} {' '.join(it.run)}")
+        sys.exit(0)
+    from control_panel import main
+    sys.exit(main(sys.argv[1:]))

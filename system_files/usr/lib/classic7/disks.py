@@ -459,7 +459,7 @@ def all_regions(disks: list[Disk]) -> list[Region]:
 
 def volumes(disks: list[Disk]) -> list[Region]:
     """The rows of the volume list (Windows lists volumes, not empty space)."""
-    out = [r for r in all_regions(disks) if r.kind != "free" and not ({"extended", "nomedia", "msr"} & r.flags)]
+    out = [r for r in all_regions(disks) if r.kind != "free" and not ({"extended", "nomedia", "msr", "biosboot"} & r.flags)]
     out.sort(key=lambda r: (r.letter is None, r.letter or "", r.disk.kind, r.disk.index, r.start))
     return out
 

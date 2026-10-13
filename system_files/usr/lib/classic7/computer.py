@@ -454,7 +454,9 @@ class ComputerWindow(QMainWindow):
         if shutil.which("classic7-diskmgmt"):
             cmd.addAction("Manage drives", lambda: launch("classic7-diskmgmt", []))
         cmd.addAction("Disconnect network drive", lambda: self._netdrive(["--disconnect"]))
-        if shutil.which("systemsettings"):
+        if shutil.which("classic7-control"):
+            cmd.addAction("Open Control Panel", lambda: launch("classic7-control", []))
+        elif shutil.which("systemsettings"):
             cmd.addAction("Open Control Panel", lambda: launch("systemsettings", []))
         self.addToolBar(Qt.TopToolBarArea, cmd)
 

@@ -120,7 +120,7 @@ class DiskMap(QWidget):
             self.boxes.append((QRect(4, y, self.LABEL_W, self.ROW_H), d))
             x0 = 4 + self.LABEL_W + 2
             avail = width - x0
-            regs = [r for r in d.regions if not ({"extended", "msr"} & r.flags)]
+            regs = [r for r in d.regions if not ({"extended", "msr", "biosboot"} & r.flags)]
             if not regs:
                 self.boxes.append((QRect(x0, y, avail, self.ROW_H), ("empty", d)))
             else:

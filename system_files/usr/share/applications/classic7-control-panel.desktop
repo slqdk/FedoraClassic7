@@ -2,6 +2,8 @@
 Type=Application
 Name=Control Panel
 Comment=Change settings for the computer
-Exec=systemsettings
+Exec=classic7-control
 Icon=preferences-system
 NoDisplay=true
+Keywords=control panel;settings;control;indstillinger;kontrolpanel;
+StartupWMClass=classic7-control-panel

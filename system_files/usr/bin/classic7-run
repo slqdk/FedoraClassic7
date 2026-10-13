@@ -20,8 +20,8 @@ ALIASES = {
     "command": ["classic7-prompt"],
     "powershell": ["classic7-prompt"],
     "explorer": ["dolphin"],
-    "control": ["systemsettings"],
-    "control panel": ["systemsettings"],
+    "control": ["classic7-control"],
+    "control panel": ["classic7-control"],
     "taskmgr": ["plasma-systemmonitor"],
     "notepad": ["kwrite"],
     "calc": ["kcalc"],
@@ -84,6 +84,9 @@ def resolve(text: str):
     low = text.lower()
     if low in ALIASES and shutil.which(ALIASES[low][0]):
         return ALIASES[low], None
+    # "control mouse", "control /name Microsoft.System", "main.cpl", "desk.cpl"...
+    if shutil.which("classic7-control") and (low.startswith("control ") or low.endswith(".cpl")):
+        return ["classic7-control", text.split(None, 1)[1] if low.startswith("control ") else low], None
     expanded = os.path.expandvars(os.path.expanduser(text))
     if "://" in text or text.startswith(("www.", "mailto:")):
         url = text if "://" in text or text.startswith("mailto:") else "https://" + text
