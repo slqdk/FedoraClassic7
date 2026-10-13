@@ -1,0 +1,8 @@
+++ ls /out
+++ tr '\n' ' '
++ echo 'files: 01-remote-settings.png 02-mstsc.png 03-mstsc-general.png 04-mstsc-display.png 05-mstsc-local.png 06-mstsc-experience.png 07-mstsc-advanced.png 08-credentials.png 09-after-cancel.png container.log kwin.log mstsc.log notices.txt remote_tab.log script.log sycoca.log useradd.log '
+files: 01-remote-settings.png 02-mstsc.png 03-mstsc-general.png 04-mstsc-display.png 05-mstsc-local.png 06-mstsc-experience.png 07-mstsc-advanced.png 08-credentials.png 09-after-cancel.png container.log kwin.log mstsc.log notices.txt remote_tab.log script.log sycoca.log useradd.log 
++ tail -n 5 /out/remote_tab.log /out/mstsc.log
+==> /out/remote_tab.log <==
+
+==> /out/mstsc.log <==

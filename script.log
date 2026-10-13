@@ -1,0 +1,41 @@
++ dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool
++ mkdir -p /out
++ chmod 777 /out
++ S=/src/system_files
++ cp -a /src/system_files/usr/lib/classic7/. /usr/lib/classic7/
++ cp -a /src/system_files/usr/bin/. /usr/bin/
++ chmod +x /usr/bin/classic7-actioncenter /usr/bin/classic7-appearance /usr/bin/classic7-arrange /usr/bin/classic7-calc /usr/bin/classic7-charmap /usr/bin/classic7-computer /usr/bin/classic7-control /usr/bin/classic7-devmgmt /usr/bin/classic7-diskmgmt /usr/bin/classic7-eventvwr /usr/bin/classic7-firewall /usr/bin/classic7-goodbye /usr/bin/classic7-jumplist /usr/bin/classic7-mail /usr/bin/classic7-mixer /usr/bin/classic7-msconfig /usr/bin/classic7-mstsc /usr/bin/classic7-netdrive /usr/bin/classic7-network /usr/bin/classic7-notepad /usr/bin/classic7-paint /usr/bin/classic7-photos /usr/bin/classic7-programs /usr/bin/classic7-prompt /usr/bin/classic7-properties /usr/bin/classic7-quickshot /usr/bin/classic7-recyclebin /usr/bin/classic7-resmon /usr/bin/classic7-run /usr/bin/classic7-screensaver /usr/bin/classic7-security /usr/bin/classic7-sendto /usr/bin/classic7-sheet /usr/bin/classic7-show /usr/bin/classic7-stickynotes /usr/bin/classic7-system /usr/bin/classic7-taskbar-pin /usr/bin/classic7-taskmgr /usr/bin/classic7-timedate /usr/bin/classic7-update /usr/bin/classic7-write
++ cp -a /src/system_files/usr/share/applications/. /usr/share/applications/
++ cp -a /src/system_files/usr/share/classic7/. /usr/share/classic7/
++ cp -a /src/system_files/etc/skel/. /etc/skel/
++ hostname classic7-pc
++ echo classic7-pc
++ useradd -m -u 1000 tester
++ cat
++ chown tester /tmp/inner.sh
++ su tester -c 'timeout 240 dbus-run-session -- bash /tmp/inner.sh'
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.2' (uid=1000 pid=107 comm="python3 /tmp/remote_tab.py" label="crun (unconfined)")
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.3' (uid=1000 pid=110 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.3' (uid=1000 pid=110 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.3' (uid=1000 pid=110 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:110): xdg-desktop-portal-WARNING **: 19:46:31.749: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.3' (uid=1000 pid=110 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.8' (uid=1000 pid=142 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.7' (uid=1000 pid=142 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[170]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=142 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:142): xdg-desktop-portal-gtk-WARNING **: 19:46:31.908: error: Could not connect: No such file or directory
+
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[170]: Successfully activated service 'org.a11y.atspi.Registry'
+
+(/usr/libexec/xdg-desktop-portal:110): xdg-desktop-portal-WARNING **: 19:46:31.919: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.3' (uid=1000 pid=110 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[76]: [session uid=1000 pid=76 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
