@@ -157,10 +157,12 @@ fd = m.FormatDialog(g, w)
 fd.show()
 shot(fd, "format-dialog")
 fd.close()
-w.run_helper(["format", g.path, "exfat", "USB Data"], "Formatting")
+fs = "exfat" if "exfat" in Path("/proc/filesystems").read_text() else "vfat"
+label = "USB Data" if fs == "exfat" else "USB DATA"
+w.run_helper(["format", g.path, fs, label], "Formatting")
 wait(w)
 g = region(w, lambda r: r.letter == "G")
-ok(g is not None and g.fstype == "exfat" and g.label == "USB Data", "formatted as exFAT and kept G:")
+ok(g is not None and g.fstype == fs and g.label == label, f"formatted as {fs} and kept G:")
 ok(mounted_at(f"{root}/G"), "G: mounted again after format")
 
 e = region(w, lambda r: r.letter == "E")
@@ -181,7 +183,7 @@ ok(not mounted_at(f"{root}/E"), "E: no longer mounted")
 g = region(w, lambda r: r.letter == "G")
 w.run_helper(["unletter", g.path], "Removing letter")
 wait(w)
-g = region(w, lambda r: r.label == "USB Data")
+g = region(w, lambda r: r.label == label)
 ok(g is not None and g.letter is None and not mounted_at(f"{root}/G"), "letter G: removed")
 
 # refusing to touch the running system

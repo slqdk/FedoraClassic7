@@ -456,7 +456,10 @@ def clean_label(label, fs):
 def make_fs(k, fs, label, uid, gid):
     dev = f"/dev/{k}"
     label = clean_label(label, fs)
-    run(["wipefs", "-a", "-q", dev])
+    settle()
+    if run(["wipefs", "-a", "-q", dev], check=False).returncode != 0:
+        time.sleep(1)
+        run(["wipefs", "-a", "-q", dev])
     if fs == "ntfs":
         argv = ["mkfs.ntfs", "-Q", "-F", "-q"] + (["-L", label] if label else []) + [dev]
     elif fs == "exfat":
@@ -473,7 +476,13 @@ def make_fs(k, fs, label, uid, gid):
         raise Fail(f"Classic 7 can't format as {fs}.")
     if not shutil.which(argv[0], path=PATH):
         raise Fail(f"{argv[0]} is not installed.")
-    run(argv)
+    for attempt in range(6):        # udev may still be looking at a brand-new partition
+        res = run(argv, check=False)
+        if res.returncode == 0:
+            break
+        if attempt == 5 or "busy" not in (res.stderr + res.stdout).lower():
+            run(argv)
+        time.sleep(0.5)
     if fs == "btrfs":
         tmp = tempfile.mkdtemp(prefix="classic7-disk-")
         try:
