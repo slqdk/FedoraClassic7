@@ -91,7 +91,7 @@ PlasmoidItem {
     fullRepresentation: PlasmaExtras.Representation {
         id: popup
         collapseMarginsHint: true
-        Layout.minimumWidth: Kirigami.Units.gridUnit * 25
+        Layout.minimumWidth: Math.max(Kirigami.Units.gridUnit * 25, content.implicitWidth + Kirigami.Units.largeSpacing * 2)
         Layout.minimumHeight: content.implicitHeight + Kirigami.Units.largeSpacing * 2
         Layout.maximumHeight: Layout.minimumHeight
 

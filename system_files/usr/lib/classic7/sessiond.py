@@ -28,9 +28,15 @@ from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout, Q
                                QToolButton, QVBoxLayout, QWidget)
 
 ERR_USER_CANCELED = 1
-SHOW_AFTER = 1.0            # seconds: quick operations never show a window, as in Windows
+# seconds: quick operations never show a window, as in Windows (CLASSIC7_PROGRESS_DELAY for tests)
+SHOW_AFTER = float(os.environ.get("CLASSIC7_PROGRESS_DELAY") or 1.0)
 SERVER_PATH = "/JobViewServer"
 PROGRESS_APP = "classic7-progress"
+
+
+def log(text: str):
+    """One line for the journal (the service's output goes there)."""
+    print(f"classic7-sessiond: {text}", file=sys.stderr, flush=True)
 
 
 # ---- text -----------------------------------------------------------------------------------
@@ -562,6 +568,8 @@ class JobView(dbus.service.Object):
         if self.done:
             return
         self.done = True
+        log(f"job {self.path.rsplit('_', 1)[-1]} ended after {time.monotonic() - self.job.started:.1f} s"
+            + (f": {self.job.state.get('errorMessage')}" if self.job.state.get("errorCode") else ""))
         self.server.ui.finish(self.path)
         self.server.views.pop(self.path, None)
         self.server.urls_changed()
@@ -588,6 +596,7 @@ class JobViewServer(dbus.service.Object):
     def requestView(self, desktop_entry, capabilities, hints):  # noqa: N802
         self.count += 1
         path = f"/org/classic7/jobs/JobView_{self.count}"
+        log(f"job {self.count} from {desktop_entry}: {plain(hints).get('title', '')}")
         self.views[path] = JobView(self, path, str(desktop_entry), int(capabilities), plain(hints))
         return dbus.ObjectPath(path)
 

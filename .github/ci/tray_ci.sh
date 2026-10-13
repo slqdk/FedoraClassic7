@@ -62,7 +62,7 @@ with wave.open("/tmp/tone.wav", "wb") as w:
     w.setnchannels(2); w.setsampwidth(2); w.setframerate(44100)
     w.writeframes(b"".join(struct.pack("<hh", int(3000 * math.sin(i / 20)), int(3000 * math.sin(i / 20))) for i in range(44100 * 60)))
 EOP
-(timeout 300 pw-play --media-name "Tone" --properties 'application.name=Music Player' /tmp/tone.wav > /out/pwplay.log 2>&1 &)
+(timeout 300 paplay --client-name="Music Player" --stream-name="Tone" /tmp/tone.wav > /out/pwplay.log 2>&1 &)
 Xvfb :99 -screen 0 1200x820x24 >/dev/null 2>&1 &
 sleep 2
 DISPLAY=:99 kwin_wayland --x11-display :99 --width 1180 --height 800 --no-lockscreen --socket wayland-c7 > /out/kwin.log 2>&1 &

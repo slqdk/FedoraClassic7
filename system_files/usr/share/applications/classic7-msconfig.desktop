@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=System Configuration
+Comment=Choose the programs and services that start with the computer
+Exec=classic7-msconfig
+Icon=preferences-system
+Terminal=false
+Categories=Settings;System;
+Keywords=msconfig;startup;services;boot;autostart;

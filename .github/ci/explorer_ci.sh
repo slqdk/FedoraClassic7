@@ -37,7 +37,7 @@ dbus-update-activation-environment WAYLAND_DISPLAY QT_QPA_PLATFORM XDG_RUNTIME_D
     KDE_FULL_SESSION KDE_SESSION_VERSION XDG_SESSION_TYPE HOME PATH >> /out/sycoca.log 2>&1
 for p in /usr/libexec/kactivitymanagerd /usr/lib64/libexec/kactivitymanagerd; do [ -x $p ] && { $p > /out/kamd.log 2>&1 & break; }; done
 # the session helper first, as its unit is ordered before the desktop
-/usr/libexec/classic7-sessiond > /out/sessiond.log 2>&1 &
+CLASSIC7_PROGRESS_DELAY=0.1 /usr/libexec/classic7-sessiond > /out/sessiond.log 2>&1 &
 for i in $(seq 1 20); do busctl --user status org.classic7.Session >/dev/null 2>&1 && break; sleep 0.5; done
 busctl --user list 2>/dev/null | grep -E "kuiserver|JobViewServer|classic7" > /out/names.txt
 sleep 2
@@ -58,12 +58,11 @@ for i in range(3000):
     with open(f'$HOME/Downloads/Photos/IMG_{i:04d}.jpg', 'wb') as f: f.write(os.urandom(150000))
 with open('$HOME/Downloads/big.bin', 'wb') as f: f.write(os.urandom(200 * 1024 * 1024))"
 sync
-(timeout 120 kioclient copy $HOME/Downloads/Photos $HOME/Downloads/big.bin $HOME/Documents/ > /out/kioclient.log 2>&1 &)
-sleep 1.6
-shot 02-copying
-sleep 1.2
-DISPLAY=:99 xdotool mousemove 0 0
-shot 02b-copying
+(dbus-monitor --session "interface='org.kde.JobViewServerV2'" "interface='org.kde.kuiserver'" > /out/dbus-monitor.log 2>&1 &)
+sleep 1
+(t0=$(date +%s%N); timeout 120 kioclient copy $HOME/Downloads/Photos $HOME/Downloads/big.bin $HOME/Documents/ > /out/kioclient.log 2>&1;
+ echo "copy took $(( ($(date +%s%N) - t0) / 1000000 )) ms, exit $?" >> /out/kioclient.log) &
+for i in 1 2 3 4 5 6; do sleep 0.5; shot 02-copying-$i; done
 sleep 30
 # the Recycle Bin: delete through KIO, then look at the desktop icon and the window
 timeout 30 kioclient move $HOME/Documents/report.txt trash:/ >> /out/kioclient.log 2>&1
@@ -89,4 +88,4 @@ EOI
 chown tester /tmp/inner.sh
 su tester -c "timeout 600 dbus-run-session -- bash /tmp/inner.sh"
 { cat /out/names.txt; cat /out/plugins.txt; cat /out/recycle-icon.txt; cat /out/properties-process.txt;
-  tail -5 /out/sessiond.log; tail -3 /out/kioclient.log; grep -i "jobviewserver\|kuiserver" /out/plasmashell.log | head -5; } > /out/notices.txt
+  tail -5 /out/sessiond.log; tail -3 /out/kioclient.log; echo "requestView calls: $(grep -c "member=requestView" /out/dbus-monitor.log)"; grep -i "jobviewserver\|kuiserver" /out/plasmashell.log | head -5; } > /out/notices.txt

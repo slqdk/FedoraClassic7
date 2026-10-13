@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Event Viewer
+Comment=View the messages of programs and the system, and problem reports
+Exec=classic7-eventvwr
+Icon=utilities-log-viewer
+Terminal=false
+Categories=System;Monitor;
+Keywords=event viewer;eventvwr;log;journal;errors;crash;problem reports;
