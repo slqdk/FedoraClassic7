@@ -1,0 +1,138 @@
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-bazzite\x2dannouncement@autostart.service'
+=== /tmp/gen/app-bazzite\x2dannouncement@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' '/tmp/gen/app-bazzite\x2dannouncement@autostart.service'
+PartOf=graphical-session.target
+Description=Bazzite Announcements
+After=graphical-session.target
+ExecStart=:/usr/libexec/bazzite-announcement
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-classic7\x2dafter\x2dupdate@autostart.service'
+=== /tmp/gen/app-classic7\x2dafter\x2dupdate@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' '/tmp/gen/app-classic7\x2dafter\x2dupdate@autostart.service'
+PartOf=graphical-session.target
+Description=Classic 7 settings after an update
+After=graphical-session.target
+ExecStart=:/usr/bin/classic7-update --after-login
+ExecCondition=/usr/lib/systemd/systemd-xdg-autostart-condition "KDE" ""
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-classic7\x2dfirst\x2dlogin@autostart.service'
+=== /tmp/gen/app-classic7\x2dfirst\x2dlogin@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' '/tmp/gen/app-classic7\x2dfirst\x2dlogin@autostart.service'
+PartOf=graphical-session.target
+Description=Classic 7 desktop icons
+After=graphical-session.target
+ExecStart=:/usr/libexec/classic7-first-login
+ExecCondition=/usr/lib/systemd/systemd-xdg-autostart-condition "KDE" ""
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-classic7\x2dnetdrive\x2dreconnect@autostart.service'
+=== /tmp/gen/app-classic7\x2dnetdrive\x2dreconnect@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' '/tmp/gen/app-classic7\x2dnetdrive\x2dreconnect@autostart.service'
+PartOf=graphical-session.target
+Description=Reconnect network drives
+After=graphical-session.target
+ExecStart=:/usr/bin/classic7-netdrive --reconnect
+ExecCondition=/usr/lib/systemd/systemd-xdg-autostart-condition "KDE" ""
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-classic7\x2dquickshot@autostart.service'
+=== /tmp/gen/app-classic7\x2dquickshot@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' '/tmp/gen/app-classic7\x2dquickshot@autostart.service'
+PartOf=graphical-session.target
+Description=Quick Shot
+After=graphical-session.target
+ExecStart=:/usr/sbin/classic7-quickshot --background
+ExecCondition=/usr/lib/systemd/systemd-xdg-autostart-condition "KDE" ""
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-geoclue\x2ddemo\x2dagent@autostart.service'
+=== /tmp/gen/app-geoclue\x2ddemo\x2dagent@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' '/tmp/gen/app-geoclue\x2ddemo\x2dagent@autostart.service'
+PartOf=graphical-session.target
+Description=Geoclue Demo agent
+After=graphical-session.target
+ExecStart=:/usr/libexec/geoclue-2.0/demos/agent
+ExecCondition=/usr/lib/systemd/systemd-xdg-autostart-condition "" "GNOME"
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-input\x2dremapper\x2dautoload@autostart.service'
+=== /tmp/gen/app-input\x2dremapper\x2dautoload@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' '/tmp/gen/app-input\x2dremapper\x2dautoload@autostart.service'
+PartOf=graphical-session.target
+Description=input-remapper-autoload
+After=graphical-session.target
+ExecStart=:/usr/sbin/bash -c "input-remapper-control --command stop-all && input-remapper-control --command autoload"
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-org.gnome.SettingsDaemon.DiskUtilityNotify@autostart.service'
+=== /tmp/gen/app-org.gnome.SettingsDaemon.DiskUtilityNotify@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' /tmp/gen/app-org.gnome.SettingsDaemon.DiskUtilityNotify@autostart.service
+PartOf=graphical-session.target
+Description=gnome-disk-utility notification plugin for GNOME Settings Daemon
+After=graphical-session.target
+ExecStart=:/usr/libexec/gsd-disk-utility-notify
+ExecCondition=/usr/lib/systemd/systemd-xdg-autostart-condition "GNOME" ""
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-org.kde.kdeconnect.daemon@autostart.service'
+=== /tmp/gen/app-org.kde.kdeconnect.daemon@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' /tmp/gen/app-org.kde.kdeconnect.daemon@autostart.service
+PartOf=graphical-session.target
+Description=KDE Connect
+After=graphical-session.target
+ExecStart=:/usr/bin/kdeconnectd
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-org.kde.plasma\x2dfallback\x2dsession\x2drestore@autostart.service'
+=== /tmp/gen/app-org.kde.plasma\x2dfallback\x2dsession\x2drestore@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' '/tmp/gen/app-org.kde.plasma\x2dfallback\x2dsession\x2drestore@autostart.service'
+PartOf=graphical-session.target
+Description=Plasma Session Restore
+After=graphical-session.target
+ExecStart=:/usr/libexec/plasma-fallback-session-restore
+ExecCondition=/usr/lib/systemd/systemd-xdg-autostart-condition "KDE" ""
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-org.kde.xwaylandvideobridge@autostart.service'
+=== /tmp/gen/app-org.kde.xwaylandvideobridge@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' /tmp/gen/app-org.kde.xwaylandvideobridge@autostart.service
+PartOf=graphical-session.target
+Description=Xwayland Video Bridge
+After=graphical-session.target
+ExecStart=:/usr/sbin/xwaylandvideobridge
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-vboxclient@autostart.service'
+=== /tmp/gen/app-vboxclient@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' /tmp/gen/app-vboxclient@autostart.service
+PartOf=graphical-session.target
+Description=vboxclient
+After=graphical-session.target
+ExecStart=:/usr/bin/VBoxClient-all
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-vmware\x2duser@autostart.service'
+=== /tmp/gen/app-vmware\x2duser@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' '/tmp/gen/app-vmware\x2duser@autostart.service'
+PartOf=graphical-session.target
+Description=VMware User Agent
+After=graphical-session.target
+ExecStart=:/usr/bin/vmware-user-suid-wrapper
++ for u in $G/*.service
++ echo '=== /tmp/gen/app-xapp\x2dsn\x2dwatcher@autostart.service'
+=== /tmp/gen/app-xapp\x2dsn\x2dwatcher@autostart.service
++ grep -E '^(Description|ExecStart|ExecCondition|After|PartOf)=' '/tmp/gen/app-xapp\x2dsn\x2dwatcher@autostart.service'
+PartOf=graphical-session.target
+Description=xapp-sn-watcher
+After=graphical-session.target
+ExecStart=:/usr/libexec/xapps/xapp-sn-watcher
+ExecCondition=/usr/lib/systemd/systemd-xdg-autostart-condition "" "GNOME"
++ ls -la /tmp/gen/xdg-desktop-autostart.target.wants/
+total 16
+drwxr-xr-x 2 root root 4096 Oct 13 18:56 .
+drwxr-xr-x 3 root root 4096 Oct 13 18:56 ..
+lrwxrwxrwx 1 root root   48 Oct 13 18:56 app-bazzite\x2dannouncement@autostart.service -> ../app-bazzite\x2dannouncement@autostart.service
+lrwxrwxrwx 1 root root   52 Oct 13 18:56 app-classic7\x2dafter\x2dupdate@autostart.service -> ../app-classic7\x2dafter\x2dupdate@autostart.service
+lrwxrwxrwx 1 root root   51 Oct 13 18:56 app-classic7\x2dfirst\x2dlogin@autostart.service -> ../app-classic7\x2dfirst\x2dlogin@autostart.service
+lrwxrwxrwx 1 root root   58 Oct 13 18:56 app-classic7\x2dnetdrive\x2dreconnect@autostart.service -> ../app-classic7\x2dnetdrive\x2dreconnect@autostart.service
+lrwxrwxrwx 1 root root   46 Oct 13 18:56 app-classic7\x2dquickshot@autostart.service -> ../app-classic7\x2dquickshot@autostart.service
+lrwxrwxrwx 1 root root   49 Oct 13 18:56 app-geoclue\x2ddemo\x2dagent@autostart.service -> ../app-geoclue\x2ddemo\x2dagent@autostart.service
+lrwxrwxrwx 1 root root   54 Oct 13 18:56 app-input\x2dremapper\x2dautoload@autostart.service -> ../app-input\x2dremapper\x2dautoload@autostart.service
+lrwxrwxrwx 1 root root   67 Oct 13 18:56 app-org.gnome.SettingsDaemon.DiskUtilityNotify@autostart.service -> ../app-org.gnome.SettingsDaemon.DiskUtilityNotify@autostart.service
+lrwxrwxrwx 1 root root   50 Oct 13 18:56 app-org.kde.kdeconnect.daemon@autostart.service -> ../app-org.kde.kdeconnect.daemon@autostart.service
+lrwxrwxrwx 1 root root   73 Oct 13 18:56 app-org.kde.plasma\x2dfallback\x2dsession\x2drestore@autostart.service -> ../app-org.kde.plasma\x2dfallback\x2dsession\x2drestore@autostart.service
+lrwxrwxrwx 1 root root   52 Oct 13 18:56 app-org.kde.xwaylandvideobridge@autostart.service -> ../app-org.kde.xwaylandvideobridge@autostart.service
+lrwxrwxrwx 1 root root   35 Oct 13 18:56 app-vboxclient@autostart.service -> ../app-vboxclient@autostart.service
+lrwxrwxrwx 1 root root   39 Oct 13 18:56 app-vmware\x2duser@autostart.service -> ../app-vmware\x2duser@autostart.service
+lrwxrwxrwx 1 root root   46 Oct 13 18:56 app-xapp\x2dsn\x2dwatcher@autostart.service -> ../app-xapp\x2dsn\x2dwatcher@autostart.service

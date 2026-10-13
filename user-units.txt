@@ -1,0 +1,2 @@
+/usr/lib/systemd/user/kunifiedpush-distributor.service
+/usr/lib/systemd/user/spice-vdagent.service

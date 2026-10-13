@@ -1,0 +1,545 @@
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/at-spi-dbus-bus.desktop ']'
+++ rpm -qf /etc/xdg/autostart/at-spi-dbus-bus.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/at-spi-dbus-bus.desktop (at-spi2-core-2.60.7-1.fc44.x86_64)'
+=== /etc/xdg/autostart/at-spi-dbus-bus.desktop (at-spi2-core-2.60.7-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/at-spi-dbus-bus.desktop
+[Desktop Entry]
+Type=Application
+Name=AT-SPI D-Bus Bus
+Exec=/usr/libexec/at-spi-bus-launcher --launch-immediately
+OnlyShowIn=GNOME;Unity;
+NoDisplay=true
+AutostartCondition=GSettings org.gnome.desktop.interface toolkit-accessibility
+X-GNOME-AutoRestart=true
+X-GNOME-Autostart-Phase=Initialization
+X-systemd-skip=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/baloo_file.desktop ']'
+++ rpm -qf /etc/xdg/autostart/baloo_file.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/baloo_file.desktop (kf6-baloo-file-6.31.0-1.fc44.x86_64)'
+=== /etc/xdg/autostart/baloo_file.desktop (kf6-baloo-file-6.31.0-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/baloo_file.desktop
+[Desktop Entry]
+Type=Application
+Exec=/usr/libexec/kf6/baloo_file
+X-KDE-StartupNotify=false
+X-KDE-autostart-condition=baloofilerc:Basic Settings:Indexing-Enabled:true
+X-KDE-autostart-phase=0
+X-GNOME-Autostart-enabled=true
+X-systemd-skip=true
+OnlyShowIn=KDE;GNOME;Unity;XFCE
+NoDisplay=true
+
+Name=Baloo File Daemon
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/bazzite-announcement.desktop ']'
+++ rpm -qf /etc/xdg/autostart/bazzite-announcement.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/bazzite-announcement.desktop (file /etc/xdg/autostart/bazzite-announcement.desktop is not owned by any package)'
+=== /etc/xdg/autostart/bazzite-announcement.desktop (file /etc/xdg/autostart/bazzite-announcement.desktop is not owned by any package)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/bazzite-announcement.desktop
+[Desktop Entry]
+Type=Application
+Name=Bazzite Announcements
+Exec=/usr/libexec/bazzite-announcement
+Terminal=false
+StartupNotify=false
+X-GNOME-Autostart-enabled=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/classic7-after-update.desktop ']'
+++ rpm -qf /etc/xdg/autostart/classic7-after-update.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/classic7-after-update.desktop (file /etc/xdg/autostart/classic7-after-update.desktop is not owned by any package)'
+=== /etc/xdg/autostart/classic7-after-update.desktop (file /etc/xdg/autostart/classic7-after-update.desktop is not owned by any package)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/classic7-after-update.desktop
+[Desktop Entry]
+Type=Application
+Name=Classic 7 settings after an update
+Comment=Brings this account's Classic 7 settings up to date after a new version starts
+Exec=/usr/bin/classic7-update --after-login
+NoDisplay=true
+OnlyShowIn=KDE;
+X-KDE-autostart-phase=2
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/classic7-first-login.desktop ']'
+++ rpm -qf /etc/xdg/autostart/classic7-first-login.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/classic7-first-login.desktop (file /etc/xdg/autostart/classic7-first-login.desktop is not owned by any package)'
+=== /etc/xdg/autostart/classic7-first-login.desktop (file /etc/xdg/autostart/classic7-first-login.desktop is not owned by any package)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/classic7-first-login.desktop
+[Desktop Entry]
+Type=Application
+Name=Classic 7 desktop icons
+Exec=/usr/libexec/classic7-first-login
+NoDisplay=true
+OnlyShowIn=KDE;
+X-KDE-autostart-phase=2
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/classic7-netdrive-reconnect.desktop ']'
+++ rpm -qf /etc/xdg/autostart/classic7-netdrive-reconnect.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/classic7-netdrive-reconnect.desktop (file /etc/xdg/autostart/classic7-netdrive-reconnect.desktop is not owned by any package)'
+=== /etc/xdg/autostart/classic7-netdrive-reconnect.desktop (file /etc/xdg/autostart/classic7-netdrive-reconnect.desktop is not owned by any package)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/classic7-netdrive-reconnect.desktop
+[Desktop Entry]
+Type=Application
+Name=Reconnect network drives
+Comment=Connects the network drives marked "Reconnect at sign-in"
+Exec=/usr/bin/classic7-netdrive --reconnect
+NoDisplay=true
+OnlyShowIn=KDE;
+X-KDE-autostart-phase=2
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/classic7-quickshot.desktop ']'
+++ rpm -qf /etc/xdg/autostart/classic7-quickshot.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/classic7-quickshot.desktop (file /etc/xdg/autostart/classic7-quickshot.desktop is not owned by any package)'
+=== /etc/xdg/autostart/classic7-quickshot.desktop (file /etc/xdg/autostart/classic7-quickshot.desktop is not owned by any package)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/classic7-quickshot.desktop
+[Desktop Entry]
+Type=Application
+Name=Quick Shot
+Comment=Screen capture in the notification area (Ctrl+Up, PrtSc)
+Exec=classic7-quickshot --background
+Icon=spectacle
+NoDisplay=true
+X-KDE-autostart-phase=2
+OnlyShowIn=KDE;
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/geoclue-demo-agent.desktop ']'
+++ rpm -qf /etc/xdg/autostart/geoclue-demo-agent.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/geoclue-demo-agent.desktop (geoclue2-2.8.2-1.fc44.x86_64)'
+=== /etc/xdg/autostart/geoclue-demo-agent.desktop (geoclue2-2.8.2-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/geoclue-demo-agent.desktop
+[Desktop Entry]
+Name=Geoclue Demo agent
+GenericName=Demo geoclue agent
+Keywords=geolocation;
+Exec=/usr/libexec/geoclue-2.0/demos/agent
+Icon=mark-location-symbolic
+NotShowIn=GNOME;
+NoDisplay=true
+Terminal=false
+Type=Application
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/gmenudbusmenuproxy.desktop ']'
+++ rpm -qf /etc/xdg/autostart/gmenudbusmenuproxy.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/gmenudbusmenuproxy.desktop (plasma-workspace-6.7.5-1.fc44.x86_64)'
+=== /etc/xdg/autostart/gmenudbusmenuproxy.desktop (plasma-workspace-6.7.5-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/gmenudbusmenuproxy.desktop
+[Desktop Entry]
+Exec=gmenudbusmenuproxy
+Name=GMenuDBusMenuProxy
+Type=Application
+StartupNotify=false
+NoDisplay=true
+OnlyShowIn=KDE;
+X-KDE-autostart-phase=1
+X-systemd-skip=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/input-remapper-autoload.desktop ']'
+++ rpm -qf /etc/xdg/autostart/input-remapper-autoload.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/input-remapper-autoload.desktop (input-remapper-2.2.1-1.fc44.noarch)'
+=== /etc/xdg/autostart/input-remapper-autoload.desktop (input-remapper-2.2.1-1.fc44.noarch)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/input-remapper-autoload.desktop
+[Desktop Entry]
+Type=Application
+Exec=bash -c "input-remapper-control --command stop-all && input-remapper-control --command autoload"
+Name=input-remapper-autoload
+Icon=input-remapper
+Comment=Starts injecting all presets that are set to automatically load for the user
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/kaccess.desktop ']'
+++ rpm -qf /etc/xdg/autostart/kaccess.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/kaccess.desktop (plasma-desktop-6.7.5-1.fc44.x86_64)'
+=== /etc/xdg/autostart/kaccess.desktop (plasma-desktop-6.7.5-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/kaccess.desktop
+[Desktop Entry]
+Type=Application
+Name=Accessibility
+NoDisplay=true
+Exec=kaccess
+X-DBUS-StartupType=None
+X-KDE-autostart-phase=0
+OnlyShowIn=KDE
+X-systemd-skip=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/kglobalacceld.desktop ']'
+++ rpm -qf /etc/xdg/autostart/kglobalacceld.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/kglobalacceld.desktop (kglobalacceld-6.7.5-1.fc44.x86_64)'
+=== /etc/xdg/autostart/kglobalacceld.desktop (kglobalacceld-6.7.5-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/kglobalacceld.desktop
+[Desktop Entry]
+Type=Application
+Name=Global Shortcuts
+Exec=/usr/libexec/kglobalacceld
+NoDisplay=true
+OnlyShowIn=KDE;
+X-systemd-skip=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/orca-autostart.desktop ']'
+++ rpm -qf /etc/xdg/autostart/orca-autostart.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/orca-autostart.desktop (orca-50.3-1.fc44.noarch)'
+=== /etc/xdg/autostart/orca-autostart.desktop (orca-50.3-1.fc44.noarch)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/orca-autostart.desktop
+[Desktop Entry]
+Type=Application
+Name=Orca Screen Reader
+Exec=orca --replace
+NoDisplay=true
+AutostartCondition=GSettings org.gnome.desktop.a11y.applications screen-reader-enabled
+X-GNOME-AutoRestart=true
+#X-GNOME-Autostart-Phase=Initialization
+OnlyShowIn=GNOME;MATE;Unity;Cinnamon;
+X-systemd-skip=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/org.gnome.SettingsDaemon.DiskUtilityNotify.desktop ']'
+++ rpm -qf /etc/xdg/autostart/org.gnome.SettingsDaemon.DiskUtilityNotify.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/org.gnome.SettingsDaemon.DiskUtilityNotify.desktop (gnome-disk-utility-46.1-4.fc44.x86_64)'
+=== /etc/xdg/autostart/org.gnome.SettingsDaemon.DiskUtilityNotify.desktop (gnome-disk-utility-46.1-4.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/org.gnome.SettingsDaemon.DiskUtilityNotify.desktop
+[Desktop Entry]
+Type=Application
+Name=gnome-disk-utility notification plugin for GNOME Settings Daemon
+Exec=/usr/libexec/gsd-disk-utility-notify
+OnlyShowIn=GNOME;
+NoDisplay=true
+X-GNOME-AutoRestart=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/org.kde.foreground-booster.desktop ']'
+++ rpm -qf /etc/xdg/autostart/org.kde.foreground-booster.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/org.kde.foreground-booster.desktop (plasma-foreground-booster-dmemcg-0.1-2.fc44.x86_64)'
+=== /etc/xdg/autostart/org.kde.foreground-booster.desktop (plasma-foreground-booster-dmemcg-0.1-2.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/org.kde.foreground-booster.desktop
+[Desktop Entry]
+
+Type=Application
+Version=1.0
+Name=Foreground Booster
+Exec=/usr/bin/foreground_booster
+X-systemd-skip=true
+X-KDE-autostart-condition=kcgroupsrc:Foreground Booster:autostart:false
+X-KDE-Wayland-Interfaces=org_kde_plasma_window_management
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/org.kde.kdeconnect.daemon.desktop ']'
+++ rpm -qf /etc/xdg/autostart/org.kde.kdeconnect.daemon.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/org.kde.kdeconnect.daemon.desktop (kdeconnectd-26.08.1-1.fc44.x86_64)'
+=== /etc/xdg/autostart/org.kde.kdeconnect.daemon.desktop (kdeconnectd-26.08.1-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/org.kde.kdeconnect.daemon.desktop
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/kdeconnectd
+StartupNotify=false
+X-KDE-autostart-phase=1
+X-GNOME-Autostart-enabled=true
+NoDisplay=true
+Icon=kdeconnect
+
+Name=KDE Connect
+X-Desktop-File-Install-Version=0.28
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/org.kde.kunifiedpush-distributor.desktop ']'
+++ rpm -qf /etc/xdg/autostart/org.kde.kunifiedpush-distributor.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/org.kde.kunifiedpush-distributor.desktop (kunifiedpush-26.08.1-1.fc44.x86_64)'
+=== /etc/xdg/autostart/org.kde.kunifiedpush-distributor.desktop (kunifiedpush-26.08.1-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/org.kde.kunifiedpush-distributor.desktop
+[Desktop Entry]
+Name=UnifiedPush Distributor
+GenericName=Push Notification Service
+Exec=kunifiedpush-distributor
+Terminal=false
+Icon=network-connect
+Categories=Network
+Type=Application
+StartupNotify=false
+X-systemd-skip=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/org.kde.plasma-fallback-session-restore.desktop ']'
+++ rpm -qf /etc/xdg/autostart/org.kde.plasma-fallback-session-restore.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/org.kde.plasma-fallback-session-restore.desktop (plasma-workspace-6.7.5-1.fc44.x86_64)'
+=== /etc/xdg/autostart/org.kde.plasma-fallback-session-restore.desktop (plasma-workspace-6.7.5-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/org.kde.plasma-fallback-session-restore.desktop
+[Desktop Entry]
+Exec=/usr/libexec/plasma-fallback-session-restore
+Name=Plasma Session Restore
+Icon=plasmashell
+OnlyShowIn=KDE;
+Type=Application
+X-KDE-StartupNotify=false
+NoDisplay=true
+
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/org.kde.plasmashell.desktop ']'
+++ rpm -qf /etc/xdg/autostart/org.kde.plasmashell.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/org.kde.plasmashell.desktop (plasma-workspace-6.7.5-1.fc44.x86_64)'
+=== /etc/xdg/autostart/org.kde.plasmashell.desktop (plasma-workspace-6.7.5-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/org.kde.plasmashell.desktop
+[Desktop Entry]
+Exec=/usr/bin/plasmashell
+X-DBUS-StartupType=Unique
+Name=Plasma
+Type=Application
+StartupNotify=false
+X-DBUS-ServiceName=org.kde.plasmashell
+OnlyShowIn=KDE;
+X-KDE-autostart-phase=0
+Icon=plasma-symbolic
+NoDisplay=true
+X-systemd-skip=true
+
+X-KDE-Wayland-Interfaces=org_kde_plasma_window_management,org_kde_kwin_keystate,zkde_screencast_unstable_v1,org_kde_plasma_activation_feedback,kde_lockscreen_overlay_v1
+X-KDE-DBUS-Restricted-Interfaces=org.kde.KWin.ScreenShot2
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/org.kde.xwaylandvideobridge.desktop ']'
+++ rpm -qf /etc/xdg/autostart/org.kde.xwaylandvideobridge.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/org.kde.xwaylandvideobridge.desktop (xwaylandvideobridge-0.5.2-1.fc44.x86_64)'
+=== /etc/xdg/autostart/org.kde.xwaylandvideobridge.desktop (xwaylandvideobridge-0.5.2-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/org.kde.xwaylandvideobridge.desktop
+[Desktop Entry]
+StartupNotify=false
+X-KDE-autostart-phase=2
+X-GNOME-Autostart-enabled=true
+NoDisplay=true
+
+Type=Application
+Name=Xwayland Video Bridge
+GenericName=Share screens and windows to XWayland applications
+Icon=org.kde.xwaylandvideobridge
+Exec=xwaylandvideobridge
+Categories=Qt;KDE;Utility;X-KDE-Utilities-Desktop;
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/pam_kwallet_init.desktop ']'
+++ rpm -qf /etc/xdg/autostart/pam_kwallet_init.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/pam_kwallet_init.desktop (pam-kwallet-6.7.5-1.fc44.x86_64)'
+=== /etc/xdg/autostart/pam_kwallet_init.desktop (pam-kwallet-6.7.5-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/pam_kwallet_init.desktop
+[Desktop Entry]
+Name=KWallet PAM Socket Connection
+Comment=Connect to KWallet PAM socket
+Exec=/usr/libexec/pam_kwallet_init
+Type=Application
+NoDisplay=true
+X-KDE-StartupNotify=false
+X-KDE-autostart-phase=0
+X-systemd-skip=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/polkit-kde-authentication-agent-1.desktop ']'
+++ rpm -qf /etc/xdg/autostart/polkit-kde-authentication-agent-1.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/polkit-kde-authentication-agent-1.desktop (polkit-kde-6.7.5-1.fc44.x86_64)'
+=== /etc/xdg/autostart/polkit-kde-authentication-agent-1.desktop (polkit-kde-6.7.5-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/polkit-kde-authentication-agent-1.desktop
+[Desktop Entry]
+Name=PolicyKit Authentication Agent
+Comment=PolicyKit Authentication Agent
+Exec=/usr/libexec/kf6/polkit-kde-authentication-agent-1
+Icon=dialog-password
+Terminal=false
+Type=Application
+OnlyShowIn=KDE;
+X-KDE-StartupNotify=false
+X-KDE-autostart-phase=0
+NoDisplay=true
+X-DBUS-StartupType=Unique
+X-systemd-skip=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/powerdevil.desktop ']'
+++ rpm -qf /etc/xdg/autostart/powerdevil.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/powerdevil.desktop (powerdevil-6.7.5-3.fc44.x86_64)'
+=== /etc/xdg/autostart/powerdevil.desktop (powerdevil-6.7.5-3.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/powerdevil.desktop
+[Desktop Entry]
+Type=Application
+Icon=preferences-system-power-management
+Name=Power Management
+Exec=/usr/libexec/org_kde_powerdevil
+NoDisplay=true
+OnlyShowIn=KDE;
+X-systemd-skip=true
+X-KDE-autostart-phase=0
+
+Comment=Battery, Display and CPU power management and notification
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/spice-vdagent.desktop ']'
+++ rpm -qf /etc/xdg/autostart/spice-vdagent.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/spice-vdagent.desktop (spice-vdagent-0.23.0-2.fc44.x86_64)'
+=== /etc/xdg/autostart/spice-vdagent.desktop (spice-vdagent-0.23.0-2.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/spice-vdagent.desktop
+[Desktop Entry]
+Name=Spice vdagent
+Comment=Agent for Spice guests
+Exec=/usr/bin/spice-vdagent
+Terminal=false
+Type=Application
+Categories=
+X-GNOME-Autostart-Phase=WindowManager
+NoDisplay=true
+X-systemd-skip=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/vboxclient.desktop ']'
+++ rpm -qf /etc/xdg/autostart/vboxclient.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/vboxclient.desktop (virtualbox-guest-additions-7.2.16-1.fc44.x86_64)'
+=== /etc/xdg/autostart/vboxclient.desktop (virtualbox-guest-additions-7.2.16-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/vboxclient.desktop
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=vboxclient
+Comment=VirtualBox User Session Services
+Exec=/usr/bin/VBoxClient-all
+X-GNOME-Autostart-enabled=true
+X-KDE-autostart-after=panel
+X-Desktop-File-Install-Version=0.28
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/vmware-user.desktop ']'
+++ rpm -qf /etc/xdg/autostart/vmware-user.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/vmware-user.desktop (open-vm-tools-desktop-13.1.0-2.fc44.x86_64)'
+=== /etc/xdg/autostart/vmware-user.desktop (open-vm-tools-desktop-13.1.0-2.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/vmware-user.desktop
+[Desktop Entry]
+Type=Application
+Exec=/usr/bin/vmware-user-suid-wrapper
+Name=VMware User Agent
+NoDisplay=true
+X-KDE-autostart-phase=1
+
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/xapp-sn-watcher.desktop ']'
+++ rpm -qf /etc/xdg/autostart/xapp-sn-watcher.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/xapp-sn-watcher.desktop (xapps-3.2.2-3.fc44.x86_64)'
+=== /etc/xdg/autostart/xapp-sn-watcher.desktop (xapps-3.2.2-3.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/xapp-sn-watcher.desktop
+[Desktop Entry]
+Type=Application
+Name=xapp-sn-watcher
+Comment=A service that provides the org.kde.StatusNotifierWatcher interface for XApps
+
+Exec=/usr/libexec/xapps/xapp-sn-watcher
+
+X-GNOME-Autostart-Phase=Panel
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/xdg-user-dirs.desktop ']'
+++ rpm -qf /etc/xdg/autostart/xdg-user-dirs.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/xdg-user-dirs.desktop (xdg-user-dirs-0.18-11.fc43.x86_64)'
+=== /etc/xdg/autostart/xdg-user-dirs.desktop (xdg-user-dirs-0.18-11.fc43.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/xdg-user-dirs.desktop
+[Desktop Entry]
+Type=Application
+Name=User folders update
+TryExec=xdg-user-dirs-update
+Exec=xdg-user-dirs-update
+StartupNotify=false
+NoDisplay=true
+
+X-GNOME-Autostart-Phase=Initialization
+X-KDE-autostart-phase=1
+X-systemd-skip=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/xdg/autostart/xembedsniproxy.desktop ']'
+++ rpm -qf /etc/xdg/autostart/xembedsniproxy.desktop
+++ head -1
++ echo '=== /etc/xdg/autostart/xembedsniproxy.desktop (plasma-workspace-6.7.5-1.fc44.x86_64)'
+=== /etc/xdg/autostart/xembedsniproxy.desktop (plasma-workspace-6.7.5-1.fc44.x86_64)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/xdg/autostart/xembedsniproxy.desktop
+[Desktop Entry]
+Exec=xembedsniproxy
+Name=XembedSniProxy
+Type=Application
+StartupNotify=false
+NoDisplay=true
+OnlyShowIn=KDE;
+X-KDE-autostart-phase=0
+X-systemd-skip=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/skel/.config/autostart/bazzite-portal.desktop ']'
+++ rpm -qf /etc/skel/.config/autostart/bazzite-portal.desktop
+++ head -1
++ echo '=== /etc/skel/.config/autostart/bazzite-portal.desktop (file /etc/skel/.config/autostart/bazzite-portal.desktop is not owned by any package)'
+=== /etc/skel/.config/autostart/bazzite-portal.desktop (file /etc/skel/.config/autostart/bazzite-portal.desktop is not owned by any package)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/skel/.config/autostart/bazzite-portal.desktop
+[Desktop Entry]
+Name=Bazzite Portal
+Comment=Helps you setup Bazzite
+Exec=yafti_gtk.py /usr/share/yafti/yafti.yml
+Icon=io.github.ublue_os.yafti_gtk
+Terminal=false
+Type=Application
+X-GNOME-Autostart-enabled=true
++ for f in /etc/xdg/autostart/*.desktop /etc/skel/.config/autostart/*.desktop
++ '[' -f /etc/skel/.config/autostart/steam.desktop ']'
+++ rpm -qf /etc/skel/.config/autostart/steam.desktop
+++ head -1
++ echo '=== /etc/skel/.config/autostart/steam.desktop (file /etc/skel/.config/autostart/steam.desktop is not owned by any package)'
+=== /etc/skel/.config/autostart/steam.desktop (file /etc/skel/.config/autostart/steam.desktop is not owned by any package)
++ grep -vE '^(Name|Comment|GenericName|Keywords)\[' /etc/skel/.config/autostart/steam.desktop
+[Desktop Entry]
+Name=Steam
+Comment=Application for managing and playing games on Steam
+Exec=/usr/bin/bazzite-steam -silent %U
+Icon=steam
+Terminal=false
+Type=Application
+Categories=Network;FileTransfer;Game;
+MimeType=x-scheme-handler/steam;x-scheme-handler/steamlink;
+Actions=Store;Community;Library;Servers;Screenshots;News;Settings;BigPicture;Friends;
+PrefersNonDefaultGPU=true
+X-KDE-RunOnDiscreteGpu=true
+
+[Desktop Action Store]
+Name=Store
+Exec=/usr/bin/bazzite-steam steam://store
+
+[Desktop Action Community]
+Name=Community
+Exec=/usr/bin/bazzite-steam steam://url/CommunityHome/
+
+[Desktop Action Library]
+Name=Library
+Exec=/usr/bin/bazzite-steam steam://open/games
+
+[Desktop Action Servers]
+Name=Servers
+Exec=/usr/bin/bazzite-steam steam://open/servers
+
+[Desktop Action Screenshots]
+Name=Screenshots
+Exec=/usr/bin/bazzite-steam steam://open/screenshots
+
+[Desktop Action News]
+Name=News
+Exec=/usr/bin/bazzite-steam steam://openurl/https://store.steampowered.com/news
+
+[Desktop Action Settings]
+Name=Settings
+Exec=/usr/bin/bazzite-steam steam://open/settings
+
+[Desktop Action BigPicture]
+Name=Big Picture
+Exec=/usr/bin/bazzite-steam steam://open/bigpicture
+
+[Desktop Action Friends]
+Name=Friends
+Exec=/usr/bin/bazzite-steam steam://open/friends

@@ -1,0 +1,13 @@
+geoclue2-2.8.2-1.fc44.x86_64
+input-remapper-2.2.1-1.fc44.noarch
+kdeconnectd-26.08.1-1.fc44.x86_64
+kunifiedpush-26.08.1-1.fc44.x86_64
+open-vm-tools-13.1.0-2.fc44.x86_64
+open-vm-tools-desktop-13.1.0-2.fc44.x86_64
+python3-xapps-overrides-3.2.2-3.fc44.x86_64
+spice-vdagent-0.23.0-2.fc44.x86_64
+virtualbox-guest-additions-7.2.16-1.fc44.x86_64
+xapp-symbolic-icons-1.1.0-1.fc44.noarch
+xapps-3.2.2-3.fc44.x86_64
+xwaylandvideobridge-0.5.2-1.fc44.x86_64
+org.kde.kdeconnect.service

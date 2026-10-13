@@ -1,0 +1,33 @@
++ cat /out/packages.txt
+geoclue2-2.8.2-1.fc44.x86_64
+input-remapper-2.2.1-1.fc44.noarch
+kdeconnectd-26.08.1-1.fc44.x86_64
+kunifiedpush-26.08.1-1.fc44.x86_64
+open-vm-tools-13.1.0-2.fc44.x86_64
+open-vm-tools-desktop-13.1.0-2.fc44.x86_64
+python3-xapps-overrides-3.2.2-3.fc44.x86_64
+spice-vdagent-0.23.0-2.fc44.x86_64
+virtualbox-guest-additions-7.2.16-1.fc44.x86_64
+xapp-symbolic-icons-1.1.0-1.fc44.noarch
+xapps-3.2.2-3.fc44.x86_64
+xwaylandvideobridge-0.5.2-1.fc44.x86_64
+org.kde.kdeconnect.service
++ grep -c . /out/autostart.txt
+525
++ ls /tmp/gen
++ head -40
+app-bazzite\x2dannouncement@autostart.service
+app-classic7\x2dafter\x2dupdate@autostart.service
+app-classic7\x2dfirst\x2dlogin@autostart.service
+app-classic7\x2dnetdrive\x2dreconnect@autostart.service
+app-classic7\x2dquickshot@autostart.service
+app-geoclue\x2ddemo\x2dagent@autostart.service
+app-input\x2dremapper\x2dautoload@autostart.service
+app-org.gnome.SettingsDaemon.DiskUtilityNotify@autostart.service
+app-org.kde.kdeconnect.daemon@autostart.service
+app-org.kde.plasma\x2dfallback\x2dsession\x2drestore@autostart.service
+app-org.kde.xwaylandvideobridge@autostart.service
+app-vboxclient@autostart.service
+app-vmware\x2duser@autostart.service
+app-xapp\x2dsn\x2dwatcher@autostart.service
+xdg-desktop-autostart.target.wants
