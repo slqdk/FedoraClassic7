@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Firewall
+Comment=Turn the firewall on or off and choose what it lets through
+Exec=classic7-firewall
+Icon=security-high
+Terminal=false
+Categories=Settings;System;Security;
+Keywords=firewall;firewall.cpl;wf.msc;ports;allow;block;security;
+NoDisplay=true

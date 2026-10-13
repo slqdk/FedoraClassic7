@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Resource Monitor
+Comment=Monitor the use of processor, memory, disk and network
+Exec=classic7-resmon
+Icon=utilities-system-monitor
+Terminal=false
+Categories=System;Monitor;
+Keywords=resmon;resource monitor;cpu;memory;disk;network;performance;

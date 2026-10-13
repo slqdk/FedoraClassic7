@@ -6,6 +6,8 @@ exec 2>/out/script.log
 dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool >/dev/null 2>&1 || true
 mkdir -p /out && chmod 777 /out
 . /src/.github/ci/native_build.sh
+cmake -S /src/.github/ci/kiocopy -B /tmp/kiocopy > /out/kiocopy-build.log 2>&1 && cmake --build /tmp/kiocopy >> /out/kiocopy-build.log 2>&1 \
+    && cp /tmp/kiocopy/kiocopy /usr/local/bin/
 S=/src/system_files
 cp -a $S/usr/lib/classic7/. /usr/lib/classic7/
 cp -a $S/usr/bin/. /usr/bin/ && chmod +x /usr/bin/classic7-*
@@ -54,13 +56,13 @@ shot 01-desktop
 python3 -c "
 import os
 os.makedirs('$HOME/Downloads/Photos', exist_ok=True)
-for i in range(3000):
+for i in range(6000):
     with open(f'$HOME/Downloads/Photos/IMG_{i:04d}.jpg', 'wb') as f: f.write(os.urandom(150000))
 with open('$HOME/Downloads/big.bin', 'wb') as f: f.write(os.urandom(200 * 1024 * 1024))"
 sync
 (dbus-monitor --session "interface='org.kde.JobViewServerV2'" "interface='org.kde.kuiserver'" > /out/dbus-monitor.log 2>&1 &)
 sleep 1
-(t0=$(date +%s%N); timeout 120 kioclient copy $HOME/Downloads/Photos $HOME/Downloads/big.bin $HOME/Documents/ > /out/kioclient.log 2>&1;
+(t0=$(date +%s%N); timeout 120 kiocopy $HOME/Downloads/Photos $HOME/Downloads/big.bin $HOME/Documents/ > /out/kioclient.log 2>&1;
  echo "copy took $(( ($(date +%s%N) - t0) / 1000000 )) ms, exit $?" >> /out/kioclient.log) &
 for i in 1 2 3 4 5 6; do sleep 0.5; shot 02-copying-$i; done
 sleep 30

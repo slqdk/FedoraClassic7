@@ -1,0 +1,136 @@
+#!/usr/bin/python3
+"""Classic 7 firewall changes, run as root through pkexec (org.classic7.firewall.policy) by the
+Firewall window (classic7-firewall).
+
+    pkexec /usr/libexec/classic7-firewall-helper '<JSON list of changes>'
+
+Changes (each checked before anything is done):
+    {"op": "firewalld", "on": true}                      start and enable / stop and disable firewalld
+    {"op": "service", "zone": Z, "name": S, "on": b}     allow a firewalld service in a zone
+    {"op": "port", "zone": Z, "port": "8080/tcp", "on": b}
+    {"op": "target", "zone": Z, "off": b}                turn the firewall off for a zone (target ACCEPT)
+    {"op": "block_all", "zone": Z, "on": b}              block everything, even allowed programs (the
+                                                         zone's services and ports are kept aside and
+                                                         given back when turned off again)
+    {"op": "defaults", "zones": [Z, ...]}                restore the zones' shipped settings
+    {"op": "connection_zone", "uuid": U, "zone": Z}      put a network connection in a zone
+All firewalld changes are permanent and loaded at once (firewall-cmd --reload)."""
+import json
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+STATE = Path("/etc/classic7/firewall-blocked")
+
+
+def run(*args: str) -> tuple[int, str]:
+    r = subprocess.run(list(args), capture_output=True, text=True, timeout=120)
+    return r.returncode, (r.stdout + r.stderr).strip()
+
+
+def fw(*args: str) -> str:
+    code, out = run("firewall-cmd", *args)
+    if code != 0 and "ALREADY_ENABLED" not in out and "NOT_ENABLED" not in out:
+        raise RuntimeError(out or f"firewall-cmd {' '.join(args)} failed")
+    return out
+
+
+def main() -> int:
+    if len(sys.argv) != 2:
+        print(__doc__)
+        return 2
+    try:
+        ops = json.loads(sys.argv[1])
+        assert isinstance(ops, list)
+    except (ValueError, AssertionError):
+        print("classic7-firewall-helper: the changes must be a JSON list", file=sys.stderr)
+        return 2
+    running = run("firewall-cmd", "--state")[0] == 0
+    want_on = [o for o in ops if o.get("op") == "firewalld"]
+    if want_on and want_on[-1].get("on") and not running:
+        code, out = run("systemctl", "enable", "--now", "firewalld.service")
+        if code != 0:
+            print(out, file=sys.stderr)
+            return 1
+        running = True
+    zones = set(fw("--get-zones").split()) if running else set()
+    services = set(fw("--get-services").split()) if running else set()
+    port_re = re.compile(r"^\d{1,5}(-\d{1,5})?/(tcp|udp|sctp|dccp)$")
+    uuid_re = re.compile(r"^[0-9a-fA-F-]{36}$")
+    changed = False
+    try:
+        for o in ops:
+            op = o.get("op")
+            zone = o.get("zone", "")
+            if op == "firewalld":
+                continue
+            if not running:
+                raise RuntimeError("The firewall service is not running.")
+            if op != "defaults" and zone not in zones:
+                raise RuntimeError(f"Unknown zone: {zone}")
+            if op == "service":
+                if o.get("name") not in services:
+                    raise RuntimeError(f"Unknown service: {o.get('name')}")
+                fw("--permanent", f"--zone={zone}", ("--add-service=" if o.get("on") else "--remove-service=") + o["name"])
+            elif op == "port":
+                if not port_re.match(str(o.get("port", ""))):
+                    raise RuntimeError(f"Not a port: {o.get('port')}")
+                fw("--permanent", f"--zone={zone}", ("--add-port=" if o.get("on") else "--remove-port=") + o["port"])
+            elif op == "target":
+                fw("--permanent", f"--zone={zone}", "--set-target=" + ("ACCEPT" if o.get("off") else "default"))
+            elif op == "block_all":
+                STATE.mkdir(parents=True, exist_ok=True)
+                saved = STATE / f"{zone}.json"
+                if o.get("on"):
+                    svcs = fw("--permanent", f"--zone={zone}", "--list-services").split()
+                    ports = fw("--permanent", f"--zone={zone}", "--list-ports").split()
+                    if not saved.exists():
+                        saved.write_text(json.dumps({"services": svcs, "ports": ports}))
+                    for s in svcs:
+                        fw("--permanent", f"--zone={zone}", f"--remove-service={s}")
+                    for p in ports:
+                        fw("--permanent", f"--zone={zone}", f"--remove-port={p}")
+                elif saved.exists():
+                    data = json.loads(saved.read_text())
+                    for s in data.get("services", []):
+                        if s in services:
+                            fw("--permanent", f"--zone={zone}", f"--add-service={s}")
+                    for p in data.get("ports", []):
+                        if port_re.match(p):
+                            fw("--permanent", f"--zone={zone}", f"--add-port={p}")
+                    saved.unlink()
+            elif op == "defaults":
+                for z in o.get("zones", []):
+                    if z not in zones:
+                        raise RuntimeError(f"Unknown zone: {z}")
+                    fw("--permanent", f"--load-zone-defaults={z}")
+                    (STATE / f"{z}.json").unlink(missing_ok=True)
+            elif op == "connection_zone":
+                if not uuid_re.match(str(o.get("uuid", ""))):
+                    raise RuntimeError("Not a connection")
+                code, out = run("nmcli", "connection", "modify", o["uuid"], "connection.zone", zone)
+                if code != 0:
+                    raise RuntimeError(out)
+                run("nmcli", "connection", "up", o["uuid"])
+                continue
+            else:
+                raise RuntimeError(f"Unknown change: {op}")
+            changed = True
+    except RuntimeError as e:
+        print(str(e), file=sys.stderr)
+        if changed:
+            run("firewall-cmd", "--reload")
+        return 1
+    if changed:
+        fw("--reload")
+    if want_on and not want_on[-1].get("on"):
+        code, out = run("systemctl", "disable", "--now", "firewalld.service")
+        if code != 0:
+            print(out, file=sys.stderr)
+            return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
