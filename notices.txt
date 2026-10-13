@@ -1,0 +1,17 @@
+build: [ 80%] Linking CXX shared module bin/plasma/containmentactions/org.classic7.taskbarmenu.so
+build: -- Installing: /usr/lib64/qt6/plugins/plasma/containmentactions/org.classic7.taskbarmenu.so
+build: -rwxr-xr-x 1 root root 38192 Oct 13 11:11 org.classic7.taskbarmenu.so
+deps:   INTERFACE_LINK_LIBRARIES "Qt6::Gui;KF6::ConfigCore;KF6::CoreAddons;Qt6::Qml;KF6::KirigamiPlatform"
+programs listed: 0
+flatpak: uid=1000(tester) gid=1000(tester) groups=1000(tester)
+[ActionPlugins][0]
+RightButton;NoModifier=org.kde.contextmenu
+
+[ActionPlugins][0][RightButton;NoModifier]
+_display_settings=true
+add widgets=false
+--
+[ActionPlugins][1]
+RightButton;NoModifier=org.classic7.taskbarmenu
+
+WINDOWS ['Programs and Features', 'Control Panel', 'Computer']
