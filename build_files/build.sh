@@ -308,7 +308,7 @@ test -f /usr/share/classic7/goodbye/Goodbye.qml
 # the screen loads in KWin; here it is loaded with a stand-in for KWin's Workspace
 mkdir -p /tmp/kwinmock/org/kde/kwin
 printf 'module org.kde.kwin\nsingleton Workspace 1.0 Workspace.qml\n' > /tmp/kwinmock/org/kde/kwin/qmldir
-printf 'pragma Singleton\nimport QtQuick\nQtObject { function windowList() { return [] } }\n' > /tmp/kwinmock/org/kde/kwin/Workspace.qml
+printf 'pragma Singleton\nimport QtQuick\nQtObject { property list<QtObject> windows }\n' > /tmp/kwinmock/org/kde/kwin/Workspace.qml
 printf 'import QtQuick\nimport "file:///usr/share/classic7/goodbye"\nGoodbye { message: "Shutting down..." }\n' > /tmp/kwinmock/main.qml
 QT_QPA_PLATFORM=offscreen python3 -c "
 import sys
@@ -437,7 +437,7 @@ for f in org.kde.konsole.desktop io.github.rfrench3.bazzite-updater.desktop org.
         sed -i -e '/^NoDisplay=/d' -e '0,/^\[Desktop Entry\]/s//[Desktop Entry]\nNoDisplay=true/' "/usr/share/applications/$f"
     fi
 done
-# One plain text editor: KWrite (the Notepad; "notepad" in the Run dialog). Kate goes.
+# One KDE text editor: KWrite stays (Notepad is classic7-notepad, "notepad" in Run). Kate goes.
 if rpm -q kate >/dev/null 2>&1; then
     dnf5 -y remove kate $(rpm -q kate-plugins >/dev/null 2>&1 && echo kate-plugins)
 fi

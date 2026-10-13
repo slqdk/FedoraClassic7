@@ -30,6 +30,24 @@ for p in 0 2 3 4 6; do logger -p "user.$( echo emerg alert crit err warning noti
 logger -p auth.info -t sudo "tester : TTY=pts/0 ; PWD=/home/tester ; USER=root ; COMMAND=/usr/bin/true"
 (firewalld --nofork --nopid > /out/firewalld.log 2>&1 &)
 sleep 6
+# the container has no polkit, so firewalld answers only root: the Firewall windows are opened
+# by root on the test session's display when the session asks for them (/tmp/fw-go)
+(prev=""; for i in $(seq 1 1200); do
+    if [ -f /tmp/fw-go ]; then
+        arg=$(cat /tmp/fw-go); rm -f /tmp/fw-go
+        [ -n "$prev" ] && kill $prev 2>/dev/null
+        prev=""
+        if [ "$arg" != stop ]; then
+            XDG_RUNTIME_DIR=/tmp/xdg-root WAYLAND_DISPLAY=/tmp/xdg-t/wayland-c7 QT_QPA_PLATFORM=wayland HOME=/root \
+                timeout 30 classic7-firewall $arg >> /out/classic7-firewall-root.log 2>&1 &
+            prev=$!
+        fi
+    fi
+    sleep 0.5
+done) &
+mkdir -p /tmp/xdg-root && chmod 700 /tmp/xdg-root
+# journald here makes files only root can read: let the test account read them
+chmod -R a+rX /run/log/journal 2>/dev/null
 firewall-cmd --state > /out/firewall-state.txt 2>&1
 firewall-cmd --get-default-zone >> /out/firewall-state.txt 2>&1
 cat > /tmp/inner.sh <<'EOI'
@@ -67,12 +85,11 @@ run classic7-resmon; sleep 6; shot 04-resmon
 pkill -f classic7-resmon; sleep 1
 run classic7-resmon --tab memory; sleep 5; shot 05-resmon-memory
 pkill -f classic7-resmon; sleep 1
-run classic7-firewall; sleep 6; shot 06-firewall
-pkill -f classic7-firewall; sleep 1
-run classic7-firewall --allowed; sleep 6; shot 07-firewall-allowed
-pkill -f classic7-firewall; sleep 1
-run classic7-firewall --onoff; sleep 5; shot 08-firewall-onoff
-pkill -f classic7-firewall; sleep 1
+fw() { echo "$1" > /tmp/fw-go; sleep 7; shot "$2"; }
+fw "" 06-firewall
+fw --allowed 07-firewall-allowed
+fw --onoff 08-firewall-onoff
+echo stop > /tmp/fw-go; sleep 2
 EOI
 chown tester /tmp/inner.sh
 su tester -c "timeout 600 dbus-run-session -- bash /tmp/inner.sh"

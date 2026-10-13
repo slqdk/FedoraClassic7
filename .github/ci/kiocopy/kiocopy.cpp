@@ -9,6 +9,8 @@
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
+    // the job view server is only told about jobs of programs with a desktop file name (as Dolphin)
+    app.setDesktopFileName(QStringLiteral("org.kde.dolphin"));
     if (argc < 3) {
         return 2;
     }

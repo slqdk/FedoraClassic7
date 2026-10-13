@@ -15,9 +15,10 @@ Item {
     property string message: "Shutting down..."
     property bool shown: false
 
+    // KWin's QML side has the windows as a list property (windowList() is for JavaScript scripts)
     function appWindows() {
         let n = 0;
-        const list = Workspace.windowList();
+        const list = Workspace.windows;
         for (let i = 0; i < list.length; i++) {
             const w = list[i];
             if (!w || w.deleted || !w.managed || w.specialWindow || w.popupWindow) {
@@ -39,7 +40,16 @@ Item {
         repeat: true
         running: !root.shown
         triggeredOnStart: true
-        onTriggered: if (root.appWindows() === 0) root.shown = true
+        onTriggered: {
+            try {
+                if (root.appWindows() === 0) {
+                    root.shown = true;
+                }
+            } catch (e) {
+                // never cover a program's "Save changes?" question because of an error here
+                console.warn("classic7-goodbye:", e);
+            }
+        }
     }
 
     Instantiator {

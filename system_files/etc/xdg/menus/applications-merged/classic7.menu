@@ -1,0 +1,68 @@
+<!DOCTYPE Menu PUBLIC "-//freedesktop//DTD Menu 1.0//EN"
+ "http://www.freedesktop.org/standards/menu-spec/1.0/menu.dtd">
+<!-- Classic 7: the Start menu's All Programs gets Windows 7's Accessories folder (with System
+     Tools inside); the programs in it leave KDE's Utilities, Graphics and System folders, so they
+     are listed once. -->
+<Menu>
+	<Name>Applications</Name>
+	<Menu>
+		<Name>Accessories</Name>
+		<Directory>classic7-accessories.directory</Directory>
+		<Include>
+			<Filename>classic7-calc.desktop</Filename>
+			<Filename>classic7-prompt.desktop</Filename>
+			<Filename>classic7-notepad.desktop</Filename>
+			<Filename>classic7-paint.desktop</Filename>
+			<Filename>classic7-run.desktop</Filename>
+			<Filename>classic7-quickshot.desktop</Filename>
+			<Filename>classic7-stickynotes.desktop</Filename>
+			<Filename>org.kde.dolphin.desktop</Filename>
+		</Include>
+		<Menu>
+			<Name>System Tools</Name>
+			<Directory>classic7-systemtools.directory</Directory>
+			<Include>
+				<Filename>classic7-charmap.desktop</Filename>
+				<Filename>classic7-computer.desktop</Filename>
+				<Filename>classic7-devmgmt.desktop</Filename>
+				<Filename>classic7-diskmgmt.desktop</Filename>
+				<Filename>classic7-eventvwr.desktop</Filename>
+				<Filename>classic7-msconfig.desktop</Filename>
+				<Filename>classic7-resmon.desktop</Filename>
+				<Filename>classic7-taskmgr.desktop</Filename>
+			</Include>
+		</Menu>
+	</Menu>
+	<Menu>
+		<Name>Utilities</Name>
+		<Exclude>
+			<Filename>classic7-calc.desktop</Filename>
+			<Filename>classic7-charmap.desktop</Filename>
+			<Filename>classic7-notepad.desktop</Filename>
+			<Filename>classic7-quickshot.desktop</Filename>
+			<Filename>classic7-stickynotes.desktop</Filename>
+		</Exclude>
+	</Menu>
+	<Menu>
+		<Name>Graphics</Name>
+		<Exclude>
+			<Filename>classic7-paint.desktop</Filename>
+			<Filename>classic7-quickshot.desktop</Filename>
+		</Exclude>
+	</Menu>
+	<Menu>
+		<Name>System</Name>
+		<Exclude>
+			<Filename>classic7-prompt.desktop</Filename>
+			<Filename>classic7-run.desktop</Filename>
+			<Filename>org.kde.dolphin.desktop</Filename>
+			<Filename>classic7-computer.desktop</Filename>
+			<Filename>classic7-devmgmt.desktop</Filename>
+			<Filename>classic7-diskmgmt.desktop</Filename>
+			<Filename>classic7-eventvwr.desktop</Filename>
+			<Filename>classic7-msconfig.desktop</Filename>
+			<Filename>classic7-resmon.desktop</Filename>
+			<Filename>classic7-taskmgr.desktop</Filename>
+		</Exclude>
+	</Menu>
+</Menu>
