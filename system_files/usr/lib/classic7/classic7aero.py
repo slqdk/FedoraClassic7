@@ -302,8 +302,10 @@ def aero_frames(g: Glass) -> tuple[FrameColors, FrameColors]:
     tint = hexa(g.color)
     if g.transparency:
         a = 0.18 + 0.62 * g.intensity
-        act = FrameColors(tint, a, 0.22, 0.45, "#000000", 0.62, 0.55, 0.45, 0.32, "#000000")
-        ina = FrameColors(shade(tint, 0.35), a * 0.55, 0.30, 0.30, "#000000", 0.38, 0.45, 0.30, 0.20, "#4A4A4A")
+        frost = 0.27 - 0.19 * g.intensity        # less white haze the stronger the colour
+        act = FrameColors(tint, a, frost, 0.45, "#000000", 0.62, 0.55, 0.45, 0.32, "#000000")
+        ina = FrameColors(shade(tint, 0.35), a * 0.55, frost + 0.08, 0.30, "#000000", 0.38, 0.45, 0.30, 0.20,
+                          "#4A4A4A")
     else:
         # see-through off: the colour mixed with white, opaque
         act = FrameColors(shade(tint, 0.62 - 0.40 * g.intensity), 1.0, 0.0, 0.45, "#000000", 0.62, 0.55, 0.45,

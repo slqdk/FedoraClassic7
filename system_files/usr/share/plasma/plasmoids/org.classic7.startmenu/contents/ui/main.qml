@@ -28,6 +28,22 @@ PlasmoidItem {
     fullRepresentation: StartMenu {}
 
     Plasmoid.icon: "start-here"
+    // right-click on the Start button, as in Windows 7
+    Plasmoid.contextualActions: [
+        PlasmaCore.Action {
+            text: i18n("Properties")
+            icon.name: "configure"
+            onTriggered: root.runCommand("classic7-taskbar-properties --page startmenu")
+        },
+        PlasmaCore.Action {
+            text: i18n("Open Explorer")
+            icon.name: "system-file-manager"
+            onTriggered: Qt.openUrlExternally(root.folderUrl(StandardPaths.HomeLocation))
+        }
+    ]
+    function runCommand(cmd) {
+        shell.connectSource(cmd + " # " + Date.now());
+    }
     toolTipMainText: i18n("Start")
     toolTipSubText: ""
 
@@ -67,23 +83,33 @@ PlasmoidItem {
     }
 
     // Right column, in the Windows 7 order
+    // (each item can be left out: Taskbar and Start Menu Properties > Start Menu > Customize)
+    function pick(pairs) {
+        return pairs.filter(p => p[0]).map(p => p[1]);
+    }
     readonly property Kicker.SimpleFavoritesModel placesModel: Kicker.SimpleFavoritesModel {
-        favorites: [
-            root.folderUrl(StandardPaths.DocumentsLocation),
-            root.folderUrl(StandardPaths.PicturesLocation),
-            root.folderUrl(StandardPaths.MusicLocation),
-            "classic7-games.desktop"
-        ]
+        favorites: root.pick([
+            [Plasmoid.configuration.showDocuments, root.folderUrl(StandardPaths.DocumentsLocation)],
+            [Plasmoid.configuration.showPictures, root.folderUrl(StandardPaths.PicturesLocation)],
+            [Plasmoid.configuration.showMusic, root.folderUrl(StandardPaths.MusicLocation)],
+            [Plasmoid.configuration.showVideos, root.folderUrl(StandardPaths.MoviesLocation)],
+            [Plasmoid.configuration.showDownloads, root.folderUrl(StandardPaths.DownloadLocation)],
+            [Plasmoid.configuration.showGames, "classic7-games.desktop"]
+        ])
     }
     readonly property Kicker.SimpleFavoritesModel computerModel: Kicker.SimpleFavoritesModel {
-        favorites: ["classic7-computer.desktop"]
+        favorites: root.pick([[Plasmoid.configuration.showComputer, "classic7-computer.desktop"]])
     }
     readonly property Kicker.SimpleFavoritesModel settingsModel: Kicker.SimpleFavoritesModel {
-        favorites: ["classic7-control-panel.desktop", "classic7-devices.desktop",
-                    "classic7-default-programs.desktop", "classic7-help.desktop"]
+        favorites: root.pick([
+            [Plasmoid.configuration.showControlPanel, "classic7-control-panel.desktop"],
+            [Plasmoid.configuration.showDevices, "classic7-devices.desktop"],
+            [Plasmoid.configuration.showDefaultPrograms, "classic7-default-programs.desktop"],
+            [Plasmoid.configuration.showHelp, "classic7-help.desktop"]
+        ])
     }
     readonly property Kicker.SimpleFavoritesModel runModel: Kicker.SimpleFavoritesModel {
-        favorites: ["classic7-run.desktop"]
+        favorites: root.pick([[Plasmoid.configuration.showRun, "classic7-run.desktop"]])
     }
 
     // Shut down button and the options next to it

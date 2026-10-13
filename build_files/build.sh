@@ -180,7 +180,8 @@ chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-mail /usr/bin/classic7-netw
     /usr/bin/classic7-recyclebin /usr/bin/classic7-properties /usr/libexec/classic7-sessiond \
     /usr/bin/classic7-timedate /usr/bin/classic7-mixer /usr/bin/classic7-actioncenter \
     /usr/bin/classic7-msconfig /usr/bin/classic7-eventvwr /usr/bin/classic7-resmon /usr/bin/classic7-firewall \
-    /usr/libexec/classic7-firewall-helper /usr/bin/classic7-screensaver /usr/bin/classic7-goodbye /usr/bin/classic7-mstsc
+    /usr/libexec/classic7-firewall-helper /usr/bin/classic7-screensaver /usr/bin/classic7-goodbye /usr/bin/classic7-mstsc \
+    /usr/bin/classic7-taskbar-properties
 # KWin looks for window switchers and scripts in kwin-wayland/ (Plasma 6.4+) and, for older
 # packages, in kwin/: make ours visible in both
 for d in tabbox/classic7 tabbox/classic7aero scripts/classic7-aeroshake; do
@@ -199,7 +200,7 @@ printf '{"build": "%s", "base": "%s", "content": "%s"}\n' "$(date -u +%Y-%m-%dT%
     "$base" "$content" > /usr/share/classic7/build-info.json
 chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
 python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PySide6.QtPrintSupport, PIL, pyte, docx, olefile"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7aero, classic7kvantum, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app, accessories, notepad_app, calc_engine, calc_app, charmap_app, stickynotes_app, quickshot_app, paint_canvas, paint_app, recyclebin_app, properties_app, sessiond, timedate_app, mixer_app, actioncenter_checks, actioncenter_app, cpl_page, msconfig_app, eventvwr_app, resmon_app, firewall_app, screensaver_app, remote_app, remote_server"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7aero, classic7kvantum, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app, accessories, notepad_app, calc_engine, calc_app, charmap_app, stickynotes_app, quickshot_app, paint_canvas, paint_app, recyclebin_app, properties_app, sessiond, timedate_app, mixer_app, actioncenter_checks, actioncenter_app, cpl_page, msconfig_app, eventvwr_app, resmon_app, firewall_app, screensaver_app, remote_app, remote_server, taskbar_props, taskbar_props_app"
 python3 -c "import PySide6.QtWebEngineWidgets, keyring, html2text" || echo "WARNING: Mail falls back to the simple message view"
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
@@ -414,6 +415,10 @@ test -x /usr/bin/classic7-system && test -x /usr/bin/classic7-devmgmt
 test -f /usr/share/applications/classic7-system.desktop
 test -f /usr/share/applications/classic7-devmgmt.desktop
 /usr/bin/classic7-devmgmt --list | head -40 || true
+# Taskbar and Start Menu Properties (taskbar right-click > Properties, Start button > Properties)
+test -x /usr/bin/classic7-taskbar-properties
+test -f /usr/share/applications/classic7-taskbar-properties.desktop
+PYTHONPATH=/usr/lib/classic7 python3 -c "import taskbar_props as tp; assert tp.parse('') == tp.Taskbar()"
 # Taskbar and windows: Show desktop button, Alt+Tab, Aero Shake / Win+arrows, jump lists
 test -f /usr/share/plasma/plasmoids/org.classic7.showdesktop/metadata.json
 test -f /usr/share/kwin-wayland/tabbox/classic7/contents/ui/main.qml

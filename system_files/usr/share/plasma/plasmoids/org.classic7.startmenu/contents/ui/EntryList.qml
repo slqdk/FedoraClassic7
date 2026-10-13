@@ -19,6 +19,11 @@ ListView {
     property var hiddenIds: []            // favorite ids not to show (normalised, see key())
     property bool jumpable: false         // programs show their jump list when the mouse rests on them
     property string entryStyle: "classic" // the highlight: classic or light (see MenuEntry)
+    property int maxRows: -1              // at most this many rows show (with scrollable false)
+
+    FontMetrics { id: metrics }
+    readonly property real rowHeight: Math.max(iconSize + 4, metrics.height + 6)   // see MenuEntry
+    Layout.maximumHeight: maxRows >= 0 ? maxRows * rowHeight + 1 : Number.POSITIVE_INFINITY
 
     function key(id) {
         return String(id || "").replace(/^applications:/, "").replace(/\.desktop$/, "").toLowerCase();

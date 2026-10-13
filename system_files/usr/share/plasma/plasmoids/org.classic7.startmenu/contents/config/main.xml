@@ -13,7 +13,8 @@
       <default>/usr/share/classic7/start-button.svg</default>
     </entry>
     <entry name="recentCount" type="Int">
-      <default>8</default>
+      <label>How many recently opened programs the left column shows (Customize Start Menu)</label>
+      <default>10</default>
     </entry>
     <entry name="look" type="String">
       <label>The look of the menu: classic, aero (glass) or basic</label>
@@ -35,5 +36,19 @@
       <label>Large icons in the left column</label>
       <default>true</default>
     </entry>
+    <!-- the right column (Customize Start Menu); Windows 7's defaults -->
+    <entry name="showPersonalFolder" type="Bool"><default>true</default></entry>
+    <entry name="showDocuments" type="Bool"><default>true</default></entry>
+    <entry name="showPictures" type="Bool"><default>true</default></entry>
+    <entry name="showMusic" type="Bool"><default>true</default></entry>
+    <entry name="showVideos" type="Bool"><default>false</default></entry>
+    <entry name="showDownloads" type="Bool"><default>false</default></entry>
+    <entry name="showGames" type="Bool"><default>true</default></entry>
+    <entry name="showComputer" type="Bool"><default>true</default></entry>
+    <entry name="showControlPanel" type="Bool"><default>true</default></entry>
+    <entry name="showDevices" type="Bool"><default>true</default></entry>
+    <entry name="showDefaultPrograms" type="Bool"><default>true</default></entry>
+    <entry name="showHelp" type="Bool"><default>true</default></entry>
+    <entry name="showRun" type="Bool"><default>true</default></entry>
   </group>
 </kcfg>

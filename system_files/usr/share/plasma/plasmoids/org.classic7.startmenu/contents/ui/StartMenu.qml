@@ -130,7 +130,7 @@ FocusScope {
 
     // ---- small building blocks ------------------------------------------------------
     component Etched: Item {
-        property bool right: false       // in the right column (glass in Aero)
+        property bool inRight: false     // in the right column (glass in Aero)
         Layout.fillWidth: true
         Layout.leftMargin: 6
         Layout.rightMargin: 6
@@ -140,12 +140,12 @@ FocusScope {
         Rectangle {
             width: parent.width; height: 1; y: 0
             color: !menu.modern ? Qt.darker(Kirigami.Theme.backgroundColor, 1.45)
-                   : (parent.right && menu.glass ? "#59000000" : (parent.right ? "#A9BDD6" : "#DCE3EA"))
+                   : (parent.inRight && menu.glass ? "#59000000" : (parent.inRight ? "#A9BDD6" : "#DCE3EA"))
         }
         Rectangle {
             width: parent.width; height: 1; y: 1
             color: !menu.modern ? Qt.lighter(Kirigami.Theme.backgroundColor, 1.6)
-                   : (parent.right && menu.glass ? "#33FFFFFF" : "#FFFFFF")
+                   : (parent.inRight && menu.glass ? "#33FFFFFF" : "#FFFFFF")
         }
     }
 
@@ -266,6 +266,7 @@ FocusScope {
                                 pinnable: true
                                 jumpable: Plasmoid.configuration.showJumpLists
                                 scrollable: false
+                                maxRows: Plasmoid.configuration.recentCount
                                 entryStyle: menu.modern ? "light" : "classic"
                                 // like Windows: no pinned programs and no right-column items in the recent list
                                 hiddenIds: root.pinnedKeys.concat(["classic7-control-panel", "classic7-games", "classic7-devices",
@@ -438,6 +439,7 @@ FocusScope {
                     spacing: 0
 
                     MenuEntry {
+                        visible: Plasmoid.configuration.showPersonalFolder
                         text: root.kuser.loginName
                         bold: true
                         style: menu.rightStyle
@@ -457,7 +459,11 @@ FocusScope {
                             onActivated: menu.trigger(root.placesModel, index)
                         }
                     }
-                    Etched { right: true }
+                    Etched {
+                        inRight: true
+                        visible: (root.placesModel.count > 0 || Plasmoid.configuration.showPersonalFolder)
+                                 && (root.computerModel.count + root.settingsModel.count + root.runModel.count) > 0
+                    }
                     Repeater {
                         model: root.computerModel
                         delegate: MenuEntry {
@@ -468,7 +474,10 @@ FocusScope {
                             onActivated: menu.trigger(root.computerModel, index)
                         }
                     }
-                    Etched { right: true }
+                    Etched {
+                        inRight: true
+                        visible: root.computerModel.count > 0 && (root.settingsModel.count + root.runModel.count) > 0
+                    }
                     Repeater {
                         model: root.settingsModel
                         delegate: MenuEntry {
@@ -479,7 +488,10 @@ FocusScope {
                             onActivated: menu.trigger(root.settingsModel, index)
                         }
                     }
-                    Etched { right: true }
+                    Etched {
+                        inRight: true
+                        visible: root.settingsModel.count > 0 && root.runModel.count > 0
+                    }
                     Repeater {
                         model: root.runModel
                         delegate: MenuEntry {
@@ -524,7 +536,7 @@ FocusScope {
                             }
                         }
                     }
-                    Etched { right: true; visible: (menu.jump.recent || []).length > 0 && (menu.jump.tasks || []).length > 0 }
+                    Etched { inRight: true; visible: (menu.jump.recent || []).length > 0 && (menu.jump.tasks || []).length > 0 }
                     Text {
                         Layout.leftMargin: 6
                         Layout.topMargin: 2

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Taskbar and Start Menu
+GenericName=Taskbar and Start Menu Properties
+Comment=Lock or hide the taskbar, its place and buttons, notification area icons, and the Start menu's links and power button
+Exec=classic7-taskbar-properties
+Icon=preferences-desktop
+Categories=Qt;KDE;Settings;DesktopSettings;
+Keywords=taskbar;start menu;toolbars;quick launch;notification area;tray;icons;auto-hide;lock;power button;aero peek;

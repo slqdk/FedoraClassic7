@@ -3,7 +3,9 @@
 //   Show the desktop                                                      (KWin's Show Desktop)
 //   Start Task Manager                                                    (classic7-taskmgr)
 //   ---
-//   Add or Manage Widgets... / Show Panel Configuration ("Properties")   (Plasma's own)
+//   Lock the taskbar                    (the panel's own lock: hides Plasma's edit actions)
+//   Properties                          (Taskbar and Start Menu Properties)
+//   Add or Manage Widgets... / Enter Edit Mode   (Plasma's own, when the taskbar isn't locked)
 #include <QAction>
 #include <QDBusConnection>
 #include <QDBusMessage>
@@ -33,6 +35,17 @@ public:
         m_taskManager = make(QStringLiteral("Start Task Manager"), QStringLiteral("utilities-system-monitor"), [] {
             QProcess::startDetached(QStringLiteral("classic7-taskmgr"), {});
         });
+        m_lock = new QAction(QStringLiteral("Lock the taskbar"), this);
+        m_lock->setCheckable(true);
+        connect(m_lock, &QAction::triggered, this, [this](bool on) {
+            if (Plasma::Containment *c = containment()) {
+                c->setImmutability(on ? Plasma::Types::UserImmutable : Plasma::Types::Mutable);
+                Q_EMIT c->configNeedsSaving();
+            }
+        });
+        m_properties = make(QStringLiteral("Properties"), QStringLiteral("configure"), [] {
+            QProcess::startDetached(QStringLiteral("classic7-taskbar-properties"), {});
+        });
         m_sep1 = new QAction(this);
         m_sep1->setSeparator(true);
         m_sep2 = new QAction(this);
@@ -44,6 +57,14 @@ public:
     QList<QAction *> contextualActions() override
     {
         QList<QAction *> out{m_cascade, m_stacked, m_sideBySide, m_sep1, m_desktop, m_sep2, m_taskManager, m_sep3};
+        if (Plasma::Containment *c = containment()) {
+            // system immutability (kiosk) can't be undone from here
+            const auto imm = c->immutability();
+            m_lock->setChecked(imm != Plasma::Types::Mutable);
+            m_lock->setEnabled(imm != Plasma::Types::SystemImmutable);
+            out << m_lock;
+        }
+        out << m_properties;
         if (Plasma::Containment *c = containment()) {
             for (const QString &name : {QStringLiteral("add widgets"), QStringLiteral("configure")}) {
                 QAction *a = c->internalAction(name);
@@ -69,7 +90,8 @@ private:
         QProcess::startDetached(QStringLiteral("classic7-arrange"), {mode});
     }
 
-    QAction *m_cascade, *m_stacked, *m_sideBySide, *m_desktop, *m_taskManager, *m_sep1, *m_sep2, *m_sep3;
+    QAction *m_cascade, *m_stacked, *m_sideBySide, *m_desktop, *m_taskManager, *m_lock, *m_properties, *m_sep1, *m_sep2,
+        *m_sep3;
 };
 
 K_PLUGIN_CLASS_WITH_JSON(TaskbarMenu, "taskbarmenu.json")

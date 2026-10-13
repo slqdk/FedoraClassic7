@@ -55,7 +55,8 @@ X windowactivate --sync $WIN 2>/dev/null; X windowmove $WIN 0 0 2>/dev/null
 shot 01-desktop
 layout() {   # what the taskbar holds now
     dbus-send --session --print-reply --dest=org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript \
-      'string:panels().forEach(function (p) { print(p.location + " " + p.height + ": " + p.widgets().map(function (w) {
+      'string:panels().forEach(function (p) { var ws = p.widgets(); ws.sort(function (a, b) { return a.index - b.index; });
+          print(p.location + " " + p.height + (p.locked ? " locked" : "") + ": " + ws.map(function (w) {
           w.currentConfigGroup = ["General"]; var l = w.readConfig("look", ""); return w.type + (l ? "(" + l + ")" : ""); }).join(", ") + "\n"); });' \
       2>&1 | tail -n +2 | sed '1s/^ *string "//; $s/"$//' | grep -v '^$'
 }
@@ -83,6 +84,49 @@ apply ruby --look aero --glass ruby --intensity 70; shot 09-aero-ruby
 apply opaque --transparency off; shot 10-aero-opaque
 (DISPLAY= classic7-computer >/dev/null 2>&1 &)
 sleep 6; shot 11-windows-opaque
+apply sky --look aero --glass sky --intensity 45 --transparency on
+# Taskbar and Start Menu Properties
+classic7-taskbar-properties --show > /out/taskbar-before.json 2>&1
+(DISPLAY= classic7-taskbar-properties > /out/tbprops.log 2>&1 &)
+sleep 6; shot 12-taskbar-properties
+X key ctrl+Tab; sleep 1.5; shot 13-tbprops-start-menu
+X key Escape; sleep 1
+(DISPLAY= classic7-taskbar-properties --tray > /out/tbtray.log 2>&1 &)
+sleep 6; shot 14-notification-icons
+X key Escape; sleep 1
+# what the dialog's OK does, scripted: taskbar at the top, buttons never combined, Quick Launch,
+# Start menu changes, all tray icons shown; then back
+cat > /tmp/tbchange.py <<'EOP'
+import copy, sys
+sys.path.insert(0, "/usr/lib/classic7")
+import taskbar_props as tp
+cur = tp.read()
+print("read:", cur.found, cur.location, cur.buttons, cur.quicklaunch, cur.locked, cur.tray and cur.tray.extra)
+if sys.argv[1] == "change":
+    new = copy.deepcopy(cur)
+    new.location, new.buttons, new.quicklaunch, new.locked = "top", "never", True, True
+    new.start = {**new.start, "powerAction": "lock", "showVideos": True, "showGames": False, "recentCount": 4}
+    new.tray.show_all = True
+else:
+    new = copy.deepcopy(cur)
+    new.location, new.buttons, new.quicklaunch, new.locked = "bottom", "always", False, False
+    new.start = {**new.start, "powerAction": "shutdown", "showVideos": False, "showGames": True, "recentCount": 10}
+    new.tray.show_all = False
+print("apply:", tp.apply(cur, new))
+after = tp.read()
+print("now:", after.location, after.buttons, after.quicklaunch, after.locked, after.start["powerAction"],
+      after.start["showVideos"], after.start["recentCount"], after.tray and after.tray.show_all)
+EOP
+python3 /tmp/tbchange.py change >> /out/result.txt 2>&1
+echo "== after change: $(layout)" >> /out/result.txt
+sleep 4; shot 15-taskbar-top
+X mousemove 26 20 click 1; sleep 3; shot 16-start-top
+X key Escape; sleep 1
+python3 /tmp/tbchange.py back >> /out/result.txt 2>&1
+echo "== back: $(layout)" >> /out/result.txt
+sleep 4; shot 17-taskbar-back
+X mousemove 26 780 click 1; sleep 3; shot 18-start-aero
+X key Escape; sleep 1
 cat $HOME/.config/classic7/appearance.json >> /out/result.txt
 { grep -E "^\[|theme=|LayoutName|BorderSize" $HOME/.config/kwinrc; grep -E "widgetStyle|ColorScheme|LookAndFeel" $HOME/.config/kdeglobals
   cat $HOME/.config/plasmarc; cat $HOME/.config/Kvantum/kvantum.kvconfig; gsettings get org.gnome.desktop.interface gtk-theme
