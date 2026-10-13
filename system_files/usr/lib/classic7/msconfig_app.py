@@ -9,8 +9,11 @@ Startup: the programs that start when you log in (XDG autostart), with maker, co
 and the date they were turned off. Tools: the system tools with a Launch button.
 
 Turning off a startup program writes a copy of its .desktop file with Hidden=true into
-~/.config/autostart, as KDE's own settings do. System services are changed in one go through
-pkexec (systemctl enable/disable), after the password."""
+~/.config/autostart, as KDE's own settings do. The list follows what systemd's XDG autostart
+generator starts in a Plasma session: entries marked X-systemd-skip (started by a unit of their own)
+and entries for other desktops aren't listed. Entries the image turns off by default carry
+X-Classic7-Disabled=true next to Hidden=true and are listed unticked. System services are changed
+in one go through pkexec (systemctl enable/disable), after the password."""
 from __future__ import annotations
 
 import json
@@ -38,7 +41,10 @@ STATE = CONFIG / "classic7" / "msconfig.json"
 CORE_PACKAGES = ("plasma-", "kf6-", "kwin", "polkit-kde", "xdg-desktop-portal", "kde-", "powerdevil", "kscreen",
                  "kded", "baloo", "kwallet", "kactivitymanagerd", "kaccounts", "kglobalacc", "xembed", "kgamma",
                  "kmenuedit", "spectacle", "kdeplasma", "ibus", "at-spi", "gnome-keyring", "pipewire", "wireplumber",
-                 "xdg-user-dirs", "orca", "fcitx", "imsettings")
+                 "xdg-user-dirs", "orca", "fcitx", "imsettings", "pam-kwallet", "geoclue", "xwaylandvideobridge",
+                 "open-vm-tools", "virtualbox-guest", "spice-vdagent", "input-remapper", "xapps")
+# Classic 7's own helpers (not from a package): needed for the desktop to come out right
+CORE_FILES = ("classic7-first-login.desktop", "classic7-after-update.desktop")
 
 
 def load_state() -> dict:
@@ -101,6 +107,18 @@ def maker(path: str, own: dict[str, tuple[str, str]]) -> str:
     return "Unknown"
 
 
+# makers of programs that aren't packages (Bazzite puts them into its image)
+KNOWN_MAKERS = (("steam", "Valve Corporation"), ("bazzite", "Universal Blue"), ("ublue", "Universal Blue"))
+
+
+def maker_by_command(command: str) -> str:
+    try:
+        program = Path(shlex.split(command)[0]).name.lower() if command else ""
+    except ValueError:
+        program = ""
+    return next((m for key, m in KNOWN_MAKERS if key in program), "")
+
+
 # ---- startup programs ---------------------------------------------------------------------------
 @dataclass
 class StartupItem:
@@ -113,6 +131,7 @@ class StartupItem:
     maker: str = ""
     core: bool = False
     disabled_at: float | None = None
+    default_on: bool = True    # False: Classic 7 turns it off unless you turn it on
 
 
 def shows_in_kde(e: dict[str, str]) -> bool:
@@ -121,19 +140,29 @@ def shows_in_kde(e: dict[str, str]) -> bool:
     return (not only or "KDE" in only) and "KDE" not in notin
 
 
+def starts_here(e: dict[str, str]) -> bool:
+    """Whether a Plasma session starts it as a startup program: systemd's generator leaves out entries
+    for other desktops and those marked X-systemd-skip (a systemd unit of their own starts them)."""
+    return shows_in_kde(e) and e.get("X-systemd-skip", "").lower() != "true"
+
+
 def startup_items() -> list[StartupItem]:
     state = load_state().get("startup_disabled", {})
     items: dict[str, StartupItem] = {}
     for d in reversed(SYSTEM_AUTOSTART):
         for f in sorted(d.glob("*.desktop")) if d.is_dir() else []:
             e = read_desktop(f)
-            if not shows_in_kde(e) or e.get("Hidden") == "true":
+            if not starts_here(e):
                 continue
-            items[f.name] = StartupItem(f.name, e.get("Name", f.stem), e.get("Exec", ""), str(d), str(f), True)
+            off_by_default = e.get("X-Classic7-Disabled") == "true"
+            if e.get("Hidden") == "true" and not off_by_default:
+                continue
+            items[f.name] = StartupItem(f.name, e.get("Name", f.stem), e.get("Exec", ""), str(d), str(f),
+                                        e.get("Hidden") != "true", default_on=not off_by_default)
     if USER_AUTOSTART.is_dir():
         for f in sorted(USER_AUTOSTART.glob("*.desktop")):
             e = read_desktop(f)
-            if not shows_in_kde(e) and f.name not in items:
+            if not starts_here(e) and f.name not in items:
                 continue
             hidden = e.get("Hidden") == "true" or e.get("X-GNOME-Autostart-enabled") == "false"
             if f.name in items:
@@ -147,8 +176,10 @@ def startup_items() -> list[StartupItem]:
     own = owners([it.path for it in items.values() if not it.path.startswith(str(USER_AUTOSTART))])
     for it in items.values():
         it.maker = maker(it.path, own)
+        if it.maker == "Unknown":
+            it.maker = maker_by_command(it.command) or it.maker
         pkg = own.get(it.path, ("", ""))[0]
-        it.core = bool(pkg) and pkg.startswith(CORE_PACKAGES)
+        it.core = (bool(pkg) and pkg.startswith(CORE_PACKAGES)) or it.file in CORE_FILES
         it.disabled_at = state.get(it.file)
     return sorted(items.values(), key=lambda i: i.name.lower())
 
@@ -283,7 +314,7 @@ class GeneralTab(QWidget):
         b = QVBoxLayout(box)
         self.normal = QRadioButton("Normal startup")
         b.addWidget(self.normal)
-        b.addWidget(self._note("Load all startup programs and services"))
+        b.addWidget(self._note("Load the usual startup programs and all services"))
         self.diag = QRadioButton("Diagnostic startup")
         b.addWidget(self.diag)
         b.addWidget(self._note("Load basic services only: the programs that start when you log in are turned off"))
@@ -313,13 +344,18 @@ class GeneralTab(QWidget):
         return lab
 
     def _pick(self, on: bool):
-        self.win.startup_tab.set_all(on)
+        # Normal startup: every program as Classic 7 has it (a few are off until you turn them on)
+        if on:
+            self.win.startup_tab.set_defaults()
+        else:
+            self.win.startup_tab.set_all(False)
 
-    def sync(self, states: list[bool]):
-        if all(states):
+    def sync(self, states: list[tuple[bool, bool]]):
+        """states: (on, on by default) for each startup program."""
+        if all(on == default for on, default in states):
             self.normal.setChecked(True)
             self.load_startup.setCheckState(Qt.Checked)
-        elif not any(states):
+        elif not any(on for on, _default in states):
             self.diag.setChecked(True)
             self.load_startup.setCheckState(Qt.Unchecked)
         else:
@@ -430,8 +466,8 @@ class StartupTab(QWidget):
         self.tree.blockSignals(False)
         self.win.general_tab.sync(self.states())
 
-    def states(self) -> list[bool]:
-        return [self.pending.get(it.file, it.enabled) for it in self.items if not it.core]
+    def states(self) -> list[tuple[bool, bool]]:
+        return [(self.pending.get(it.file, it.enabled), it.default_on) for it in self.items if not it.core]
 
     def _toggled(self, row: QTreeWidgetItem, col: int):
         if col != 0:
@@ -448,9 +484,16 @@ class StartupTab(QWidget):
         self.changed.emit()
 
     def set_all(self, on: bool):
+        self._set_each(lambda _it: on)
+
+    def set_defaults(self):
+        self._set_each(lambda it: it.default_on)
+
+    def _set_each(self, want):
         for it in self.items:
             if it.core:
                 continue
+            on = want(it)
             if on == it.enabled:
                 self.pending.pop(it.file, None)
             else:
