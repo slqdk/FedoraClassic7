@@ -1,0 +1,17 @@
+{
+    "KPlugin": {
+        "Authors": [{ "Name": "Classic 7" }],
+        "Category": "Windows and Tasks",
+        "Description": "The narrow Show desktop button at the right end of the taskbar, like Windows 7",
+        "EnabledByDefault": true,
+        "FormFactors": ["desktop"],
+        "Icon": "user-desktop",
+        "Id": "org.classic7.showdesktop",
+        "License": "GPL-2.0-or-later",
+        "Name": "Show Desktop (Classic 7)",
+        "Version": "1.0"
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-KDE-Keywords": "show desktop,minimize all,peek,skrivebord",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

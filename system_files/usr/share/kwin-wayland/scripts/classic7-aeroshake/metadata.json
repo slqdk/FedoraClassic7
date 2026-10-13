@@ -1,0 +1,15 @@
+{
+    "KPackageStructure": "KWin/Script",
+    "KPlugin": {
+        "Authors": [{ "Name": "Classic 7" }],
+        "Description": "Windows 7 window keys: shake a window to minimize all the others (Aero Shake, also Win+Home), Win+Up maximizes, Win+Down restores or minimizes",
+        "EnabledByDefault": true,
+        "Icon": "preferences-system-windows",
+        "Id": "classic7-aeroshake",
+        "License": "GPL-2.0-or-later",
+        "Name": "Aero Shake and Windows 7 keys (Classic 7)",
+        "Version": "1.0"
+    },
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js"
+}

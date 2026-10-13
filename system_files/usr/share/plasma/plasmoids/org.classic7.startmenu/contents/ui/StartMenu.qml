@@ -49,6 +49,16 @@ FocusScope {
     readonly property bool searching: searchField.text.length > 0
     readonly property var searchResults: root.runnerModel.count > 0 ? root.runnerModel.modelForRow(0) : null
 
+    // Jump list shown in the right column: "" = none
+    property string jumpKey: ""
+    property string jumpTitle: ""
+    readonly property var jump: jumpKey !== "" && root.jumpLists[jumpKey] ? root.jumpLists[jumpKey]
+                                                                         : ({ recent: [], tasks: [] })
+    function showJump(key, title) {
+        jumpKey = (searching || inPrograms) ? "" : key;
+        jumpTitle = title;
+    }
+
     Layout.minimumWidth: leftWidth + rightWidth
     Layout.maximumWidth: leftWidth + rightWidth
     Layout.preferredWidth: leftWidth + rightWidth
@@ -85,6 +95,7 @@ FocusScope {
         folderStack = [];
         folderTitles = [];
         searchField.text = "";
+        jumpKey = "";
     }
 
     Connections {
@@ -171,6 +182,7 @@ FocusScope {
                         id: pinnedList
                         model: root.pinnedModel
                         pinnable: true
+                        jumpable: true
                         Layout.preferredHeight: contentHeight
                         Layout.maximumHeight: contentHeight
                     }
@@ -181,6 +193,7 @@ FocusScope {
                         id: recentList
                         model: root.recentModel
                         pinnable: true
+                        jumpable: true
                         scrollable: false
                         // like Windows: no pinned programs and no right-column items in the recent list
                         hiddenIds: root.pinnedKeys.concat(["classic7-control-panel", "classic7-games", "classic7-devices",
@@ -295,53 +308,115 @@ FocusScope {
                 anchors.margins: 4
                 spacing: 0
 
-                MenuEntry {
-                    text: root.kuser.loginName
-                    bold: true
-                    toolTip: root.kuser.fullName
-                    onActivated: {
-                        Qt.openUrlExternally(root.folderUrl(StandardPaths.HomeLocation));
-                        menu.close();
+                ColumnLayout {
+                    visible: menu.jumpKey === ""
+                    Layout.fillWidth: true
+                    spacing: 0
+
+                    MenuEntry {
+                        text: root.kuser.loginName
+                        bold: true
+                        toolTip: root.kuser.fullName
+                        onActivated: {
+                            Qt.openUrlExternally(root.folderUrl(StandardPaths.HomeLocation));
+                            menu.close();
+                        }
+                    }
+                    Repeater {
+                        model: root.placesModel
+                        delegate: MenuEntry {
+                            required property int index
+                            required property var model
+                            text: model.display ?? ""
+                            onActivated: menu.trigger(root.placesModel, index)
+                        }
+                    }
+                    Etched {}
+                    Repeater {
+                        model: root.computerModel
+                        delegate: MenuEntry {
+                            required property int index
+                            required property var model
+                            text: model.display ?? ""
+                            onActivated: menu.trigger(root.computerModel, index)
+                        }
+                    }
+                    Etched {}
+                    Repeater {
+                        model: root.settingsModel
+                        delegate: MenuEntry {
+                            required property int index
+                            required property var model
+                            text: model.display ?? ""
+                            onActivated: menu.trigger(root.settingsModel, index)
+                        }
+                    }
+                    Etched {}
+                    Repeater {
+                        model: root.runModel
+                        delegate: MenuEntry {
+                            required property int index
+                            required property var model
+                            text: model.display ?? ""
+                            onActivated: menu.trigger(root.runModel, index)
+                        }
                     }
                 }
-                Repeater {
-                    model: root.placesModel
-                    delegate: MenuEntry {
-                        required property int index
-                        required property var model
-                        text: model.display ?? ""
-                        onActivated: menu.trigger(root.placesModel, index)
+
+                // Jump list: the program's recent documents and tasks, like Windows 7
+                ColumnLayout {
+                    visible: menu.jumpKey !== ""
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    spacing: 0
+
+                    Text {
+                        Layout.leftMargin: 6
+                        Layout.topMargin: 2
+                        Layout.bottomMargin: 2
+                        visible: (menu.jump.recent || []).length > 0
+                        text: i18n("Recent")
+                        font.bold: true
+                        color: Kirigami.Theme.textColor
                     }
-                }
-                Etched {}
-                Repeater {
-                    model: root.computerModel
-                    delegate: MenuEntry {
-                        required property int index
-                        required property var model
-                        text: model.display ?? ""
-                        onActivated: menu.trigger(root.computerModel, index)
+                    Repeater {
+                        model: menu.jump.recent || []
+                        delegate: MenuEntry {
+                            required property int index
+                            required property var modelData
+                            text: modelData.name
+                            toolTip: modelData.path
+                            iconSource: modelData.icon
+                            iconSize: menu.smallIcon
+                            onActivated: {
+                                root.runJump("open", menu.jumpKey, index);
+                                menu.close();
+                            }
+                        }
                     }
-                }
-                Etched {}
-                Repeater {
-                    model: root.settingsModel
-                    delegate: MenuEntry {
-                        required property int index
-                        required property var model
-                        text: model.display ?? ""
-                        onActivated: menu.trigger(root.settingsModel, index)
+                    Etched { visible: (menu.jump.recent || []).length > 0 && (menu.jump.tasks || []).length > 0 }
+                    Text {
+                        Layout.leftMargin: 6
+                        Layout.topMargin: 2
+                        Layout.bottomMargin: 2
+                        visible: (menu.jump.tasks || []).length > 0
+                        text: i18n("Tasks")
+                        font.bold: true
+                        color: Kirigami.Theme.textColor
                     }
-                }
-                Etched {}
-                Repeater {
-                    model: root.runModel
-                    delegate: MenuEntry {
-                        required property int index
-                        required property var model
-                        text: model.display ?? ""
-                        onActivated: menu.trigger(root.runModel, index)
+                    Repeater {
+                        model: menu.jump.tasks || []
+                        delegate: MenuEntry {
+                            required property int index
+                            required property var modelData
+                            text: modelData.name
+                            onActivated: {
+                                root.runJump("task", menu.jumpKey, index);
+                                menu.close();
+                            }
+                        }
                     }
+                    Item { Layout.fillHeight: true }
                 }
 
                 Item { Layout.fillHeight: true }

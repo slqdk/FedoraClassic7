@@ -17,6 +17,7 @@ ListView {
     property bool pinnable: false         // right-click: pin to / unpin from Start menu
     property bool scrollable: true        // false: show what fits, no scroll bar (recent programs)
     property var hiddenIds: []            // favorite ids not to show (normalised, see key())
+    property bool jumpable: false         // programs show their jump list when the mouse rests on them
 
     function key(id) {
         return String(id || "").replace(/^applications:/, "").replace(/\.desktop$/, "").toLowerCase();
@@ -46,6 +47,12 @@ ListView {
         current: ListView.isCurrentItem && list.activeFocus
         // programs can be dragged to the Quick Launch icons on the taskbar (or the desktop)
         dragUrl: (model.hasChildren ?? false) ? "" : String(model.url ?? "")
+        jumpArrow: list.jumpable && root.hasJump(list.key(model.favoriteId))
+        onJumpRequested: {
+            if (list.jumpable) {
+                list.startMenu.showJump(jumpArrow ? list.key(model.favoriteId) : "", model.display ?? "");
+            }
+        }
         onActivated: {
             if (list.folders && (model.hasChildren ?? false)) {
                 list.startMenu.openFolder(list.model, index, model.display);

@@ -19,9 +19,18 @@ MouseArea {
     property bool current: false        // keyboard highlight
     property string toolTip: ""
     property string dragUrl: ""         // a program's .desktop file: drag it to the taskbar
+    property bool jumpArrow: false      // the program has a jump list (recent documents, tasks)
 
     signal activated()
     signal contextMenuRequested(real x, real y)
+    signal jumpRequested()              // the mouse rested on the entry: show (or hide) its jump list
+
+    Timer {
+        id: hoverTimer
+        interval: 450
+        onTriggered: entry.jumpRequested()
+    }
+    onContainsMouseChanged: containsMouse ? hoverTimer.restart() : hoverTimer.stop()
 
     readonly property bool highlighted: containsMouse || current
 
@@ -100,7 +109,7 @@ MouseArea {
         }
 
         Text {
-            visible: entry.arrow
+            visible: entry.arrow || entry.jumpArrow
             text: "▸"
             color: entry.highlighted ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
             font.pixelSize: label.font.pixelSize + 2

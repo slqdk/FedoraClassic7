@@ -104,7 +104,13 @@ done
 chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-mail /usr/bin/classic7-network /usr/bin/classic7-netdrive /usr/libexec/classic7-update-system /usr/libexec/classic7-netdrive-helper \
     /usr/bin/classic7-taskbar-pin /usr/libexec/classic7-tray-fix /usr/bin/classic7-photos /usr/bin/classic7-show \
     /usr/bin/classic7-diskmgmt /usr/libexec/classic7-disk-helper /usr/bin/classic7-control \
-    /usr/bin/classic7-taskmgr /usr/bin/classic7-security
+    /usr/bin/classic7-taskmgr /usr/bin/classic7-security /usr/bin/classic7-jumplist
+# KWin looks for window switchers and scripts in kwin-wayland/ (Plasma 6.4+) and, for older
+# packages, in kwin/: make ours visible in both
+for d in tabbox/classic7 scripts/classic7-aeroshake; do
+    mkdir -p "/usr/share/kwin/$(dirname "$d")"
+    [[ -e "/usr/share/kwin/$d" ]] || ln -s "../../kwin-wayland/$d" "/usr/share/kwin/$d"
+done
 # one network icon in the tray: fixes the saved panel layout at login, before Plasma starts
 systemctl --global enable classic7-tray-fix.service
 # Classic 7 Update: which build this is (the updater compares it at login to bring each
@@ -194,6 +200,13 @@ test -x /usr/bin/classic7-photos
 test -x /usr/bin/classic7-control
 grep -q "^Exec=classic7-control" /usr/share/applications/classic7-control-panel.desktop
 /usr/bin/classic7-control --list
+# Taskbar and windows: Show desktop button, Alt+Tab, Aero Shake / Win+arrows, jump lists
+test -f /usr/share/plasma/plasmoids/org.classic7.showdesktop/metadata.json
+test -f /usr/share/kwin-wayland/tabbox/classic7/contents/ui/main.qml
+test -f /usr/share/kwin-wayland/scripts/classic7-aeroshake/contents/code/main.js
+grep -q "^LayoutName=classic7" /etc/xdg/kwinrc
+grep -q "^classic7-aeroshakeEnabled=true" /etc/xdg/kwinrc
+/usr/bin/classic7-jumplist --json >/dev/null
 # Task Manager (Ctrl+Shift+Esc) and the Ctrl+Alt+Del screen
 test -x /usr/bin/classic7-taskmgr
 test -x /usr/bin/classic7-security

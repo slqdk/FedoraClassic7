@@ -21,3 +21,9 @@ _launch=Ctrl+Alt+Del
 
 [ksmserver]
 Log Out=none,Ctrl+Alt+Del,Show Logout Screen
+
+[kwin]
+Window Quick Tile Top=none,Meta+Up,Quick Tile Window to the Top
+Window Quick Tile Bottom=none,Meta+Down,Quick Tile Window to the Bottom
+Classic7 Maximize=Meta+Up,none,Classic 7: Maximize the window (Win+Up)
+Classic7 Restore or Minimize=Meta+Down,none,Classic 7: Restore, or minimize (Win+Down)

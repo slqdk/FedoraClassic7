@@ -1,0 +1,12 @@
+{
+    "KPackageStructure": "KWin/WindowSwitcher",
+    "KPlugin": {
+        "Authors": [{ "Name": "Classic 7" }],
+        "Description": "Alt+Tab like Windows 7 in the Classic theme: a grey box of program icons and the title of the chosen window",
+        "Icon": "preferences-system-windows-switcher-big-icons",
+        "Id": "classic7",
+        "License": "GPL-2.0-or-later",
+        "Name": "Classic 7"
+    },
+    "X-Plasma-API": "declarativeappletscript"
+}

@@ -498,6 +498,57 @@ def _no_type_to_search(log: Log) -> bool:
     return r.returncode == 0
 
 
+def _show_desktop_button(log: Log) -> bool:
+    """The narrow Show desktop button at the right end of the taskbar, like Windows 7."""
+    js = ('panels().forEach(function (p) {'
+          ' if (p.widgets("org.kde.plasma.digitalclock").length > 0'
+          ' && p.widgets("org.classic7.showdesktop").length === 0) { p.addWidget("org.classic7.showdesktop"); }'
+          '});')
+    r = subprocess.run(["dbus-send", "--session", "--dest=org.kde.plasmashell", "--type=method_call",
+                        "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript", "string:" + js],
+                       capture_output=True, timeout=30)
+    log("  taskbar: Show desktop button at the right end")
+    return r.returncode == 0
+
+
+META, KEY_UP, KEY_DOWN = 0x10000000, 0x01000013, 0x01000015
+WIN7_KEYS = [  # (action, its name in the shortcut settings, keys)
+    ("Window Quick Tile Top", "Quick Tile Window to the Top", []),
+    ("Window Quick Tile Bottom", "Quick Tile Window to the Bottom", []),
+    ("Classic7 Maximize", "Classic 7: Maximize the window (Win+Up)", [META | KEY_UP]),
+    ("Classic7 Restore or Minimize", "Classic 7: Restore, or minimize (Win+Down)", [META | KEY_DOWN]),
+]
+
+
+def _kglobalaccel(method: str, action: str, friendly: str, keys: list[int] | None = None) -> str | None:
+    argv = ["busctl", "--user", "call", "org.kde.kglobalaccel", "/kglobalaccel", "org.kde.KGlobalAccel",
+            method, "as" + ("ai" if keys is not None else ""), "4", "kwin", action, "KWin", friendly]
+    if keys is not None:
+        argv += [str(len(keys))] + [str(k) for k in keys]
+    try:
+        r = subprocess.run(argv, capture_output=True, text=True, timeout=10)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return r.stdout.strip() if r.returncode == 0 else None
+
+
+def _win7_window_keys(log: Log) -> bool:
+    """Win+Up maximizes and Win+Down restores or minimizes, like Windows 7 (KWin's default
+    is quick-tiling to the top/bottom half). Needs the Classic 7 KWin script to be running,
+    so it is tried again at the next login if it wasn't."""
+    if not shutil.which("busctl"):
+        return False
+    for action, friendly, keys in WIN7_KEYS:
+        _kglobalaccel("setForeignShortcut", action, friendly, keys)
+    for action, friendly, keys in WIN7_KEYS:
+        got = _kglobalaccel("shortcut", action, friendly)
+        if got is None or (keys and str(keys[0]) not in got.split()):
+            log(f"  {action}: not set yet (trying again at the next login)")
+            return False
+    log("  Win+Up maximizes, Win+Down restores or minimizes, Win+Home minimizes the other windows")
+    return True
+
+
 # (id, function) - each runs once per account, in this order. Add new ones at the end.
 MIGRATIONS: list[tuple[str, Callable[[Log], bool]]] = [
     ("2026-10-12-no-autolock", _no_autolock),
@@ -509,6 +560,8 @@ MIGRATIONS: list[tuple[str, Callable[[Log], bool]]] = [
     ("2026-10-12-network-tray-2", _network_tray),
     ("2026-10-12-explorer-2", _explorer_layout_2),
     ("2026-10-12-no-type-to-search", _no_type_to_search),
+    ("2026-10-13-show-desktop-button", _show_desktop_button),
+    ("2026-10-13-win7-window-keys", _win7_window_keys),
 ]
 
 

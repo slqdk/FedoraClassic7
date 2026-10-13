@@ -111,6 +111,8 @@ if (clock) {
     clock.currentConfigGroup = ["Appearance"];
     clock.writeConfig("showDate", false);
 }
+// the narrow Show desktop button at the right end, like Windows 7
+panel.addWidget("org.classic7.showdesktop");
 // END TASKBAR
 
 // Desktop right-click menu: keep Display Configuration ("Screen resolution") and

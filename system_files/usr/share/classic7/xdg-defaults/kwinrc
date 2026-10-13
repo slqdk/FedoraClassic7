@@ -4,3 +4,14 @@ theme=__aurorae__svg__Classic7
 BorderSize=Normal
 ButtonsOnLeft=M
 ButtonsOnRight=IA_X
+
+[TabBox]
+LayoutName=classic7
+HighlightWindows=false
+
+[Windows]
+ElectricBorderMaximize=true
+ElectricBorderTiling=true
+
+[Plugins]
+classic7-aeroshakeEnabled=true

@@ -119,6 +119,20 @@ PlasmoidItem {
         return Plasmoid.configuration.favoriteApps.indexOf(favoriteId) !== -1;
     }
 
+    // ---- jump lists: recent documents and tasks per program (classic7-jumplist) -------------
+    property var jumpLists: ({})
+    function hasJump(key) {
+        const j = jumpLists[key];
+        return !!j && ((j.recent || []).length > 0 || (j.tasks || []).length > 0);
+    }
+    function runJump(kind, key, index) {
+        if (!/^[a-z0-9._-]+$/.test(key)) {
+            return;
+        }
+        shell.connectSource("classic7-jumplist " + (kind === "task" ? "--task " : "--open ") + key + " "
+                            + Number(index) + " # " + Date.now());
+    }
+
     // ---- taskbar (Quick Launch) pins: "Pin to Taskbar" in the right-click menu ----------
     property var taskbarUrls: []
     function fileName(url) {
@@ -144,6 +158,12 @@ PlasmoidItem {
         onNewData: (source, data) => {
             if (source.indexOf("classic7-taskbar-pin --list") === 0) {
                 root.taskbarUrls = String(data["stdout"] || "").split("\n").filter(u => u.length > 0);
+            } else if (source.indexOf("classic7-jumplist --json") === 0) {
+                try {
+                    root.jumpLists = JSON.parse(String(data["stdout"] || "{}"));
+                } catch (e) {
+                    root.jumpLists = {};
+                }
             }
             disconnectSource(source);
         }
@@ -152,6 +172,7 @@ PlasmoidItem {
     onExpandedChanged: {
         if (expanded) {
             shell.connectSource("classic7-taskbar-pin --list # " + Date.now());
+            shell.connectSource("classic7-jumplist --json # " + Date.now());
         }
         if (!expanded) {
             runnerModel.query = "";

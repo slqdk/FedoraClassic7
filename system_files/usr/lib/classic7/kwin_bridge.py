@@ -19,8 +19,10 @@ const out = [];
 const active = workspace.activeWindow;
 for (const w of workspace.windowList()) {
     if (!w.normalWindow || w.skipTaskbar || w.desktopWindow || w.dock || w.specialWindow) continue;
+    const g = w.frameGeometry;
     out.push({id: w.internalId.toString(), caption: w.caption, cls: w.resourceClass, pid: w.pid,
-              desktopFile: w.desktopFileName || "", minimized: w.minimized, active: w === active});
+              desktopFile: w.desktopFileName || "", minimized: w.minimized, active: w === active,
+              x: g.x, y: g.y, w: g.width, h: g.height});
 }
 callDBus("%(service)s", "/", "org.classic7.KWinBridge", "windows", JSON.stringify(out));
 """
