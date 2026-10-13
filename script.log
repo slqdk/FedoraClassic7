@@ -1,0 +1,7 @@
++ mkdir -p /out
++ chmod 777 /out
++ head -c 2500 /out/motd.txt
++ echo
++ cat /out/units.txt
++ grep -E 'enabled|disabled|static|=== |remapper'
++ head -20

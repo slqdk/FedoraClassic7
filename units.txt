@@ -1,0 +1,75 @@
++ for u in kunifiedpush-distributor spice-vdagent
++ echo '=== kunifiedpush-distributor'
+=== kunifiedpush-distributor
++ cat /usr/lib/systemd/user/kunifiedpush-distributor.service
+# SPDX-FileCopyrightText: 2025 Volker Krause <vkrause@kde.org>
+# SPDX-License-Identifier: CC0-1.0
+
+[Unit]
+Description=KUnifiedPush Distributor
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/kunifiedpush-distributor
+Type=exec
+BusName=org.unifiedpush.Distributor.kde
+TimeoutStopSec=5sec
+Slice=background.slice
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target
++ systemctl --global is-enabled kunifiedpush-distributor.service
+disabled
++ for u in kunifiedpush-distributor spice-vdagent
++ echo '=== spice-vdagent'
+=== spice-vdagent
++ cat /usr/lib/systemd/user/spice-vdagent.service
+[Unit]
+Description=Spice guest session agent
+Documentation=man:spice-vdagent(1)
+
+# Only run whenever the system daemon is running, since this
+# service isn't useful on its own
+ConditionPathExists=/run/spice-vdagentd/spice-vdagent-sock
+
+# Ensure display server is already running
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=/usr/bin/spice-vdagent -x
+
+# spice-vdagent logs via syslog() and to stderr, causing duplicated
+# logs. Instead of sending stderr to the journal, disconnect it
+StandardError=null
++ systemctl --global is-enabled spice-vdagent.service
+static
++ grep -iE 'unifiedpush|vdagent|kdeconnect'
++ ls -la /usr/lib/systemd/user/default.target.wants/ /usr/lib/systemd/user/gnome-session.target.wants/ /usr/lib/systemd/user/graphical-session.target.wants/ /usr/lib/systemd/user/plasma-core.target.wants/ /usr/lib/systemd/user/sockets.target.wants/ /usr/lib/systemd/user/timers.target.wants/
+lrwxrwxrwx 2 root root   35 Jan  1  1970 kunifiedpush-distributor.service -> ../kunifiedpush-distributor.service
+lrwxrwxrwx 2 root root   24 Jan  1  1970 spice-vdagent.service -> ../spice-vdagent.service
++ ls /usr/share/dbus-1/system-services/
++ grep -i remapper
++ ls /usr/share/dbus-1/services/
++ grep -iE 'unifiedpush|kdeconnect'
+org.kde.kdeconnect.service
++ systemctl is-enabled input-remapper.service
+enabled
++ cat /usr/lib/systemd/system/input-remapper.service
++ head -20
+[Unit]
+Description=Service to inject keycodes without the GUI application
+# dbus is required for ipc between gui and input-remapper-control
+Requires=dbus.service
+After=dbus.service
+
+[Service]
+Type=dbus
+BusName=inputremapper.Control
+ExecStart=/usr/bin/input-remapper-service
+
+[Install]
+WantedBy=default.target
+Alias=input-remapper.service

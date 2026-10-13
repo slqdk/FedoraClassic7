@@ -1,0 +1,63 @@
++ echo '### profile.d'
+### profile.d
++ ls -la /etc/profile.d/ /usr/etc/profile.d/
+/etc/profile.d/:
+total 212
+drwxr-xr-x 1 root root 4096 Jan  1  1970 .
+drwxr-xr-x 1 root root 4096 Oct 13 19:03 ..
+lrwxrwxrwx 2 root root   57 Jan  1  1970 70-systemd-shell-extra.sh -> ../../usr/lib/systemd/profile.d/70-systemd-shell-extra.sh
+lrwxrwxrwx 2 root root   57 Jan  1  1970 80-systemd-osc-context.sh -> ../../usr/lib/systemd/profile.d/80-systemd-osc-context.sh
+-rwxr-xr-x 2 root root  343 Jan  1  1970 askpass.sh
+-rw-r--r-- 2 root root 6037 Jan  1  1970 bash-color-prompt.sh
+-rw-r--r-- 2 root root  747 Jan  1  1970 bash_completion.sh
+-rwxr-xr-x 2 root root  396 Jan  1  1970 bazzite-neofetch.sh
+-rw-r--r-- 2 root root  985 Jan  1  1970 brew-bash-completion.sh
+-rwxr-xr-x 2 root root  595 Jan  1  1970 brew.sh
+-rw-r--r-- 2 root root  200 Jan  1  1970 colorgrep.csh
+-rw-r--r-- 2 root root  205 Jan  1  1970 colorgrep.sh
+-rw-r--r-- 2 root root 1586 Jan  1  1970 colorls.csh
+-rw-r--r-- 2 root root 1431 Jan  1  1970 colorls.sh
+-rw-r--r-- 2 root root  162 Jan  1  1970 colorxzgrep.csh
+-rw-r--r-- 2 root root  205 Jan  1  1970 colorxzgrep.sh
+-rw-r--r-- 2 root root  216 Jan  1  1970 colorzgrep.csh
+-rw-r--r-- 2 root root  220 Jan  1  1970 colorzgrep.sh
+-rw-r--r-- 2 root root   83 Jan  1  1970 csh.local
+-rw-r--r-- 2 root root  962 Jan  1  1970 debuginfod.csh
+-rw-r--r-- 2 root root  931 Jan  1  1970 debuginfod.sh
+-rw-r--r-- 2 root root  172 Jan  1  1970 dnf-dummy.sh
+-rw-r--r-- 2 root root  951 Jan  1  1970 flatpak.csh
+-rw-r--r-- 2 root root  873 Jan  1  1970 flatpak.sh
+-rw-r--r-- 2 root root 1107 Jan  1  1970 gawk.csh
+-rw-r--r-- 2 root root  757 Jan  1  1970 gawk.sh
+-rw-r--r-- 2 root root   95 Jan  1  1970 gmpopenh264.sh
+-rw-r--r-- 2 root root   58 Jan  1  1970 gnome-ssh-askpass.csh
+-rw-r--r-- 2 root root   70 Jan  1  1970 gnome-ssh-askpass.sh
+-rw-r--r-- 2 root root   52 Jan  1  1970 gnupg2.csh
+-rw-r--r-- 2 root root   52 Jan  1  1970 gnupg2.sh
+-rw-r--r-- 2 root root   86 Jan  1  1970 kde-openssh-askpass.csh
+-rw-r--r-- 2 root root  100 Jan  1  1970 kde-openssh-askpass.sh
+-rw-r--r-- 2 root root  395 Jan  1  1970 kde.csh
+-rw-r--r-- 2 root root  425 Jan  1  1970 kde.sh
+-rw-r--r-- 2 root root  427 Jan  1  1970 keyring.csh
+-rw-r--r-- 2 root root 3424 Jan  1  1970 lang.csh
+-rw-r--r-- 2 root root 3187 Jan  1  1970 lang.sh
+-rw-r--r-- 2 root root  500 Jan  1  1970 less.csh
+-rw-r--r-- 2 root root  253 Jan  1  1970 less.sh
+-rw-r--r-- 2 root root   90 Jan  1  1970 makemkv.csh
+-rw-r--r-- 2 root root   90
++ echo '=== kunifiedpush-distributor'
+=== kunifiedpush-distributor
++ systemctl --global is-enabled kunifiedpush-distributor.service
+disabled
++ echo '=== spice-vdagent'
+=== spice-vdagent
++ systemctl --global is-enabled spice-vdagent.service
+static
++ grep -i remapper
++ systemctl is-enabled input-remapper.service
+enabled
++ cat /usr/lib/systemd/system/input-remapper.service
+# dbus is required for ipc between gui and input-remapper-control
+BusName=inputremapper.Control
+ExecStart=/usr/bin/input-remapper-service
+Alias=input-remapper.service

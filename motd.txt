@@ -1,0 +1,185 @@
++ echo '### profile.d'
+### profile.d
++ ls -la /etc/profile.d/ /usr/etc/profile.d/
+/etc/profile.d/:
+total 212
+drwxr-xr-x 1 root root 4096 Jan  1  1970 .
+drwxr-xr-x 1 root root 4096 Oct 13 19:03 ..
+lrwxrwxrwx 2 root root   57 Jan  1  1970 70-systemd-shell-extra.sh -> ../../usr/lib/systemd/profile.d/70-systemd-shell-extra.sh
+lrwxrwxrwx 2 root root   57 Jan  1  1970 80-systemd-osc-context.sh -> ../../usr/lib/systemd/profile.d/80-systemd-osc-context.sh
+-rwxr-xr-x 2 root root  343 Jan  1  1970 askpass.sh
+-rw-r--r-- 2 root root 6037 Jan  1  1970 bash-color-prompt.sh
+-rw-r--r-- 2 root root  747 Jan  1  1970 bash_completion.sh
+-rwxr-xr-x 2 root root  396 Jan  1  1970 bazzite-neofetch.sh
+-rw-r--r-- 2 root root  985 Jan  1  1970 brew-bash-completion.sh
+-rwxr-xr-x 2 root root  595 Jan  1  1970 brew.sh
+-rw-r--r-- 2 root root  200 Jan  1  1970 colorgrep.csh
+-rw-r--r-- 2 root root  205 Jan  1  1970 colorgrep.sh
+-rw-r--r-- 2 root root 1586 Jan  1  1970 colorls.csh
+-rw-r--r-- 2 root root 1431 Jan  1  1970 colorls.sh
+-rw-r--r-- 2 root root  162 Jan  1  1970 colorxzgrep.csh
+-rw-r--r-- 2 root root  205 Jan  1  1970 colorxzgrep.sh
+-rw-r--r-- 2 root root  216 Jan  1  1970 colorzgrep.csh
+-rw-r--r-- 2 root root  220 Jan  1  1970 colorzgrep.sh
+-rw-r--r-- 2 root root   83 Jan  1  1970 csh.local
+-rw-r--r-- 2 root root  962 Jan  1  1970 debuginfod.csh
+-rw-r--r-- 2 root root  931 Jan  1  1970 debuginfod.sh
+-rw-r--r-- 2 root root  172 Jan  1  1970 dnf-dummy.sh
+-rw-r--r-- 2 root root  951 Jan  1  1970 flatpak.csh
+-rw-r--r-- 2 root root  873 Jan  1  1970 flatpak.sh
+-rw-r--r-- 2 root root 1107 Jan  1  1970 gawk.csh
+-rw-r--r-- 2 root root  757 Jan  1  1970 gawk.sh
+-rw-r--r-- 2 root root   95 Jan  1  1970 gmpopenh264.sh
+-rw-r--r-- 2 root root   58 Jan  1  1970 gnome-ssh-askpass.csh
+-rw-r--r-- 2 root root   70 Jan  1  1970 gnome-ssh-askpass.sh
+-rw-r--r-- 2 root root   52 Jan  1  1970 gnupg2.csh
+-rw-r--r-- 2 root root   52 Jan  1  1970 gnupg2.sh
+-rw-r--r-- 2 root root   86 Jan  1  1970 kde-openssh-askpass.csh
+-rw-r--r-- 2 root root  100 Jan  1  1970 kde-openssh-askpass.sh
+-rw-r--r-- 2 root root  395 Jan  1  1970 kde.csh
+-rw-r--r-- 2 root root  425 Jan  1  1970 kde.sh
+-rw-r--r-- 2 root root  427 Jan  1  1970 keyring.csh
+-rw-r--r-- 2 root root 3424 Jan  1  1970 lang.csh
+-rw-r--r-- 2 root root 3187 Jan  1  1970 lang.sh
+-rw-r--r-- 2 root root  500 Jan  1  1970 less.csh
+-rw-r--r-- 2 root root  253 Jan  1  1970 less.sh
+-rw-r--r-- 2 root root   90 Jan  1  1970 makemkv.csh
+-rw-r--r-- 2 root root   90 Jan  1  1970 makemkv.sh
+-rwxr-xr-x 2 root root  272 Jan  1  1970 ms-edit-default-editor.sh
+-rw-r--r-- 2 root root  122 Jan  1  1970 nano-default-editor.csh
+-rw-r--r-- 2 root root  120 Jan  1  1970 nano-default-editor.sh
+-rw-r--r-- 2 root root   34 Jan  1  1970 open.sh
+-rw-r--r-- 2 root root   81 Jan  1  1970 sh.local
+-rw-r--r-- 2 root root  736 Jan  1  1970 steam.csh
+-rw-r--r-- 2 root root  736 Jan  1  1970 steam.sh
+-rw-r--r-- 2 root root  340 Jan  1  1970 user-motd.sh
+-rw-r--r-- 2 root root  997 Jan  1  1970 verify_motd.sh
+-rw-r--r-- 2 root root  369 Jan  1  1970 vim.sh
+-rw-r--r-- 2 root root  120 Jan  1  1970 which2.csh
+-rw-r--r-- 2 root root  465 Jan  1  1970 which2.sh
+++ grep -rl -iE 'motd|fastfetch|neofetch' /etc/profile.d/ /etc/bashrc /etc/bash.bashrc /etc/fish/conf.d/ /usr/share/fish/vendor_conf.d/ /etc/zshrc /usr/etc/profile.d
++ for f in $(grep -rl -iE "motd|fastfetch|neofetch" /etc/profile.d/ /etc/bashrc /etc/bash.bashrc /etc/fish/conf.d/ /usr/share/fish/vendor_conf.d/ /etc/zshrc /usr/etc/profile.d 2> /dev/null)
+++ rpm -qf /etc/profile.d/user-motd.sh
++ echo '=== /etc/profile.d/user-motd.sh (ublue-os-just-0.57-3.fc44.noarch)'
+=== /etc/profile.d/user-motd.sh (ublue-os-just-0.57-3.fc44.noarch)
++ cat /etc/profile.d/user-motd.sh
+# Prevent doublesourcing
+if [ -z "$USERMOTDSOURCED" ]; then
+  USERMOTDSOURCED="Y"
+  if test -d "$HOME"; then
+    if test ! -e "$HOME"/.config/no-show-user-motd; then
+      if test -x "/usr/libexec/ublue-motd"; then
+        /usr/libexec/ublue-motd
+      elif test -s "/etc/user-motd"; then
+        cat /etc/user-motd
+      fi
+    fi
+  fi
+fi
++ for f in $(grep -rl -iE "motd|fastfetch|neofetch" /etc/profile.d/ /etc/bashrc /etc/bash.bashrc /etc/fish/conf.d/ /usr/share/fish/vendor_conf.d/ /etc/zshrc /usr/etc/profile.d 2> /dev/null)
+++ rpm -qf /etc/profile.d/bazzite-neofetch.sh
++ echo '=== /etc/profile.d/bazzite-neofetch.sh (file /etc/profile.d/bazzite-neofetch.sh is not owned by any package)'
+=== /etc/profile.d/bazzite-neofetch.sh (file /etc/profile.d/bazzite-neofetch.sh is not owned by any package)
++ cat /etc/profile.d/bazzite-neofetch.sh
+alias neofetch='/usr/bin/fastfetch --color $(/usr/libexec/bazzite-bling-fastfetch) -c /usr/share/ublue-os/bazzite/fastfetch.jsonc'
+alias neowofetch='/usr/bin/fastfetch --color $(/usr/libexec/bazzite-bling-fastfetch) -c /usr/share/ublue-os/bazzite/fastfetch.jsonc'
+alias fastfetch='/usr/bin/fastfetch --color $(/usr/libexec/bazzite-bling-fastfetch) -c /usr/share/ublue-os/bazzite/fastfetch.jsonc'
++ for f in $(grep -rl -iE "motd|fastfetch|neofetch" /etc/profile.d/ /etc/bashrc /etc/bash.bashrc /etc/fish/conf.d/ /usr/share/fish/vendor_conf.d/ /etc/zshrc /usr/etc/profile.d 2> /dev/null)
+++ rpm -qf /usr/share/fish/vendor_conf.d/bazzite-neofetch.fish
++ echo '=== /usr/share/fish/vendor_conf.d/bazzite-neofetch.fish (file /usr/share/fish/vendor_conf.d/bazzite-neofetch.fish is not owned by any package)'
+=== /usr/share/fish/vendor_conf.d/bazzite-neofetch.fish (file /usr/share/fish/vendor_conf.d/bazzite-neofetch.fish is not owned by any package)
++ cat /usr/share/fish/vendor_conf.d/bazzite-neofetch.fish
+alias neofetch='/usr/bin/fastfetch --color (/usr/libexec/bazzite-bling-fastfetch) -c /usr/share/ublue-os/bazzite/fastfetch.jsonc'
+alias neowofetch='/usr/bin/fastfetch --color (/usr/libexec/bazzite-bling-fastfetch) -c /usr/share/ublue-os/bazzite/fastfetch.jsonc'
+alias fastfetch='/usr/bin/fastfetch --color (/usr/libexec/bazzite-bling-fastfetch) -c /usr/share/ublue-os/bazzite/fastfetch.jsonc'
++ echo '### motd programs'
+### motd programs
++ ls -la /usr/libexec/ublue-motd '/usr/bin/ublue-motd*' /usr/share/ublue-os/motd /etc/user-motd /usr/share/ublue-os/user-motd
+ls: cannot access '/usr/bin/ublue-motd*': No such file or directory
+ls: cannot access '/etc/user-motd': No such file or directory
+ls: cannot access '/usr/share/ublue-os/user-motd': No such file or directory
+-rwxr-xr-x 2 root root  351 Jan  1  1970 /usr/libexec/ublue-motd
+
+/usr/share/ublue-os/motd:
+total 28
+drwxr-xr-x 1 root root 4096 Jan  1  1970 .
+drwxr-xr-x 1 root root 4096 Jan  1  1970 ..
+-rw-r--r-- 2 root root 1092 Jan  1  1970 env.sh
+-rw-r--r-- 2 root root  574 Jan  1  1970 template.md
+-rw-r--r-- 2 root root  599 Jan  1  1970 template.sv.md
+drwxr-xr-x 1 root root 4096 Jan  1  1970 themes
+drwxr-xr-x 1 root root 4096 Jan  1  1970 tips
++ for f in /usr/libexec/ublue-motd /usr/bin/ublue-motd
++ '[' -f /usr/libexec/ublue-motd ']'
++ echo '=== /usr/libexec/ublue-motd'
+=== /usr/libexec/ublue-motd
++ head -80 /usr/libexec/ublue-motd
+#!/usr/bin/env sh
+
+. "${MOTD_ENV_SCRIPT:-/usr/share/ublue-os/motd/env.sh}"
+MOTD_TEMPLATE_FILE="${MOTD_TEMPLATE_FILE:-/usr/share/ublue-os/motd/template.md}"
+
+if command -v tput >/dev/null 2>&1 && [ -t 1 ]; then
+  cols=$(tput cols 2>/dev/null)
+  envsubst < "${MOTD_TEMPLATE_FILE}" | glow -w $cols -
+else
+  envsubst < "${MOTD_TEMPLATE_FILE}" | glow -
+fi
++ for f in /usr/libexec/ublue-motd /usr/bin/ublue-motd
++ '[' -f /usr/bin/ublue-motd ']'
++ ls -la /usr/share/ublue-os/motd/
+total 28
+drwxr-xr-x 1 root root 4096 Jan  1  1970 .
+drwxr-xr-x 1 root root 4096 Jan  1  1970 ..
+-rw-r--r-- 2 root root 1092 Jan  1  1970 env.sh
+-rw-r--r-- 2 root root  574 Jan  1  1970 template.md
+-rw-r--r-- 2 root root  599 Jan  1  1970 template.sv.md
+drwxr-xr-x 1 root root 4096 Jan  1  1970 themes
+drwxr-xr-x 1 root root 4096 Jan  1  1970 tips
++ ls /usr/share/ublue-os/motd/env.sh /usr/share/ublue-os/motd/template.md /usr/share/ublue-os/motd/template.sv.md /usr/share/ublue-os/motd/themes /usr/share/ublue-os/motd/tips
++ head
+/usr/share/ublue-os/motd/env.sh
+/usr/share/ublue-os/motd/template.md
+/usr/share/ublue-os/motd/template.sv.md
+
+/usr/share/ublue-os/motd/themes:
+blue.json
+green.json
+orange.json
+pink.json
+purple.json
++ echo '### ujust toggle-user-motd'
+### ujust toggle-user-motd
++ grep -rn -B2 -A14 toggle-user-motd /usr/share/ublue-os/just/
++ head -60
+/usr/share/ublue-os/just/00-default.just-39-
+/usr/share/ublue-os/just/00-default.just-40-# Toggle display of the user-motd in terminal
+/usr/share/ublue-os/just/00-default.just:41:toggle-user-motd:
+/usr/share/ublue-os/just/00-default.just-42-    #!/usr/bin/bash
+/usr/share/ublue-os/just/00-default.just-43-    if test -e "${HOME}/.config/no-show-user-motd"; then
+/usr/share/ublue-os/just/00-default.just-44-      rm -f "${HOME}/.config/no-show-user-motd"
+/usr/share/ublue-os/just/00-default.just-45-    else
+/usr/share/ublue-os/just/00-default.just-46-      if test ! -d "${HOME}/.config"; then
+/usr/share/ublue-os/just/00-default.just-47-        mkdir "${HOME}/.config"
+/usr/share/ublue-os/just/00-default.just-48-      fi
+/usr/share/ublue-os/just/00-default.just-49-      touch "${HOME}/.config/no-show-user-motd"
+/usr/share/ublue-os/just/00-default.just-50-    fi
+/usr/share/ublue-os/just/00-default.just-51-
+/usr/share/ublue-os/just/00-default.just-52-# Check for local overrides
+/usr/share/ublue-os/just/00-default.just-53-check-local-overrides:
+/usr/share/ublue-os/just/00-default.just-54-    #!/usr/bin/bash
+/usr/share/ublue-os/just/00-default.just-55-    diff -r \
++ echo '### image-info'
+### image-info
++ cat /usr/share/ublue-os/image-info.json
+{
+  "image-name": "bazzite",
+  "image-vendor": "ublue-os",
+  "image-ref": "ostree-image-signed:docker://ghcr.io/ublue-os/bazzite",
+  "image-tag": "stable",
+  "image-branch": "stable",
+  "base-image-name": "kinoite",
+  "fedora-version": "44",
+  "version": "44.20261012",
+  "version-pretty": "Stable (F44.20261012)"
+}
