@@ -2,7 +2,7 @@
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
 ## 2026-10-13  Accessories, Explorer windows, notification area, system tools, screen savers, start-up and shut-down screens
-- **Accessories** (Start > All Programs > Accessories): Notepad, Calculator (Standard, Scientific and Programmer, History), Character Map, Sticky Notes and Paint, in the Windows 7 look.
+- **Accessories** in the Windows 7 look, in their own Start > All Programs > **Accessories** folder (with **System Tools** inside, as in Windows 7): Notepad, Calculator (Standard, Scientific and Programmer, History), Paint, Sticky Notes, and Character Map under System Tools.
 - **Quick Shot** instead of the Snipping Tool, like Lightshot: press **Ctrl+Up** (or PrtSc), drag over the part of the screen you want, draw on it (pen, line, arrow, rectangle, marker, text), then Copy, Save, Print, E-mail or Open in Paint. Shift+PrtSc saves the whole screen.
 - **Recycle Bin** window like Windows 7 (double-click the desktop icon): where each file came from and when it was deleted, Restore this item / Restore all items, Empty the Recycle Bin. The desktop icon shows full or empty whoever deletes or empties.
 - **Properties** like Windows 7 for files, folders, shortcuts and drives (right-click > Properties or Alt+Enter): General with sizes and attributes, Security, Details, Customize (folder icon), Shortcut, and Tools (Check now) for drives.
