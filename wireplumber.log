@@ -1,0 +1,24 @@
+E 15:57:47.580425             mod.rt ../src/modules/module-rt.c:295:pw_rtkit_bus_get: Failed to connect to system bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+W 15:57:47.580453             mod.rt ../src/modules/module-rt.c:975:rtkit_get_bus: Realtime scheduling disabled: insufficient realtime privileges, Portal not found on session bus, and no system bus for RTKit: Connection refused
+N 15:57:47.608060 wp-internal-comp-l ../lib/wp/private/internal-comp-loader.c:589:on_component_loaded: <WpCore:0x563f930fdb80> optional component 'support.system-dbus [module: libwireplumber-module-dbus-connection]' failed to load: Failed to connect to bus: Could not connect: No such file or directory
+N 15:57:47.608076 wp-internal-comp-l ../lib/wp/private/internal-comp-loader.c:641:wp_component_array_load_task_execute_step: <WpCore:0x563f930fdb80> skipping component 'support.modem-manager [module: libwireplumber-module-modem-manager]' because some of its dependencies were not loaded
+N 15:57:47.608081 wp-internal-comp-l ../lib/wp/private/internal-comp-loader.c:641:wp_component_array_load_task_execute_step: <WpCore:0x563f930fdb80> skipping component 'hooks.device.profile.find-voice-call [script/lua: device/find-voice-call-profile.lua]' because some of its dependencies were not loaded
+E 15:57:47.621806             mod.rt ../src/modules/module-rt.c:295:pw_rtkit_bus_get: Failed to connect to system bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+W 15:57:47.621817             mod.rt ../src/modules/module-rt.c:975:rtkit_get_bus: Realtime scheduling disabled: insufficient realtime privileges, Portal not found on session bus, and no system bus for RTKit: Connection refused
+N 15:57:47.633594 wp-internal-comp-l ../lib/wp/private/internal-comp-loader.c:589:on_component_loaded: <WpCore:0x563f930fdb80> optional component 'support.logind [module: libwireplumber-module-logind]' failed to load: failed to start systemd logind monitor: -2 (No such file or directory)
+N 15:57:47.633608 wp-internal-comp-l ../lib/wp/private/internal-comp-loader.c:641:wp_component_array_load_task_execute_step: <WpCore:0x563f930fdb80> skipping component 'monitor.bluez.seat-monitoring [virtual]' because some of its dependencies were not loaded
+E 15:57:47.639349           spa.dbus ../spa/plugins/support/dbus.c:357:impl_connection_get: Failed to connect to system bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+E 15:57:47.639372         spa.bluez5 ../spa/plugins/bluez5/bluez5-dbus.c:7532:impl_init: failed to get dbus connection
+N 15:57:47.639965          wp-device ../lib/wp/device.c:1002:wp_spa_device_new_from_spa_factory: SPA handle 'api.bluez5.enum.dbus' could not be loaded; is it installed?
+N 15:57:47.639978   s-monitors-bluez enumerate-device.lua:47:createMonitor: PipeWire's BlueZ SPA plugin is missing or broken. Bluetooth devices will not be supported.
+E 15:57:47.640397    spa.bluez5.midi ../spa/plugins/bluez5/midi-enum.c:806:impl_init: Creating GDBus connection failed: Could not connect: No such file or directory
+N 15:57:47.640411          wp-device ../lib/wp/device.c:1002:wp_spa_device_new_from_spa_factory: SPA handle 'api.bluez5.midi.enum' could not be loaded; is it installed?
+N 15:57:47.640419         s-monitors bluez-midi.lua:95:createMonitor: PipeWire's BlueZ MIDI SPA missing or broken. Bluetooth not supported.
+E 15:57:47.640510 spa.bluez5.midi.no ../spa/plugins/bluez5/midi-node.c:1977:impl_init: failed to get dbus connection: Could not connect: No such file or directory
+E 15:57:47.640523        pw.resource ../src/pipewire/resource.c:255:pw_resource_errorf_id: can't create node: Input/output error
+W 15:57:47.640527            wp-node ../lib/wp/node.c:969:wp_impl_node_new_from_pw_factory: failed to create node from factory 'spa-node-factory'
+N 15:57:47.640534         s-monitors bluez-midi.lua:130:createServers: Failed to create BLE MIDI server.
+[0:04:09.464810918] [100]  INFO Camera camera_manager.cpp:340 libcamera v0.7.1
+[0:04:09.465952213] [124] ERROR DmaBufAllocator dma_buf_allocator.cpp:119 Could not open any dma-buf provider
+N 15:59:24.051436  m-dbus-connection ../modules/module-dbus-connection.c:141:on_connection_closed: <WpDBusConnection:0x563f931ae900> DBus connection closed: Underlying GIOStream returned 0 bytes on an async read
+N 15:59:24.052114  m-dbus-connection ../modules/module-dbus-connection.c:149:on_connection_closed: <WpDBusConnection:0x563f931ae900> Trying to reconnect after core sync

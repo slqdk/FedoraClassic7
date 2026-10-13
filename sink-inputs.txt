@@ -1,0 +1,1 @@
+58	50	57	PipeWire	s16le 2ch 44100Hz

@@ -1,0 +1,62 @@
++ cat /out/tray-fix.log
+classic7-tray-fix: the notification area and the clock are the Windows 7 ones
++ grep -E 'plugin=|extraItems' /out/fixed-appletsrc.txt
+plugin=org.kde.panel
+plugin=org.kde.plasma.systemtray
+extraItems=org.kde.plasma.battery,org.classic7.network,org.classic7.volume,org.classic7.actioncenter
+plugin=org.classic7.clock
++ cat /out/layout.txt
++ head -30
+[Containments][2][Applets][25]
+plugin=org.classic7.clock
+[Containments][2][Applets][26]
+plugin=org.classic7.showdesktop
+[Containments][2][Applets][3]
+plugin=org.classic7.startmenu
+[Containments][2][Applets][4]
+plugin=org.kde.plasma.quicklaunch
+[Containments][2][Applets][5]
+plugin=org.kde.plasma.taskmanager
+[Containments][2][Applets][6]
+plugin=org.kde.plasma.marginsseparator
+[Containments][2][Applets][7]
+[Containments][2][Applets][7][Applets][10]
+plugin=org.kde.plasma.vault
+[Containments][2][Applets][7][Applets][11]
+plugin=org.classic7.actioncenter
+[Containments][2][Applets][7][Applets][12]
+plugin=org.classic7.volume
+[Containments][2][Applets][7][Applets][14]
+plugin=org.kde.kscreen
+[Containments][2][Applets][7][Applets][15]
+plugin=org.kde.plasma.printmanager
+[Containments][2][Applets][7][Applets][17]
+plugin=org.kde.plasma.manage-inputmethod
+[Containments][2][Applets][7][Applets][18]
+plugin=org.kde.plasma.devicenotifier
+[Containments][2][Applets][7][Applets][19]
+plugin=org.kde.plasma.cameraindicator
+[Containments][2][Applets][7][Applets][20]
++ cat /out/sink-inputs.txt
+58	50	57	PipeWire	s16le 2ch 44100Hz
++ cat /out/pactl.log
++ head -5
+536870916
++ grep -i 'qml\|error\|warn' /out/plasmashell.log
++ grep -i classic7
++ head -10
++ for a in clock volume actioncenter
++ grep -i 'error\|warn' /out/windowed-clock.log
++ head -4
++ for a in clock volume actioncenter
++ grep -i 'error\|warn' /out/windowed-volume.log
++ head -4
++ for a in clock volume actioncenter
++ grep -i 'error\|warn' /out/windowed-actioncenter.log
++ head -4
++ tail -n 3 /out/mixer.log /out/timedate.log /out/actioncenter.log
+==> /out/mixer.log <==
+
+==> /out/timedate.log <==
+
+==> /out/actioncenter.log <==
