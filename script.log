@@ -1,0 +1,107 @@
++ dnf5 -y -q install xorg-x11-server-Xvfb
++ S=/src/system_files
++ cp -a /src/system_files/usr/lib/classic7/. /usr/lib/classic7/
++ cp /src/system_files/usr/bin/classic7-diskmgmt /usr/bin/
++ chmod +x /usr/bin/classic7-diskmgmt
++ cp /src/system_files/usr/libexec/classic7-disk-helper /usr/libexec/
++ chmod +x /usr/libexec/classic7-disk-helper
++ getent passwd 1000
++ useradd -m -u 1000 tester
+Creating mailbox file: No such file or directory
++ for p in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix fsck.exfat e2fsck mount.ntfs-3g
+++ command -v sfdisk
++ printf '%s: %s\n' sfdisk /usr/sbin/sfdisk
++ for p in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix fsck.exfat e2fsck mount.ntfs-3g
+++ command -v partx
++ printf '%s: %s\n' partx /usr/sbin/partx
++ for p in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix fsck.exfat e2fsck mount.ntfs-3g
+++ command -v wipefs
++ printf '%s: %s\n' wipefs /usr/sbin/wipefs
++ for p in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix fsck.exfat e2fsck mount.ntfs-3g
+++ command -v blkid
++ printf '%s: %s\n' blkid /usr/sbin/blkid
++ for p in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix fsck.exfat e2fsck mount.ntfs-3g
+++ command -v mkfs.ntfs
++ printf '%s: %s\n' mkfs.ntfs /usr/sbin/mkfs.ntfs
++ for p in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix fsck.exfat e2fsck mount.ntfs-3g
+++ command -v mkfs.exfat
++ printf '%s: %s\n' mkfs.exfat /usr/sbin/mkfs.exfat
++ for p in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix fsck.exfat e2fsck mount.ntfs-3g
+++ command -v mkfs.vfat
++ printf '%s: %s\n' mkfs.vfat /usr/sbin/mkfs.vfat
++ for p in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix fsck.exfat e2fsck mount.ntfs-3g
+++ command -v mkfs.ext4
++ printf '%s: %s\n' mkfs.ext4 /usr/sbin/mkfs.ext4
++ for p in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix fsck.exfat e2fsck mount.ntfs-3g
+++ command -v mkfs.btrfs
++ printf '%s: %s\n' mkfs.btrfs /usr/sbin/mkfs.btrfs
++ for p in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix fsck.exfat e2fsck mount.ntfs-3g
+++ command -v ntfsfix
++ printf '%s: %s\n' ntfsfix /usr/sbin/ntfsfix
++ for p in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix fsck.exfat e2fsck mount.ntfs-3g
+++ command -v fsck.exfat
++ printf '%s: %s\n' fsck.exfat /usr/sbin/fsck.exfat
++ for p in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix fsck.exfat e2fsck mount.ntfs-3g
+++ command -v e2fsck
++ printf '%s: %s\n' e2fsck /usr/sbin/e2fsck
++ for p in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix fsck.exfat e2fsck mount.ntfs-3g
+++ command -v mount.ntfs-3g
++ printf '%s: %s\n' mount.ntfs-3g /usr/sbin/mount.ntfs-3g
++ grep -E 'ntfs|exfat|vfat|btrfs|ext4' /proc/filesystems
++ modprobe ntfs3 exfat
++ grep -E 'ntfs3|exfat' /proc/filesystems
++ truncate -s 600M /tmp/disk.img
+++ losetup -fP --show /tmp/disk.img
++ L=/dev/loop0
++ echo 'loop: /dev/loop0'
++ export XDG_RUNTIME_DIR=/tmp/xdg
++ XDG_RUNTIME_DIR=/tmp/xdg
++ mkdir -p /tmp/xdg
++ chmod 700 /tmp/xdg
++ export DISPLAY=:99 QT_QPA_PLATFORM=xcb XDG_CURRENT_DESKTOP=KDE KDE_FULL_SESSION=true KDE_SESSION_VERSION=6
++ DISPLAY=:99
++ QT_QPA_PLATFORM=xcb
++ XDG_CURRENT_DESKTOP=KDE
++ KDE_FULL_SESSION=true
++ KDE_SESSION_VERSION=6
++ export HOME=/tmp/home
++ HOME=/tmp/home
++ mkdir -p /tmp/home
++ cp -a /etc/skel/. /tmp/home/
++ sleep 2
++ Xvfb :99 -screen 0 1100x760x24
++ cat
++ dbus-run-session -- bash /tmp/inner.sh
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.0' (uid=0 pid=100 comm="plasma-apply-colorscheme Classic7" label="crun (unconfined)")
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.1' (uid=0 pid=103 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.1' (uid=0 pid=103 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.1' (uid=0 pid=103 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:103): xdg-desktop-portal-WARNING **: 06:38:24.851: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.1' (uid=0 pid=103 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.5' (uid=0 pid=133 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[144]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=0 pid=133 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:133): xdg-desktop-portal-gtk-WARNING **: 06:38:24.932: error: Could not connect: No such file or directory
+
+dbus-daemon[144]: Successfully activated service 'org.a11y.atspi.Registry'
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.7' (uid=0 pid=133 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:103): xdg-desktop-portal-WARNING **: 06:38:24.965: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.1' (uid=0 pid=103 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[96]: [session uid=0 pid=96 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
++ cp /etc/fstab /out/fstab.txt
++ lsblk -o NAME,SIZE,FSTYPE,LABEL,MOUNTPOINTS /dev/loop0
+A connection to the bus can't be made
++ umount '/var/mnt/*'
++ losetup -d /dev/loop0
++ grep -E '^(OK|FAIL|FAILURES|BOX|exit|Traceback|[A-Za-z]+Error)' /out/disks.log
++ grep -E 'MISSING|ntfs3|exfat' /out/tools.txt
++ sed 's/^/tools: /'

@@ -1,0 +1,30 @@
+OK   the test disk /dev/loop0 is listed
+OK   a blank disk shows as Not Initialized
+OK   initialized as GPT (gpt)
+OK   the whole disk is unallocated
+OK   wizard settings
+OK   new ext4 volume E:
+OK   E: is mounted at /var/mnt/E
+OK   E: belongs to the user
+OK   fstab entry for E:
+OK   new NTFS volume F:
+OK   F: is mounted at /var/mnt/F
+OK   Steam library folder made
+OK   compatdata is kept on the system disk (['Proton folders stay on your system disk (/tmp/home/.local/share/Steam/steamapps/compatdata).'])
+BOX  G: is ready and opens at every start-up. |  | Windows games run through Proton keep a small Windows folder for each game (its "compatdata"). Proton needs Linux file features for it that NTFS drives don't have, so games installed there can refuse to start. |  | When you set up a Steam library on this drive, Classic 7 keeps those folders on your system disk instead, and the games themselves on G:. For a drive that only this computer uses, ext4 or Btrfs work best.
+OK   F: moved to G:
+OK   old F: entry is gone
+OK   formatted as vfat and kept G:
+OK   G: mounted again after format
+BOX  Linux_Games: 12/38456 files (0.0% non-contiguous), 15354/153600 blocks
+OK   Check for errors reports
+OK   E: mounted again after the check
+OK   E: deleted
+OK   E: entry removed from fstab
+OK   E: no longer mounted
+OK   letter G: removed
+FAILURES 0 []
+exit 0
+tools: mkfs.exfat: /usr/sbin/mkfs.exfat
+tools: fsck.exfat: /usr/sbin/fsck.exfat
+tools: modprobe: FATAL: Module ntfs3 not found in directory /lib/modules/6.17.0-1022-azure

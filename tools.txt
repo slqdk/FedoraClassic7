@@ -1,0 +1,21 @@
+sfdisk: /usr/sbin/sfdisk
+partx: /usr/sbin/partx
+wipefs: /usr/sbin/wipefs
+blkid: /usr/sbin/blkid
+mkfs.ntfs: /usr/sbin/mkfs.ntfs
+mkfs.exfat: /usr/sbin/mkfs.exfat
+mkfs.vfat: /usr/sbin/mkfs.vfat
+mkfs.ext4: /usr/sbin/mkfs.ext4
+mkfs.btrfs: /usr/sbin/mkfs.btrfs
+ntfsfix: /usr/sbin/ntfsfix
+fsck.exfat: /usr/sbin/fsck.exfat
+e2fsck: /usr/sbin/e2fsck
+mount.ntfs-3g: /usr/sbin/mount.ntfs-3g
+	ext4
+	vfat
+modprobe: FATAL: Module ntfs3 not found in directory /lib/modules/6.17.0-1022-azure
+loop: /dev/loop0
+NAME       SIZE FSTYPE LABEL MOUNTPOINTS
+loop0      600M              
+|-loop0p1  150M              
+`-loop0p2  448M              
