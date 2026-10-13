@@ -1,0 +1,1 @@
+2026-10-13 16:47:12 Dropped Linux capabilities to NET_ADMIN, NET_RAW, SYS_MODULE.

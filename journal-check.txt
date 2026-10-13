@@ -1,0 +1,11 @@
+Oct 13 16:47:23 141e0e78a252 kdeconnectd[384]: Detected locale "C" with character encoding "ANSI_X3.4-1968", which is not UTF-8.
+                                               Qt depends on a UTF-8 locale, and has switched to "C.UTF-8" instead.
+                                               If this causes problems, reconfigure your locale. See the locale(1) manual
+                                               for more information.
+Oct 13 16:47:23 141e0e78a252 kdeconnectd[384]: QObject::connect(QUdpSocket, Unknown): invalid nullptr parameter
+Oct 13 16:47:23 141e0e78a252 kdeconnectd[384]: Cannot find a compatible running Bluez. Please check the Bluez installation. QtBluetooth requires at least BlueZ version 5.
+Oct 13 16:47:23 141e0e78a252 plasma_waitforname[402]: Detected locale "C" with character encoding "ANSI_X3.4-1968", which is not UTF-8.
+                                                      Qt depends on a UTF-8 locale, and has switched to "C.UTF-8" instead.
+                                                      If this causes problems, reconfigure your locale. See the locale(1) manual
+                                                      for more information.
+Oct 13 16:47:23 141e0e78a252 kernel: audit: type=1400 audit(1791910043.922:130): apparmor="DENIED" operation="getattr" class="posix_mqueue" info="Failed name lookup - disconnected IPC path" error=-13 profile="plasmashell" pid=3653 comm="plasmashell" requested="getattr" denied="getattr" class="posix_mqueue" fsuid=1000 ouid=0

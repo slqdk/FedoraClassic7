@@ -1,0 +1,32 @@
++ cat /out/useradd.log /out/firewall-state.txt
+Creating mailbox file: No such file or directory
+uid=1000(tester) gid=1000(tester) groups=1000(tester),10(wheel),190(systemd-journal)
+running
+FedoraWorkstation
++ head -n 5 /out/journal-check.txt
+Oct 13 16:47:23 141e0e78a252 kdeconnectd[384]: Detected locale "C" with character encoding "ANSI_X3.4-1968", which is not UTF-8.
+                                               Qt depends on a UTF-8 locale, and has switched to "C.UTF-8" instead.
+                                               If this causes problems, reconfigure your locale. See the locale(1) manual
+                                               for more information.
+Oct 13 16:47:23 141e0e78a252 kdeconnectd[384]: QObject::connect(QUdpSocket, Unknown): invalid nullptr parameter
++ tail -n 3 /out/journald.log /out/firewalld.log
+==> /out/journald.log <==
+
+==> /out/firewalld.log <==
+2026-10-13 16:47:12 Dropped Linux capabilities to NET_ADMIN, NET_RAW, SYS_MODULE.
++ for f in /out/classic7-*.log
++ echo '== /out/classic7-eventvwr.log'
+== /out/classic7-eventvwr.log
++ tail -n 5 /out/classic7-eventvwr.log
++ for f in /out/classic7-*.log
++ echo '== /out/classic7-firewall-root.log'
+== /out/classic7-firewall-root.log
++ tail -n 5 /out/classic7-firewall-root.log
++ for f in /out/classic7-*.log
++ echo '== /out/classic7-msconfig.log'
+== /out/classic7-msconfig.log
++ tail -n 5 /out/classic7-msconfig.log
++ for f in /out/classic7-*.log
++ echo '== /out/classic7-resmon.log'
+== /out/classic7-resmon.log
++ tail -n 5 /out/classic7-resmon.log

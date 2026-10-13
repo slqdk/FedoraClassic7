@@ -1,0 +1,2 @@
+Creating mailbox file: No such file or directory
+uid=1000(tester) gid=1000(tester) groups=1000(tester),10(wheel),190(systemd-journal)

@@ -1,0 +1,679 @@
++ dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool
++ mkdir -p /out
++ chmod 777 /out
++ S=/src/system_files
++ cp -a /src/system_files/usr/lib/classic7/. /usr/lib/classic7/
++ cp -a /src/system_files/usr/bin/. /usr/bin/
++ chmod +x /usr/bin/classic7-actioncenter /usr/bin/classic7-appearance /usr/bin/classic7-arrange /usr/bin/classic7-calc /usr/bin/classic7-charmap /usr/bin/classic7-computer /usr/bin/classic7-control /usr/bin/classic7-devmgmt /usr/bin/classic7-diskmgmt /usr/bin/classic7-eventvwr /usr/bin/classic7-firewall /usr/bin/classic7-goodbye /usr/bin/classic7-jumplist /usr/bin/classic7-mail /usr/bin/classic7-mixer /usr/bin/classic7-msconfig /usr/bin/classic7-netdrive /usr/bin/classic7-network /usr/bin/classic7-notepad /usr/bin/classic7-paint /usr/bin/classic7-photos /usr/bin/classic7-programs /usr/bin/classic7-prompt /usr/bin/classic7-properties /usr/bin/classic7-quickshot /usr/bin/classic7-recyclebin /usr/bin/classic7-resmon /usr/bin/classic7-run /usr/bin/classic7-screensaver /usr/bin/classic7-security /usr/bin/classic7-sendto /usr/bin/classic7-sheet /usr/bin/classic7-show /usr/bin/classic7-stickynotes /usr/bin/classic7-system /usr/bin/classic7-taskbar-pin /usr/bin/classic7-taskmgr /usr/bin/classic7-timedate /usr/bin/classic7-update /usr/bin/classic7-write
++ cp -a /src/system_files/usr/libexec/. /usr/libexec/
++ chmod +x /usr/libexec/classic7-disk-helper /usr/libexec/classic7-firewall-helper /usr/libexec/classic7-first-login /usr/libexec/classic7-netdrive-helper /usr/libexec/classic7-sddm-accounts /usr/libexec/classic7-sddm-keyboard /usr/libexec/classic7-sessiond /usr/libexec/classic7-tray-fix /usr/libexec/classic7-update-system
++ cp -a /src/system_files/usr/share/plasma/. /usr/share/plasma/
++ cp -a /src/system_files/usr/share/kwin-wayland/. /usr/share/kwin-wayland/
++ cp -a /src/system_files/usr/share/applications/. /usr/share/applications/
++ cp -a /src/system_files/usr/share/classic7/. /usr/share/classic7/
++ cp -a /src/system_files/usr/share/polkit-1/. /usr/share/polkit-1/
++ cp -a /src/system_files/etc/skel/. /etc/skel/
++ for g in systemd-journal wheel
++ grep -q '^systemd-journal:' /etc/group
++ grep '^systemd-journal:' /usr/lib/group
++ for g in systemd-journal wheel
++ grep -q '^wheel:' /etc/group
++ useradd -m -u 1000 -G systemd-journal,wheel tester
++ id tester
++ mkdir -p /run/systemd/journal /run/log/journal /run/dbus
++ /usr/lib/systemd/systemd-journald
++ dbus-daemon --system --fork
++ sleep 2
++ for p in 0 2 3 4 6
+++ echo emerg alert crit err warning notice info debug
+++ cut '-d ' -f1
++ logger -p user.emerg -t classic7-test 'Test message at priority 0'
++ for p in 0 2 3 4 6
+++ echo emerg alert crit err warning notice info debug
+++ cut '-d ' -f3
++ logger -p user.crit -t classic7-test 'Test message at priority 2'
++ for p in 0 2 3 4 6
+++ echo emerg alert crit err warning notice info debug
+++ cut '-d ' -f4
++ logger -p user.err -t classic7-test 'Test message at priority 3'
++ for p in 0 2 3 4 6
+++ echo emerg alert crit err warning notice info debug
+++ cut '-d ' -f5
++ logger -p user.warning -t classic7-test 'Test message at priority 4'
++ for p in 0 2 3 4 6
+++ echo emerg alert crit err warning notice info debug
+++ cut '-d ' -f7
++ logger -p user.info -t classic7-test 'Test message at priority 6'
++ logger -p auth.info -t sudo 'tester : TTY=pts/0 ; PWD=/home/tester ; USER=root ; COMMAND=/usr/bin/true'
++ firewalld --nofork --nopid
++ sleep 6
++ mkdir -p /tmp/xdg-root
++ prev=
+++ seq 1 1200
++ chmod 700 /tmp/xdg-root
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ chmod -R a+rX /run/log/journal
++ firewall-cmd --state
++ firewall-cmd --get-default-zone
++ cat
++ chown tester /tmp/inner.sh
++ su tester -c 'timeout 600 dbus-run-session -- bash /tmp/inner.sh'
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.2' (uid=1000 pid=198 comm="/usr/libexec/kactivitymanagerd" label="crun (unconfined)")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.3' (uid=1000 pid=203 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.3' (uid=1000 pid=203 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.3' (uid=1000 pid=203 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.3' (uid=1000 pid=203 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.9' (uid=1000 pid=245 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.8' (uid=1000 pid=245 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[259]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=245 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[259]: Successfully activated service 'org.a11y.atspi.Registry'
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:203): xdg-desktop-portal-WARNING **: 16:47:22.140: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.3' (uid=1000 pid=203 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='org.kde.KSplash' requested by ':1.6' (uid=1000 pid=199 comm="plasmashell --no-respawn" label="plasmashell (enforce)")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='org.kde.kded6' requested by ':1.17' (uid=1000 pid=296 comm="/usr/libexec/kf6/kioworker /usr/lib64/qt6/plugins/" label="unconfined")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Successfully activated service 'org.kde.kded6'
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='ca.desrt.dconf' requested by ':1.19' (uid=1000 pid=302 comm="/usr/bin/kded6" label="crun (unconfined)")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Successfully activated service 'ca.desrt.dconf'
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
+xsettingsd: Loaded 16 settings from /home/tester/.config/xsettingsd/xsettingsd.conf
+xsettingsd: Unable to open connection to X server
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='org.kde.kdeconnect' requested by ':1.6' (uid=1000 pid=199 comm="plasmashell --no-respawn" label="plasmashell (enforce)")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='org.bluez.obex' requested by ':1.18' (uid=1000 pid=302 comm="/usr/bin/kded6" label="crun (unconfined)")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Successfully activated service 'org.bluez.obex'
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Successfully activated service 'org.kde.kdeconnect'
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activating service name='org.freedesktop.Notifications' requested by ':1.25' (uid=1000 pid=384 comm="/usr/bin/kdeconnectd" label="crun (unconfined)")
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Successfully activated service 'org.freedesktop.Notifications'
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
+dbus-daemon[173]: [session uid=1000 pid=173 pidfd=5] Activated service 'org.kde.KSplash' failed: Process org.kde.KSplash exited with status 1
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
+++ cat /tmp/fw-go
++ arg=
++ rm -f /tmp/fw-go
++ '[' -n '' ']'
++ prev=
++ '[' '' '!=' stop ']'
++ prev=704
++ sleep 0.5
++ XDG_RUNTIME_DIR=/tmp/xdg-root
++ WAYLAND_DISPLAY=/tmp/xdg-t/wayland-c7
++ QT_QPA_PLATFORM=wayland
++ HOME=/root
++ XDG_CONFIG_HOME=/home/tester/.config
++ XDG_CURRENT_DESKTOP=KDE
++ KDE_FULL_SESSION=true
++ KDE_SESSION_VERSION=6
++ timeout 30 classic7-firewall
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
+++ cat /tmp/fw-go
++ arg=--allowed
++ rm -f /tmp/fw-go
++ '[' -n 704 ']'
++ kill 704
++ prev=
++ '[' --allowed '!=' stop ']'
++ prev=754
++ sleep 0.5
++ XDG_RUNTIME_DIR=/tmp/xdg-root
++ WAYLAND_DISPLAY=/tmp/xdg-t/wayland-c7
++ QT_QPA_PLATFORM=wayland
++ HOME=/root
++ XDG_CONFIG_HOME=/home/tester/.config
++ XDG_CURRENT_DESKTOP=KDE
++ KDE_FULL_SESSION=true
++ KDE_SESSION_VERSION=6
++ timeout 30 classic7-firewall --allowed
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
+++ cat /tmp/fw-go
++ arg=--onoff
++ rm -f /tmp/fw-go
++ '[' -n 754 ']'
++ kill 754
++ prev=
++ '[' --onoff '!=' stop ']'
++ prev=799
++ sleep 0.5
++ XDG_RUNTIME_DIR=/tmp/xdg-root
++ WAYLAND_DISPLAY=/tmp/xdg-t/wayland-c7
++ QT_QPA_PLATFORM=wayland
++ HOME=/root
++ XDG_CONFIG_HOME=/home/tester/.config
++ XDG_CURRENT_DESKTOP=KDE
++ KDE_FULL_SESSION=true
++ KDE_SESSION_VERSION=6
++ timeout 30 classic7-firewall --onoff
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
+++ cat /tmp/fw-go
++ arg=stop
++ rm -f /tmp/fw-go
++ '[' -n 799 ']'
++ kill 799
++ prev=
++ '[' stop '!=' stop ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
++ for i in $(seq 1 1200)
++ '[' -f /tmp/fw-go ']'
++ sleep 0.5
+A connection to the bus can't be made
