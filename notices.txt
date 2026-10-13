@@ -1,0 +1,48 @@
++ cat /out/result.txt
+--- aero account
+bottom locked=false order=3;4;5;6;24;25 widgets=3:startmenu@0 4:icontasks@1 5:marginsseparator@2 6:systemtray@3 24:clock@4 25:showdesktop@5
+  +3s:
+bottom locked=false order=3;4;5;6;24;25 widgets=3:startmenu@0 4:icontasks@1 5:marginsseparator@2 6:systemtray@3 24:clock@4 25:showdesktop@5
+  +10s:
+bottom locked=false order=3;4;5;6;24;25 widgets=3:startmenu@0 4:icontasks@1 5:marginsseparator@2 6:systemtray@3 24:clock@4 25:showdesktop@5
+--- after --look classic (exit 0)
+bottom locked=false order=3;26;27;4;5;6;24;25 widgets=3:startmenu@0 4:icontasks@3 5:marginsseparator@4 6:systemtray@5 24:clock@6 25:showdesktop@7 26:quicklaunch@1 27:taskmanager@2
+  +3s:
+bottom locked=false order=3;26;27;5;6;24;25 widgets=3:startmenu@0 5:marginsseparator@3 6:systemtray@4 24:clock@5 25:showdesktop@6 26:quicklaunch@1 27:taskmanager@2
+  +10s:
+bottom locked=false order=3;26;27;5;6;24;25 widgets=3:startmenu@0 5:marginsseparator@3 6:systemtray@4 24:clock@5 25:showdesktop@6 26:quicklaunch@1 27:taskmanager@2
+--- after --look aero (exit 0)
+bottom locked=false order=3;26;28;5;6;24;25 widgets=3:startmenu@0 5:marginsseparator@3 6:systemtray@4 24:clock@5 25:showdesktop@6 26:quicklaunch@1 28:icontasks@2
+  +3s:
+bottom locked=false order=3;28;5;6;24;25 widgets=3:startmenu@0 5:marginsseparator@2 6:systemtray@3 24:clock@4 25:showdesktop@5 28:icontasks@1
+  +10s:
+bottom locked=false order=3;28;5;6;24;25 widgets=3:startmenu@0 5:marginsseparator@2 6:systemtray@3 24:clock@4 25:showdesktop@5 28:icontasks@1
+   string "B done 29"
+--- after script B (remove, then add)
+bottom locked=false order=3;29;5;6;24;25 widgets=3:startmenu@0 5:marginsseparator@2 6:systemtray@3 24:clock@4 25:showdesktop@5 29:taskmanager@1
+  +3s:
+bottom locked=false order=3;29;5;6;24;25 widgets=3:startmenu@0 5:marginsseparator@2 6:systemtray@3 24:clock@4 25:showdesktop@5 29:taskmanager@1
+  +10s:
+bottom locked=false order=3;29;5;6;24;25 widgets=3:startmenu@0 5:marginsseparator@2 6:systemtray@3 24:clock@4 25:showdesktop@5 29:taskmanager@1
+   string "A done 30"
+--- after script A (add, then remove)
+bottom locked=false order=3;30;5;6;24;25 widgets=3:startmenu@0 5:marginsseparator@2 6:systemtray@3 24:clock@4 25:showdesktop@5 30:icontasks@1
+  +3s:
+bottom locked=false order=3;30;5;6;24;25 widgets=3:startmenu@0 5:marginsseparator@2 6:systemtray@3 24:clock@4 25:showdesktop@5 30:icontasks@1
+  +10s:
+bottom locked=false order=3;30;5;6;24;25 widgets=3:startmenu@0 5:marginsseparator@2 6:systemtray@3 24:clock@4 25:showdesktop@5 30:icontasks@1
+   string "C done (no index change) 31"
+--- after script C (add, remove, no index)
+bottom locked=false order=3;5;6;24;25;31 widgets=3:startmenu@0 5:marginsseparator@1 6:systemtray@2 24:clock@3 25:showdesktop@4 31:taskmanager@5
+  +3s:
+bottom locked=false order=3;5;6;24;25;31 widgets=3:startmenu@0 5:marginsseparator@1 6:systemtray@2 24:clock@3 25:showdesktop@4 31:taskmanager@5
+  +10s:
+bottom locked=false order=3;5;6;24;25;31 widgets=3:startmenu@0 5:marginsseparator@1 6:systemtray@2 24:clock@3 25:showdesktop@4 31:taskmanager@5
++ grep -iE 'applet|remove|destroy|warning' /out/plasmashell.log
++ grep -viE 'pipewire|kpipewire'
++ tail -20
+MESA-EGL: warning: failed to get driver name for fd -1
+MESA-EGL: warning: MESA-LOADER: failed to retrieve device information
+MESA-EGL: warning: failed to get driver name for fd -1
+MESA-EGL: warning: egl: failed to create dri2 screen
+qrc:/qt/qml/plasma/applet/org/kde/panel/main.qml:401:9: QML ListModel: remove: indices [-1 - 0] out of range [0 - 7]

@@ -1,0 +1,10 @@
++ rpm -q kvantum
+kvantum-1.1.6-1.fc44.x86_64
++ ls /usr/lib64/qt6/plugins/styles/
+breeze6.so
+libkvantum.so
+oxygen6.so
++ ls -d /usr/share/icons/Breeze_Light /usr/share/icons/breeze /usr/share/icons/breeze_cursors
+/usr/share/icons/Breeze_Light
+/usr/share/icons/breeze
+/usr/share/icons/breeze_cursors
