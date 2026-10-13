@@ -69,12 +69,16 @@ Then make the package public once: `https://github.com/users/<you>/packages/cont
 |---|---|
 | `scripts/setup-github.sh` | Once |
 | `scripts/status.sh [--watch]` | Build state, image public or not |
-| `scripts/build-iso.sh [--download]` | A new USB installer |
+| `scripts/build-iso.sh [--download\|--release]` | A new USB installer (`--release`: published as a GitHub Release) |
 | `scripts/import-zip.sh <zip>` | Copy a new Classic 7 version over this repo (keeps your name, key and history) |
 | `scripts/publish.sh [--regen] "msg"` | Commit + upload changes → new image build |
 
 ## Install
 
+- **Download the installer** from [Releases](https://github.com/slqdk/FedoraClassic7/releases): the ISO comes in
+  parts under 2 GB (GitHub's limit per file). Download all parts and `SHA256SUMS`, then join them: on Windows
+  `copy /b Classic7-<version>.iso.part* Classic7-<version>.iso` in a Command Prompt, on Linux/macOS
+  `cat Classic7-<version>.iso.part* > Classic7-<version>.iso`; the release notes say how to check the checksum.
 - **Test in Proxmox first:** boot the ISO in a VM (q35, OVMF without pre-enrolled keys, 4 cores `host`,
   8 GB RAM, 64 GB disk, VirtIO-GPU).
 - **Real PC:** write the ISO to a USB stick (Fedora Media Writer, Ventoy or `dd`) and install.

@@ -9,6 +9,11 @@ on:
         required: false
         default: false
         type: boolean
+      release:
+        description: "Publish the ISO as a GitHub Release (in parts under 2 GB, GitHub's limit per file)"
+        required: false
+        default: false
+        type: boolean
       platform:
         required: true
         type: choice
@@ -42,7 +47,7 @@ jobs:
       matrix:
         disk-type: ["anaconda-iso"]
     permissions:
-      contents: read
+      contents: write     # the GitHub Release
       packages: read
       id-token: write
 
@@ -94,7 +99,7 @@ jobs:
           additional-args: --use-librepo=True --rootfs btrfs  # Bazzite sets no default root filesystem
 
       - name: Upload disk images and Checksum to Job Artifacts
-        if: inputs.upload-to-s3 != true && github.event_name != 'pull_request'
+        if: inputs.upload-to-s3 != true && inputs.release != true && github.event_name != 'pull_request'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           path: ${{ steps.build.outputs.output-directory }}
@@ -118,3 +123,64 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y rclone
           rclone copy $SOURCE_DIR S3:${{ secrets.S3_BUCKET_NAME }}
+
+      - name: Publish as a GitHub Release
+        if: inputs.release == true && github.event_name != 'pull_request'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          OUT: ${{ steps.build.outputs.output-directory }}
+        run: |
+          set -euo pipefail
+          iso="$(find "$OUT" -name '*.iso' | head -1)"
+          test -n "$iso"
+          day="$(date -u +%Y.%m.%d)"
+          tag="v$day"; n=2
+          while gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; do tag="v$day-$n"; n=$((n + 1)); done
+          name="Classic7-${tag#v}.iso"
+          mkdir -p release
+          mv "$iso" "release/$name"
+          cd release
+          sha256sum "$name" > SHA256SUMS
+          split -b 1950M -d -a 2 "$name" "$name.part"
+          rm "$name"
+          sha256sum "$name".part* >> SHA256SUMS
+          cat SHA256SUMS
+          python3 - "$name" "$GITHUB_REPOSITORY" > notes.md <<'PY'
+          import re, sys
+          name, repo = sys.argv[1], sys.argv[2]
+          text = open("../system_files/usr/share/classic7/changes.txt", encoding="utf-8").read()
+          entries, cur = [], None
+          for line in text.splitlines():
+              m = re.match(r"##\s*(\d{4}-\d\d-\d\d)\s*(.*)", line)
+              if m:
+                  cur = [m.group(1), m.group(2).strip(), []]
+                  entries.append(cur)
+              elif cur and line.strip().startswith("-"):
+                  cur[2].append(line.strip())
+          newest = entries[0][0] if entries else ""
+          print(f"""Classic 7 installer, for new installs (an installed Classic 7 updates itself).
+
+          **Download** all the `{name}.partNN` files and `SHA256SUMS`, then join the parts into one ISO
+          (GitHub allows at most 2 GB per file):
+
+          - Windows, in a Command Prompt in the download folder: `copy /b {name}.part* {name}`
+          - Linux or macOS: `cat {name}.part* > {name}`
+
+          Check it: `sha256sum -c SHA256SUMS --ignore-missing` (Linux), or in PowerShell
+          `(Get-FileHash {name}).Hash` and compare with the first line of `SHA256SUMS`.
+          Then write it to a USB stick (Fedora Media Writer, Ventoy or `dd`), boot from it and install;
+          see the [README](https://github.com/{repo}#install) (Secure Boot is described there too).
+
+          The installer installs `ghcr.io/{repo.split('/')[0].lower()}/fedoraclassic7:latest`.
+          """.replace("\n          ", "\n"))
+          print(f"## What's new ({newest})\n")
+          for date, title, items in entries:
+              if date != newest:
+                  break
+              print(f"### {title}\n")
+              print("\n".join(items) + "\n")
+          PY
+          gh release create "$tag" --repo "$GITHUB_REPOSITORY" --title "Classic 7 ${tag#v}" --notes-file notes.md \
+              "$name".part* SHA256SUMS
+          echo "::notice title=release::https://github.com/$GITHUB_REPOSITORY/releases/tag/$tag"
