@@ -508,7 +508,7 @@ class SheetWindow(QMainWindow):
         self.size_box = QComboBox()
         self.size_box.setEditable(True)
         self.size_box.addItems(FONT_SIZES)
-        self.size_box.setFixedWidth(52)
+        self.size_box.setFixedWidth(60)
         self.size_box.lineEdit().returnPressed.connect(self._size_entered)
         self.size_box.activated.connect(lambda _i: self._size_entered())
         borders = QMenu(self)
@@ -722,11 +722,19 @@ class SheetWindow(QMainWindow):
         g.add(self._menu_button("AutoSum", [], "Σ", [
             (n, lambda fn=fn: self.autosum(fn)) for n, fn in (("Sum", "SUM"), ("Average", "AVERAGE"),
                                                              ("Count Numbers", "COUNT"), ("Max", "MAX"), ("Min", "MIN"))]))
-        for cat, label in (("Financial", "Financial"), ("Logical", "Logical"), ("Text", "Text"),
-                           ("Date & Time", "Date &&\nTime"), ("Lookup & Reference", "Lookup &&\nReference"),
-                           ("Math & Trig", "Math &&\nTrig"), ("Statistical", "More\nFunctions")):
-            names = sorted(set(F.CATEGORIES.get(cat, [])))
-            g.add(self._menu_button(label, [], label[0], [(n, lambda n=n: self.insert_function(n)) for n in names]))
+        for cat, label, icons in (("Financial", "Financial", ["wallet-open"]),
+                                  ("Logical", "Logical", ["code-context"]),
+                                  ("Text", "Text", ["draw-text", "format-text-code"]),
+                                  ("Date & Time", "Date &&\nTime", ["view-calendar-day", "chronometer"]),
+                                  ("Lookup & Reference", "Lookup &&\nReference", ["edit-find"]),
+                                  ("Math & Trig", "Math &&\nTrig", ["accessories-calculator"]),
+                                  ("Statistical", "More\nFunctions", ["overflow-menu", "view-more-symbolic"])):
+            if cat == "Statistical":     # More Functions: Statistical, Engineering, Information
+                items = [(c, [(n, lambda n=n: self.insert_function(n)) for n in sorted(set(F.CATEGORIES.get(c, [])))])
+                         for c in ("Statistical", "Engineering", "Information") if F.CATEGORIES.get(c)]
+            else:
+                items = [(n, lambda n=n: self.insert_function(n)) for n in sorted(set(F.CATEGORIES.get(cat, [])))]
+            g.add(self._menu_button(label, icons, label[0], items))
         g = r.group(tab, "Defined Names")
         g.add(rb.big_button(self.a_name_manager, text="Name\nManager"))
         self.use_in_formula = QMenu(self)
