@@ -105,6 +105,7 @@ Personalization > Explorer > *Restore Taskbar*, or System Settings > Colors & Th
 <img src="docs/screens/accessories.png" alt="All Programs > Accessories" width="49%">
 <img src="docs/screens/taskbar-menu.png" alt="The taskbar's right-click menu" width="49%">
 </p>
+<p align="center"><img src="docs/screens/taskbar-properties.png" alt="Taskbar and Start Menu Properties" width="46%"></p>
 
 - **Start menu** (the Start button or the Windows key): pinned programs at the top left, then the programs you
   used last; rest the mouse on Write, Show, Mail, Steam or Firefox for a **jump list** (recent documents,
