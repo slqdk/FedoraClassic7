@@ -342,6 +342,8 @@ class JobsWindow(QWidget):
         v.addWidget(foot)
         self.panels: dict[str, JobPanel] = {}
         self.setFixedWidth(460)
+        self.setWindowFlag(Qt.WindowMinMaxButtonsHint, False)
+        self.setWindowFlag(Qt.WindowMinimizeButtonHint, True)
         self._more_text()
 
     def _more_text(self):
@@ -394,7 +396,8 @@ class JobsWindow(QWidget):
         self._fit()
 
     def _fit(self):
-        QTimer.singleShot(0, lambda: self.resize(self.width(), self.sizeHint().height()))
+        # fixed size, so the window has no maximize button, as in Windows
+        QTimer.singleShot(0, lambda: self.setFixedSize(460, self.sizeHint().height()))
 
     def refresh(self):
         for p in self.panels.values():

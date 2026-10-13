@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Action Center
+GenericName=Security and maintenance
+Comment=Review recent messages and resolve problems with your computer
+Exec=classic7-actioncenter
+Icon=flag
+Terminal=false
+Categories=Settings;System;
+Keywords=action center;security;maintenance;problems;firewall;updates;
+NoDisplay=true

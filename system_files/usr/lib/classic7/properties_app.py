@@ -1839,8 +1839,8 @@ class PropertiesDialog(QDialog):
             self.setWindowTitle(f"{paths[0].name}, ... Properties")
             self.setWindowIcon(themed("document-multiple", "edit-copy"))
             self._add(MultiPage(paths), "General")
-        self.setFixedWidth(404)
-        self.resize(404, 530)
+        # a property sheet doesn't change size (and so gets no maximize button)
+        self.setFixedSize(404, 530)
 
     def _add(self, page: Page, title: str):
         page.changed.connect(lambda: self.apply_btn.setEnabled(True))

@@ -1,0 +1,13 @@
+#!/usr/bin/python3
+"""Classic 7: see /usr/lib/classic7/actioncenter_app.py"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+if __name__ == "__main__":
+    if "--json" in sys.argv[1:]:
+        from actioncenter_checks import main_json      # quick: no window toolkit
+        sys.exit(main_json())
+    from actioncenter_app import main
+    sys.exit(main(sys.argv[1:]))

@@ -84,37 +84,53 @@ if (tasks) {
 }
 
 panel.addWidget("org.kde.plasma.marginsseparator");
-// Network icon in the tray: the Classic 7 one (IP shown at once) instead of Plasma's.
-// Plasma's stays "known" so the tray doesn't add it back by itself.
+// The notification area of Windows 7: Classic 7's network and volume icons instead of Plasma's,
+// and the Action Center flag. Plasma's stay "known" so the tray doesn't add them back by itself.
+// Plasma 6.7 keeps the tray's items in the tray applet itself; older Plasma in a containment of
+// its own (SystrayContainmentId).
 function classic7Tray(tray) {
     if (!tray) return;
+    var swaps = {"org.kde.plasma.networkmanagement": "org.classic7.network",
+                 "org.kde.plasma.volume": "org.classic7.volume"};
+    var adds = ["org.classic7.actioncenter"];
+    function fixLists(obj) {
+        obj.currentConfigGroup = ["General"];
+        function list(k) {
+            var v = obj.readConfig(k, []);
+            if (typeof v === "string") v = v ? v.split(",") : [];
+            return v;
+        }
+        var extra = list("extraItems").filter(function (x) { return !(x in swaps); });
+        var known = list("knownItems");
+        var ours = Object.keys(swaps).map(function (k) { return swaps[k]; }).concat(adds);
+        ours.forEach(function (x) { if (extra.indexOf(x) === -1) extra.push(x); });
+        Object.keys(swaps).concat(ours).forEach(function (x) { if (known.indexOf(x) === -1) known.push(x); });
+        obj.writeConfig("extraItems", extra);
+        obj.writeConfig("knownItems", known);
+    }
     tray.currentConfigGroup = [];
     var id = tray.readConfig("SystrayContainmentId");
     var c = id ? desktopById(id) : null;
-    if (!c) return;
-    var nm = "org.kde.plasma.networkmanagement", ours = "org.classic7.network";
-    // Plasma's icon may already be running in the tray: remove it, not only from the list
-    c.widgets(nm).forEach(function (w) { w.remove(); });
-    c.currentConfigGroup = ["General"];
-    function list(k) {
-        var v = c.readConfig(k, []);
-        if (typeof v === "string") v = v ? v.split(",") : [];
-        return v;
+    if (c) {
+        // Plasma's icons may already be running in the tray: remove them, not only from the list
+        Object.keys(swaps).forEach(function (x) { c.widgets(x).forEach(function (w) { w.remove(); }); });
+        fixLists(c);
+        c.reloadConfig();
+    } else {
+        fixLists(tray);
+        tray.reloadConfig();
     }
-    var extra = list("extraItems").filter(function (x) { return x !== nm; });
-    var known = list("knownItems");
-    [nm, ours].forEach(function (x) { if (known.indexOf(x) === -1) known.push(x); });
-    if (extra.indexOf(ours) === -1) extra.push(ours);
-    c.writeConfig("extraItems", extra);
-    c.writeConfig("knownItems", known);
-    c.reloadConfig();
 }
 classic7Tray(panel.addWidget("org.kde.plasma.systemtray"));
 
-var clock = panel.addWidget("org.kde.plasma.digitalclock");
-if (clock) {
-    clock.currentConfigGroup = ["Appearance"];
-    clock.writeConfig("showDate", false);
+// the Windows 7 clock (time, and the date on a tall taskbar; calendar and clock face on click)
+var clock = panel.addWidget("org.classic7.clock");
+if (!clock) {
+    clock = panel.addWidget("org.kde.plasma.digitalclock");
+    if (clock) {
+        clock.currentConfigGroup = ["Appearance"];
+        clock.writeConfig("showDate", false);
+    }
 }
 // the narrow Show desktop button at the right end, like Windows 7
 panel.addWidget("org.classic7.showdesktop");

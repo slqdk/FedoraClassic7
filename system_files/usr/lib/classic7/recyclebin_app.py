@@ -184,20 +184,29 @@ def update_desktop_icon(empty: bool):
                 os.chmod(tmp, mode)
                 tmp.replace(f)
             except OSError:
-                pass
+                continue
+            # the desktop shows desktop:/ items; tell it this one changed (KDE's desktop watcher
+            # would too, a moment later)
+            notify_kde(["desktop:/" + urllib.parse.quote(f.name), QUrl_file(f)], trash=False)
 
 
-def notify_kde():
-    """Tell open trash:/ views (Explorer, the desktop) to look again, as KDE's own trash does."""
+def QUrl_file(p: Path) -> str:  # noqa: N802 - a file:// URL the way KDE writes them
+    return "file://" + urllib.parse.quote(str(p))
+
+
+def notify_kde(changed: list[str] | None = None, trash: bool = True):
+    """Tell open views (Explorer, the desktop) to look again, as KDE's own trash does: trash:/
+    for the Recycle Bin's contents, and the given URLs as changed files."""
     try:
         import dbus
         import dbus.lowlevel
         bus = dbus.SessionBus()
-        m = dbus.lowlevel.SignalMessage("/", "org.kde.KDirNotify", "FilesAdded")
-        m.append("trash:/", signature="s")
-        bus.send_message(m)
+        if trash:
+            m = dbus.lowlevel.SignalMessage("/", "org.kde.KDirNotify", "FilesAdded")
+            m.append("trash:/", signature="s")
+            bus.send_message(m)
         m = dbus.lowlevel.SignalMessage("/", "org.kde.KDirNotify", "FilesChanged")
-        m.append(["trash:/"], signature="as")
+        m.append((["trash:/"] if trash else []) + list(changed or []), signature="as")
         bus.send_message(m)
     except Exception:  # noqa: BLE001 - no session bus: nothing to tell
         pass

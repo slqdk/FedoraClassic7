@@ -1,0 +1,17 @@
+{
+    "KPlugin": {
+        "Authors": [{ "Name": "Classic 7" }],
+        "Category": "Date and Time",
+        "Description": "The taskbar clock of Windows 7: the time (and the date on a tall taskbar), and a calendar with a clock face when clicked",
+        "EnabledByDefault": true,
+        "FormFactors": ["desktop"],
+        "Icon": "preferences-system-time",
+        "Id": "org.classic7.clock",
+        "License": "GPL-2.0-or-later",
+        "Name": "Clock (Classic 7)",
+        "Version": "1.0"
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-KDE-Keywords": "clock,calendar,date,time,ur,kalender,dato,tid",
+    "X-Plasma-API-Minimum-Version": "6.0"
+}

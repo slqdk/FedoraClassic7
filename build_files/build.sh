@@ -164,7 +164,8 @@ chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-mail /usr/bin/classic7-netw
     /usr/bin/classic7-system /usr/bin/classic7-devmgmt /usr/bin/classic7-sheet /usr/bin/classic7-arrange \
     /usr/bin/classic7-programs /usr/bin/classic7-notepad /usr/bin/classic7-calc /usr/bin/classic7-charmap \
     /usr/bin/classic7-stickynotes /usr/bin/classic7-quickshot /usr/bin/classic7-paint \
-    /usr/bin/classic7-recyclebin /usr/bin/classic7-properties /usr/libexec/classic7-sessiond
+    /usr/bin/classic7-recyclebin /usr/bin/classic7-properties /usr/libexec/classic7-sessiond \
+    /usr/bin/classic7-timedate /usr/bin/classic7-mixer /usr/bin/classic7-actioncenter
 # KWin looks for window switchers and scripts in kwin-wayland/ (Plasma 6.4+) and, for older
 # packages, in kwin/: make ours visible in both
 for d in tabbox/classic7 scripts/classic7-aeroshake; do
@@ -183,7 +184,7 @@ printf '{"build": "%s", "base": "%s", "content": "%s"}\n' "$(date -u +%Y-%m-%dT%
     "$base" "$content" > /usr/share/classic7/build-info.json
 chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
 python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PySide6.QtPrintSupport, PIL, pyte, docx, olefile"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app, accessories, notepad_app, calc_engine, calc_app, charmap_app, stickynotes_app, quickshot_app, paint_canvas, paint_app, recyclebin_app, properties_app, sessiond"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app, accessories, notepad_app, calc_engine, calc_app, charmap_app, stickynotes_app, quickshot_app, paint_canvas, paint_app, recyclebin_app, properties_app, sessiond, timedate_app, mixer_app, actioncenter_checks, actioncenter_app, cpl_page"
 python3 -c "import PySide6.QtWebEngineWidgets, keyring, html2text" || echo "WARNING: Mail falls back to the simple message view"
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
@@ -282,6 +283,13 @@ assert p.short_size(1285) == '1.25 KB', p.short_size(1285)
 assert p.size_text(18) == '18 bytes (18 bytes)'
 assert s.remaining_text(75) == 'About 1 minute', s.remaining_text(75)
 assert s.remaining_text(3700) == 'About 1 hour and 2 minutes', s.remaining_text(3700)"
+# Notification area and clock: Classic 7's clock, volume and Action Center applets
+for a in clock volume actioncenter network; do
+    python3 -c "import json, sys; json.load(open(sys.argv[1]))" /usr/share/plasma/plasmoids/org.classic7.$a/metadata.json
+    test -f /usr/share/plasma/plasmoids/org.classic7.$a/contents/ui/main.qml
+done
+grep -q "org.classic7.clock" /usr/share/plasma/look-and-feel/org.classic7.desktop/contents/layouts/org.kde.plasma.desktop-layout.js
+/usr/bin/classic7-actioncenter --json | python3 -c "import json, sys; assert 'messages' in json.load(sys.stdin)"
 # Sheet (spreadsheets)
 test -x /usr/bin/classic7-sheet
 test -f /usr/share/applications/classic7-sheet.desktop

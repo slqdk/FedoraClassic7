@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Date and Time
+Comment=Set the date, time and time zone
+Exec=classic7-timedate
+Icon=preferences-system-time
+Terminal=false
+Categories=Settings;System;
+Keywords=clock;date;time;time zone;timezone;ntp;internet time;
+NoDisplay=true

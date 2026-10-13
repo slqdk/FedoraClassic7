@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 """Classic 7 login fixes, run before Plasma's desktop starts (classic7-tray-fix.service):
 
- 1. One network icon in the system tray: edits the saved panel layout directly, removing
-    Plasma's own network applet and keeping Classic 7's once. (Doing it while Plasma runs
-    doesn't stick: Plasma writes its in-memory tray list back.)  Marker: tray-fixed
+ 1. The Windows 7 notification area: edits the saved panel layout directly, replacing Plasma's
+    network and volume icons with Classic 7's (each once), adding the Action Center flag, and
+    making the taskbar clock the Windows 7 one. (Doing it while Plasma runs doesn't stick:
+    Plasma writes its in-memory tray list back.)  Marker: tray-fixed-4
  2. Explorer's navigation pane without Recent / Search For / Tags. KDE creates the places
     file the first time a file window opens, so this is retried at each login until it
     exists.  Marker: places-fixed
@@ -22,9 +23,17 @@ import sys
 from pathlib import Path
 
 NM, OURS = "org.kde.plasma.networkmanagement", "org.classic7.network"
+SWAPS = {NM: OURS, "org.kde.plasma.volume": "org.classic7.volume"}     # Plasma's tray icon -> ours
+ADDS = ["org.classic7.actioncenter"]                                   # ours, new in the tray
+CLOCK, OUR_CLOCK = "org.kde.plasma.digitalclock", "org.classic7.clock"
 CONFIG = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
 APPLETSRC = CONFIG / "plasma-org.kde.plasma.desktop-appletsrc"
-MARKER = CONFIG / "classic7" / "tray-fixed-3"     # -3: Plasma 6.7 keeps the tray items inside the tray applet
+# -3: Plasma 6.7 keeps the tray items inside the tray applet; -4: volume, Action Center, clock
+MARKER = CONFIG / "classic7" / "tray-fixed-4"
+
+
+def installed(plugin: str) -> bool:
+    return Path(f"/usr/share/plasma/plasmoids/{plugin}").is_dir()
 
 
 def plasma_running() -> bool:
@@ -66,30 +75,35 @@ def set_key(lines, name, value):
 
 def fix(text: str) -> tuple[str, bool]:
     sections = parse(text)
+    swaps = {k: v for k, v in SWAPS.items() if installed(v)}
+    adds = [a for a in ADDS if installed(a)]
+    ours_all = set(swaps.values()) | set(adds)
     # Where the tray's own items live:
     #  * Plasma 6.7+: inside the system tray applet, [Containments][2][Applets][7][Applets][17]
     #  * older: in a separate containment named by SystrayContainmentId, [Containments][8][Applets][20]
     prefixes = []
+    panels = set()
     for head, lines in sections:
         if head and key(lines, "plugin") == "org.kde.plasma.systemtray":
             prefixes.append(head[:-1] + "][Applets][")
+        if head and key(lines, "plugin") == "org.kde.panel":
+            panels.add(head)
         tray_id = key(lines, "SystrayContainmentId")
         if tray_id:
             prefixes.append(f"[Containments][{tray_id}][Applets][")
-    if not prefixes:
-        return text, False
+    changed = False
     remove: set[str] = set()          # "[Containments][2][Applets][7][Applets][17]" headers
     for prefix in prefixes:
-        ours_seen = False
+        seen: set[str] = set()
         for head, lines in sections:
             if not head or not head.startswith(prefix) or not re.fullmatch(r"\d+\]", head[len(prefix):]):
                 continue
             plugin = key(lines, "plugin")
-            if plugin == NM or (plugin == OURS and ours_seen):
+            if plugin in swaps or (plugin in ours_all and plugin in seen):
                 remove.add(head)
-            elif plugin == OURS:
-                ours_seen = True
-    changed = bool(remove)
+            elif plugin in ours_all:
+                seen.add(plugin)
+    changed |= bool(remove)
     out = []
     for head, lines in sections:
         if head and any(head == r or head.startswith(r[:-1] + "][") for r in remove):
@@ -97,11 +111,12 @@ def fix(text: str) -> tuple[str, bool]:
         # the tray's entry lists: in Plasma 6 they are in the system tray applet's own
         # [Containments][panel][Applets][tray][General] group (older: the inner containment's)
         if head and key(lines, "extraItems") is not None:
-            extra = [x for x in (key(lines, "extraItems") or "").split(",") if x and x != NM]
-            if OURS not in extra:
-                extra.append(OURS)
+            extra = [x for x in (key(lines, "extraItems") or "").split(",") if x and x not in swaps]
             known = [x for x in (key(lines, "knownItems") or "").split(",") if x]
-            for x in (NM, OURS):
+            for x in [*swaps.values(), *adds]:
+                if x not in extra:
+                    extra.append(x)
+            for x in [*swaps, *swaps.values(), *adds]:
                 if x not in known:
                     known.append(x)
             new_extra, new_known = ",".join(extra), ",".join(known)
@@ -109,6 +124,12 @@ def fix(text: str) -> tuple[str, bool]:
                 set_key(lines, "extraItems", new_extra)
                 set_key(lines, "knownItems", new_known)
                 changed = True
+        # Plasma's clock on a panel becomes the Windows 7 one (same place, same size)
+        if (head and installed(OUR_CLOCK) and key(lines, "plugin") == CLOCK
+                and any(head.startswith(pnl[:-1] + "][Applets][") for pnl in panels)
+                and re.fullmatch(r"\[Containments\]\[\d+\]\[Applets\]\[\d+\]", head)):
+            set_key(lines, "plugin", OUR_CLOCK)
+            changed = True
         out.append((head, lines))
     if not changed:
         return text, False
@@ -212,7 +233,7 @@ def main() -> int:
         recycle_fix(force)
     except OSError as e:
         print(f"classic7-tray-fix: Recycle Bin icon not changed: {e}")
-    do_tray = (force or not MARKER.exists()) and Path(f"/usr/share/plasma/plasmoids/{OURS}").is_dir()
+    do_tray = (force or not MARKER.exists()) and installed(OURS)
     do_menu = (force or not MENU_MARKER.exists()) and MENU_SO.exists()
     if not (do_tray or do_menu):
         return 0
@@ -227,7 +248,7 @@ def main() -> int:
     if do_tray:
         new, c = fix(new)
         if c:
-            print("classic7-tray-fix: removed Plasma's network icon from the system tray")
+            print("classic7-tray-fix: the notification area and the clock are the Windows 7 ones")
         changed |= c
     if do_menu:
         new, c = menu_fix(new)

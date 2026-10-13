@@ -50,11 +50,20 @@ shot() { DISPLAY=:99 import -window root "/out/$1.png"; }
 WIN=$(X search --name "KWin" | head -1)
 X windowactivate --sync $WIN 2>/dev/null; X windowmove $WIN 0 0 2>/dev/null
 shot 01-desktop
-# a real KIO copy, big enough to take a few seconds
-head -c 1200M /dev/urandom > $HOME/Downloads/big.bin
-(timeout 120 kioclient copy $HOME/Downloads/big.bin $HOME/Documents/ > /out/kioclient.log 2>&1 &)
-sleep 2.5
+# a real KIO copy of many files, so it takes a few seconds
+python3 -c "
+import os
+os.makedirs('$HOME/Downloads/Photos', exist_ok=True)
+for i in range(3000):
+    with open(f'$HOME/Downloads/Photos/IMG_{i:04d}.jpg', 'wb') as f: f.write(os.urandom(150000))
+with open('$HOME/Downloads/big.bin', 'wb') as f: f.write(os.urandom(200 * 1024 * 1024))"
+sync
+(timeout 120 kioclient copy $HOME/Downloads/Photos $HOME/Downloads/big.bin $HOME/Documents/ > /out/kioclient.log 2>&1 &)
+sleep 1.6
 shot 02-copying
+sleep 1.2
+DISPLAY=:99 xdotool mousemove 0 0
+shot 02b-copying
 sleep 30
 # the Recycle Bin: delete through KIO, then look at the desktop icon and the window
 timeout 30 kioclient move $HOME/Documents/report.txt trash:/ >> /out/kioclient.log 2>&1

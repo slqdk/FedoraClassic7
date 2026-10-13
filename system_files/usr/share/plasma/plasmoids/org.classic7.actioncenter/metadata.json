@@ -1,0 +1,18 @@
+{
+    "KPlugin": {
+        "Authors": [{ "Name": "Classic 7" }],
+        "Category": "System Information",
+        "Description": "The Windows 7 Action Center flag: messages about the firewall, updates, disk space and programs that stopped working",
+        "EnabledByDefault": true,
+        "FormFactors": ["desktop"],
+        "Icon": "flag",
+        "Id": "org.classic7.actioncenter",
+        "License": "GPL-2.0-or-later",
+        "Name": "Action Center (Classic 7)",
+        "Version": "1.0"
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-KDE-Keywords": "action center,security,maintenance,problems,firewall,updates",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-NotificationAreaCategory": "SystemServices"
+}

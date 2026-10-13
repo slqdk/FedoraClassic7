@@ -1,0 +1,18 @@
+{
+    "KPlugin": {
+        "Authors": [{ "Name": "Classic 7" }],
+        "Category": "Multimedia",
+        "Description": "The Windows 7 volume control: one slider for the speakers, mute, and the Volume Mixer",
+        "EnabledByDefault": true,
+        "FormFactors": ["desktop"],
+        "Icon": "audio-volume-high",
+        "Id": "org.classic7.volume",
+        "License": "GPL-2.0-or-later",
+        "Name": "Volume (Classic 7)",
+        "Version": "1.0"
+    },
+    "KPackageStructure": "Plasma/Applet",
+    "X-KDE-Keywords": "volume,sound,audio,speakers,mute,mixer,lyd,lydstyrke",
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-NotificationAreaCategory": "Hardware"
+}

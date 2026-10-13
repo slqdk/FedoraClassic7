@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Volume Mixer
+Comment=Volume of the speakers and of each program playing sound
+Exec=classic7-mixer
+Icon=audio-volume-high
+Terminal=false
+Categories=AudioVideo;Audio;Mixer;
+Keywords=volume;mixer;sound;audio;sndvol;
