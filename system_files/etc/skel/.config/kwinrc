@@ -1,0 +1,17 @@
+[org.kde.kdecoration2]
+library=org.kde.kwin.aurorae
+theme=__aurorae__svg__Classic7Aero
+BorderSize=Large
+BorderSizeAuto=false
+ButtonsOnLeft=M
+ButtonsOnRight=IAX
+
+[TabBox]
+LayoutName=classic7aero
+
+[Plugins]
+blurEnabled=true
+
+[Effect-blur]
+BlurStrength=8
+NoiseStrength=0

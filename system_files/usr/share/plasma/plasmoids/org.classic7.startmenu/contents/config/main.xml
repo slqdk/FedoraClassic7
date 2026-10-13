@@ -15,5 +15,25 @@
     <entry name="recentCount" type="Int">
       <default>8</default>
     </entry>
+    <entry name="look" type="String">
+      <label>The look of the menu: classic, aero (glass) or basic</label>
+      <default>classic</default>
+    </entry>
+    <entry name="powerAction" type="String">
+      <label>What the power button does: shutdown, switch-user, logout, lock, reboot, suspend or hibernate</label>
+      <default>shutdown</default>
+    </entry>
+    <entry name="showRecentPrograms" type="Bool">
+      <label>Store and show recently opened programs</label>
+      <default>true</default>
+    </entry>
+    <entry name="showJumpLists" type="Bool">
+      <label>Store and show recently opened items in jump lists</label>
+      <default>true</default>
+    </entry>
+    <entry name="largeIcons" type="Bool">
+      <label>Large icons in the left column</label>
+      <default>true</default>
+    </entry>
   </group>
 </kcfg>

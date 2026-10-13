@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Classic7Aero
+Comment=Windows 7 style controls for GTK programs (Classic 7 Aero and Basic looks)
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+GtkTheme=Classic7Aero
+IconTheme=breeze
+CursorTheme=breeze_cursors

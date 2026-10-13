@@ -1,0 +1,18 @@
+{
+    "KPackageStructure": "Plasma/LookAndFeel",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Classic7 project"
+            }
+        ],
+        "Category": "",
+        "Description": "Glass window borders and taskbar, the round Start orb and Windows 7 style controls",
+        "Id": "org.classic7.aero.desktop",
+        "License": "Apache-2.0",
+        "Name": "Classic 7 Aero",
+        "Version": "1.0"
+    },
+    "Keywords": "Desktop;Workspace;Appearance;Look and Feel;Aero;Glass;Windows 7;",
+    "X-Plasma-APIVersion": "2"
+}

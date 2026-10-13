@@ -1,0 +1,11 @@
+[KDE]
+LookAndFeelPackage=org.classic7.aero.desktop
+DefaultLightLookAndFeel=org.classic7.aero.desktop
+DefaultDarkLookAndFeel=org.classic7.aero.desktop
+widgetStyle=kvantum
+
+[General]
+ColorScheme=Classic7Aero
+
+[WM]
+activeFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1

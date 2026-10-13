@@ -1,0 +1,17 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Classic7 project"
+            }
+        ],
+        "Category": "",
+        "Description": "Glass taskbar and popups",
+        "EnabledByDefault": true,
+        "Id": "classic7-aero",
+        "License": "Apache-2.0",
+        "Name": "Classic 7 Aero",
+        "Version": "1.0"
+    },
+    "X-Plasma-API": "5.0"
+}

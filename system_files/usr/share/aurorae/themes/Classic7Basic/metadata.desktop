@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Classic 7 Basic
+Comment=Light blue window borders
+X-KDE-PluginInfo-Author=Classic7 project
+X-KDE-PluginInfo-Name=Classic7Basic
+X-KDE-PluginInfo-Version=1.0
+X-KDE-PluginInfo-License=Apache-2.0
+X-Plasma-API=declarativeappletscript
+

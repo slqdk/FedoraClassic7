@@ -18,6 +18,7 @@ ListView {
     property bool scrollable: true        // false: show what fits, no scroll bar (recent programs)
     property var hiddenIds: []            // favorite ids not to show (normalised, see key())
     property bool jumpable: false         // programs show their jump list when the mouse rests on them
+    property string entryStyle: "classic" // the highlight: classic or light (see MenuEntry)
 
     function key(id) {
         return String(id || "").replace(/^applications:/, "").replace(/\.desktop$/, "").toLowerCase();
@@ -43,6 +44,7 @@ ListView {
         text: model.display ?? ""
         iconSource: model.decoration
         iconSize: list.iconSize
+        style: list.entryStyle
         arrow: list.folders && (model.hasChildren ?? false)
         current: ListView.isCurrentItem && list.activeFocus
         // programs can be dragged to the Quick Launch icons on the taskbar (or the desktop)

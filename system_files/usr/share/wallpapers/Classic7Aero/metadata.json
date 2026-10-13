@@ -1,0 +1,12 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Classic7 project"
+            }
+        ],
+        "Id": "Classic7Aero",
+        "License": "Apache-2.0",
+        "Name": "Classic 7 Aero"
+    }
+}

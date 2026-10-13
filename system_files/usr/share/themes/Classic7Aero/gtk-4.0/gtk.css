@@ -1,0 +1,24 @@
+/* Classic 7 Aero for GTK 4 (programs that don't use libadwaita): Windows 7 colours and buttons. */
+@import url("resource:///org/gtk/libgtk/theme/Default/Default-light.css");
+
+@define-color accent_bg_color #3399ff;
+@define-color accent_color #0066cc;
+@define-color window_bg_color #f0f0f0;
+@define-color view_bg_color #ffffff;
+@define-color headerbar_bg_color #dce9f7;
+
+window, .background { background-color: #f0f0f0; color: #000000; }
+button {
+  color: #000000; border: 1px solid #707070; border-radius: 3px;
+  background-image: linear-gradient(to bottom, #f2f2f2, #ebebeb 50%, #dddddd 50%, #cfcfcf);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+button:hover { border-color: #3c7fb1; background-image: linear-gradient(to bottom, #eaf6fd, #d9f0fc 50%, #bee6fd 50%, #a7d9f5); }
+button:active, button:checked { border-color: #2c628b; background-image: linear-gradient(to bottom, #e5f4fc, #c4e5f6 50%, #98d1ef 50%, #68b3db); }
+button.flat { border-color: transparent; background-image: none; box-shadow: none; }
+button.flat:hover { border-color: #7da2ce; background-image: linear-gradient(#f7fbff, #dce9fb); }
+entry { border: 1px solid #abadb3; border-radius: 2px; background-color: #ffffff; }
+entry:focus-within { border-color: #569de5; outline: none; }
+progressbar > trough > progress { background-image: linear-gradient(to bottom, #d9fbd7, #9aea95 50%, #06b025 50%, #4ed553); }
+headerbar { background-image: linear-gradient(to bottom, #dce9f7, #c4d8ef 50%, #b9d1ea); border-bottom: 1px solid #8ea1b8; }
+tooltip { background-image: linear-gradient(#ffffff, #e4e5f0); color: #575757; border: 1px solid #767676; }

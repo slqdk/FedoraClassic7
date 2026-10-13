@@ -1,5 +1,7 @@
 /*
-    One row of the Start menu: icon + text, navy highlight like a classic menu.
+    One row of the Start menu: icon + text. The highlight follows the look: navy like a
+    classic menu, Explorer's light blue in the white column of Aero and Basic, a glass
+    button in Aero's right column.
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 import QtQuick
@@ -20,6 +22,7 @@ MouseArea {
     property string toolTip: ""
     property string dragUrl: ""         // a program's .desktop file: drag it to the taskbar
     property bool jumpArrow: false      // the program has a jump list (recent documents, tasks)
+    property string style: "classic"    // classic, light (white column) or glass (Aero's right column)
 
     signal activated()
     signal contextMenuRequested(real x, real y)
@@ -69,7 +72,51 @@ MouseArea {
         anchors.leftMargin: 2
         anchors.rightMargin: 2
         color: Kirigami.Theme.highlightColor
-        visible: entry.highlighted
+        visible: entry.highlighted && entry.style === "classic"
+    }
+
+    // Explorer's selection: light blue, rounded, with a border
+    Rectangle {
+        anchors.fill: parent
+        anchors.leftMargin: 2
+        anchors.rightMargin: 2
+        radius: 3
+        visible: entry.highlighted && entry.style === "light"
+        border.color: "#7DA2CE"
+        gradient: Gradient {
+            GradientStop { position: 0; color: "#DCEBFC" }
+            GradientStop { position: 1; color: "#C1DBFC" }
+        }
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 1
+            radius: 2
+            color: "transparent"
+            border.color: "#99FFFFFF"
+        }
+    }
+
+    // a glass button on Aero's right column
+    Rectangle {
+        anchors.fill: parent
+        anchors.leftMargin: 1
+        anchors.rightMargin: 1
+        radius: 3
+        visible: entry.highlighted && entry.style === "glass"
+        border.color: "#99000000"
+        gradient: Gradient {
+            GradientStop { position: 0; color: "#55FFFFFF" }
+            GradientStop { position: 0.5; color: "#28FFFFFF" }
+            GradientStop { position: 0.51; color: "#14FFFFFF" }
+            GradientStop { position: 1; color: "#30FFFFFF" }
+        }
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: 1
+            radius: 2
+            color: "transparent"
+            border.color: "#80FFFFFF"
+        }
     }
 
     RowLayout {
@@ -81,7 +128,7 @@ MouseArea {
         Text {
             visible: entry.backArrow
             text: "◂"
-            color: entry.highlighted ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
+            color: entry.highlighted && entry.style === "classic" ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
             font.pixelSize: label.font.pixelSize
         }
 
@@ -104,14 +151,17 @@ MouseArea {
             font.bold: entry.bold
             font.family: Kirigami.Theme.defaultFont.family
             font.pointSize: Kirigami.Theme.defaultFont.pointSize
-            color: entry.highlighted ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
+            color: entry.highlighted && entry.style === "classic" ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
             textFormat: Text.PlainText
+            // white text on glass gets a soft dark edge so it reads on any background
+            style: entry.style === "glass" ? Text.Raised : Text.Normal
+            styleColor: "#66000000"
         }
 
         Text {
             visible: entry.arrow || entry.jumpArrow
             text: "▸"
-            color: entry.highlighted ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
+            color: entry.highlighted && entry.style === "classic" ? Kirigami.Theme.highlightedTextColor : Kirigami.Theme.textColor
             font.pixelSize: label.font.pixelSize + 2
         }
     }

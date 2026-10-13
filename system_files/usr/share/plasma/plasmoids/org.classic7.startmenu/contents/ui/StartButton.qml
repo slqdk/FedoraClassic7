@@ -1,5 +1,6 @@
 /*
-    The Start button: a raised classic button, drawn pressed while the menu is open.
+    The Start button: a raised classic button or the round orb, drawn pressed while the menu is
+    open; the orb also glows under the mouse (a -hover.svg next to the image).
     SPDX-License-Identifier: GPL-2.0-or-later
 */
 import QtQuick
@@ -13,6 +14,8 @@ MouseArea {
 
     readonly property string imagePath: Plasmoid.configuration.buttonImage
     readonly property string pressedPath: imagePath.replace(/\.svg$/, "-pressed.svg")
+    readonly property string hoverPath: imagePath.replace(/\.svg$/, "-hover.svg")
+    readonly property bool down: root.expanded || (button.pressed && button.containsMouse)
     readonly property bool vertical: Plasmoid.formFactor === PlasmaCore.Types.Vertical
     // keep the image's aspect ratio at the panel's thickness
     readonly property real ratio: normal.implicitHeight > 0 ? normal.implicitWidth / normal.implicitHeight : 58 / 24
@@ -39,10 +42,21 @@ MouseArea {
         anchors.fill: parent
         source: "file://" + button.imagePath
         fillMode: Image.PreserveAspectFit
-        smooth: false
+        smooth: true
         mipmap: false
         sourceSize.height: Math.max(1, button.height)
-        visible: !(root.expanded || (button.pressed && button.containsMouse)) || pressedImage.status !== Image.Ready
+        visible: !pressedImage.visible && !hoverImage.visible
+    }
+
+    Image {
+        id: hoverImage
+        anchors.fill: parent
+        source: "file://" + button.hoverPath
+        fillMode: Image.PreserveAspectFit
+        smooth: true
+        mipmap: false
+        sourceSize.height: Math.max(1, button.height)
+        visible: status === Image.Ready && button.containsMouse && !button.down
     }
 
     Image {
@@ -50,9 +64,9 @@ MouseArea {
         anchors.fill: parent
         source: "file://" + button.pressedPath
         fillMode: Image.PreserveAspectFit
-        smooth: false
+        smooth: true
         mipmap: false
         sourceSize.height: Math.max(1, button.height)
-        visible: !normal.visible
+        visible: status === Image.Ready && button.down
     }
 }

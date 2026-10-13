@@ -1,0 +1,17 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Classic7 project"
+            }
+        ],
+        "Category": "",
+        "Description": "Light blue taskbar and popups",
+        "EnabledByDefault": true,
+        "Id": "classic7-basic",
+        "License": "Apache-2.0",
+        "Name": "Classic 7 Basic",
+        "Version": "1.0"
+    },
+    "X-Plasma-API": "5.0"
+}

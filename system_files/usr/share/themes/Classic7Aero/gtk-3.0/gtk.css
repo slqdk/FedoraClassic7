@@ -1,0 +1,120 @@
+/* Classic 7 Aero for GTK 3: Adwaita's shapes with Windows 7 colours, buttons and bars.
+   Drawn with CSS only (no images). */
+@import url("resource:///org/gtk/libgtk/theme/Adwaita/gtk-contained.css");
+
+@define-color theme_bg_color #f0f0f0;
+@define-color theme_fg_color #000000;
+@define-color theme_base_color #ffffff;
+@define-color theme_text_color #000000;
+@define-color theme_selected_bg_color #3399ff;
+@define-color theme_selected_fg_color #ffffff;
+@define-color insensitive_bg_color #f0f0f0;
+@define-color insensitive_fg_color #6d6d6d;
+@define-color borders #8e8f8f;
+@define-color unfocused_borders #a0a0a0;
+@define-color accent_color #3399ff;
+@define-color accent_bg_color #3399ff;
+@define-color window_bg_color #f0f0f0;
+@define-color view_bg_color #ffffff;
+@define-color headerbar_bg_color #e9eff6;
+
+window, .background { background-color: #f0f0f0; color: #000000; }
+.view, textview text, iconview, treeview.view { background-color: #ffffff; color: #000000; }
+
+/* push buttons: the glossy grey split, blue when the mouse is on them */
+button, button.text-button, button.image-button, combobox > box > button, spinbutton > button {
+  color: #000000; text-shadow: none; -gtk-icon-shadow: none;
+  border: 1px solid #707070; border-radius: 3px;
+  background-image: linear-gradient(to bottom, #f2f2f2, #ebebeb 50%, #dddddd 50%, #cfcfcf);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+}
+button:hover, combobox > box > button:hover, spinbutton > button:hover {
+  border-color: #3c7fb1;
+  background-image: linear-gradient(to bottom, #eaf6fd, #d9f0fc 50%, #bee6fd 50%, #a7d9f5);
+}
+button:active, button:checked, combobox > box > button:checked {
+  border-color: #2c628b;
+  background-image: linear-gradient(to bottom, #e5f4fc, #c4e5f6 50%, #98d1ef 50%, #68b3db);
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.1);
+}
+button:disabled { color: #8d8d8d; border-color: #adb2b5; background-image: linear-gradient(#f4f4f4, #f4f4f4); box-shadow: none; }
+button.default, button.suggested-action { border-color: #3399ff; box-shadow: inset 0 0 0 1px rgba(160, 210, 255, 0.9); }
+button.destructive-action { border-color: #a33; }
+button.flat, headerbar button.flat, .toolbar button, toolbar button {
+  border-color: transparent; background-image: none; box-shadow: none;
+}
+button.flat:hover, .toolbar button:hover, toolbar button:hover {
+  border-color: #7da2ce;
+  background-image: linear-gradient(to bottom, #f7fbff, #e8f2fd 50%, #d9e9fc 50%, #e7f0fd);
+}
+button.flat:active, button.flat:checked, toolbar button:checked {
+  border-color: #6f92be; background-image: linear-gradient(#c5daf4, #b5cef0);
+}
+
+/* text fields */
+entry, spinbutton:not(.vertical), textview.view {
+  border: 1px solid #abadb3; border-top-color: #abadb3; border-left-color: #e2e3ea; border-right-color: #e2e3ea;
+  border-bottom-color: #e3e9ef; border-radius: 2px; background-color: #ffffff; color: #000000; box-shadow: none;
+}
+entry:hover { border-color: #7eb4ea; }
+entry:focus, spinbutton:focus-within { border-color: #569de5; border-top-color: #3d7bad; box-shadow: none; outline: none; }
+
+/* selections: Explorer's light blue in lists, the classic blue for text */
+selection, entry selection, textview text selection { background-color: #3399ff; color: #ffffff; }
+treeview.view:selected, list row:selected, iconview:selected, flowbox flowboxchild:selected {
+  background-color: #cce8ff; color: #000000; box-shadow: inset 0 0 0 1px #99d1ff;
+}
+treeview.view:hover, list row:hover { background-color: #e5f3ff; }
+
+/* progress bars: the green bar with its shine */
+progressbar trough {
+  border: 1px solid #bcbcbc; border-radius: 3px;
+  background-image: linear-gradient(to bottom, #f3f3f3, #e9e9e9 50%, #dadada);
+  min-height: 13px;
+}
+progressbar progress {
+  border: 1px solid rgba(30, 143, 42, 0.5); border-radius: 2px;
+  background-image: linear-gradient(to bottom, #d9fbd7, #9aea95 50%, #06b025 50%, #4ed553);
+  min-height: 11px;
+}
+
+/* scroll bars */
+scrollbar { background-color: #f0f0f0; border-color: #e0e0e0; }
+scrollbar slider {
+  min-width: 9px; min-height: 9px; border-radius: 2px; border: 1px solid #959595;
+  background-image: linear-gradient(to right, #f3f3f3, #e8e8e8 50%, #d8d8d8);
+}
+scrollbar.horizontal slider { background-image: linear-gradient(to bottom, #f3f3f3, #e8e8e8 50%, #d8d8d8); }
+scrollbar slider:hover { border-color: #3c7fb1; background-image: linear-gradient(to right, #e3f4fc, #c4e5f6 50%, #a9dbf6); }
+scrollbar slider:active { border-color: #2c628b; background-image: linear-gradient(to right, #c2e4f6, #9fd3f0 50%, #7ec1e6); }
+
+/* tabs */
+notebook > header { background-color: #f0f0f0; border-color: #898c95; }
+notebook > header tab {
+  border: 1px solid #898c95; border-bottom: none; border-radius: 2px 2px 0 0; margin: 0 -1px 0 0; padding: 3px 10px;
+  background-image: linear-gradient(to bottom, #f2f2f2, #ebebeb 50%, #dddddd 50%, #cfcfcf); color: #000000; box-shadow: none;
+}
+notebook > header tab:hover { border-color: #3c7fb1; background-image: linear-gradient(to bottom, #eaf6fd, #d9f0fc 50%, #bee6fd 50%, #a7d9f5); }
+notebook > header tab:checked { background-image: none; background-color: #ffffff; }
+notebook > stack:not(:only-child) { background-color: #ffffff; }
+
+/* menus and tooltips */
+menu, .menu, .context-menu, popover.menu contents { background-color: #f0f0f0; color: #000000; border: 1px solid #979797; }
+menu menuitem:hover, popover.menu modelbutton:hover {
+  background-image: linear-gradient(#f2f8fe, #ddeafa); color: #000000; box-shadow: inset 0 0 0 1px #aecff7; border-radius: 3px;
+}
+menubar { background-image: linear-gradient(#fbfcfe, #e9eff6); border-bottom: 1px solid rgba(182, 188, 204, 0.6); }
+menubar > menuitem:hover { background-image: linear-gradient(#f8fbff, #e3eefc); box-shadow: inset 0 0 0 1px #b8d6fb; border-radius: 3px; color: #000000; }
+tooltip, tooltip.background {
+  background-image: linear-gradient(#ffffff, #e4e5f0); background-color: #f2f2f6; color: #575757;
+  border: 1px solid #767676; border-radius: 3px; text-shadow: none;
+}
+tooltip * { color: #575757; }
+
+/* title bars drawn by programs (client-side decorations) */
+headerbar, .titlebar {
+  background-image: linear-gradient(to bottom, #dce9f7, #c4d8ef 50%, #b9d1ea); color: #000000;
+  border-bottom: 1px solid #8ea1b8; box-shadow: inset 0 1px rgba(255, 255, 255, 0.8);
+}
+headerbar:backdrop, .titlebar:backdrop { background-image: linear-gradient(#ebf1f8, #d7e4f2); color: #434e54; }
+headerbar .title { font-weight: normal; }

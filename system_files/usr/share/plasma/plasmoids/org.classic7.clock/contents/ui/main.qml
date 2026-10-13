@@ -56,7 +56,9 @@ PlasmoidItem {
 
     compactRepresentation: MouseArea {
         id: compact
-        readonly property bool twoLines: height >= Kirigami.Units.gridUnit * 2.4
+        readonly property bool twoLines: height >= Kirigami.Units.gridUnit * 2.0
+        // white text on a glass taskbar gets a soft dark edge
+        readonly property bool lightText: Kirigami.ColorUtils.brightnessForColor(Kirigami.Theme.textColor) === Kirigami.ColorUtils.Light
         Layout.minimumWidth: Math.max(timeLabel.implicitWidth, twoLines ? dateLabel.implicitWidth : 0) + Kirigami.Units.largeSpacing * 2
         Layout.preferredWidth: Layout.minimumWidth
         hoverEnabled: true
@@ -78,12 +80,16 @@ PlasmoidItem {
                 id: timeLabel
                 Layout.alignment: Qt.AlignHCenter
                 text: root.timeText
+                style: compact.lightText ? Text.Raised : Text.Normal
+                styleColor: "#99000000"
             }
             PC3.Label {
                 id: dateLabel
                 Layout.alignment: Qt.AlignHCenter
                 visible: compact.twoLines
                 text: root.dateText
+                style: compact.lightText ? Text.Raised : Text.Normal
+                styleColor: "#99000000"
             }
         }
     }

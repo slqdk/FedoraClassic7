@@ -367,12 +367,18 @@ def _no_dark_mode(log: Log) -> bool:
     """The Dark Mode switch swaps the Global Theme to Breeze (Dark) and back to Breeze, not
     Classic 7. Point both of its themes at Classic 7, and bring Classic 7 back if the switch
     already replaced it. The colour scheme itself is re-applied by the next step."""
-    ok = _kwrite("kdeglobals", ["KDE"], "DefaultLightLookAndFeel", "org.classic7.desktop")
-    ok &= _kwrite("kdeglobals", ["KDE"], "DefaultDarkLookAndFeel", "org.classic7.desktop")
+    try:
+        import classic7appearance as backend
+        modern = backend.State.load().look != "classic"
+    except Exception:  # noqa: BLE001 - the Classic answer is the safe one
+        modern = False
+    lnf = "org.classic7.aero.desktop" if modern else "org.classic7.desktop"
+    ok = _kwrite("kdeglobals", ["KDE"], "DefaultLightLookAndFeel", lnf)
+    ok &= _kwrite("kdeglobals", ["KDE"], "DefaultDarkLookAndFeel", lnf)
     ok &= _kwrite("kdeglobals", ["KDE"], "AutomaticLookAndFeel", "false")
     current = _read_kdeglobals_lnf()
     if current.startswith("org.kde.breeze") and shutil.which("plasma-apply-lookandfeel"):
-        subprocess.run(["plasma-apply-lookandfeel", "-a", "org.classic7.desktop"], capture_output=True, timeout=60)
+        subprocess.run(["plasma-apply-lookandfeel", "-a", lnf], capture_output=True, timeout=60)
         log(f"  Global Theme {current} -> Classic 7")
         # the desktop background back to a plain colour (the Appearance step sets the colour)
         subprocess.run(["dbus-send", "--session", "--dest=org.kde.plasmashell", "--type=method_call",

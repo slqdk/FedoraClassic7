@@ -1,0 +1,12 @@
+{
+    "KPackageStructure": "KWin/WindowSwitcher",
+    "KPlugin": {
+        "Authors": [{ "Name": "Classic 7" }],
+        "Description": "Alt+Tab like Windows 7 with Aero: window previews on glass, the chosen one lit, its title above",
+        "Icon": "preferences-system-windows-switcher-thumbnails",
+        "Id": "classic7aero",
+        "License": "GPL-2.0-or-later",
+        "Name": "Classic 7 Aero"
+    },
+    "X-Plasma-API": "declarativeappletscript"
+}
