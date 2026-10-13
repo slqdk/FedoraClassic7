@@ -241,3 +241,30 @@ def rename_sheet_in_formula(formula: str, old: str, new: str) -> str:
             return quote_sheet(new) + "!" + m.group(0)[len(s):]
         return m.group(0)
     return _rewrite(formula, fix)
+
+
+_CYCLE_REF = re.compile(r"(?<![A-Za-z0-9_.])(\$?)([A-Za-z]{1,3})(\$?)(\d{1,7})(?::(\$?)([A-Za-z]{1,3})(\$?)(\d{1,7}))?(?![A-Za-z0-9_(])")
+
+
+def cycle_reference(text: str, cursor: int) -> tuple[str, int]:
+    """F4 while editing a formula: the reference at the cursor goes A1 -> $A$1 -> A$1 -> $A1 -> A1."""
+    if not text.startswith("="):
+        return text, cursor
+    pos = 0
+    for is_str, part in _split_strings(text):
+        if not is_str:
+            for m in _CYCLE_REF.finditer(part):
+                a, b = pos + m.start(), pos + m.end()
+                if a <= cursor <= b:
+                    col_abs, row_abs = bool(m.group(1)), bool(m.group(3))
+                    nxt = {(False, False): (True, True), (True, True): (False, True),
+                           (False, True): (True, False), (True, False): (False, False)}[(col_abs, row_abs)]
+
+                    def one(c, r):
+                        return ("$" if nxt[0] else "") + c + ("$" if nxt[1] else "") + r
+                    new = one(m.group(2), m.group(4))
+                    if m.group(6):
+                        new += ":" + one(m.group(6), m.group(8))
+                    return text[:a] + new + text[b:], a + len(new)
+        pos += len(part)
+    return text, cursor

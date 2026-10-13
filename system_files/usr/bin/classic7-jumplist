@@ -20,6 +20,7 @@ CONFIG = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
 RECENT = {
     "classic7-write": (CONFIG / "Classic7" / "Write.conf", ["classic7-write"]),
     "classic7-show": (CONFIG / "Classic7" / "Show.conf", ["classic7-show"]),
+    "classic7-sheet": (CONFIG / "Classic7" / "Sheet.conf", ["classic7-sheet"]),
 }
 
 STEAM = [("Library", ["steam", "steam://open/games"]), ("Store", ["steam", "steam://store"]),
@@ -31,6 +32,7 @@ TASKS = {
     "classic7-mail": [("New e-mail message", ["classic7-mail", "--compose"])],
     "classic7-write": [("New document", ["classic7-write"])],
     "classic7-show": [("New presentation", ["classic7-show"])],
+    "classic7-sheet": [("New workbook", ["classic7-sheet"])],
     "steam": STEAM,
     "com.valvesoftware.steam": STEAM,
     "firefox": FIREFOX,

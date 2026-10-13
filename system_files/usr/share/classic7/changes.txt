@@ -1,7 +1,8 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
-## 2026-10-13  Disk Management, Control Panel, Task Manager, Ctrl+Alt+Del, System and Device Manager, Windows 7 taskbar keys
+## 2026-10-13  Sheet (spreadsheets), Disk Management, Control Panel, Task Manager, Ctrl+Alt+Del, System and Device Manager, Windows 7 taskbar keys
+- **Sheet**, a spreadsheet in the Excel 2007 style (Start menu, `excel` in Run): opens .xlsx and old .xls workbooks and CSV files, saves .xlsx, CSV and PDF. About 200 functions (SUM, IF, VLOOKUP, INDEX/MATCH, SUMIFS, dates, text, finance), number formats, Format Cells, borders, merge, Conditional Formatting, Data Validation, sort and AutoFilter, Freeze Panes, charts (column, bar, line, pie, area, scatter), comments, names, find and replace, and printing with Page Setup.
 - **Disk Management** (`diskmgmt.msc` in Run, Control Panel > System and Security, or Computer > Manage drives): the volume list and the disks drawn as bars. Right-click a volume: **Change Drive Letter and Paths**, Format, Delete Volume, Check for Errors, Use for Steam Games; right-click unallocated space: New Simple Volume; new disks: Initialize Disk (GPT or MBR). An administrator password is asked for changes.
 - **Drive letters**: a drive with a letter is opened at every start-up at /var/mnt/<letter> (an entry in /etc/fstab), so Steam libraries on extra drives are always there. The Computer window shows the letters: Local Disk (C:), Games (D:).
 - **Steam on NTFS/exFAT drives**: Use for Steam Games makes a SteamLibrary folder and keeps Proton's Windows folders (compatdata) on the system disk, so Windows games start from NTFS drives too. Disk Management explains this when you give an NTFS drive a letter.

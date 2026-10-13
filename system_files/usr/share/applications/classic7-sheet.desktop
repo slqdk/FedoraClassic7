@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Sheet
+GenericName=Spreadsheet
+Comment=Make spreadsheets with formulas, charts and printing (Excel .xlsx and .xls)
+Exec=classic7-sheet %F
+Icon=x-office-spreadsheet
+Terminal=false
+Categories=Qt;Office;Spreadsheet;
+Keywords=spreadsheet;excel;xlsx;xls;csv;calc;table;budget;formula;regneark;
+MimeType=application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.openxmlformats-officedocument.spreadsheetml.template;application/vnd.ms-excel.sheet.macroEnabled.12;application/vnd.ms-excel.template.macroEnabled.12;application/vnd.ms-excel;application/msexcel;application/x-msexcel;application/x-excel;text/csv;text/x-comma-separated-values;
+StartupWMClass=classic7-sheet

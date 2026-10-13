@@ -133,6 +133,34 @@ class Ribbon(QTabWidget):
         self.setUsesScrollButtons(True)
         self.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         self.setFixedHeight(122)
+        self.currentChanged.connect(lambda _i: self.fit())
+
+    def resizeEvent(self, e):
+        super().resizeEvent(e)
+        self.fit()
+
+    def fit(self):
+        """Like Office: when the window is too narrow, small buttons drop their labels
+        ("Format Painter" becomes just the brush), one group at a time from the right,
+        instead of being cut off."""
+        page = self.currentWidget()
+        lay = page.layout() if page is not None else None
+        if lay is None:
+            return
+        groups = [lay.itemAt(i).widget() for i in range(lay.count())]
+        groups = [g for g in groups if g is not None]
+        per_group = [[b for b in g.findChildren(QToolButton) if b.property("ribbon_text")] for g in groups]
+        if not any(per_group):
+            return
+        for buttons in per_group:
+            for b in buttons:
+                b.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
+        for buttons in reversed(per_group):
+            lay.invalidate()
+            if lay.minimumSize().width() <= self.width() - 4:
+                break
+            for b in buttons:
+                b.setToolButtonStyle(Qt.ToolButtonIconOnly)
 
     def add_tab(self, title: str) -> QHBoxLayout:
         page = QWidget()
@@ -174,6 +202,7 @@ def small_button(action: QAction, menu: QMenu | None = None, with_text: bool = F
     b.setIconSize(QSize(SMALL, SMALL))
     b.setAutoRaise(True)
     b.setToolButtonStyle(Qt.ToolButtonTextBesideIcon if with_text else Qt.ToolButtonIconOnly)
+    b.setProperty("ribbon_text", with_text)
     if menu is not None:
         b.setMenu(menu)
         b.setPopupMode(QToolButton.MenuButtonPopup if split else QToolButton.InstantPopup)

@@ -1,0 +1,16 @@
+#!/usr/bin/python3
+"""Sheet: spreadsheets in the style of Excel 2007.
+
+    classic7-sheet [FILE]...          open workbooks (.xlsx .xlsm .xltx .xls .csv .txt)
+"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
+        print(__doc__.strip())
+        sys.exit(0)
+    from sheet_app import main
+    sys.exit(main(sys.argv[1:]))

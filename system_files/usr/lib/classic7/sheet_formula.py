@@ -551,10 +551,10 @@ def evaluate(tree, ctx: Context):
         fn = FUNCTIONS.get(tree[1])
         if fn is None:
             return NAME
-        if getattr(fn, "lazy", False):
-            return fn(ctx, tree[2])
-        args = [evaluate(a, ctx) for a in tree[2]]
         try:
+            if getattr(fn, "lazy", False):
+                return fn(ctx, tree[2])
+            args = [evaluate(a, ctx) for a in tree[2]]
             return fn(*args) if not getattr(fn, "ctx", False) else fn(ctx, *args)
         except ZeroDivisionError:
             return DIV0
@@ -1962,25 +1962,43 @@ def _match_index(lookup, values, kind):
                 if t(v):
                     return i
             return None
-        for i, v in enumerate(values):
-            if v is not None and compare(v, lookup) == 0 and (isinstance(v, str) == isinstance(lookup, str)):
-                return i
+        # exact match, without the general compare() for speed (lookups run over long lists)
+        if isinstance(lookup, str):
+            want = lookup.lower()
+            for i, v in enumerate(values):
+                if v.__class__ is str and v.lower() == want:
+                    return i
+        elif isinstance(lookup, bool):
+            for i, v in enumerate(values):
+                if v is lookup:
+                    return i
+        elif isinstance(lookup, (int, float)):
+            for i, v in enumerate(values):
+                if v.__class__ in (float, int) and v == lookup:
+                    return i
         return None
-    best = None
-    for i, v in enumerate(values):
-        if v is None or isinstance(v, str) != isinstance(lookup, str):
-            continue
-        c = compare(v, lookup)
-        if kind > 0:
-            if c <= 0:
+    if kind < 0:
+        best = None
+        for i, v in enumerate(values):
+            if v is None or isinstance(v, str) != isinstance(lookup, str):
+                continue
+            if compare(v, lookup) >= 0:
                 best = i
             else:
                 break
+        return best
+    # approximate match on sorted data: a binary search, as Excel does (values of another type
+    # than the lookup value are skipped)
+    same = [i for i, v in enumerate(values) if v is not None and isinstance(v, str) == isinstance(lookup, str)
+            and isinstance(v, bool) == isinstance(lookup, bool)]
+    lo, hi, best = 0, len(same) - 1, None
+    while lo <= hi:
+        mid = (lo + hi) // 2
+        if compare(values[same[mid]], lookup) <= 0:
+            best = same[mid]
+            lo = mid + 1
         else:
-            if c >= 0:
-                best = i
-            else:
-                break
+            hi = mid - 1
     return best
 
 

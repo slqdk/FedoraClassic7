@@ -4,6 +4,7 @@ back into numbers, dates and percentages."""
 from __future__ import annotations
 
 import datetime as dt
+import decimal as _decimal
 import math
 import re
 
@@ -127,16 +128,29 @@ def format_value(value, fmt: str | None) -> tuple[str, str | None]:
 
 
 def general(v: float) -> str:
+    """Excel's General in a standard-width cell: up to 11 characters (933.3333333, 0.333333333,
+    1234567891), switching to scientific when that would show more (3.33333E-05, 1.23457E+11)."""
     if v == 0:
         return "0"
     a = abs(v)
-    if a >= 1e11 or a < 1e-9:
-        m, e = f"{v:.5E}".split("E")
+    sign = "-" if v < 0 else ""
+
+    def sci():
+        m, e = f"{a:.5E}".split("E")
         m = m.rstrip("0").rstrip(".")
-        return f"{m}E{int(e):+03d}".replace(".", DEC)
-    digits = max(0, 10 - int(math.floor(math.log10(a))) if a >= 1 else 10)
-    s = f"{v:.{min(digits, 10)}f}".rstrip("0").rstrip(".")
-    return s.replace(".", DEC) if s != "-0" else "0"
+        return f"{sign}{m}E{int(e):+03d}".replace(".", DEC)
+    if a >= 1e11:
+        return sci()
+    int_len = len(str(int(a)))
+    places = max(0, 10 - int_len)
+    s = str(_decimal.Decimal(repr(a)).quantize(_decimal.Decimal(1).scaleb(-places), _decimal.ROUND_HALF_UP))
+    if "." in s:
+        s = s.rstrip("0").rstrip(".")
+    if len(s) > 11 or (a < 1e-4 and float(s) != a):
+        return sci()
+    if s == "0":
+        return "0"
+    return (sign + s).replace(".", DEC)
 
 
 def _color(sec: str) -> str | None:

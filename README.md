@@ -23,6 +23,7 @@ image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomic + KDE Plas
 | Right-click menus | Windows-style: **Send to ▸** (Compressed (zipped) folder, Desktop (create shortcut), Documents, Mail recipient, Removable Disk), **Create shortcut**, KDE extras hidden; desktop menu with Display Configuration and Configure Desktop and Wallpaper |
 | Command Prompt | Terminal with a built-in assistant that asks **your own** language model (Ollama or OpenAI-compatible): plain-language questions become commands you run with one click, errors get explained, risky commands are stopped by built-in rules; offline task library; default terminal (Ctrl+Alt+T) |
 | Write | Word processor in the Word 2007 style (Ribbon, page view): opens and saves .docx, .rtf and .doc, opens PDFs as editable documents, exports PDF; styles, lists, tables, pictures, headers/footers with page numbers, find/replace, spell check (Danish/English) |
+| Sheet | Spreadsheets in the Excel 2007 style: opens .xlsx/.xls/.csv, saves .xlsx/.csv/PDF; about 200 functions, number formats, conditional formatting, validation, sort and filter, charts, freeze panes, printing |
 | Show | Presentations in the PowerPoint 2007 style: opens .pptx/.ppsx and old .ppt, saves .pptx/.ppsx/PDF; layouts, designs, text, shapes, pictures, tables, transitions, entrance animations, full-screen slide show with pen, handouts and notes printing |
 | Photo Viewer | Windows 7 Photo Viewer look: next/previous with the arrow keys, zoom, rotate and flip (JPEG turned without quality loss), slide show, delete, print, e-mail; JPEG, PNG, GIF, WebP, TIFF, HEIC, AVIF, JPEG XL, RAW, PSD... |
 | 7-Zip | 7-Zip (`7z`) and the 7-Zip File Manager (Ark), with the right-click **7-Zip ▸** menu: Add to archive, Add to .7z/.zip, Extract files, Extract Here, Extract to own folder |
@@ -236,6 +237,36 @@ Slides/Outline pane on the left, the slide in the middle, notes below; Slide Sor
   steps, Ctrl+drag copies); Ctrl+G group, Ctrl+D duplicate, Ctrl+M new slide; drop pictures from Explorer.
 - Print slides, handouts (1-9 per page) or notes pages; Office button > Send > E-mail (as .pptx or PDF).
 
+## Sheet
+
+Start menu > **Sheet** (`classic7-sheet`, or `excel` in Run). Spreadsheets in the Excel 2007 layout: ribbon,
+name box and formula bar (✕ ✓ fx), the grid with row and column headers, sheet tabs, and Sum/Average/Count of the
+selection plus zoom in the status bar.
+
+- **Files**: opens .xlsx, .xlsm, .xltx, Excel 97-2003 .xls and CSV/text; saves .xlsx (macros are not kept) and CSV,
+  Save As PDF. Values, formulas, styles, column widths, merged cells, freeze panes, AutoFilter, conditional
+  formatting, validation, comments, hyperlinks, defined names, page setup, pictures and charts are kept.
+  An old .xls is saved as .xlsx.
+- **Formulas**: about 200 functions (maths, statistics, logical, text, date and time, lookup and reference
+  including XLOOKUP, INDIRECT and OFFSET, financial, and the dynamic array functions SORT, FILTER, UNIQUE,
+  SEQUENCE); Insert Function (Shift+F3) with help per function; AutoSum (Alt+=); F4 cycles $ references;
+  click cells while typing a formula to insert references; Show Formulas (Ctrl+`); Name Manager; manual
+  calculation (F9).
+- **Home**: font, borders, fill and text colours, alignment, wrap, Merge & Center, number formats (Accounting,
+  %, comma, decimals), Conditional Formatting (highlight rules, top/bottom, data bars, colour scales),
+  Insert/Delete cells, rows, columns and sheets, Format (row height, column width, AutoFit, hide, rename, tab
+  colour), Fill, Clear, Sort & Filter, Find & Select (Find, Replace, Go To). Format Cells (Ctrl+1) has Number,
+  Alignment, Font, Border, Fill and Protection.
+- **Insert**: charts (column, line, pie, bar, area, scatter) from the selection, moved and sized with the mouse;
+  pictures, hyperlinks (Ctrl+K), symbols. **Data**: sort, AutoFilter, Text to Columns, Remove Duplicates, Data
+  Validation (drop-down lists and limits). **Review**: comments. **View**: gridlines, headings, formula bar, zoom,
+  Freeze Panes, new window.
+- Drag the fill handle to copy or continue series (1, 2, 3; Jan, Feb; Monday; Item 1; dates); Ctrl+C/X/V with
+  Paste Special (values, formats, transpose, skip blanks); copied cells paste into other programs as text and
+  as a table; undo and redo for everything.
+- Print and Print Preview with Page Setup: paper, orientation, margins, scale or fit to pages, print area, rows
+  to repeat at the top, gridlines and headings, header and footer (&P page, &N pages, &A sheet, &F file).
+
 ## Disk Management and drive letters
 
 `classic7-diskmgmt` (or `diskmgmt.msc` in Run) looks like Windows 7's Disk Management. Changes go
@@ -341,6 +372,9 @@ Other knobs:
   text boxes, columns, tables of contents, mail merge or macros; pictures are inline only (no text wrapping);
   one header/footer per document. Old binary .doc files open with full formatting when `wv` is installed,
   otherwise as text with tables. ".doc" is saved in Rich Text Format, which Word opens normally.
+- Sheet covers the everyday Excel features, not all of them: no pivot tables, macros, what-if analysis,
+  sparklines, outline/grouping, sheet protection with passwords, shared workbooks or 3-D charts; a few rarely
+  used functions are missing (they show #NAME?). Password-protected workbooks can't be opened.
 - Command Prompt is a small terminal of its own: no tabs, no mouse support inside full-screen programs
   (htop/mc take keyboard only), no ligatures or sixel images. Use Konsole for those.
 

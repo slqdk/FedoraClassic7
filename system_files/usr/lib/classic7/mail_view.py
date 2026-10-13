@@ -20,6 +20,7 @@ import mail_ui as ui
 
 WRITE_TYPES = (".doc", ".docx", ".rtf", ".odt", ".dot", ".dotx")
 SHOW_TYPES = (".pptx", ".ppt", ".pps", ".ppsx", ".pot", ".potx", ".pptm", ".ppsm")
+SHEET_TYPES = (".xlsx", ".xlsm", ".xltx", ".xltm", ".xls", ".xlt", ".csv")
 
 try:
     from PySide6.QtWebEngineCore import (QWebEnginePage, QWebEngineProfile, QWebEngineSettings,
@@ -49,6 +50,8 @@ def open_file(path: Path, prefer_write: bool = True):
         QProcess.startDetached("classic7-write", [str(path)])
     elif path.suffix.lower() in SHOW_TYPES and shutil.which("classic7-show"):
         QProcess.startDetached("classic7-show", [str(path)])
+    elif path.suffix.lower() in SHEET_TYPES and shutil.which("classic7-sheet"):
+        QProcess.startDetached("classic7-sheet", [str(path)])
     elif path.suffix.lower() == ".eml" and shutil.which("classic7-mail"):
         QProcess.startDetached("classic7-mail", [str(path)])
     else:
