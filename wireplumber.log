@@ -1,0 +1,22 @@
+E 18:56:11.835695             mod.rt ../src/modules/module-rt.c:295:pw_rtkit_bus_get: Failed to connect to system bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+W 18:56:11.835721             mod.rt ../src/modules/module-rt.c:975:rtkit_get_bus: Realtime scheduling disabled: insufficient realtime privileges, Portal not found on session bus, and no system bus for RTKit: Connection refused
+N 18:56:11.859050 wp-internal-comp-l ../lib/wp/private/internal-comp-loader.c:589:on_component_loaded: <WpCore:0x5584c4a25b80> optional component 'support.system-dbus [module: libwireplumber-module-dbus-connection]' failed to load: Failed to connect to bus: Could not connect: No such file or directory
+N 18:56:11.859064 wp-internal-comp-l ../lib/wp/private/internal-comp-loader.c:641:wp_component_array_load_task_execute_step: <WpCore:0x5584c4a25b80> skipping component 'support.modem-manager [module: libwireplumber-module-modem-manager]' because some of its dependencies were not loaded
+N 18:56:11.859069 wp-internal-comp-l ../lib/wp/private/internal-comp-loader.c:641:wp_component_array_load_task_execute_step: <WpCore:0x5584c4a25b80> skipping component 'hooks.device.profile.find-voice-call [script/lua: device/find-voice-call-profile.lua]' because some of its dependencies were not loaded
+E 18:56:11.869264             mod.rt ../src/modules/module-rt.c:295:pw_rtkit_bus_get: Failed to connect to system bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+W 18:56:11.869277             mod.rt ../src/modules/module-rt.c:975:rtkit_get_bus: Realtime scheduling disabled: insufficient realtime privileges, Portal not found on session bus, and no system bus for RTKit: Connection refused
+N 18:56:11.874407 wp-internal-comp-l ../lib/wp/private/internal-comp-loader.c:589:on_component_loaded: <WpCore:0x5584c4a25b80> optional component 'support.logind [module: libwireplumber-module-logind]' failed to load: failed to start systemd logind monitor: -2 (No such file or directory)
+N 18:56:11.874420 wp-internal-comp-l ../lib/wp/private/internal-comp-loader.c:641:wp_component_array_load_task_execute_step: <WpCore:0x5584c4a25b80> skipping component 'monitor.bluez.seat-monitoring [virtual]' because some of its dependencies were not loaded
+E 18:56:11.879079           spa.dbus ../spa/plugins/support/dbus.c:357:impl_connection_get: Failed to connect to system bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+E 18:56:11.879090         spa.bluez5 ../spa/plugins/bluez5/bluez5-dbus.c:7532:impl_init: failed to get dbus connection
+N 18:56:11.879592          wp-device ../lib/wp/device.c:1002:wp_spa_device_new_from_spa_factory: SPA handle 'api.bluez5.enum.dbus' could not be loaded; is it installed?
+N 18:56:11.879605   s-monitors-bluez enumerate-device.lua:47:createMonitor: PipeWire's BlueZ SPA plugin is missing or broken. Bluetooth devices will not be supported.
+E 18:56:11.879928    spa.bluez5.midi ../spa/plugins/bluez5/midi-enum.c:806:impl_init: Creating GDBus connection failed: Could not connect: No such file or directory
+N 18:56:11.879937          wp-device ../lib/wp/device.c:1002:wp_spa_device_new_from_spa_factory: SPA handle 'api.bluez5.midi.enum' could not be loaded; is it installed?
+N 18:56:11.879944         s-monitors bluez-midi.lua:95:createMonitor: PipeWire's BlueZ MIDI SPA missing or broken. Bluetooth not supported.
+E 18:56:11.880021 spa.bluez5.midi.no ../spa/plugins/bluez5/midi-node.c:1977:impl_init: failed to get dbus connection: Could not connect: No such file or directory
+E 18:56:11.880030        pw.resource ../src/pipewire/resource.c:255:pw_resource_errorf_id: can't create node: Input/output error
+W 18:56:11.880034            wp-node ../lib/wp/node.c:969:wp_impl_node_new_from_pw_factory: failed to create node from factory 'spa-node-factory'
+N 18:56:11.880039         s-monitors bluez-midi.lua:130:createServers: Failed to create BLE MIDI server.
+[0:08:59.846904790] [92]  INFO Camera camera_manager.cpp:340 libcamera v0.7.1
+[0:08:59.847874920] [113] ERROR DmaBufAllocator dma_buf_allocator.cpp:119 Could not open any dma-buf provider

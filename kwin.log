@@ -1,0 +1,86 @@
+Detected locale "C" with character encoding "ANSI_X3.4-1968", which is not UTF-8.
+Qt depends on a UTF-8 locale, and has switched to "C.UTF-8" instead.
+If this causes problems, reconfigure your locale. See the locale(1) manual
+for more information.
+kwin_watchdog: Watchdog: disabled, not running on a systemd environment or watchdog is not set up. No WATCHDOG_USEC.
+Accepting client connections on sockets: QList("wayland-c7")
+kwin_xkbcommon: XKB: created compose table from locale C with path /usr/share/X11/locale/en_US.UTF-8/Compose
+kf.config.core: Created a KConfigGroup on an inaccessible config location "/usr/share/desktop-directories/webapps-webapps.directory" "Desktop Entry"
+kwin_core: KGlobalAcceld inited
+kwin_core: Configured compositor not supported by Platform. Falling back to defaults
+kwin_core: Attempting to load the QPainter scene
+kwin_core: QPainter compositing has been successfully initialized
+kwin_decorations: Trying to load decoration plugin:  "/usr/lib64/qt6/plugins/org.kde.kdecoration3/org.kde.kwin.aurorae.v2.so"
+kwin_output_config: Generating new config for 1 outputs
+kwin_core: Empty tiles configuration for monitor "63fda336-b03b-4bbb-8881-ceb13424475d" : Creating default setup
+kwin_xkbcommon: XKB: Compiling from RMLVO: rules 'evdev', model 'pc104', layout 'us', variant '(null)', options '(null)'
+kwin_xkbcommon: XKB: Include path failed: "/home/tester/.config/xkb" (No such file or directory)
+kwin_xkbcommon: XKB: Include path failed: "/home/tester/.xkb" (No such file or directory)
+kwin_xkbcommon: XKB: Include path failed: "/etc/xkb" (No such file or directory)
+kwin_xkbcommon: XKB: Include extensions path failed: /usr/share/xkeyboard-config-2.d (No such file or directory)
+kwin_xkbcommon: XKB: Include extensions path failed: /usr/share/xkeyboard-config.d (No such file or directory)
+kwin_xkbcommon: XKB: Include path added: /usr/share/xkeyboard-config-2
+kwin_xkbcommon: XKB: Compiling from KcCGST: keycodes 'evdev+aliases(qwerty)', types 'complete', compat 'complete', symbols 'pc+us+inet(evdev)'
+kwin_xkbcommon: XKB: Compiling xkb_keycodes "(unnamed map)"
+kwin_xkbcommon: XKB: Compiling xkb_types "(unnamed map)"
+kwin_xkbcommon: XKB: Compiling xkb_compatibility "(unnamed map)"
+kwin_xkbcommon: XKB: The "group" statement in compat is unsupported; Ignored
+kwin_xkbcommon: XKB: The "group" statement in compat is unsupported; Ignored
+kwin_xkbcommon: XKB: The "group" statement in compat is unsupported; Ignored
+kwin_xkbcommon: XKB: The "allowExplicit" field in indicator statements is unsupported; Ignored
+kwin_xkbcommon: XKB: The "allowExplicit" field in indicator statements is unsupported; Ignored
+kwin_xkbcommon: XKB: The "allowExplicit" field in indicator statements is unsupported; Ignored
+kwin_xkbcommon: XKB: The "allowExplicit" field in indicator statements is unsupported; Ignored
+kwin_xkbcommon: XKB: The "indicatorDrivesKeyboard" field in indicator statements is unsupported; Ignored
+kwin_xkbcommon: XKB: The "allowExplicit" field in indicator statements is unsupported; Ignored
+kwin_xkbcommon: XKB: Indicator name "Shift Lock" was not declared in the keycodes section; Adding new indicator
+kwin_xkbcommon: XKB: Indicator name "Group 2" was not declared in the keycodes section; Adding new indicator
+kwin_xkbcommon: XKB: Indicator name "Mouse Keys" was not declared in the keycodes section; Adding new indicator
+kwin_xkbcommon: XKB: Compiling xkb_symbols "(unnamed map)"
+kwin_virtualkeyboard: Registering the DBus interface
+kwin_core: Effect is not supported:  "blendchanges"
+kwin_core: Effect is not supported:  "blur"
+kwin_core: Effect is not supported:  "colorpicker"
+kwin_core: Successfully loaded plugin effect:  "highlightwindow"
+kwin_core: Successfully loaded plugin effect:  "kscreen"
+kwin_core: Successfully loaded plugin effect:  "outputlocator"
+kwin_core: Effect is not supported:  "overview"
+kwin_core: Successfully loaded plugin effect:  "screenedge"
+kwin_core: Effect is not supported:  "screentransform"
+kwin_core: Effect is not supported:  "shakecursor"
+kwin_core: Effect is not supported:  "slide"
+kwin_core: Effect is not supported:  "slidingnotifications"
+kwin_core: Effect is not supported:  "slidingpopups"
+kwin_core: Effect is not supported:  "startupfeedback"
+kwin_core: Effect is not supported:  "systembell"
+kwin_core: Effect is not supported:  "tileseditor"
+kwin_core: Effect is not supported:  "windowview"
+kwin_core: Successfully loaded plugin effect:  "zoom"
+kwin_core: Effect is not supported:  "logout"
+kwin_core: Effect is not supported:  "scale"
+kwin_core: Effect is not supported:  "login"
+kwin_core: Effect is not supported:  "fadingpopups"
+kwin_core: Effect is not supported:  "fullscreen"
+kwin_core: Effect is not supported:  "dialogparent"
+kwin_core: Effect is not supported:  "maximize"
+kwin_core: Effect is not supported:  "squash"
+kwin_core: Effect is not supported:  "dimscreen"
+kwin_core: Effect is not supported:  "windowaperture"
+kwin_core: Effect is not supported:  "sessionquit"
+kwin_core: Effect is not supported:  "frozenapp"
+kwin_core: Workspace::slotReconfigure()
+kwin_core: Interface "org_kde_plasma_window_management" not in X-KDE-Wayland-Interfaces of "/usr/bin/krdpserver"
+kwin_core: Interface "org_kde_plasma_activation_feedback" not in X-KDE-Wayland-Interfaces of "/usr/bin/krdpserver"
+kwin_core: Interface "kde_lockscreen_overlay_v1" not in X-KDE-Wayland-Interfaces of "/usr/bin/krdpserver"
+kwin_core: authorized "/usr/bin/krdpserver" "org_kde_kwin_fake_input"
+kwin_core: authorized "/usr/bin/krdpserver" "zkde_screencast_unstable_v1"
+kwin_core: authorized "/usr/bin/krdpserver" "zkde_screencast_unstable_v1"
+kwin_core: authorized "/usr/bin/krdpserver" "org_kde_kwin_fake_input"
+kwin_core: authorized "/usr/bin/krdpserver" "zkde_screencast_unstable_v1"
+kwin_core: authorized "/usr/bin/krdpserver" "org_kde_kwin_fake_input"
+kwin_core: authorized "/usr/bin/krdpserver" "zkde_screencast_unstable_v1"
+kwin_core: authorized "/usr/bin/krdpserver" "org_kde_kwin_fake_input"
+kwin_core: authorized "/usr/bin/krdpserver" "zkde_screencast_unstable_v1"
+kwin_core: authorized "/usr/bin/krdpserver" "org_kde_kwin_fake_input"
+kwin_core: authorized "/usr/bin/krdpserver" "zkde_screencast_unstable_v1"
+kwin_core: authorized "/usr/bin/krdpserver" "org_kde_kwin_fake_input"

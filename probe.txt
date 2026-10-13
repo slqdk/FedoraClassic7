@@ -1,0 +1,11 @@
+        Signature Algorithm: sha256WithRSAEncryption
+            Not After : Oct 10 18:56:08 2036 GMT
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+    Signature Algorithm: sha256WithRSAEncryption
+-----BEGIN PRIVATE KEY-----
+requested 0x01: 9 bytes: 03 00 00 09 02 f0 80 21 80
+requested 0x03: 9 bytes: 03 00 00 09 02 f0 80 21 80
+requested 0x0b: 9 bytes: 03 00 00 09 02 f0 80 21 80
+xfreerdp default: exit 133
+xfreerdp /sec:tls: exit 133

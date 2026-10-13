@@ -1,0 +1,39 @@
++ cat /out/versions.txt /out/probe.txt
+krdp-6.7.5-1.fc44.x86_64
+freerdp-libs-3.32.1-1.fc44.x86_64
+openssl-3.5.9-1.fc44.x86_64
+        Signature Algorithm: sha256WithRSAEncryption
+            Not After : Oct 10 18:56:08 2036 GMT
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+    Signature Algorithm: sha256WithRSAEncryption
+-----BEGIN PRIVATE KEY-----
+requested 0x01: 9 bytes: 03 00 00 09 02 f0 80 21 80
+requested 0x03: 9 bytes: 03 00 00 09 02 f0 80 21 80
+requested 0x0b: 9 bytes: 03 00 00 09 02 f0 80 21 80
+xfreerdp default: exit 133
+xfreerdp /sec:tls: exit 133
++ grep -hE 'Security:|security' /out/krdp.log
++ head -12
+[18:56:18:411] [122:000000b7] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Client Security: RDSTLS:0 NLA:0 EXT:0 TLS:1 RDP:0
+[18:56:18:411] [122:000000b7] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Server Security: RDSTLS:0 NLA:0 EXT:1 TLS:1 RDP:0
+[18:56:18:411] [122:000000b7] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Negotiated Security: RDSTLS:0 NLA:0 EXT:0 TLS:1 RDP:0
+[18:56:18:417] [122:000000b9] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Client Security: RDSTLS:0 NLA:1 EXT:0 TLS:1 RDP:0
+[18:56:18:417] [122:000000b9] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Server Security: RDSTLS:0 NLA:0 EXT:1 TLS:1 RDP:0
+[18:56:18:417] [122:000000b9] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Negotiated Security: RDSTLS:0 NLA:0 EXT:0 TLS:1 RDP:0
+[18:56:18:422] [122:000000bb] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Client Security: RDSTLS:0 NLA:1 EXT:1 TLS:1 RDP:0
+[18:56:18:422] [122:000000bb] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Server Security: RDSTLS:0 NLA:0 EXT:1 TLS:1 RDP:0
+[18:56:18:422] [122:000000bb] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Negotiated Security: RDSTLS:0 NLA:0 EXT:1 TLS:0 RDP:0
+[18:56:19:500] [122:000000c3] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Client Security: RDSTLS:0 NLA:1 EXT:1 TLS:1 RDP:0
+[18:56:19:500] [122:000000c3] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Server Security: RDSTLS:0 NLA:0 EXT:1 TLS:1 RDP:0
+[18:56:19:500] [122:000000c3] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Negotiated Security: RDSTLS:0 NLA:0 EXT:1 TLS:0 RDP:0
++ grep -iE 'screencast|pipewire|opengl|qpainter|egl|compositing' /out/kwin.log
++ head -20
+kwin_core: Attempting to load the QPainter scene
+kwin_core: QPainter compositing has been successfully initialized
+kwin_core: authorized "/usr/bin/krdpserver" "zkde_screencast_unstable_v1"
+kwin_core: authorized "/usr/bin/krdpserver" "zkde_screencast_unstable_v1"
+kwin_core: authorized "/usr/bin/krdpserver" "zkde_screencast_unstable_v1"
+kwin_core: authorized "/usr/bin/krdpserver" "zkde_screencast_unstable_v1"
+kwin_core: authorized "/usr/bin/krdpserver" "zkde_screencast_unstable_v1"
+kwin_core: authorized "/usr/bin/krdpserver" "zkde_screencast_unstable_v1"

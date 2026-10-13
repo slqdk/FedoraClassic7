@@ -1,0 +1,132 @@
+Detected locale "C" with character encoding "ANSI_X3.4-1968", which is not UTF-8.
+Qt depends on a UTF-8 locale, and has switched to "C.UTF-8" instead.
+If this causes problems, reconfigure your locale. See the locale(1) manual
+for more information.
+kf.statusnotifieritem: KDE platform plugin is loaded but SNI unavailable
+org.kde.krdp: Listening for connections on QHostAddress(QHostAddress::Any) 3390
+qt.qpa.services: Failed to register with host portal QDBusError("org.freedesktop.portal.Error.Failed", "Could not register app ID: Connection already associated with an application ID")
+[18:56:18:409] [122:0000007a] [WARN][com.freerdp.core.rdp] - [log_build_warn][0x5585dd437350]: *************************************************
+[18:56:18:409] [122:0000007a] [WARN][com.freerdp.core.rdp] - [log_build_warn][0x5585dd437350]: This build is using [experimental] build options:
+[18:56:18:409] [122:0000007a] [WARN][com.freerdp.core.rdp] - [log_build_warn][0x5585dd437350]: * 'WITH_GFX_AV1=ON'
+[18:56:18:409] [122:0000007a] [WARN][com.freerdp.core.rdp] - [log_build_warn][0x5585dd437350]: *
+[18:56:18:409] [122:0000007a] [WARN][com.freerdp.core.rdp] - [log_build_warn][0x5585dd437350]: [experimental] build options might crash the application
+[18:56:18:409] [122:0000007a] [WARN][com.freerdp.core.rdp] - [log_build_warn][0x5585dd437350]: *************************************************
+org.kde.krdp: Session setup completed, start processing...
+[18:56:18:410] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd437350]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:18:411] [122:000000b7] [ERROR][com.freerdp.crypto] - [freerdp_tls_handshake]: BIO_do_handshake failed
+[18:56:18:411] [122:000000b7] [ERROR][com.freerdp.core.peer] - [peer_recv_callback_internal]: CONNECTION_STATE_NEGO - rdp_server_accept_nego() fail
+[18:56:18:411] [122:000000b7] [ERROR][com.freerdp.core.transport] - [transport_check_fds]: transport_check_fds: transport->ReceiveCallback() - STATE_RUN_FAILED [-1]
+org.kde.krdp: Unable to check file descriptor
+org.kde.krdp: Closing session
+org.kde.krdp: Session setup completed, start processing...
+[18:56:18:416] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd6492f0]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:18:417] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd437350]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:18:417] [122:0000007a] [ERROR][com.freerdp.core.transport] - [transport_default_write]: BIO_should_retry returned a system error 32: Broken pipe
+[18:56:18:417] [122:0000007a] [ERROR][com.freerdp.core.peer] - [transport_default_write]: ERRCONNECT_CONNECT_TRANSPORT_FAILED [0x0002000D]
+[18:56:18:417] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd437350]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:18:417] [122:0000007a] [ERROR][com.freerdp.core.transport] - [transport_default_write]: BIO_should_retry returned a system error 32: Broken pipe
+org.kde.krdp: Closing Plasma Remote Session
+[18:56:18:417] [122:000000b9] [ERROR][com.freerdp.crypto] - [freerdp_tls_handshake]: BIO_do_handshake failed
+[18:56:18:417] [122:000000b9] [ERROR][com.freerdp.core.peer] - [peer_recv_callback_internal]: CONNECTION_STATE_NEGO - rdp_server_accept_nego() fail
+[18:56:18:417] [122:000000b9] [ERROR][com.freerdp.core.transport] - [transport_check_fds]: transport_check_fds: transport->ReceiveCallback() - STATE_RUN_FAILED [-1]
+org.kde.krdp: Unable to check file descriptor
+org.kde.krdp: Closing session
+org.kde.krdp: Session setup completed, start processing...
+[18:56:18:422] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd437350]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:18:410] [122:0000007a] [DEBUG][com.freerdp.core.rdp] - [rdp_server_transition_to_state][0x5585dd437350]: CONNECTION_STATE_INITIAL --> CONNECTION_STATE_INITIAL
+[18:56:18:411] [122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:18:411] [122:000000b7] [DEBUG][com.freerdp.core.rdp] - [rdp_server_transition_to_state][0x5585dd437350]: CONNECTION_STATE_INITIAL --> CONNECTION_STATE_NEGO
+[18:56:18:411] [122:000000b7] [DEBUG][com.freerdp.core.nego] - [nego_read_request_token_or_cookie]: received cookie [Cookie: mstshash=tester]
+[18:56:18:411] [122:000000b7] [DEBUG][com.freerdp.core.nego] - [nego_process_negotiation_request]: RDP_NEG_REQ: RequestedProtocol: [SSL][0x00000001]
+[18:56:18:411] [122:000000b7] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Client Security: RDSTLS:0 NLA:0 EXT:0 TLS:1 RDP:0
+[18:56:18:411] [122:000000b7] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Server Security: RDSTLS:0 NLA:0 EXT:1 TLS:1 RDP:0
+[18:56:18:411] [122:000000b7] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Negotiated Security: RDSTLS:0 NLA:0 EXT:0 TLS:1 RDP:0
+[18:56:18:411] [122:000000b7] [DEBUG][com.freerdp.core.rdp] - [rdp_check_fds][0x5585dd437350]: transport_check_fds() - -1
+[18:56:18:416] [122:0000007a] [DEBUG][com.freerdp.core.rdp] - [rdp_server_transition_to_state][0x5585dd6492f0]: CONNECTION_STATE_INITIAL --> CONNECTION_STATE_INITIAL
+[18:56:18:416] [122:000000b9] [DEBUG][com.freerdp.core.rdp] - [rdp_server_transition_to_state][0x5585dd6492f0]: CONNECTION_STATE_INITIAL --> CONNECTION_STATE_NEGO
+[18:56:18:416] [122:000000b9] [DEBUG][com.freerdp.core.nego] - [nego_read_request_token_or_cookie]: received cookie [Cookie: mstshash=tester]
+[18:56:18:416] [122:000000b9] [DEBUG][com.freerdp.core.nego] - [nego_process_negotiation_request]: RDP_NEG_REQ: RequestedProtocol: [SSL|HYBRID][0x00000003]
+[18:56:18:416] [122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:18:417] [122:000000b9] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Client Security: RDSTLS:0 NLA:1 EXT:0 TLS:1 RDP:0
+[18:56:18:417] [122:000000b9] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Server Security: RDSTLS:0 NLA:0 EXT:1 TLS:1 RDP:0
+[18:56:18:417] [122:000000b9] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Negotiated Security: RDSTLS:0 NLA:0 EXT:0 TLS:1 RDP:0
+[18:56:18:417] [122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:18:417] [122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:18:417] [122:000000b9] [DEBUG][com.freerdp.core.rdp] - [rdp_check_fds][0x5585dd6492f0]: transport_check_fds() - -1
+[18:56:18:422] [122:0000007a] [DEBUG][com.freerdp.core.rdp] - [rdp_server_transition_to_state][0x5585dd437350]: CONNECTION_STATE_INITIAL --> CONNECTION_STATE_INITIAL
+[18:56:18:422] [122:000000bb] [DEBUG][com.freerdp.core.rdp] - [rdp_server_transition_to_state][0x5585dd437350]: CONNECTION_STATE_INITIAL --> CONNECTION_STATE_NEGO
+[18:56:18:422] [122:000000bb] [DEBUG][com.freerdp.core.nego] - [nego_read_request_token_or_cookie]: received cookie [Cookie: mstshash=tester]
+[18:56:18:422] [122:000000bb] [DEBUG][com.freerdp.core.nego] - [nego_process_negotiation_request]: RDP_NEG_REQ: RequestedProtocol: [SSL|HYBRID|HYBRID_EX][0x0000000b]
+[18:56:18:422] [122:000000bb] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Client Security: RDSTLS:0 NLA:1 EXT:1 TLS:1 RDP:0
+[18:56:18:422] [122:000000bb] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Server Security: RDSTLS:0 NLA:0 EXT:1 TLS:1 RDP:0
+[18:56:18:422] [122:000000bb] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Negotiated Security: RDSTLS:0 NLA:0 EXT:1 TLS:0 RDP:0
+[18:56:18:422] [18:56:18:422] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd6492f0]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:18:422] [122:0000007a] [ERROR][com.freerdp.core.transport] - [transport_default_write]: BIO_should_retry returned a system error 32: Broken pipe
+[18:56:18:422] [122:0000007a] [ERROR][com.freerdp.core.peer] - [transport_default_write]: ERRCONNECT_CONNECT_TRANSPORT_FAILED [0x0002000D]
+[18:56:18:422] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd6492f0]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:18:422] [122:0000007a] [ERROR][com.freerdp.core.transport] - [transport_default_write]: BIO_should_retry returned a system error 32: Broken pipe
+org.kde.krdp: Closing Plasma Remote Session
+[18:56:18:422] [122:000000bb] [ERROR][com.freerdp.crypto] - [freerdp_tls_handshake]: BIO_do_handshake failed
+[18:56:18:422] [122:000000bb] [ERROR][com.freerdp.core.peer] - [peer_recv_callback_internal]: CONNECTION_STATE_NEGO - rdp_server_accept_nego() fail
+[18:56:18:422] [122:000000bb] [ERROR][com.freerdp.core.transport] - [transport_check_fds]: transport_check_fds: transport->ReceiveCallback() - STATE_RUN_FAILED [-1]
+org.kde.krdp: Unable to check file descriptor
+org.kde.krdp: Closing session
+[18:56:18:422] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd437350]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:18:422] [122:0000007a] [ERROR][com.freerdp.core.transport] - [transport_default_write]: BIO_should_retry returned a system error 32: Broken pipe
+[18:56:18:422] [122:0000007a] [ERROR][com.freerdp.core.peer] - [transport_default_write]: ERRCONNECT_CONNECT_TRANSPORT_FAILED [0x0002000D]
+[18:56:18:422] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd437350]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:18:422] [122:0000007a] [ERROR][com.freerdp.core.transport] - [transport_default_write]: BIO_should_retry returned a system error 32: Broken pipe
+org.kde.krdp: Closing Plasma Remote Session
+org.kde.krdp: Session setup completed, start processing...
+[18:56:19:500] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd437350]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:19:501] [122:000000c3] [ERROR][com.freerdp.crypto] - [freerdp_tls_handshake]: BIO_do_handshake failed
+[18:56:19:501] [122:000000c3] [ERROR][com.freerdp.core.peer] - [peer_recv_callback_internal]: CONNECTION_STATE_NEGO - rdp_server_accept_nego() fail
+[18:56:19:501] [122:000000c3] [ERROR][com.freerdp.core.transport] - [transport_check_fds]: transport_check_fds: transport->ReceiveCallback() - STATE_RUN_FAILED [-1]
+org.kde.krdp: Unable to check file descriptor
+org.kde.krdp: Closing session
+[18:56:19:501] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd437350]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:19:501] [122:0000007a] [ERROR][com.freerdp.core.transport] - [transport_default_write]: BIO_should_retry returned a system error 32: Broken pipe
+[18:56:19:501] [122:0000007a] [ERROR][com.freerdp.core.peer] - [transport_default_write]: ERRCONNECT_CONNECT_TRANSPORT_FAILED [0x0002000D]
+[18:56:19:501] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd437350]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:19:501] [122:0000007a] [ERROR][com.freerdp.core.transport] - [transport_default_write]: BIO_should_retry returned a system error 32: Broken pipe
+org.kde.krdp: Closing Plasma Remote Session
+org.kde.krdp: Session setup completed, start processing...
+[18:56:19:574] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd437350]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:19:574] [122:000000ca] [ERROR][com.freerdp.crypto] - [freerdp_tls_handshake]: BIO_do_handshake failed
+[18:56:19:574] [122:000000ca] [ERROR][com.freerdp.core.peer] - [peer_recv_callback_internal]: CONNECTION_STATE_NEGO - rdp_server_accept_nego() fail
+[18:56:19:574] [122:000000ca] [ERROR][com.freerdp.core.transport] - [transport_check_fds]: transport_check_fds: transport->ReceiveCallback() - STATE_RUN_FAILED [-1]
+org.kde.krdp: Unable to check file descriptor
+org.kde.krdp: Closing session
+[18:56:19:574] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd437350]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:19:574] [122:0000007a] [ERROR][com.freerdp.core.transport] - [transport_default_write]: BIO_should_retry returned a system error 32: Broken pipe
+[18:56:19:574] [122:0000007a] [ERROR][com.freerdp.core.peer] - [transport_default_write]: ERRCONNECT_CONNECT_TRANSPORT_FAILED [0x0002000D]
+[18:56:19:574] [122:0000007a] [WARN][com.freerdp.core.rdp] - [rdp_send_deactivate_all][0x5585dd437350]: rdpMcs::userId == 0, skip sending PDU_TYPE_DEACTIVATE_ALL
+[18:56:19:574] [122:0000007a] [ERROR][com.freerdp.core.transport] - [transport_default_write]: BIO_should_retry returned a system error 32: Broken pipe
+[122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:18:422] [122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:18:422] [122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:18:422] [122:000000bb] [DEBUG][com.freerdp.core.rdp] - [rdp_check_fds][0x5585dd437350]: transport_check_fds() - -1
+[18:56:18:422] [122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:18:422] [122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:19:500] [122:0000007a] [DEBUG][com.freerdp.core.rdp] - [rdp_server_transition_to_state][0x5585dd437350]: CONNECTION_STATE_INITIAL --> CONNECTION_STATE_INITIAL
+[18:56:19:500] [122:000000c3] [DEBUG][com.freerdp.core.rdp] - [rdp_server_transition_to_state][0x5585dd437350]: CONNECTION_STATE_INITIAL --> CONNECTION_STATE_NEGO
+[18:56:19:500] [122:000000c3] [DEBUG][com.freerdp.core.nego] - [nego_read_request_token_or_cookie]: received cookie [Cookie: mstshash=rdpuser]
+[18:56:19:500] [122:000000c3] [DEBUG][com.freerdp.core.nego] - [nego_process_negotiation_request]: RDP_NEG_REQ: RequestedProtocol: [SSL|HYBRID|HYBRID_EX][0x0000000b]
+[18:56:19:500] [122:000000c3] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Client Security: RDSTLS:0 NLA:1 EXT:1 TLS:1 RDP:0
+[18:56:19:500] [122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:19:500] [122:000000c3] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Server Security: RDSTLS:0 NLA:0 EXT:1 TLS:1 RDP:0
+[18:56:19:500] [122:000000c3] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Negotiated Security: RDSTLS:0 NLA:0 EXT:1 TLS:0 RDP:0
+[18:56:19:501] [122:000000c3] [DEBUG][com.freerdp.core.rdp] - [rdp_check_fds][0x5585dd437350]: transport_check_fds() - -1
+[18:56:19:501] [122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:19:501] [122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:19:574] [122:0000007a] [DEBUG][com.freerdp.core.rdp] - [rdp_server_transition_to_state][0x5585dd437350]: CONNECTION_STATE_INITIAL --> CONNECTION_STATE_INITIAL
+[18:56:19:574] [122:000000ca] [DEBUG][com.freerdp.core.rdp] - [rdp_server_transition_to_state][0x5585dd437350]: CONNECTION_STATE_INITIAL --> CONNECTION_STATE_NEGO
+[18:56:19:574] [122:000000ca] [DEBUG][com.freerdp.core.nego] - [nego_read_request_token_or_cookie]: received cookie [Cookie: mstshash=rdpuser]
+[18:56:19:574] [122:000000ca] [DEBUG][com.freerdp.core.nego] - [nego_process_negotiation_request]: RDP_NEG_REQ: RequestedProtocol: [SSL][0x00000001]
+[18:56:19:574] [122:000000ca] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Client Security: RDSTLS:0 NLA:0 EXT:0 TLS:1 RDP:0
+[18:56:19:574] [122:000000ca] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Server Security: RDSTLS:0 NLA:0 EXT:1 TLS:1 RDP:0
+[18:56:19:574] [122:000000ca] [DEBUG][com.freerdp.core.connection] - [rdp_server_accept_nego]: Negotiated Security: RDSTLS:0 NLA:0 EXT:0 TLS:1 RDP:0
+[18:56:19:574] [122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:19:574] [122:000000ca] [DEBUG][com.freerdp.core.rdp] - [rdp_check_fds][0x5585dd437350]: transport_check_fds() - -1
+[18:56:19:574] [122:0000007a] [DEBUG][com.freerdp.core] - [mcs_send_disconnect_provider_ultimatum]: sending DisconnectProviderUltimatum(rn-provider-initiated)
+[18:56:19:574] [12org.kde.krdp: Closing Plasma Remote Session
