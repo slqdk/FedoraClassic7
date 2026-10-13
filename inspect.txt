@@ -1,0 +1,384 @@
+== kcms
+desktop/kcm_krunnersettings.so
+kcm_about-distro.so
+kinfocenter/kcm_audio_information.so
+kinfocenter/kcm_block_devices.so
+kinfocenter/kcm_cpu.so
+kinfocenter/kcm_disks.so
+kinfocenter/kcm_edid.so
+kinfocenter/kcm_egl.so
+kinfocenter/kcm_energyinfo.so
+kinfocenter/kcm_firmware_security.so
+kinfocenter/kcm_glx.so
+kinfocenter/kcm_interrupts.so
+kinfocenter/kcm_kwinsupportinfo.so
+kinfocenter/kcm_memory.so
+kinfocenter/kcm_network.so
+kinfocenter/kcm_opencl.so
+kinfocenter/kcm_pci.so
+kinfocenter/kcm_samba.so
+kinfocenter/kcm_sensors.so
+kinfocenter/kcm_usb.so
+kinfocenter/kcm_vulkan.so
+kinfocenter/kcm_wayland.so
+kinfocenter/kcm_xserver.so
+systemsettings/kcm_access.so
+systemsettings/kcm_activities.so
+systemsettings/kcm_animations.so
+systemsettings/kcm_app-permissions.so
+systemsettings/kcm_autostart.so
+systemsettings/kcm_baloofile.so
+systemsettings/kcm_bluetooth.so
+systemsettings/kcm_bolt.so
+systemsettings/kcm_cellular_network.so
+systemsettings/kcm_colord.so
+systemsettings/kcm_colors.so
+systemsettings/kcm_componentchooser.so
+systemsettings/kcm_cursortheme.so
+systemsettings/kcm_desktoppaths.so
+systemsettings/kcm_desktoptheme.so
+systemsettings/kcm_fcitx5.so
+systemsettings/kcm_feedback.so
+systemsettings/kcm_fonts.so
+systemsettings/kcm_gamecontroller.so
+systemsettings/kcm_icons.so
+systemsettings/kcm_kaccounts.so
+systemsettings/kcm_kded.so
+systemsettings/kcm_keyboard.so
+systemsettings/kcm_keys.so
+systemsettings/kcm_krdpserver.so
+systemsettings/kcm_kscreen.so
+systemsettings/kcm_kwin_effects.so
+systemsettings/kcm_kwin_scripts.so
+systemsettings/kcm_kwin_virtualdesktops.so
+systemsettings/kcm_kwindecoration.so
+systemsettings/kcm_kwinrules.so
+systemsettings/kcm_kwinxwayland.so
+systemsettings/kcm_landingpage.so
+systemsettings/kcm_lookandfeel.so
+systemsettings/kcm_mobile_hotspot.so
+systemsettings/kcm_mobile_power.so
+systemsettings/kcm_mobile_wifi.so
+systemsettings/kcm_mobile_wired.so
+systemsettings/kcm_mouse.so
+systemsettings/kcm_nightlight.so
+systemsettings/kcm_nighttime.so
+systemsettings/kcm_notifications.so
+systemsettings/kcm_plasmakeyboard.so
+systemsettings/kcm_plasmalogin.so
+systemsettings/kcm_plasmasearch.so
+systemsettings/kcm_powerdevilprofilesconfig.so
+systemsettings/kcm_printer_manager.so
+systemsettings/kcm_pulseaudio.so
+systemsettings/kcm_push_notifications.so
+systemsettings/kcm_regionandlang.so
+systemsettings/kcm_screenlocker.so
+systemsettings/kcm_sddm.so
+systemsettings/kcm_smserver.so
+systemsettings/kcm_soundtheme.so
+systemsettings/kcm_splashscreen.so
+systemsettings/kcm_style.so
+systemsettings/kcm_tablet.so
+systemsettings/kcm_touchpad.so
+systemsettings/kcm_touchscreen.so
+systemsettings/kcm_users.so
+systemsettings/kcm_virtualkeyboard.so
+systemsettings/kcm_wallpaper.so
+systemsettings/kcm_workspace.so
+systemsettings_qwidgets/kcm_audiocd.so
+systemsettings_qwidgets/kcm_cddb.so
+systemsettings_qwidgets/kcm_clock.so
+systemsettings_qwidgets/kcm_device_automounter.so
+systemsettings_qwidgets/kcm_filetypes.so
+systemsettings_qwidgets/kcm_fontinst.so
+systemsettings_qwidgets/kcm_kamera.so
+systemsettings_qwidgets/kcm_kwallet5.so
+systemsettings_qwidgets/kcm_kwinoptions.so
+systemsettings_qwidgets/kcm_kwinscreenedges.so
+systemsettings_qwidgets/kcm_kwintabbox.so
+systemsettings_qwidgets/kcm_kwintouchscreen.so
+systemsettings_qwidgets/kcm_netpref.so
+systemsettings_qwidgets/kcm_networkmanagement.so
+systemsettings_qwidgets/kcm_proxy.so
+systemsettings_qwidgets/kcm_qtquicksettings.so
+systemsettings_qwidgets/kcm_recentFiles.so
+systemsettings_qwidgets/kcm_solid_actions.so
+systemsettings_qwidgets/kcm_webshortcuts.so
+systemsettings_qwidgets/kcmspellchecking.so
+== kcm desktop files
+kcm_about-distro.desktop
+kcm_access.desktop
+kcm_activities.desktop
+kcm_animations.desktop
+kcm_app-permissions.desktop
+kcm_audiocd.desktop
+kcm_autostart.desktop
+kcm_baloofile.desktop
+kcm_bluetooth.desktop
+kcm_bolt.desktop
+kcm_breezedecoration.desktop
+kcm_cddb.desktop
+kcm_cellular_network.desktop
+kcm_clock.desktop
+kcm_colord.desktop
+kcm_colors.desktop
+kcm_componentchooser.desktop
+kcm_cursortheme.desktop
+kcm_desktoppaths.desktop
+kcm_desktoptheme.desktop
+kcm_disks.desktop
+kcm_fcitx5.desktop
+kcm_feedback.desktop
+kcm_filetypes.desktop
+kcm_fontinst.desktop
+kcm_fonts.desktop
+kcm_gamecontroller.desktop
+kcm_icons.desktop
+kcm_kaccounts.desktop
+kcm_kamera.desktop
+kcm_kded.desktop
+kcm_keyboard.desktop
+kcm_keys.desktop
+kcm_krdpserver.desktop
+kcm_krunnersettings.desktop
+kcm_kscreen.desktop
+kcm_kwin_effects.desktop
+kcm_kwin_scripts.desktop
+kcm_kwin_virtualdesktops.desktop
+kcm_kwindecoration.desktop
+kcm_kwinoptions.desktop
+kcm_kwinrules.desktop
+kcm_kwintabbox.desktop
+kcm_kwinxwayland.desktop
+kcm_landingpage.desktop
+kcm_lookandfeel.desktop
+kcm_mobile_hotspot.desktop
+kcm_mobile_power.desktop
+kcm_mobile_wifi.desktop
+kcm_mobile_wired.desktop
+kcm_mouse.desktop
+kcm_netpref.desktop
+kcm_networkmanagement.desktop
+kcm_nightlight.desktop
+kcm_nighttime.desktop
+kcm_notifications.desktop
+kcm_oxygendecoration.desktop
+kcm_plasmakeyboard.desktop
+kcm_plasmalogin.desktop
+kcm_plasmasearch.desktop
+kcm_powerdevilprofilesconfig.desktop
+kcm_printer_manager.desktop
+kcm_proxy.desktop
+kcm_pulseaudio.desktop
+kcm_push_notifications.desktop
+kcm_qtquicksettings.desktop
+kcm_recentFiles.desktop
+kcm_regionandlang.desktop
+kcm_screenlocker.desktop
+kcm_sddm.desktop
+kcm_smserver.desktop
+kcm_solid_actions.desktop
+kcm_soundtheme.desktop
+kcm_splashscreen.desktop
+kcm_style.desktop
+kcm_tablet.desktop
+kcm_touchpad.desktop
+kcm_touchscreen.desktop
+kcm_trash.desktop
+kcm_users.desktop
+kcm_virtualkeyboard.desktop
+kcm_wallpaper.desktop
+kcm_webshortcuts.desktop
+kcm_workspace.desktop
+kcmspellchecking.desktop
+== kinfocenter
+kcm_audio_information.so
+kcm_block_devices.so
+kcm_cpu.so
+kcm_disks.so
+kcm_edid.so
+kcm_egl.so
+kcm_energyinfo.so
+kcm_firmware_security.so
+kcm_glx.so
+kcm_interrupts.so
+kcm_kwinsupportinfo.so
+kcm_memory.so
+kcm_network.so
+kcm_opencl.so
+kcm_pci.so
+kcm_samba.so
+kcm_sensors.so
+kcm_usb.so
+kcm_vulkan.so
+kcm_wayland.so
+kcm_xserver.so
+== programs
+kcmshell6: /usr/sbin/kcmshell6
+systemsettings: /usr/sbin/systemsettings
+kinfocenter: /usr/sbin/kinfocenter
+plasma-systemmonitor: /usr/sbin/plasma-systemmonitor
+ksysguard: -
+qdbus: /usr/sbin/qdbus
+qdbus6: -
+kwin_wayland: /usr/sbin/kwin_wayland
+kwin_x11: -
+lspci: /usr/sbin/lspci
+lsusb: /usr/sbin/lsusb
+udevadm: /usr/sbin/udevadm
+dmidecode: /usr/sbin/dmidecode
+inxi: -
+hwinfo: -
+nvidia-smi: -
+sensors: /usr/sbin/sensors
+upower: /usr/sbin/upower
+loginctl: /usr/sbin/loginctl
+kscreen-doctor: /usr/sbin/kscreen-doctor
+fwupdmgr: /usr/sbin/fwupdmgr
+smartctl: /usr/sbin/smartctl
+ujust: /usr/sbin/ujust
+steam: /usr/sbin/steam
+lact: /usr/sbin/lact
+pkexec: /usr/sbin/pkexec
+qdbus-qt6: /usr/sbin/qdbus-qt6
+xdg-open: /usr/sbin/xdg-open
+busctl: /usr/sbin/busctl
+systemd-analyze: /usr/sbin/systemd-analyze
+journalctl: /usr/sbin/journalctl
+gamescope: /usr/sbin/gamescope
+== python
+3.14.8 (main, Oct  1 2026, 00:00:00) [GCC 16.2.1 20260819 (Red Hat 16.2.1-2)]
+psutil 7.2.2
+dbus-python ok
+gi ok
+QtDBus ok
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import openpyxl; print('openpyxl', openpyxl.__version__)
+    ^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'openpyxl'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import xlrd; print('xlrd', xlrd.__version__)
+    ^^^^^^^^^^^
+ModuleNotFoundError: No module named 'xlrd'
+PySide6 6.11.2
+== pci.ids
+total 10340
+drwxr-xr-x 1 root root    4096 Jan  1  1970 .
+drwxr-xr-x 1 root root    4096 Jan  1  1970 ..
+-rw-r--r-- 2 root root 1778484 Jan  1  1970 iab.txt
+-rw-r--r-- 2 root root 6321491 Jan  1  1970 oui.txt
+-rw-r--r-- 2 root root 1671363 Jan  1  1970 pci.ids
+-rw-r--r-- 2 root root   63479 Jan  1  1970 pnp.ids
+-rw-r--r-- 2 root root  730602 Jan  1  1970 usb.ids
+magic
+magic.mgc
+== kwin effects/scripts
+/usr/share/kwin-wayland/tabbox:
+thumbnail_grid
+
+/usr/share/kwin/effects:
+cube
+
+/usr/share/kwin/scripts:
+virtualdesktopsonlyonprimary
+
+/usr/share/kwin/tabbox:
+big_icons
+compact
+coverswitch
+flipswitch
+sidebar
+effects/configs/kcm_kwin4_genericscripted.so
+effects/configs/kwin_blur_config.so
+effects/configs/kwin_cube_config.so
+effects/configs/kwin_diminactive_config.so
+effects/configs/kwin_glide_config.so
+effects/configs/kwin_hidecursor_config.so
+effects/configs/kwin_magiclamp_config.so
+effects/configs/kwin_mouseclick_config.so
+effects/configs/kwin_mousemark_config.so
+effects/configs/kwin_overview_config.so
+effects/configs/kwin_slide_config.so
+effects/configs/kwin_thumbnailaside_config.so
+effects/configs/kwin_tileseditor_config.so
+effects/configs/kwin_trackmouse_config.so
+effects/configs/kwin_windowview_config.so
+effects/configs/kwin_wobblywindows_config.so
+plugins/BounceKeysPlugin.so
+plugins/KeyNotificationPlugin.so
+plugins/MouseKeysPlugin.so
+plugins/SlowKeysPlugin.so
+plugins/StickyKeysPlugin.so
+plugins/TouchpadShortcutsPlugin.so
+plugins/buttonsrebind.so
+plugins/eis.so
+plugins/gamecontroller.so
+plugins/krunnerintegration.so
+plugins/nightlight.so
+plugins/screencast.so
+plugins/screenshot.so
+== kwinrc
+[org.kde.kdecoration2]
+BorderSize=Normal
+ButtonsOnLeft=M
+ButtonsOnRight=IA_X
+library=org.kde.kwin.aurorae
+theme=__aurorae__svg__Classic7
+== plasma version
+plasma-workspace-6.7.5-1.fc44.x86_64
+kwin-6.7.5-1.fc44.x86_64
+plasma-desktop-6.7.5-1.fc44.x86_64
+libplasma-6.7.5-1.fc44.x86_64
+package kf6-kio is not installed
+qt6-qtbase-6.11.2-3.fc44.x86_64
+== applets
+org.classic7.network
+org.classic7.startmenu
+org.kde.desktopcontainment
+org.kde.kdeconnect
+org.kde.plasma.activitypager
+org.kde.plasma.folder
+org.kde.plasma.icontasks
+org.kde.plasma.kickerdash
+org.kde.plasma.minimizeall
+org.kde.plasma.systemmonitor
+org.kde.plasma.systemmonitor.cpu
+org.kde.plasma.systemmonitor.cpucore
+org.kde.plasma.systemmonitor.diskactivity
+org.kde.plasma.systemmonitor.diskusage
+org.kde.plasma.systemmonitor.memory
+org.kde.plasma.systemmonitor.net
+org.kde.plasma.vault
+== sddm/lock
+org.classic7.desktop
+org.kde.breeze.desktop
+defaults
+layouts
+previews
+== ksmserver logout
+kde-qmlmodule.version
+libsessionsprivateplugin.so
+qmldir
+sessionsprivateplugin.qmltypes
+/usr/libexec/ksmserver-logout-greeter
+/usr/share/dbus-1/services/org.kde.LogoutPrompt.service
+/usr/share/locale/ar/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/ast/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/az/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/be/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/bg/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/bs/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/ca/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/ca@valencia/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/cs/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/da/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/de/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/el/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/en_GB/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/eo/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/es/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/et/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/eu/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
+/usr/share/locale/fi/LC_MESSAGES/plasma_applet_org.kde.plasma.lock_logout.mo
