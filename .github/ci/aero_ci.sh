@@ -4,7 +4,7 @@
 # The nested KWin composites with QPainter (no OpenGL here), so glass is see-through but not blurred.
 set -x
 exec 2>/out/script.log
-dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool kvantum >/out/dnf.log 2>&1 || true
+dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool kvantum zenity >/out/dnf.log 2>&1 || true
 S=/src/system_files
 cp -a $S/usr/lib/classic7/. /usr/lib/classic7/
 cp -a $S/usr/bin/. /usr/bin/ && chmod +x /usr/bin/classic7-*
@@ -61,6 +61,24 @@ layout() {   # what the taskbar holds now
       2>&1 | tail -n +2 | sed '1s/^ *string "//; $s/"$//' | grep -v '^$'
 }
 echo "== new account: $(layout)" >> /out/result.txt
+# the dialogs first, on the empty desktop (pictures for the README)
+(DISPLAY= classic7-appearance > /out/dialog.log 2>&1 &)
+sleep 7; shot 05-personalization
+X key ctrl+Tab; sleep 2; shot 06-window-color
+X key ctrl+Tab; sleep 2; shot 06b-appearance
+X key Escape; sleep 1
+(DISPLAY= classic7-taskbar-properties > /out/tbprops.log 2>&1 &)
+sleep 6; shot 12-taskbar-properties
+X key ctrl+Tab; sleep 1.5; shot 13-tbprops-start-menu
+X key Escape; sleep 1
+(DISPLAY= classic7-taskbar-properties --tray > /out/tbtray.log 2>&1 &)
+sleep 6; shot 14-notification-icons
+X key Escape; sleep 1
+# a GTK program (zenity) in the Classic7Aero GTK theme
+(DISPLAY= GDK_BACKEND=wayland zenity --forms --title "GTK program" --text "A GTK 3 window in the Aero look" \
+    --add-entry "Name" --add-combo "Look" --combo-values "Aero|Basic|Classic" --add-calendar "Date" > /dev/null 2>&1 &)
+sleep 5; shot 19-gtk
+X key Escape; sleep 1
 (DISPLAY= classic7-control >/dev/null 2>&1 &)
 (DISPLAY= classic7-notepad >/dev/null 2>&1 &)
 sleep 7
@@ -68,10 +86,6 @@ shot 02-windows
 X mousemove 26 780 click 1; sleep 3; shot 03-start
 X key Escape; sleep 1
 X keydown alt; X key Tab; sleep 1.2; shot 04-alt-tab; X keyup alt; sleep 1
-(DISPLAY= classic7-appearance > /out/dialog.log 2>&1 &)
-sleep 6; shot 05-personalization
-X key ctrl+Tab; sleep 2; shot 06-window-color
-X key Escape; sleep 1
 apply() {  # $1 = name, rest = options
     local name=$1; shift
     timeout 120 classic7-appearance "$@" > /out/apply-$name.log 2>&1
@@ -87,13 +101,6 @@ sleep 6; shot 11-windows-opaque
 apply sky --look aero --glass sky --intensity 45 --transparency on
 # Taskbar and Start Menu Properties
 classic7-taskbar-properties --show > /out/taskbar-before.json 2>&1
-(DISPLAY= classic7-taskbar-properties > /out/tbprops.log 2>&1 &)
-sleep 6; shot 12-taskbar-properties
-X key ctrl+Tab; sleep 1.5; shot 13-tbprops-start-menu
-X key Escape; sleep 1
-(DISPLAY= classic7-taskbar-properties --tray > /out/tbtray.log 2>&1 &)
-sleep 6; shot 14-notification-icons
-X key Escape; sleep 1
 # what the dialog's OK does, scripted: taskbar at the top, buttons never combined, Quick Launch,
 # Start menu changes, all tray icons shown; then back
 cat > /tmp/tbchange.py <<'EOP'

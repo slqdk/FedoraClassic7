@@ -1,9 +1,12 @@
 # Classic 7
 
-A Linux desktop that looks like Windows 7 with the **Windows Classic** theme, built as an
-image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomic + KDE Plasma, tuned for gaming).
+A Linux desktop that looks like Windows 7, with **Aero** glass, **Basic** or the **Windows Classic** theme,
+built as an image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomic + KDE Plasma, tuned for gaming).
 
-![Classic 7 desktop with the Start menu open](docs/screens/start-menu.png)
+<p>
+<img src="docs/screens/aero-start-menu.png" alt="Classic 7 in the Aero look with the Start menu open" width="49%">
+<img src="docs/screens/start-menu.png" alt="Classic 7 in the Classic look with the Start menu open" width="49%">
+</p>
 
 *Taken by the automatic tests in a Plasma session inside the image. The other pictures on this page come from the
 same tests or are drawn off-screen by the programs themselves; the right-click menu picture is a mockup.*
@@ -12,15 +15,15 @@ same tests or are drawn off-screen by the programs themselves; the right-click m
 
 | Area | Details |
 |---|---|
-| Look | Grey bevels, blue gradient title bars, Start button, Quick Launch, task buttons with text, notification area + clock, classic blue desktop |
-| Window borders | Own Aurorae theme `Classic7` (pixel-drawn min/max/close buttons) |
-| Taskbar & popups | Own Plasma style `classic7` |
-| Colours | `Classic7` colour scheme (Windows Standard palette) |
-| Apps | Qt "Windows" widget style; GTK apps use `Classic7` (Chicago95 recoloured to the Windows Standard palette) |
+| Looks | **Aero** (new accounts): glass window borders and taskbar in the colour you choose, the round Start orb, task buttons with icons and pinned programs, Aero Peek, its own wallpaper. **Basic**: the same in opaque light blue. **Classic**: grey bevels, blue gradient title bars, Start button, Quick Launch, task buttons with text, classic blue desktop. Switch in Personalization |
+| Window borders | Own Aurorae themes `Classic7Aero` (glass, blurred by KWin), `Classic7Basic` and `Classic7` (pixel-drawn buttons) |
+| Taskbar & popups | Own Plasma styles `classic7-aero` (see-through), `classic7-basic` and `classic7` |
+| Colours | `Classic7Aero` colour scheme (Windows 7 colours) and `Classic7` (Windows Standard palette) |
+| Apps | Aero and Basic: Kvantum style `Classic7Aero` (Windows 7 buttons, tabs, scroll bars, menus) and GTK theme `Classic7Aero`; Classic: Qt "Windows" widget style and GTK `Classic7` (Chicago95 recoloured to the Windows Standard palette) |
 | One look | No dark mode, no login splash; the other Global Themes Bazzite/Fedora ship (Fedora, Valve, Air, Oxygen, Breeze Dark/Twilight) are removed, Breeze stays as the fallback |
-| Icons / cursors | Breeze icons (desktop icons 32 px), Chicago95 standard cursors |
-| Start menu | Windows 7 layout: pinned and recent programs with jump lists, **All Programs** (with Accessories and System Tools), *Search programs and files*, Documents/Pictures/Music/Games, Computer, Control Panel, Devices and Printers, Run...; **Shut down** with Switch user, Log off, Lock, Restart, Sleep, Hibernate |
-| Taskbar and windows | Windows 7 right-click menu (Cascade, Stacked, Side by side, Start Task Manager), Show desktop button, Classic Alt+Tab, Aero Shake (and Win+Home), Win+Up/Down, snap to edges, Pin to Taskbar |
+| Icons / cursors | Breeze icons (desktop icons 32 px); Breeze Light cursors (Aero, Basic) or Chicago95 standard cursors (Classic) |
+| Start menu | Windows 7 layout: pinned and recent programs with jump lists, **All Programs** (with Accessories and System Tools), *Search programs and files*, Documents/Pictures/Music/Games, Computer, Control Panel, Devices and Printers, Run...; **Shut down** with Switch user, Log off, Lock, Restart, Sleep, Hibernate; links, power button and recent count chosen in Taskbar and Start Menu Properties |
+| Taskbar and windows | Windows 7 right-click menu (Cascade, Stacked, Side by side, Start Task Manager, Lock the taskbar, Properties), **Taskbar and Start Menu Properties**, Show desktop button with Aero Peek, Windows 7 Alt+Tab (Aero or Classic), Aero Shake (and Win+Home), Win+Up/Down, snap to edges, Pin to Taskbar |
 | Explorer | Dolphin set up like Windows Explorer: navigation pane, Back/Forward/Up with a clickable address bar, a command bar (Cut, Copy, Paste, Move to Trash, Create Folder, View Mode, Properties), Details view, no menu bar (the ☰ button has the menus), full-width status bar |
 | Explorer windows | Windows 7 **Recycle Bin** (original location, date deleted, restore, empty; the desktop icon follows), **Properties** for files, folders, shortcuts and drives (General, Security, Details, Customize, Shortcut, Tools), the **copy / move / delete progress** window with time remaining and More details |
 | Computer | Classic **Computer** window: drives as tiles with free-space bars (red when nearly full), grouped into hard disks, removable storage and network; opens with Win+E, from the desktop icon and the Start menu |
@@ -44,7 +47,7 @@ same tests or are drawn off-screen by the programs themselves; the right-click m
 | Screen savers | Mystify, 3D Pipes, Bubbles, Ribbons, 3D Text, Photos and Blank, with Screen Saver Settings (`scrnsave.scr`); films and games that keep the screen on hold them off |
 | Classic 7 Update | One click installs the newest Classic 7, app updates and new settings for your account; settings follow automatically after a restart |
 | Login screen | Classic "Log On" dialog on the desktop blue (SDDM theme) |
-| Appearance | Control Panel > Personalization (or All Programs > System > **Appearance**): classic-style dialog with colour schemes, per-item colours, font size and live preview |
+| Personalization | Control Panel > Personalization (or All Programs > System > **Personalization**): the theme (Aero, Basic, Classic) with previews, Window Color (glass colour, intensity, transparency, colour mixer), the Classic colour schemes with per-item colours, font size |
 | Gaming | Everything Bazzite ships (Steam, Lutris, GameMode, MangoHud, AMD/Mesa stack) + LACT for GPU fan/power control |
 | Updates | Atomic: whole-system updates and rollback, rebuilt daily from Bazzite |
 
@@ -88,12 +91,13 @@ Then make the package public once: `https://github.com/users/<you>/packages/cont
   systemctl reboot
   ```
 
-New user accounts start with the whole Classic 7 setup. An account that existed before gets the colours,
-window borders, Explorer layout, desktop icons (Computer, Recycle Bin) and the Classic 7 keys (Win+E, Win+R,
-Ctrl+Shift+Esc, Ctrl+Alt+Del, Win+Pause, PrtSc...) at its first login on Classic 7 (Classic 7 Update's
-settings step; run it again with `classic7-update --settings`). The taskbar and Start menu of such an account
-are not replaced by themselves: Appearance > Explorer > *Restore Classic 7 Taskbar*, or System Settings >
-Colors & Themes > Global Theme > *Classic 7* with **Desktop and window layout** ticked.
+New user accounts start with the whole Classic 7 setup in the **Aero** look. An account that existed before
+keeps the Classic look (choose Aero in Personalization) and gets the colours, window borders, Explorer layout,
+desktop icons (Computer, Recycle Bin) and the Classic 7 keys (Win+E, Win+R, Ctrl+Shift+Esc, Ctrl+Alt+Del,
+Win+Pause, PrtSc...) at its first login on Classic 7 (Classic 7 Update's settings step; run it again with
+`classic7-update --settings`). The taskbar and Start menu of such an account are not replaced by themselves:
+Personalization > Explorer > *Restore Taskbar*, or System Settings > Colors & Themes > Global Theme >
+*Classic 7* with **Desktop and window layout** ticked.
 
 ## Start menu, taskbar and keys
 
@@ -111,10 +115,21 @@ Colors & Themes > Global Theme > *Classic 7* with **Desktop and window layout** 
   Documents, Pictures, Music, Games (the Steam library), Computer, Control Panel, Devices and Printers, Default
   Programs, Help and Support and Run...; **Shut down** and the ▸ next to it (Switch user, Log off, Lock,
   Restart, Sleep, Hibernate). Right-click a program: Pin to Start Menu, Pin to Taskbar.
-- **Taskbar:** Start, Quick Launch icons (drag programs there, or right-click > Pin to Taskbar), task buttons
-  with text, the notification area, the clock and the narrow **Show desktop** button at the right end.
-  Right-click the taskbar for Cascade windows, Show windows stacked, Show windows side by side, Show the desktop
-  and Start Task Manager.
+- **Taskbar:** in Aero and Basic, the Start orb and task buttons with icons, one per program, where programs
+  stay pinned (right-click a program > Pin to Taskbar); in Classic, Start, Quick Launch icons (drag programs
+  there, or Pin to Taskbar) and task buttons with text. Then the notification area, the clock and the narrow
+  **Show desktop** button at the right end (Aero Peek: rest the mouse on it to look at the desktop).
+  Right-click the taskbar for Cascade windows, Show windows stacked, Show windows side by side, Show the desktop,
+  Start Task Manager, **Lock the taskbar** and **Properties**; right-click the Start button for Properties and
+  Open Explorer.
+- **Taskbar and Start Menu Properties** (`classic7-taskbar-properties`, also in Control Panel): Lock the
+  taskbar, Auto-hide the taskbar, Use small icons, Taskbar location on screen (bottom, left, right, top),
+  Taskbar buttons (Always combine, hide labels / Combine when taskbar is full / Never combine), the notification
+  area's **Customize...** (Show icon and notifications, Hide icon and notifications or Only show notifications
+  for each icon; Turn system icons on or off; Always show all icons), and Use Aero Peek. The **Start Menu** tab:
+  **Customize...** (which links the right column has, large icons, the number of recent programs), the power
+  button action and the privacy boxes (recent programs, recent items in jump lists). **Toolbars**: Quick Launch.
+  Everything is kept in Plasma's own panel settings.
 - **Run** (Win+R, or Start > Run...) takes program names, folders, files and web addresses, and the Windows
   names people type out of habit:
 
@@ -487,24 +502,40 @@ Gateway). Ctrl+Alt+Enter switches between full screen and a window. The connecti
 (`sdl-freerdp`), and its errors are shown with the Windows texts. The Windows PC must allow connections
 (System Properties > Remote, Windows Pro or Enterprise; Home editions can't be connected to).
 
-## Appearance dialog
+## Personalization
 
-![Appearance dialog](docs/appearance-dialog.png)
+<p>
+<img src="docs/screens/personalization.png" alt="Personalization: the Theme tab" width="49%">
+<img src="docs/screens/window-color.png" alt="Personalization: Window Color" width="49%">
+</p>
 
 Control Panel > Appearance and Personalization > **Personalization**, Start > All Programs > System >
-**Appearance**, or `classic7-appearance`. Like the classic Display Properties > Appearance page:
+**Personalization**, or `classic7-appearance`:
 
-- **Color scheme:** Classic 7 Standard, XP Blue, Seven Basic, Eleven Light (rounded corners, flat title buttons), Classic Grey, Slate, Sandstone, Terracotta, Pine, Night, High Contrast, plus your own (*Save As…*). The layout stays the same; only colours (and for Eleven Light the window corners and title buttons) change.
-- **Item / Color 1 / Color 2 / Text:** Desktop, Active and Inactive Title Bar (two-colour gradient), 3D Objects, Window, Selected Items, ToolTip. Bevel shades follow the 3D Objects colour.
-- **Font size:** Normal, Large, Extra Large.
-- **Apply** redraws the window borders, taskbar, Start button, colours and desktop colour for your account, live.
-  GTK apps (Firefox, Steam, Lutris) pick up the colours when restarted.
-- **Restore Default** goes back to the system theme files.
+- **Theme:** click **Aero**, **Basic** or **Classic** (each picture is drawn with your colours) and Apply. Window
+  borders, taskbar, Start menu, Show desktop button, Alt+Tab, wallpaper, cursors and the controls of Qt and GTK
+  programs change together. Going between Aero/Basic and Classic changes the taskbar too: Aero and Basic keep
+  programs pinned on icon-only task buttons, Classic has Quick Launch and task buttons with text (the pinned
+  programs move across). Desktop Background, Window Color, Sounds and Screen Saver along the bottom open their
+  settings.
+- **Window Color** (Aero): 16 glass colours, *Enable transparency*, *Color intensity* and a colour mixer (hue,
+  saturation, brightness), with a preview drawn by the theme code. A colour other than the default draws your own
+  copy of the glass theme in `~/.local/share`.
+- **Appearance:** the Classic theme's colour schemes, like the classic Display Properties > Appearance page:
+  - **Color scheme:** Classic 7 Standard, XP Blue, Seven Basic, Eleven Light (rounded corners, flat title buttons), Classic Grey, Slate, Sandstone, Terracotta, Pine, Night, High Contrast, plus your own (*Save As…*). The layout stays the same; only colours (and for Eleven Light the window corners and title buttons) change.
+  - **Item / Color 1 / Color 2 / Text:** Desktop, Active and Inactive Title Bar (two-colour gradient), 3D Objects, Window, Selected Items, ToolTip. Bevel shades follow the 3D Objects colour.
+  - **Font size:** Normal, Large, Extra Large; used by every theme.
+- **Apply** changes your account live. Open programs get the new controls (and GTK apps such as Firefox, Steam
+  and Lutris the new colours) when they start again. **Restore Default** works on the tab you are on: Aero, the
+  Sky glass colour, or Classic 7 Standard.
 - **Explorer tab:** *Use Classic 7 Explorer Layout and Menus* applies the Classic 7 Dolphin layout and right-click
-  menus to your account (old files kept as `.bak`; the desktop menu changes at the next login); *Restore Classic 7
-  Taskbar* builds the taskbar and Start menu again.
+  menus to your account (old files kept as `.bak`; the desktop menu changes at the next login); *Restore Taskbar*
+  builds the taskbar and Start menu of the theme in use again.
 
-Command line: `classic7-appearance --list`, `--apply Night --size Large`, `--reset`, `--explorer`, `--taskbar` (rebuild the taskbar with Start on the left), `--dry-run`.
+Command line: `classic7-appearance --look aero|basic|classic`, `--glass Ruby` (a name from `--list`, or
+`#RRGGBB`), `--intensity 0-100`, `--transparency on|off`, `--apply Night --size Large` (a Classic scheme),
+`--reset` (Classic 7 Standard), `--explorer`, `--taskbar` (rebuild the taskbar), `--page color` (open the dialog
+on a tab), `--dry-run`.
 
 ## Programs and Features
 
@@ -615,6 +646,9 @@ switcher `/usr/share/kwin-wayland/tabbox/classic7`; the Show desktop button is t
 | `classic7-mstsc [FILE.rdp] [/v:COMPUTER[:PORT]] [/f] [/w:W /h:H] [/edit FILE.rdp]` (`mstsc`) | Remote Desktop Connection |
 | `classic7-photos [--slideshow] [PICTURE\|FOLDER]` | Photo Viewer |
 | `classic7-run [TEXT]` | Run dialog, or run TEXT the way the dialog does |
+| `classic7-appearance [--page theme\|color\|appearance\|explorer]` | Personalization (`--look`, `--glass`... see Personalization) |
+| `classic7-taskbar-properties [--page taskbar\|startmenu\|toolbars] [--tray] [--show]` | Taskbar and Start Menu Properties; `--tray` Notification Area Icons alone; `--show` prints the taskbar's settings |
+| `classic7-taskbar-pin [--remove] PROGRAM`, `--list` | Pin to Taskbar (Quick Launch in Classic, the task buttons in Aero and Basic) |
 
 `classic7-sessiond` (a user service started before the desktop) shows KDE's file operations in the
 Windows 7 progress window by taking the `org.kde.kuiserver` / `org.kde.JobViewServer` D-Bus names
@@ -657,9 +691,11 @@ blue MOK screen and switch Secure Boot back on.
 
 ## Changing the look
 
-Per user, use the Appearance dialog. To change the **system default** for everyone, edit
-`SCHEMES[0]` in [`classic7theme.py`](system_files/usr/lib/classic7/classic7theme.py) (all drawing code
-lives there, shared with the dialog) and regenerate:
+Per user, use Personalization. The pictures are drawn by code, shared with the dialog:
+[`classic7theme.py`](system_files/usr/lib/classic7/classic7theme.py) the Classic look (`SCHEMES[0]` is the
+system default scheme), [`classic7aero.py`](system_files/usr/lib/classic7/classic7aero.py) the Aero and Basic
+window borders, Plasma styles and the Start orb, [`classic7kvantum.py`](system_files/usr/lib/classic7/classic7kvantum.py)
+the Kvantum theme for Qt programs, and `tools/make_wallpaper.py` the Aero wallpaper. After a change, regenerate:
 
 ```bash
 pip install cairosvg          # only for the preview images
@@ -671,7 +707,9 @@ Other knobs:
 
 | What | Where |
 |---|---|
-| Taskbar layout (Start, quick launch, tray…) | `system_files/usr/share/plasma/look-and-feel/org.classic7.desktop/contents/layouts/` |
+| Taskbar layout (Start, quick launch, tray…) | Classic: `system_files/usr/share/plasma/look-and-feel/org.classic7.desktop/contents/layouts/`, Aero and Basic: `.../org.classic7.aero.desktop/contents/layouts/` |
+| What new accounts start with (Aero) | `system_files/etc/skel/.config/` (`classic7/appearance.json`, `kdeglobals`, `kwinrc`, `plasmarc`, `kcminputrc`, `Kvantum/`, `gtk-3.0`, `gtk-4.0`) |
+| GTK look in Aero and Basic | `system_files/usr/share/themes/Classic7Aero/` |
 | Start menu | `system_files/usr/share/plasma/plasmoids/org.classic7.startmenu/`; All Programs folders: `system_files/etc/xdg/menus/applications-merged/classic7.menu` |
 | System-wide KDE defaults (fonts, animations, buttons) | `system_files/usr/share/classic7/xdg-defaults/` |
 | Dolphin defaults / toolbars | `system_files/usr/share/classic7/xdg-defaults/dolphinrc`, `system_files/etc/skel/.local/share/kxmlgui5/dolphin/dolphinui.rc` |
@@ -684,7 +722,13 @@ Other knobs:
 
 - GTK4/libadwaita apps (most GNOME apps) ignore GTK themes; Steam, Electron and Flatpak apps draw their own UI.
 - No Microsoft artwork, fonts or sounds: icons, Start emblem and fonts are free look-alikes (Noto Sans).
-- The login screen always uses the Classic 7 Standard blue; the Appearance dialog doesn't change it.
+- The login screen always uses the Classic 7 Standard blue; Personalization doesn't change it.
+- Aero's glass is blurred by KWin's Blur effect, which needs OpenGL: in a virtual machine without 3D
+  acceleration the glass is see-through but sharp. Window titles have no white glow behind the text, and Aero
+  Peek shows the desktop rather than outlines of the windows.
+- Programs pick their controls when they start, so open programs keep the old ones after a theme change
+  until they are started again. Taskbar and Start Menu Properties has only Quick Launch under Toolbars
+  (no Address, Links or Desktop toolbars).
 - Computer is its own window, not a page inside Dolphin: Dolphin's sidebar has no "Computer" entry
   (its *Devices* section lists the drives with bars instead), and opening a drive hands over to Dolphin.
 - Explorer has no Libraries (the Computer window's Libraries entries open the normal folders);

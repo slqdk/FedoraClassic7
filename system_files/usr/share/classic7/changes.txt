@@ -1,6 +1,13 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
+## 2026-10-13  Aero, Personalization, Taskbar and Start Menu Properties
+- **The Aero look**, as well as Classic: glass window borders and a glass taskbar in the colour you choose, the round Start button, a Start menu with a white list and the glass column on the right, task buttons with icons where programs are pinned, Aero Peek on the Show desktop button, Windows 7 buttons, tabs and scroll bars in programs, a new wallpaper and white cursors. **Basic** is the same look in light blue without glass. New accounts start in Aero; your account keeps Classic until you choose otherwise.
+- **Personalization** (Control Panel > Appearance and Personalization > Personalization): click Aero, Basic or Classic and Apply. **Window Color** has 16 glass colours, Enable transparency, Color intensity and a colour mixer, with a preview; the Classic colour schemes and the font size are on the Appearance tab. Programs that are open get the new controls when they start again.
+- **Taskbar and Start Menu Properties** (right-click the taskbar > Properties, or right-click the Start button > Properties): Lock the taskbar, Auto-hide, Use small icons, the taskbar's place on the screen, how task buttons combine, which notification area icons show (Customize...), Aero Peek; the Start menu's links and number of recent programs (Customize...), what the power button does, and Quick Launch under Toolbars. *Lock the taskbar* is also on the taskbar's right-click menu.
+- **Pin to Taskbar** pins to the task buttons in Aero and Basic (to Quick Launch in Classic).
+- Control Panel has **Taskbar and Start Menu**, and **Notification Area Icons** opens the Windows 7 window for the tray icons.
+
 ## 2026-10-13  Remote Desktop both ways, Control Panel in Small icons, fewer startup programs
 - **Remote Desktop to this computer works again.** Windows said "Your credentials did not work" for every account, because KDE's Remote Desktop server and the newer FreeRDP that Fedora updated to didn't agree on how to log on. Classic 7 now carries KDE's fix until Plasma ships it.
 - **System Properties > Remote** (Control Panel > System > Remote settings): choose *Allow connections from computers running any version of Remote Desktop* and click OK. Log on from Windows with this computer's account name and password while you are logged on here; nothing has to be accepted on this screen, the certificate lasts ten years, and Classic 7 offers to open the firewall. Select Users... adds names and passwords only for Remote Desktop.

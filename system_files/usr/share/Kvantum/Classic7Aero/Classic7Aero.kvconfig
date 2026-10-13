@@ -187,7 +187,7 @@ inherits=LineEdit
 
 [DropDownButton]
 inherits=PanelButtonCommand
-indicator.element=arrow
+indicator.element=arrow-down
 
 [IndicatorArrow]
 indicator.element=arrow

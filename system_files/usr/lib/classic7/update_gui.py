@@ -121,7 +121,7 @@ class UpdateWindow(QMainWindow):
         see = QLabel("See also")
         see.setStyleSheet("color: #1E395B;")
         sv.addWidget(see)
-        sv.addWidget(LinkButton("Appearance", lambda: subprocess.Popen(["classic7-appearance"])))
+        sv.addWidget(LinkButton("Personalization", lambda: subprocess.Popen(["classic7-appearance"])))
         sv.addWidget(LinkButton("Software (Bazaar)", self.open_store))
         h.addWidget(side)
 

@@ -223,9 +223,11 @@ def change_script(old: Taskbar, new: Taskbar, look_name: str) -> str:
         js.append("if (tm) {")
         js.append(f'tm.writeConfig("groupingStrategy", {0 if new.buttons == "never" else 1});')
         js.append(f'tm.writeConfig("onlyGroupWhenFull", {json.dumps(new.buttons == "full")});')
-        if kind == "org.kde.plasma.taskmanager" and look_name == "classic":
-            js.append('tm.writeConfig("taskMaxWidth", 0); tm.writeConfig("maxTextLines", 1); '
-                      'tm.writeConfig("taskHoverEffect", false);')
+        if kind == "org.kde.plasma.taskmanager":
+            # one line of text on each button, as in Windows 7
+            js.append('tm.writeConfig("maxTextLines", 1);')
+            if look_name == "classic":
+                js.append('tm.writeConfig("taskMaxWidth", 0); tm.writeConfig("taskHoverEffect", false);')
         js.append("tm.reloadConfig(); }")
     if new.quicklaunch != old.quicklaunch and new.can_quicklaunch:
         if new.quicklaunch:
@@ -282,23 +284,17 @@ def apply(old: Taskbar, new: Taskbar) -> bool:
 # Notification area icons: names and pictures
 # =============================================================================
 PLASMOID_DIRS = [Path.home() / ".local/share/plasma/plasmoids", Path("/usr/share/plasma/plasmoids")]
+PLUGIN_DIRS = [Path("/usr/lib64/qt6/plugins"), Path("/usr/lib/qt6/plugins")]
+_applets: dict[str, dict] | None = None
 
 
-def plasmoid_info(plugin: str) -> tuple[str, str] | None:
-    """(name, icon) from an installed plasmoid's metadata."""
-    for base in PLASMOID_DIRS:
-        f = base / plugin / "metadata.json"
-        try:
-            meta = json.loads(f.read_text()).get("KPlugin", {})
-        except (OSError, ValueError):
-            continue
-        return str(meta.get("Name") or plugin), str(meta.get("Icon") or "preferences-desktop-notification")
-    return None
-
-
-def tray_plasmoids() -> list[str]:
-    """Plasmoids that can live in the notification area (the system icons that can be turned on)."""
-    out = []
+def applets() -> dict[str, dict]:
+    """Every installed Plasma applet's metadata by id: QML packages (metadata.json) and the ones
+    built into libraries (plasma/applets/*.so, read with QPluginLoader without loading them)."""
+    global _applets
+    if _applets is not None:
+        return _applets
+    found: dict[str, dict] = {}
     for base in PLASMOID_DIRS:
         try:
             dirs = sorted(base.iterdir())
@@ -309,10 +305,36 @@ def tray_plasmoids() -> list[str]:
                 meta = json.loads((d / "metadata.json").read_text())
             except (OSError, ValueError):
                 continue
-            flag = meta.get("X-Plasma-NotificationArea")
-            if str(flag).lower() == "true" and d.name not in out:
-                out.append(d.name)
-    return out
+            found.setdefault(str(meta.get("KPlugin", {}).get("Id") or d.name), meta)
+    try:
+        from PySide6.QtCore import QLibraryInfo, QPluginLoader
+        dirs = [Path(QLibraryInfo.path(QLibraryInfo.LibraryPath.PluginsPath))] + PLUGIN_DIRS
+    except ImportError:
+        QPluginLoader, dirs = None, []
+    for base in dirs:
+        for lib in sorted((base / "plasma/applets").glob("*.so")) if QPluginLoader else []:
+            try:
+                meta = QPluginLoader(str(lib)).metaData().get("MetaData") or {}
+            except (RuntimeError, AttributeError):
+                continue
+            if isinstance(meta, dict) and meta.get("KPlugin"):
+                found.setdefault(str(meta["KPlugin"].get("Id") or lib.stem), meta)
+    _applets = found
+    return found
+
+
+def plasmoid_info(plugin: str) -> tuple[str, str] | None:
+    """(name, icon) from an installed applet's metadata."""
+    meta = applets().get(plugin)
+    if meta is None:
+        return None
+    kp = meta.get("KPlugin", {})
+    return str(kp.get("Name") or plugin), str(kp.get("Icon") or "preferences-desktop-notification")
+
+
+def tray_plasmoids() -> list[str]:
+    """Applets made for the notification area (the system icons that can be turned on or off)."""
+    return [pid for pid, meta in applets().items() if str(meta.get("X-Plasma-NotificationArea")).lower() == "true"]
 
 
 def with_behavior(tray: Tray, item: str, behavior: str) -> Tray:

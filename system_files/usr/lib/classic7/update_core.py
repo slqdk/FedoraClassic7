@@ -669,7 +669,7 @@ def refresh_account(log: Log) -> list[str]:
         try:
             import classic7appearance as backend
             res = backend.apply(backend.State.load().palette)
-            problems += [n for n in res.notes if not n.startswith("Restart open GTK apps")]
+            problems += [n for n in res.notes if not n.startswith("Restart open")]
         except Exception as e:  # noqa: BLE001 - report, keep going with the other steps
             problems.append(f"Appearance: {e}")
     else:
