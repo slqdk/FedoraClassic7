@@ -2,7 +2,7 @@
 # under test may be older than the branch). Logs go to /out/native-*.log.
 devel=()
 for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel \
-           kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel qt6-qtbase-devel qt6-qtdeclarative-devel; do
+           kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel; do
     rpm -q "$pkg" >/dev/null 2>&1 || devel+=("$pkg")
 done
 ((${#devel[@]})) && dnf5 -y install --setopt=install_weak_deps=False "${devel[@]}" > /out/native-dnf.log 2>&1
