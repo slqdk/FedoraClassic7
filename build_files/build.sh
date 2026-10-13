@@ -125,7 +125,8 @@ chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-mail /usr/bin/classic7-netw
     /usr/bin/classic7-diskmgmt /usr/libexec/classic7-disk-helper /usr/bin/classic7-control \
     /usr/bin/classic7-taskmgr /usr/bin/classic7-security /usr/bin/classic7-jumplist \
     /usr/bin/classic7-system /usr/bin/classic7-devmgmt /usr/bin/classic7-sheet /usr/bin/classic7-arrange \
-    /usr/bin/classic7-programs
+    /usr/bin/classic7-programs /usr/bin/classic7-notepad /usr/bin/classic7-calc /usr/bin/classic7-charmap \
+    /usr/bin/classic7-stickynotes /usr/bin/classic7-quickshot /usr/bin/classic7-paint
 # KWin looks for window switchers and scripts in kwin-wayland/ (Plasma 6.4+) and, for older
 # packages, in kwin/: make ours visible in both
 for d in tabbox/classic7 scripts/classic7-aeroshake; do
@@ -142,7 +143,7 @@ printf '{"build": "%s", "base": "%s", "content": "%s"}\n' "$(date -u +%Y-%m-%dT%
     "$base" "$content" > /usr/share/classic7/build-info.json
 chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
 python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PySide6.QtPrintSupport, PIL, pyte, docx, olefile"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app, accessories, notepad_app, calc_engine, calc_app, charmap_app, stickynotes_app, quickshot_app, paint_canvas, paint_app"
 python3 -c "import PySide6.QtWebEngineWidgets, keyring, html2text" || echo "WARNING: Mail falls back to the simple message view"
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
@@ -215,6 +216,17 @@ p = show_model.new_presentation('horizon'); show_pptx.write_pptx(p, '/tmp/c7show
 q = show_pptx.read_pptx('/tmp/c7show.pptx'); assert len(q.slides) == 1
 img = show_render.Renderer(q).thumbnail(q.slides[0], 200); assert not img.isNull()"
 rm -f /tmp/c7show.pptx
+# Accessories: Notepad, Calculator, Character Map, Sticky Notes, Quick Shot, Paint
+for a in notepad calc charmap stickynotes quickshot paint; do
+    test -x /usr/bin/classic7-$a
+    test -f /usr/share/applications/classic7-$a.desktop
+done
+test -f /etc/xdg/autostart/classic7-quickshot.desktop
+grep -q "^text/plain=classic7-notepad.desktop" /etc/xdg/mimeapps.list
+PYTHONPATH=/usr/lib/classic7 python3 -c "
+from calc_engine import Engine
+e = Engine(); [e.digit(c) for c in '12']; e.binary('+'); e.digit('3'); e.binary('*'); e.digit('4'); e.equals()
+assert e.display() == '60', e.display()"
 # Programs and Features, the taskbar menu
 test -x /usr/bin/classic7-programs
 /usr/bin/classic7-programs --help >/dev/null

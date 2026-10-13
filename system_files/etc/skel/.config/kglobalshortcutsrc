@@ -30,3 +30,12 @@ Classic7 Restore or Minimize=Meta+Down,none,Classic 7: Restore, or minimize (Win
 
 [services][classic7-system.desktop]
 _launch=Meta+Pause
+
+[services][classic7-quickshot.desktop]
+_launch=Ctrl+Up
+Region=Print
+FullScreen=Shift+Print
+
+[services][org.kde.spectacle.desktop]
+_launch=none
+FullScreenScreenShot=none

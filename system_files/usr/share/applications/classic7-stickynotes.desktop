@@ -1,0 +1,16 @@
+[Desktop Entry]
+Type=Application
+Name=Sticky Notes
+GenericName=Notes
+Comment=Notes on the desktop
+Exec=classic7-stickynotes
+Icon=knotes
+Terminal=false
+Categories=Qt;Utility;
+Keywords=sticky;notes;memo;post-it;noter;
+StartupWMClass=classic7-stickynotes
+Actions=New;
+
+[Desktop Action New]
+Name=New note
+Exec=classic7-stickynotes --new

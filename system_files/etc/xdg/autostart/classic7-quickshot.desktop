@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Quick Shot
+Comment=Screen capture in the notification area (Ctrl+Up, PrtSc)
+Exec=classic7-quickshot --background
+Icon=spectacle
+NoDisplay=true
+X-KDE-autostart-phase=2
+OnlyShowIn=KDE;

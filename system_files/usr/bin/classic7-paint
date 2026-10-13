@@ -1,0 +1,10 @@
+#!/usr/bin/python3
+"""Classic 7 accessory: see /usr/lib/classic7/paint_app.py"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+if __name__ == "__main__":
+    from paint_app import main
+    sys.exit(main(sys.argv[1:]))

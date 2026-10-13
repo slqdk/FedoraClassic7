@@ -1,0 +1,17 @@
+#!/bin/bash
+# Quick Shot, screen capture in the style of Lightshot (Ctrl+Up / PrtSc, Shift+PrtSc).
+#   classic7-quickshot               select an area
+#   classic7-quickshot --full        save the whole screen to the screenshot folder
+#   classic7-quickshot --background  start in the notification area only (login)
+# A running Quick Shot is asked over D-Bus, so the capture starts at once.
+mode=region
+[[ "${1:-}" == "--full" ]] && mode=full
+if [[ "${1:-}" == "-h" || "${1:-}" == "--help" ]]; then
+    sed -n '2,6p' "$0" | sed 's/^# \{0,1\}//'
+    exit 0
+fi
+if [[ "${1:-}" != "--background" ]] && \
+   busctl --user call org.classic7.QuickShot /QuickShot org.classic7.QuickShot Capture s "$mode" >/dev/null 2>&1; then
+    exit 0
+fi
+exec /usr/bin/python3 -c 'import os, sys; sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7")); from quickshot_app import main; sys.exit(main(sys.argv[1:]))' "$@"

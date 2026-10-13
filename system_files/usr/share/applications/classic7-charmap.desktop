@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Character Map
+GenericName=Character Map
+Comment=Find and copy special characters
+Exec=classic7-charmap
+Icon=accessories-character-map
+Terminal=false
+Categories=Qt;Utility;
+Keywords=charmap;character;symbol;unicode;special;tegn;
+StartupWMClass=classic7-charmap

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Calculator
+GenericName=Calculator
+Comment=Standard, scientific and programmer calculator
+Exec=classic7-calc
+Icon=accessories-calculator
+Terminal=false
+Categories=Qt;Utility;Calculator;
+Keywords=calculator;calc;math;hex;binary;lommeregner;
+StartupWMClass=classic7-calc

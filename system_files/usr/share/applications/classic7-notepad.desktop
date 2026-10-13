@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=Notepad
+GenericName=Text Editor
+Comment=Create and edit text files
+Exec=classic7-notepad %F
+Icon=accessories-text-editor
+Terminal=false
+Categories=Qt;Utility;TextEditor;
+Keywords=notepad;text;editor;txt;log;tekst;
+MimeType=text/plain;text/x-log;application/x-wine-extension-ini;text/x-readme;
+StartupWMClass=classic7-notepad

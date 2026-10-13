@@ -117,3 +117,5 @@ application/x-msexcel=classic7-sheet.desktop;
 application/x-excel=classic7-sheet.desktop;
 text/csv=classic7-sheet.desktop;
 text/x-comma-separated-values=classic7-sheet.desktop;
+text/plain=classic7-notepad.desktop;
+text/x-log=classic7-notepad.desktop;

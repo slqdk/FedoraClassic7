@@ -137,6 +137,10 @@ class KWinBridge(QObject):
     def refresh(self):
         self._run(LIST_JS % {"service": self.service})
 
+    def script(self, js: str):
+        """Run a small KWin script (for windows that place themselves, like Sticky Notes)."""
+        self._run(js)
+
     def arrange(self, mode: str):
         """cascade, stacked or side (by side)."""
         if mode in ("cascade", "stacked", "side"):

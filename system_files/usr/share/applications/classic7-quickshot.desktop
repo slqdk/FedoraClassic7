@@ -1,0 +1,21 @@
+[Desktop Entry]
+Type=Application
+Name=Quick Shot
+GenericName=Screen Capture
+Comment=Capture part of the screen, draw on it, copy or save it (like Lightshot)
+Exec=classic7-quickshot
+Icon=spectacle
+Terminal=false
+Categories=Qt;Utility;Graphics;
+Keywords=screenshot;snip;snipping;lightshot;capture;print screen;skærmbillede;
+StartupWMClass=classic7-quickshot
+X-KDE-StartupNotify=false
+Actions=Region;FullScreen;
+
+[Desktop Action Region]
+Name=Capture an area
+Exec=classic7-quickshot
+
+[Desktop Action FullScreen]
+Name=Save the whole screen
+Exec=classic7-quickshot --full
