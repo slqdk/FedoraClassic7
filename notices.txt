@@ -1,0 +1,67 @@
+as root, right password:
+pam_authenticate: 7 Authentication failure
+pam_acct_mgmt: 9 Authentication service cannot retrieve authentication info
+as tester, right password:
+pam_authenticate: 7 Authentication failure
+pam_acct_mgmt: 9 Authentication service cannot retrieve authentication info
+as tester, wrong password:
+pam_authenticate: 7 Authentication failure
+pam_acct_mgmt: 9 Authentication service cannot retrieve authentication info
+as root, debug service:
+pam_authenticate: 9 Authentication service cannot retrieve authentication info
+pam_acct_mgmt: 9 Authentication service cannot retrieve authentication info
+as tester, debug service:
+pam_authenticate: 9 Authentication service cannot retrieve authentication info
+pam_acct_mgmt: 9 Authentication service cannot retrieve authentication info
+unix_chkpwd directly:
+exit 9
+--- syslog
+<85>Oct 13 20:21:53 python3: pam_unix(login:auth): authentication failure; logname= uid=1000 euid=1000 tty= ruser= rhost=  user=tester
+<87>Oct 13 20:21:55 python3: pam_unix(login:account): setuid failed: Operation not permitted
+<83>Oct 13 20:21:55 unix_chkpwd[49]: could not obtain user info (tester)
+<86>Oct 13 20:21:55 su[43]: pam_unix(su:session): session closed for user tester
+<87>Oct 13 20:21:55 python3: pam_unix(c7debug:auth): username [tester] obtained
+<85>Oct 13 20:21:55 unix_chkpwd[53]: check pass; user unknown
+<85>Oct 13 20:21:55 unix_chkpwd[53]: password check failed for user (tester)
+<85>Oct 13 20:21:55 python3: pam_unix(c7debug:auth): authentication failure; logname= uid=0 euid=0 tty= ruser= rhost=  user=tester
+<83>Oct 13 20:21:57 unix_chkpwd[54]: could not obtain user info (tester)
+<37>Oct 13 20:21:57 su[55]: (to tester) root on none
+<86>Oct 13 20:21:57 su[55]: pam_unix(su:session): session opened for user tester(uid=1000) by (uid=0)
+<83>Oct 13 20:21:57 su[55]: pam_lastlog2(su:session): Cannot create/open database (/var/lib/lastlog/lastlog2.db): unable to open database file
+<87>Oct 13 20:21:57 python3: pam_unix(c7debug:auth): username [tester] obtained
+<85>Oct 13 20:21:57 unix_chkpwd[59]: check pass; user unknown
+<85>Oct 13 20:21:57 unix_chkpwd[59]: password check failed for user (tester)
+<85>Oct 13 20:21:57 python3: pam_unix(c7debug:auth): authentication failure; logname= uid=1000 euid=1000 tty= ruser= rhost=  user=tester
+<87>Oct 13 20:21:59 python3: pam_unix(c7debug:account): setuid failed: Operation not permitted
+<83>Oct 13 20:21:59 unix_chkpwd[60]: could not obtain user info (tester)
+<86>Oct 13 20:21:59 su[55]: pam_unix(su:session): session closed for user tester
+<37>Oct 13 20:21:59 su[62]: (to tester) root on none
+<86>Oct 13 20:21:59 su[62]: pam_unix(su:session): session opened for user tester(uid=1000) by (uid=0)
+<83>Oct 13 20:21:59 su[62]: pam_lastlog2(su:session): Cannot create/open database (/var/lib/lastlog/lastlog2.db): unable to open database file
+<85>Oct 13 20:21:59 unix_chkpwd[64]: check pass; user unknown
+<85>Oct 13 20:21:59 unix_chkpwd[64]: password check failed for user (tester)
+<86>Oct 13 20:21:59 su[62]: pam_unix(su:session): session closed for user tester
+--- shadow
++ ls -l /etc/shadow /etc/passwd
+-rw-r--r-- 1 root root  147 Oct 13 20:21 /etc/passwd
+---------- 1 root root 1267 Oct 13 20:21 /etc/shadow
++ getent passwd tester
+tester:x:1000:1000::/var/home/tester:/bin/bash
++ getent shadow tester
++ cut -c1-24
+tester:$y$j9T$1wwDqDfVBv
++ grep -c . /etc/shadow
+54
++ ls -ld /sys/fs/selinux
+ls: cannot access '/sys/fs/selinux': No such file or directory
++ python3 -c 'import ctypes; print('\''selinux enabled:'\'', ctypes.CDLL('\''libselinux.so.1'\'').is_selinux_enabled())'
+selinux enabled: 0
++ grep -E '^(passwd|shadow)' /etc/nsswitch.conf
+passwd:     files altfiles systemd
+shadow:     files systemd
++ grep -E '^ENCRYPT|^YESCRYPT' /etc/login.defs
+ENCRYPT_METHOD YESCRYPT
++ rpm -q pam libxcrypt shadow-utils
+pam-1.7.2-2.fc44.x86_64
+libxcrypt-4.5.2-3.fc44.x86_64
+shadow-utils-4.19.0-7.fc44.x86_64

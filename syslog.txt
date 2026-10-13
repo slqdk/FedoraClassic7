@@ -1,0 +1,48 @@
+<86>Oct 13 20:21:48 useradd[6]: new group: name=tester, GID=1000
+<86>Oct 13 20:21:48 useradd[6]: new user: name=tester, UID=1000, GID=1000, home=/var/home/tester, shell=/bin/bash, from=none
+<85>Oct 13 20:21:48 unix_chkpwd[33]: check pass; user unknown
+<85>Oct 13 20:21:48 unix_chkpwd[34]: check pass; user unknown
+<85>Oct 13 20:21:48 unix_chkpwd[34]: password check failed for user (tester)
+<85>Oct 13 20:21:48 python3: pam_unix(login:auth): authentication failure; logname= uid=0 euid=0 tty= ruser= rhost=  user=tester
+<83>Oct 13 20:21:50 unix_chkpwd[35]: could not obtain user info (tester)
+<37>Oct 13 20:21:50 su[36]: (to tester) root on none
+<86>Oct 13 20:21:50 su[36]: pam_unix(su:session): session opened for user tester(uid=1000) by (uid=0)
+<83>Oct 13 20:21:50 su[36]: pam_lastlog2(su:session): Cannot create/open database (/var/lib/lastlog/lastlog2.db): unable to open database file
+<85>Oct 13 20:21:50 unix_chkpwd[40]: check pass; user unknown
+<85>Oct 13 20:21:50 unix_chkpwd[41]: check pass; user unknown
+<85>Oct 13 20:21:50 unix_chkpwd[41]: password check failed for user (tester)
+<85>Oct 13 20:21:50 python3: pam_unix(login:auth): authentication failure; logname= uid=1000 euid=1000 tty= ruser= rhost=  user=tester
+<87>Oct 13 20:21:53 python3: pam_unix(login:account): setuid failed: Operation not permitted
+<83>Oct 13 20:21:53 unix_chkpwd[42]: could not obtain user info (tester)
+<86>Oct 13 20:21:53 su[36]: pam_unix(su:session): session closed for user tester
+<37>Oct 13 20:21:53 su[43]: (to tester) root on none
+<86>Oct 13 20:21:53 su[43]: pam_unix(su:session): session opened for user tester(uid=1000) by (uid=0)
+<83>Oct 13 20:21:53 su[43]: pam_lastlog2(su:session): Cannot create/open database (/var/lib/lastlog/lastlog2.db): unable to open database file
+<85>Oct 13 20:21:53 unix_chkpwd[47]: check pass; user unknown
+<85>Oct 13 20:21:53 unix_chkpwd[48]: check pass; user unknown
+<85>Oct 13 20:21:53 unix_chkpwd[48]: password check failed for user (tester)
+<85>Oct 13 20:21:53 python3: pam_unix(login:auth): authentication failure; logname= uid=1000 euid=1000 tty= ruser= rhost=  user=tester
+<87>Oct 13 20:21:55 python3: pam_unix(login:account): setuid failed: Operation not permitted
+<83>Oct 13 20:21:55 unix_chkpwd[49]: could not obtain user info (tester)
+<86>Oct 13 20:21:55 su[43]: pam_unix(su:session): session closed for user tester
+<87>Oct 13 20:21:55 python3: pam_unix(c7debug:auth): username [tester] obtained
+<85>Oct 13 20:21:55 unix_chkpwd[53]: check pass; user unknown
+<85>Oct 13 20:21:55 unix_chkpwd[53]: password check failed for user (tester)
+<85>Oct 13 20:21:55 python3: pam_unix(c7debug:auth): authentication failure; logname= uid=0 euid=0 tty= ruser= rhost=  user=tester
+<83>Oct 13 20:21:57 unix_chkpwd[54]: could not obtain user info (tester)
+<37>Oct 13 20:21:57 su[55]: (to tester) root on none
+<86>Oct 13 20:21:57 su[55]: pam_unix(su:session): session opened for user tester(uid=1000) by (uid=0)
+<83>Oct 13 20:21:57 su[55]: pam_lastlog2(su:session): Cannot create/open database (/var/lib/lastlog/lastlog2.db): unable to open database file
+<87>Oct 13 20:21:57 python3: pam_unix(c7debug:auth): username [tester] obtained
+<85>Oct 13 20:21:57 unix_chkpwd[59]: check pass; user unknown
+<85>Oct 13 20:21:57 unix_chkpwd[59]: password check failed for user (tester)
+<85>Oct 13 20:21:57 python3: pam_unix(c7debug:auth): authentication failure; logname= uid=1000 euid=1000 tty= ruser= rhost=  user=tester
+<87>Oct 13 20:21:59 python3: pam_unix(c7debug:account): setuid failed: Operation not permitted
+<83>Oct 13 20:21:59 unix_chkpwd[60]: could not obtain user info (tester)
+<86>Oct 13 20:21:59 su[55]: pam_unix(su:session): session closed for user tester
+<37>Oct 13 20:21:59 su[62]: (to tester) root on none
+<86>Oct 13 20:21:59 su[62]: pam_unix(su:session): session opened for user tester(uid=1000) by (uid=0)
+<83>Oct 13 20:21:59 su[62]: pam_lastlog2(su:session): Cannot create/open database (/var/lib/lastlog/lastlog2.db): unable to open database file
+<85>Oct 13 20:21:59 unix_chkpwd[64]: check pass; user unknown
+<85>Oct 13 20:21:59 unix_chkpwd[64]: password check failed for user (tester)
+<86>Oct 13 20:21:59 su[62]: pam_unix(su:session): session closed for user tester

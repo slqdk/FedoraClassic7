@@ -1,0 +1,17 @@
++ mkdir -p /out
++ chmod 777 /out
++ sleep 1
++ python3 -
++ useradd -m -u 1000 tester
+Creating mailbox file: No such file or directory
++ '[' -f /etc/shadow ']'
++ echo 'tester:Classic7pass!'
++ chpasswd
++ printf 'auth required pam_unix.so debug\naccount required pam_unix.so debug\n'
++ cat
++ sleep 1
++ grep -v '^+' /out/result.txt
++ echo '--- syslog'
++ tail -n 25 /out/syslog.txt
++ echo '--- shadow'
++ cat /out/shadow.txt

@@ -1,0 +1,30 @@
++ echo 'as root, right password:'
+as root, right password:
++ python3 /tmp/pamtest.py tester 'Classic7pass!'
+pam_authenticate: 7 Authentication failure
+pam_acct_mgmt: 9 Authentication service cannot retrieve authentication info
++ echo 'as tester, right password:'
+as tester, right password:
++ su tester -c 'python3 /tmp/pamtest.py tester '\''Classic7pass!'\'''
+pam_authenticate: 7 Authentication failure
+pam_acct_mgmt: 9 Authentication service cannot retrieve authentication info
++ echo 'as tester, wrong password:'
+as tester, wrong password:
++ su tester -c 'python3 /tmp/pamtest.py tester '\''nope'\'''
+pam_authenticate: 7 Authentication failure
+pam_acct_mgmt: 9 Authentication service cannot retrieve authentication info
++ echo 'as root, debug service:'
+as root, debug service:
++ python3 /tmp/pamtest.py tester 'Classic7pass!' c7debug
+pam_authenticate: 9 Authentication service cannot retrieve authentication info
+pam_acct_mgmt: 9 Authentication service cannot retrieve authentication info
++ echo 'as tester, debug service:'
+as tester, debug service:
++ su tester -c 'python3 /tmp/pamtest.py tester '\''Classic7pass!'\'' c7debug'
+pam_authenticate: 9 Authentication service cannot retrieve authentication info
+pam_acct_mgmt: 9 Authentication service cannot retrieve authentication info
++ echo 'unix_chkpwd directly:'
+unix_chkpwd directly:
++ printf 'Classic7pass!\0'
++ su tester -c '/usr/sbin/unix_chkpwd tester nullok; echo exit $?'
+exit 9
