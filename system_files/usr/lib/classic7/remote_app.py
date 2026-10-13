@@ -1049,7 +1049,7 @@ def main(argv=None) -> int:
         return 0
     app = QApplication.instance() or QApplication(sys.argv[:1])
     app.setApplicationName("classic7-mstsc")
-    app.setApplicationDisplayName(APP)
+    # no application display name: Qt would add it to every title ("Windows Security — Remote Desktop ...")
     app.setDesktopFileName("classic7-mstsc")
     app.setQuitOnLastWindowClosed(False)
     rdp, edit, direct = parse_args(argv)
