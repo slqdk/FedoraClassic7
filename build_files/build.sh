@@ -105,7 +105,7 @@ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-dev
     rpm -q "$pkg" >/dev/null 2>&1 || devel+=("$pkg")
 done
 ((${#devel[@]})) && dnf5 -y install --setopt=install_weak_deps=False "${devel[@]}"
-cmake -S /ctx/taskbarmenu -B /tmp/taskbarmenu-build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr \
+cmake -S /ctx/taskbarmenu -B /tmp/taskbarmenu-build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DKDE_INSTALL_PLUGINDIR=lib64/qt6/plugins \
     -DBUILD_TESTING=OFF
 cmake --build /tmp/taskbarmenu-build -j"$(nproc)"
 cmake --install /tmp/taskbarmenu-build
