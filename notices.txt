@@ -1,0 +1,2 @@
+kwin grab None
+spectacle grab None
