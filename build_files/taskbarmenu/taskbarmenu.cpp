@@ -28,7 +28,7 @@ public:
             QDBusMessage m = QDBusMessage::createMethodCall(QStringLiteral("org.kde.kglobalaccel"), QStringLiteral("/component/kwin"),
                                                             QStringLiteral("org.kde.kglobalaccel.Component"), QStringLiteral("invokeShortcut"));
             m << QStringLiteral("Show Desktop");
-            QDBusConnection::sessionBus().asyncCall(m);
+            QDBusConnection::sessionBus().send(m);
         });
         m_taskManager = make(QStringLiteral("Start Task Manager"), QStringLiteral("utilities-system-monitor"), [] {
             QProcess::startDetached(QStringLiteral("classic7-taskmgr"), {});
