@@ -1,0 +1,168 @@
+===== taskmanager package
+===== applet plugins
+org.kde.kscreen.so
+org.kde.milou.so
+org.kde.panel.so
+org.kde.plasma.activitybar.so
+org.kde.plasma.addons.katesessions.so
+org.kde.plasma.analogclock.so
+org.kde.plasma.appmenu.so
+org.kde.plasma.battery.so
+org.kde.plasma.binaryclock.so
+org.kde.plasma.bluetooth.so
+org.kde.plasma.brightness.so
+org.kde.plasma.calculator.so
+org.kde.plasma.calendar.so
+org.kde.plasma.cameraindicator.so
+org.kde.plasma.clipboard.so
+org.kde.plasma.colorpicker.so
+org.kde.plasma.comic.so
+org.kde.plasma.devicenotifier.so
+org.kde.plasma.digitalclock.so
+org.kde.plasma.diskquota.so
+org.kde.plasma.fifteenpuzzle.so
+org.kde.plasma.fuzzyclock.so
+org.kde.plasma.grouping.so
+org.kde.plasma.icon.so
+org.kde.plasma.keyboardindicator.so
+org.kde.plasma.keyboardlayout.so
+org.kde.plasma.kicker.so
+org.kde.plasma.kickoff.so
+org.kde.plasma.kimpanel.so
+org.kde.plasma.konsoleprofiles.so
+org.kde.plasma.lock_logout.so
+org.kde.plasma.manage-inputmethod.so
+org.kde.plasma.marginsseparator.so
+org.kde.plasma.mediacontroller.so
+org.kde.plasma.mediaframe.so
+org.kde.plasma.networkmanagement.so
+org.kde.plasma.notes.so
+org.kde.plasma.notifications.so
+org.kde.plasma.pager.so
+org.kde.plasma.panelspacer.so
+org.kde.plasma.printmanager.so
+org.kde.plasma.quicklaunch.so
+org.kde.plasma.showActivityManager.so
+org.kde.plasma.showdesktop.so
+org.kde.plasma.systemmonitor.so
+org.kde.plasma.systemtray.so
+org.kde.plasma.taskmanager.so
+org.kde.plasma.timer.so
+org.kde.plasma.trash.so
+org.kde.plasma.userswitcher.so
+org.kde.plasma.vault.so
+org.kde.plasma.volume.so
+org.kde.plasma.weather.so
+org.kde.plasma.webbrowser.so
+org.kde.plasma.windowlist.so
+org.kde.plasma_applet_dict.so
+===== strings in taskmanager plugin
+_ZN6Plasma6Applet17contextualActionsEv
+AudioStream 254.0 AudioStream.qml
+ConfigAppearance 254.0 ConfigAppearance.qml
+ConfigBehavior 254.0 ConfigBehavior.qml
+ContextMenu 254.0 ContextMenu.qml
+GroupDialog 254.0 GroupDialog.qml
+GroupExpanderOverlay 254.0 GroupExpanderOverlay.qml
+MouseHandler 254.0 MouseHandler.qml
+PipeWireThumbnail 254.0 PipeWireThumbnail.qml
+PlayerController 254.0 PlayerController.qml
+PulseAudio 254.0 PulseAudio.qml
+ScrollableTextWrapper 254.0 ScrollableTextWrapper.qml
+TaskBadgeOverlay 254.0 TaskBadgeOverlay.qml
+TaskList 254.0 TaskList.qml
+TaskProgressOverlay 254.0 TaskProgressOverlay.qml
+Task 254.0 Task.qml
+ToolTipDelegate 254.0 ToolTipDelegate.qml
+ToolTipInstance 254.0 ToolTipInstance.qml
+ToolTipWindowMouseArea 254.0 ToolTipWindowMouseArea.qml
+===== containmentactions
+org.kde.applauncher.so
+org.kde.contextmenu.so
+org.kde.paste.so
+org.kde.switchdesktop.so
+switchactivity.so
+switchwindow.so
+===== panel containment
+org.kde.panel.so
+org.kde.plasma.kimpanel.so
+org.kde.plasma.panelspacer.so
+===== bazaar
+io.github.kolunmi.Bazaar.desktop
+/usr/share/dbus-1/services/io.github.kolunmi.Bazaar.SearchProvider.service
+/usr/share/icons/hicolor/symbolic/apps/io.github.kolunmi.Bazaar-symbolic.svg
+/usr/share/icons/hicolor/scalable/apps/io.github.kolunmi.Bazaar.svg
+/usr/share/tesseract/tessdata/configs/bazaar
+/usr/share/licenses/krunner-bazaar
+/usr/share/licenses/bazaar
+/usr/share/locale/nds/LC_MESSAGES/fileviewbazaarplugin.mo
+/usr/share/locale/el/LC_MESSAGES/bazaar.mo
+/usr/share/locale/el/LC_MESSAGES/fileviewbazaarplugin.mo
+/usr/share/locale/tr/LC_MESSAGES/bazaar.mo
+/usr/share/locale/tr/LC_MESSAGES/fileviewbazaarplugin.mo
+/usr/share/locale/vi/LC_MESSAGES/bazaar.mo
+/usr/share/locale/eo/LC_MESSAGES/fileviewbazaarplugin.mo
+/usr/share/locale/nb/LC_MESSAGES/fileviewbazaarplugin.mo
+/usr/share/locale/nn/LC_MESSAGES/fileviewbazaarplugin.mo
+/usr/share/locale/ka/LC_MESSAGES/fileviewbazaarplugin.mo
+/usr/share/locale/ka/LC_MESSAGES/plasma_runner_bazaarrunner.mo
+/usr/share/locale/ca@valencia/LC_MESSAGES/fileviewbazaarplugin.mo
+/usr/share/locale/be/LC_MESSAGES/bazaar.mo
+/usr/share/locale/eu/LC_MESSAGES/bazaar.mo
+===== flatpak
+/usr/sbin/flatpak
+Flatpak 1.18.4
+flathub	system
+org.mozilla.firefox
+org.kde.gwenview
+org.kde.okular
+org.kde.kcalc
+org.kde.haruna
+org.kde.filelight
+com.ranfdev.DistroShelf
+it.mijorus.gearlever
+com.github.tchx84.Flatseal
+io.github.flattool.Warehouse
+net.davidotek.pupgui2
+org.freedesktop.Platform.VulkanLayer.MangoHud//23.08
+org.freedesktop.Platform.VulkanLayer.vkBasalt//23.08
+org.freedesktop.Platform.VulkanLayer.OBSVkCapture//23.08
+com.obsproject.Studio.Plugin.OBSVkCapture
+com.obsproject.Studio.Plugin.Gstreamer
+com.obsproject.Studio.Plugin.GStreamerVaapi
+announcements
+bazaar
+bazzite
+bazzite-flatpak-eol
+bbrew.png
+docs
+etc
+firefox-config
+flatpak-blocklist
+game-devices-udev
+homebrew
+image-info.json
+just
+justfile
+motd
+signing
+topgrade.toml
+udev-rules
+update-services
+/usr/share/ublue-os/bazzite/flatpak
+/usr/share/ublue-os/bazzite-flatpak-eol
+/usr/share/ublue-os/flatpak-blocklist
+===== rpm-ostree
+/usr/sbin/rpm-ostree
+rpm-ostree:
+ Version: '2026.3'
+ Git: 937cd35dc42acb965b72e03f662cf4e19e770277
+===== brew
+which: no brew in (/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin)
+===== appimage
+===== flatpak metadata sample
+preinstall.d
+remotes.d
+triggers
+===== polkit flatpak
+org.freedesktop.Flatpak.policy
