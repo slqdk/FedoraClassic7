@@ -39,6 +39,7 @@ sleep 6
         prev=""
         if [ "$arg" != stop ]; then
             XDG_RUNTIME_DIR=/tmp/xdg-root WAYLAND_DISPLAY=/tmp/xdg-t/wayland-c7 QT_QPA_PLATFORM=wayland HOME=/root \
+                XDG_CONFIG_HOME=/home/tester/.config XDG_CURRENT_DESKTOP=KDE KDE_FULL_SESSION=true KDE_SESSION_VERSION=6 \
                 timeout 30 classic7-firewall $arg >> /out/classic7-firewall-root.log 2>&1 &
             prev=$!
         fi

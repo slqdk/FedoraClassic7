@@ -58,13 +58,15 @@ import os
 os.makedirs('$HOME/Downloads/Photos', exist_ok=True)
 for i in range(6000):
     with open(f'$HOME/Downloads/Photos/IMG_{i:04d}.jpg', 'wb') as f: f.write(os.urandom(150000))
-with open('$HOME/Downloads/big.bin', 'wb') as f: f.write(os.urandom(200 * 1024 * 1024))"
+with open('$HOME/Downloads/big.bin', 'wb') as f: f.write(os.urandom(700 * 1024 * 1024))"
 sync
 (dbus-monitor --session "interface='org.kde.JobViewServerV2'" "interface='org.kde.kuiserver'" > /out/dbus-monitor.log 2>&1 &)
 sleep 1
 (t0=$(date +%s%N); timeout 120 kiocopy $HOME/Downloads/Photos $HOME/Downloads/big.bin $HOME/Documents/ > /out/kioclient.log 2>&1;
  echo "copy took $(( ($(date +%s%N) - t0) / 1000000 )) ms, exit $?" >> /out/kioclient.log) &
 for i in 1 2 3 4 5 6; do sleep 0.5; shot 02-copying-$i; done
+# More details (the button sits at the bottom left of the window KWin centres)
+X mousemove 422 465 click 1; sleep 1.5; shot 02-copying-details
 sleep 30
 # the Recycle Bin: delete through KIO, then look at the desktop icon and the window
 timeout 30 kioclient move $HOME/Documents/report.txt trash:/ >> /out/kioclient.log 2>&1

@@ -112,10 +112,15 @@ class Job:
         self.state: dict = {}
         self.started = time.monotonic()
         self.samples: deque = deque(maxlen=40)
+        self.from_dir = ""            # the folder the operation started in, for the headline
         self.update(state)
 
     def update(self, d: dict):
         self.state.update(d)
+        if not self.from_dir:
+            # KIO names the file being copied; the first one is in the folder the operation
+            # started from ("from Downloads"), later ones may be deeper (More details shows those)
+            self.from_dir = self.source_dir()
         pb = self.state.get("processedBytes")
         if pb is not None:
             self.samples.append((time.monotonic(), int(pb)))
@@ -189,7 +194,7 @@ class Job:
 
     def route(self) -> str:
         kind = self.kind()
-        src, dst = self.source_dir(), self.dest_dir()
+        src, dst = self.from_dir or self.source_dir(), self.dest_dir()
         if kind == "trash":
             return f"from {folder_link(src)} to Recycle Bin" if src else "to the Recycle Bin"
         if kind == "deleting":

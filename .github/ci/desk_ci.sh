@@ -75,7 +75,7 @@ echo "exit $?" >> /out/desk.log
 X key Escape; sleep 1
 X mousemove 30 790 click 1; sleep 3
 X mousemove 60 713 click 1; sleep 2; shot 14-all-programs
-X mousemove 100 297 click 1; sleep 2; shot 15-accessories
+X mousemove 60 577 click 1; sleep 2; shot 15-accessories
 X key Escape; sleep 1
 EOI
 chown tester /tmp/inner.sh
