@@ -87,8 +87,10 @@ PlasmoidItem {
     }
 
     // Shut down button and the options next to it
+    // Classic 7's shut down, with the "Shutting down..." screen (Plasma's own as a fallback)
     readonly property Kicker.SimpleFavoritesModel shutdownModel: Kicker.SimpleFavoritesModel {
-        favorites: ["shutdown"]
+        favorites: ["classic7-shutdown.desktop"]
+        Component.onCompleted: if (count === 0) favorites = ["shutdown"]
     }
     readonly property Kicker.SimpleFavoritesModel sessionModel: Kicker.SimpleFavoritesModel {
         favorites: ["switch-user", "logout", "lock-screen", "reboot", "suspend", "hibernate"]

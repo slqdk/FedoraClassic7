@@ -1,0 +1,115 @@
+#!/usr/bin/python3
+"""Log off, restart or shut down with Classic 7's "Logging off..." screen.
+
+    classic7-goodbye --logoff | --restart | --shutdown [--preview SECONDS]
+
+--preview shows the screen for a while without ending the session (for tests).
+
+The screen is a KWin script (/usr/share/classic7/goodbye/Goodbye.qml) that appears when the
+programs' windows have closed and stays until the session has ended. The session is ended by
+Plasma (org.kde.Shutdown), which asks the programs to close first; if one of them cancels, the
+screen is taken away again. Plasma's helper quits both when the logout is cancelled and when it
+has finished logging off (it has then asked systemd to stop the graphical session), so the
+session's state tells the two apart."""
+import os
+import shutil
+import sys
+import tempfile
+
+MODES = {"--logoff": ("Logging off...", "logout"), "--restart": ("Restarting...", "logoutAndReboot"),
+         "--shutdown": ("Shutting down...", "logoutAndShutdown")}
+SCRIPT = "classic7-goodbye"
+
+
+def main() -> int:
+    mode = next((a for a in sys.argv[1:] if a in MODES), None)
+    if mode is None:
+        print(__doc__.split("\n\n")[1].strip())
+        return 2
+    message, method = MODES[mode]
+    preview = None
+    if "--preview" in sys.argv:
+        try:
+            preview = max(1, int(sys.argv[sys.argv.index("--preview") + 1]))
+        except (IndexError, ValueError):
+            preview = 5
+    import dbus
+    from dbus.mainloop.glib import DBusGMainLoop
+    from PySide6.QtCore import QCoreApplication, QTimer
+    app = QCoreApplication(sys.argv[:1])         # its event loop runs D-Bus too (GLib)
+    DBusGMainLoop(set_as_default=True)
+    bus = dbus.SessionBus()
+    scripting = None
+    d = None
+    try:
+        scripting = dbus.Interface(bus.get_object("org.kde.KWin", "/Scripting"), "org.kde.kwin.Scripting")
+        scripting.unloadScript(SCRIPT)
+        d = tempfile.mkdtemp(prefix="classic7-goodbye-")
+        path = os.path.join(d, "main.qml")
+        with open(path, "w") as f:
+            f.write('import QtQuick\nimport "file:///usr/share/classic7/goodbye"\n'
+                    f'Goodbye {{ message: "{message}" }}\n')
+        scripting.loadDeclarativeScript(path, SCRIPT)
+        scripting.start()
+    except dbus.DBusException as e:
+        print(f"classic7-goodbye: no screen ({e.get_dbus_message()})", file=sys.stderr)
+        scripting = None
+
+    def session_ending() -> bool:
+        """After a finished logout the graphical session is stopping (systemd-managed Plasma) or
+        KWin has quit (the other kind)."""
+        try:
+            manager = dbus.Interface(bus.get_object("org.freedesktop.systemd1", "/org/freedesktop/systemd1"),
+                                     "org.freedesktop.systemd1.Manager")
+            unit = bus.get_object("org.freedesktop.systemd1", manager.GetUnit("graphical-session.target"))
+            props = dbus.Interface(unit, "org.freedesktop.DBus.Properties")
+            state = str(props.Get("org.freedesktop.systemd1.Unit", "ActiveState"))
+            job = props.Get("org.freedesktop.systemd1.Unit", "Job")
+            return state != "active" or int(job[0]) != 0
+        except dbus.DBusException:
+            pass
+        try:
+            return not bus.name_has_owner("org.kde.KWin")
+        except dbus.DBusException:
+            return True
+
+    def check():
+        # if the session is ending, the screen stays until KWin goes with it (or the time limit
+        # below takes it away)
+        if not session_ending():
+            cancelled()
+
+    def owner_changed(name, old, new):
+        if name == "org.kde.Shutdown" and old and not new:
+            QTimer.singleShot(700, check)
+
+    def cancelled():
+        if scripting is not None:
+            try:
+                scripting.unloadScript(SCRIPT)
+            except dbus.DBusException:
+                pass
+        app.quit()
+
+    def tidy():
+        if d:
+            shutil.rmtree(d, ignore_errors=True)     # KWin has read the file by now
+
+    if preview is not None:
+        QTimer.singleShot(preview * 1000, cancelled)
+        app.exec()
+        tidy()
+        return 0
+    bus.add_signal_receiver(owner_changed, "NameOwnerChanged", "org.freedesktop.DBus", "org.freedesktop.DBus",
+                            "/org/freedesktop/DBus")
+    shutdown = dbus.Interface(bus.get_object("org.kde.Shutdown", "/Shutdown"), "org.kde.Shutdown")
+    getattr(shutdown, method)(ignore_reply=True)
+    QTimer.singleShot(10_000, tidy)
+    QTimer.singleShot(600_000, cancelled)           # never wait forever
+    app.exec()
+    tidy()
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

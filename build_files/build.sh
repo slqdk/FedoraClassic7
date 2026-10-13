@@ -112,7 +112,7 @@ for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-dev
 done
 if ((${#devel[@]})); then
     archive=()
-    dnf5 repo list --all 2>/dev/null | grep -q '^updates-archive ' && archive=(--enablerepo=updates-archive)
+    dnf5 repo list --all 2>/dev/null | grep '^updates-archive ' >/dev/null && archive=(--enablerepo=updates-archive)
     vl=/etc/dnf/versionlock.toml
     [[ -f $vl ]] && cp -a $vl /tmp/versionlock.orig
     locked=0
@@ -167,7 +167,7 @@ chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-mail /usr/bin/classic7-netw
     /usr/bin/classic7-recyclebin /usr/bin/classic7-properties /usr/libexec/classic7-sessiond \
     /usr/bin/classic7-timedate /usr/bin/classic7-mixer /usr/bin/classic7-actioncenter \
     /usr/bin/classic7-msconfig /usr/bin/classic7-eventvwr /usr/bin/classic7-resmon /usr/bin/classic7-firewall \
-    /usr/libexec/classic7-firewall-helper
+    /usr/libexec/classic7-firewall-helper /usr/bin/classic7-screensaver /usr/bin/classic7-goodbye
 # KWin looks for window switchers and scripts in kwin-wayland/ (Plasma 6.4+) and, for older
 # packages, in kwin/: make ours visible in both
 for d in tabbox/classic7 scripts/classic7-aeroshake; do
@@ -186,7 +186,7 @@ printf '{"build": "%s", "base": "%s", "content": "%s"}\n' "$(date -u +%Y-%m-%dT%
     "$base" "$content" > /usr/share/classic7/build-info.json
 chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
 python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PySide6.QtPrintSupport, PIL, pyte, docx, olefile"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app, accessories, notepad_app, calc_engine, calc_app, charmap_app, stickynotes_app, quickshot_app, paint_canvas, paint_app, recyclebin_app, properties_app, sessiond, timedate_app, mixer_app, actioncenter_checks, actioncenter_app, cpl_page, msconfig_app, eventvwr_app, resmon_app, firewall_app"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app, accessories, notepad_app, calc_engine, calc_app, charmap_app, stickynotes_app, quickshot_app, paint_canvas, paint_app, recyclebin_app, properties_app, sessiond, timedate_app, mixer_app, actioncenter_checks, actioncenter_app, cpl_page, msconfig_app, eventvwr_app, resmon_app, firewall_app, screensaver_app"
 python3 -c "import PySide6.QtWebEngineWidgets, keyring, html2text" || echo "WARNING: Mail falls back to the simple message view"
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
@@ -298,6 +298,32 @@ grep -q "org.classic7.clock" /usr/share/plasma/look-and-feel/org.classic7.deskto
 # Resource Monitor, Firewall (the helper runs as root through pkexec)
 /usr/bin/classic7-resmon --help >/dev/null
 /usr/bin/classic7-firewall --help >/dev/null
+# Screen savers; the Logging off / Restarting / Shutting down screen
+/usr/bin/classic7-screensaver --list | grep "^pipes" >/dev/null
+for f in classic7-screensaver classic7-logoff classic7-restart classic7-shutdown; do
+    test -f /usr/share/applications/$f.desktop
+done
+test -f /usr/share/classic7/goodbye/Goodbye.qml
+/usr/bin/classic7-goodbye --help >/dev/null || [[ $? == 2 ]]
+# the screen loads in KWin; here it is loaded with a stand-in for KWin's Workspace
+mkdir -p /tmp/kwinmock/org/kde/kwin
+printf 'module org.kde.kwin\nsingleton Workspace 1.0 Workspace.qml\n' > /tmp/kwinmock/org/kde/kwin/qmldir
+printf 'pragma Singleton\nimport QtQuick\nQtObject { function windowList() { return [] } }\n' > /tmp/kwinmock/org/kde/kwin/Workspace.qml
+printf 'import QtQuick\nimport "file:///usr/share/classic7/goodbye"\nGoodbye { message: "Shutting down..." }\n' > /tmp/kwinmock/main.qml
+QT_QPA_PLATFORM=offscreen python3 -c "
+import sys
+from PySide6.QtCore import QTimer, QUrl
+from PySide6.QtGui import QGuiApplication
+from PySide6.QtQml import QQmlComponent, QQmlEngine
+app = QGuiApplication([])
+eng = QQmlEngine(); eng.addImportPath('/tmp/kwinmock')
+c = QQmlComponent(eng, QUrl.fromLocalFile('/tmp/kwinmock/main.qml'))
+o = c.create()
+if o is None:
+    sys.exit('\n'.join(e.toString() for e in c.errors()))
+QTimer.singleShot(800, app.quit); app.exec()
+assert o.property('shown'), 'not shown'" || echo "::warning::The Logging off screen (Goodbye.qml) does not load"
+rm -rf /tmp/kwinmock
 test -f /usr/share/polkit-1/actions/org.classic7.firewall.policy
 python3 -c "import xml.dom.minidom, sys; xml.dom.minidom.parse(sys.argv[1])" /usr/share/polkit-1/actions/org.classic7.firewall.policy
 PYTHONPATH=/usr/lib/classic7 python3 -c "
@@ -441,6 +467,50 @@ if dnf5 -y install sddm sddm-wayland-plasma sddm-kcm; then
     systemctl is-enabled classic7-sddm-keyboard.service classic7-sddm-keyboard.path
 else
     echo "WARNING: SDDM not available; keeping Plasma Login Manager (blue background only)"
+fi
+
+# --- Start-up and shut-down screen (Plymouth) --------------------------------------------------
+# Black, four coloured lights circling and "Starting Classic 7" / "Shutting down..." under them.
+# The start-up screen runs from the initramfs, so that is made again with the theme in it (with
+# the options Bazzite builds it with); the new one replaces Bazzite's only if it checks out.
+if [[ -e /usr/lib64/plymouth/two-step.so ]] && python3 /ctx/plymouth/make_theme.py /usr/share/plymouth/themes/classic7; then
+    if command -v plymouth-set-default-theme >/dev/null; then
+        plymouth-set-default-theme classic7
+    else
+        mkdir -p /etc/plymouth && printf '[Daemon]\nTheme=classic7\n' > /etc/plymouth/plymouthd.conf
+    fi
+    grep -q '^Theme=classic7' /etc/plymouth/plymouthd.conf
+    kver=""
+    for k in /usr/lib/modules/*/; do
+        [[ -f "$k/vmlinuz" && -f "$k/initramfs.img" ]] && kver="$(basename "$k")"
+    done
+    img="/usr/lib/modules/$kver/initramfs.img"
+    work=/var/tmp/classic7-initramfs
+    mkdir -p "$work"
+    dracut_args=(--no-hostonly --kver "$kver" --reproducible --zstd -v --add ostree)
+    dracut_modules="$(dracut --list-modules 2>/dev/null || true)"
+    grep -qx fido2 <<< "$dracut_modules" && dracut_args+=(--add fido2)
+    if [[ -z "$kver" ]]; then
+        echo "::warning::Plymouth: no kernel with an initramfs found; the start-up screen stays Bazzite's"
+    elif ! lsinitrd "$img" > "$work/old.txt" 2>/dev/null || ! grep -q 'plymouth' "$work/old.txt"; then
+        echo "::warning::Plymouth: Bazzite's initramfs has no Plymouth; only the shut-down screen is Classic 7's"
+    elif TMPDIR="$work" dracut "${dracut_args[@]}" -f "$work/initramfs.img" > "$work/dracut.log" 2>&1 \
+         && lsinitrd "$work/initramfs.img" > "$work/new.txt" 2>/dev/null \
+         && grep -q 'themes/classic7/throbber-0001.png' "$work/new.txt" \
+         && grep -q 'ostree-prepare-root' "$work/new.txt" \
+         && (( $(grep -c . "$work/new.txt") * 100 >= $(grep -c . "$work/old.txt") * 95 )) \
+         && (( $(stat -c %s "$work/initramfs.img") * 2 >= $(stat -c %s "$img") )); then
+        mode="$(stat -c %a "$img")"
+        mv -f "$work/initramfs.img" "$img"
+        chmod "$mode" "$img"
+        echo "Plymouth: initramfs for $kver made again with the Classic 7 start-up screen"
+    else
+        echo "::warning::Plymouth: the new initramfs did not check out; keeping Bazzite's ($(wc -l < "$work/old.txt") vs $(cat "$work/new.txt" 2>/dev/null | wc -l) files)"
+        tail -n 25 "$work/dracut.log" || true
+    fi
+    rm -rf "$work"
+else
+    echo "::warning::Plymouth's two-step plugin is missing; the start-up screen stays Bazzite's"
 fi
 
 # --- Repositories ------------------------------------------------------------------------

@@ -40,7 +40,14 @@ def switch_user() -> bool:
                  "org.freedesktop.DisplayManager.Seat.SwitchToGreeter"])
 
 
+def _goodbye(mode: str) -> bool:
+    """Classic 7's "Logging off..." / "Restarting..." / "Shutting down..." screen and the action."""
+    return _run(["classic7-goodbye", f"--{mode}"])
+
+
 def log_off(confirm: bool = False) -> bool:
+    if not confirm and _goodbye("logoff"):
+        return True
     q = _qdbus()
     if q:
         if confirm:
@@ -50,6 +57,8 @@ def log_off(confirm: bool = False) -> bool:
 
 
 def restart() -> bool:
+    if _goodbye("restart"):
+        return True
     q = _qdbus()
     if q and _run([q, "org.kde.Shutdown", "/Shutdown", "org.kde.Shutdown.logoutAndReboot"]):
         return True
@@ -57,6 +66,8 @@ def restart() -> bool:
 
 
 def shut_down() -> bool:
+    if _goodbye("shutdown"):
+        return True
     q = _qdbus()
     if q and _run([q, "org.kde.Shutdown", "/Shutdown", "org.kde.Shutdown.logoutAndShutdown"]):
         return True

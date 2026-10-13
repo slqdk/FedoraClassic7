@@ -8,6 +8,7 @@
    are taken, Plasma keeps showing them as before. The window's taskbar button, and the button of
    the program that started the operation (Explorer), show the progress.
  * Keeps the desktop's Recycle Bin icon full or empty, whoever puts files in it or empties it.
+ * Starts the screen saver after the minutes chosen in Screen Saver Settings (screensaver_app).
 
 /usr/libexec/classic7-sessiond takes the D-Bus names before anything slow is loaded, then calls
 main() here."""
@@ -687,7 +688,13 @@ def main(bus, have_jobs: bool) -> int:
     except Exception as e:  # noqa: BLE001 - the progress windows matter more than the icon
         print(f"classic7-sessiond: Recycle Bin watcher off: {e}", file=sys.stderr)
         trash = None
-    _keep.extend([ui, server, trash])
+    try:
+        from screensaver_app import IdleWatch
+        saver = IdleWatch(log)
+    except Exception as e:  # noqa: BLE001 - the rest works without it
+        log(f"screen saver off: {e}")
+        saver = None
+    _keep.extend([ui, server, trash, saver])
     return app.exec()
 
 

@@ -198,7 +198,8 @@ FocusScope {
                         // like Windows: no pinned programs and no right-column items in the recent list
                         hiddenIds: root.pinnedKeys.concat(["classic7-control-panel", "classic7-games", "classic7-devices",
                                    "classic7-default-programs", "classic7-help", "classic7-run",
-                                   "classic7-computer", "systemsettings"])
+                                   "classic7-computer", "systemsettings", "classic7-logoff", "classic7-restart",
+                                   "classic7-shutdown"])
                         Layout.fillHeight: true
                     }
                 }
@@ -447,9 +448,9 @@ FocusScope {
     component SessionAction: Kicker.SimpleFavoritesModel {}
     readonly property list<QtObject> sessionActions: [
         SessionAction { id: switchUser; favorites: ["switch-user"] },
-        SessionAction { id: logOff; favorites: ["logout"] },
+        SessionAction { id: logOff; favorites: ["classic7-logoff.desktop"]; Component.onCompleted: if (count === 0) favorites = ["logout"] },
         SessionAction { id: lock; favorites: ["lock-screen"] },
-        SessionAction { id: restart; favorites: ["reboot"] },
+        SessionAction { id: restart; favorites: ["classic7-restart.desktop"]; Component.onCompleted: if (count === 0) favorites = ["reboot"] },
         SessionAction { id: sleep; favorites: ["suspend"] },
         SessionAction { id: hibernate; favorites: ["hibernate"] }
     ]

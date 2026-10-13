@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Log off
+Exec=classic7-goodbye --logoff
+Icon=system-log-out
+NoDisplay=true
+Terminal=false

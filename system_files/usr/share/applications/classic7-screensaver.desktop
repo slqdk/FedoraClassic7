@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Screen Saver Settings
+Comment=Choose a screen saver and when it starts
+Exec=classic7-screensaver --settings
+Icon=preferences-desktop-screensaver
+Terminal=false
+Categories=Settings;DesktopSettings;
+Keywords=screen saver;screensaver;scrnsave;mystify;pipes;bubbles;ribbons;
+NoDisplay=true

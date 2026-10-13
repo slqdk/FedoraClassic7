@@ -1,5 +1,5 @@
 [Unit]
-Description=Classic 7 session helper (file copy progress windows, Recycle Bin icon)
+Description=Classic 7 session helper (file copy progress windows, Recycle Bin icon, screen saver)
 # KWin has exported WAYLAND_DISPLAY when its service is up; the desktop must start after this
 # one, so the file-operation names are ours, not the notification area's
 After=plasma-kwin_wayland.service

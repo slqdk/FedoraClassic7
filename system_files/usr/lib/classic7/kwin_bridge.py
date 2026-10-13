@@ -22,7 +22,7 @@ for (const w of workspace.windowList()) {
     const g = w.frameGeometry;
     out.push({id: w.internalId.toString(), caption: w.caption, cls: w.resourceClass, pid: w.pid,
               desktopFile: w.desktopFileName || "", minimized: w.minimized, active: w === active,
-              x: g.x, y: g.y, w: g.width, h: g.height});
+              fullScreen: w.fullScreen, x: g.x, y: g.y, w: g.width, h: g.height});
 }
 callDBus("%(service)s", "/", "org.classic7.KWinBridge", "windows", JSON.stringify(out));
 """
@@ -89,7 +89,7 @@ class _Receiver(QObject):
 
 
 class KWinBridge(QObject):
-    windowsChanged = Signal(list)       # [dict(id, caption, cls, pid, desktopFile, minimized, active)]
+    windowsChanged = Signal(list)       # [dict(id, caption, cls, pid, desktopFile, minimized, active, fullScreen)]
 
     def __init__(self, name: str = "TaskManager", parent=None):
         super().__init__(parent)

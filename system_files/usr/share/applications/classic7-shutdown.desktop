@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Shut down
+Exec=classic7-goodbye --shutdown
+Icon=system-shutdown
+NoDisplay=true
+Terminal=false

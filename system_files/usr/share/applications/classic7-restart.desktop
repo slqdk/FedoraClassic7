@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Restart
+Exec=classic7-goodbye --restart
+Icon=system-reboot
+NoDisplay=true
+Terminal=false

@@ -15,7 +15,12 @@ cp -a $S/usr/share/applications/. /usr/share/applications/
 cp -a $S/usr/share/classic7/. /usr/share/classic7/
 cp -a $S/usr/share/polkit-1/. /usr/share/polkit-1/
 cp -a $S/etc/skel/. /etc/skel/
-useradd -m -u 1000 -G systemd-journal,wheel tester 2>/dev/null
+# groups that live only in /usr/lib/group on an atomic system must be in /etc/group for -G
+for g in systemd-journal wheel; do
+    grep -q "^$g:" /etc/group || grep "^$g:" /usr/lib/group >> /etc/group
+done
+useradd -m -u 1000 -G systemd-journal,wheel tester > /out/useradd.log 2>&1 || useradd -m -u 1000 tester >> /out/useradd.log 2>&1
+id tester >> /out/useradd.log 2>&1
 # a journal and a system bus with firewalld, as far as a container allows
 mkdir -p /run/systemd/journal /run/log/journal /run/dbus
 (/usr/lib/systemd/systemd-journald > /out/journald.log 2>&1 &)
@@ -71,5 +76,5 @@ pkill -f classic7-firewall; sleep 1
 EOI
 chown tester /tmp/inner.sh
 su tester -c "timeout 600 dbus-run-session -- bash /tmp/inner.sh"
-{ cat /out/firewall-state.txt; head -5 /out/journal-check.txt; tail -3 /out/journald.log /out/firewalld.log;
-  for f in /out/classic7-*.log; do echo "== $f"; tail -5 "$f"; done; } > /out/notices.txt 2>&1
+{ cat /out/useradd.log /out/firewall-state.txt; head -n 5 /out/journal-check.txt; tail -n 3 /out/journald.log /out/firewalld.log;
+  for f in /out/classic7-*.log; do echo "== $f"; tail -n 5 "$f"; done; } > /out/notices.txt 2>&1
