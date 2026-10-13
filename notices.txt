@@ -1,0 +1,20 @@
+OK   Control Panel has 41 items
+OK   main.cpl opens Mouse
+OK   control system resolves
+OK   control /name Microsoft.DateAndTime
+OK   search finds Display
+OK   KWin script bridge is available
+OK   Applications lists the open windows: ['Bridge test window', 'Task Manager']
+OK   Minimize through KWin works
+OK   End Task closes the window
+OK   Processes tab lists 10 processes
+OK   Services tab lists 0 services
+OK   processor: AMD EPYC 7763 64-Core Processor
+OK   memory: (17179869184, 16766414848)
+OK   Device Manager groups: ['Computer', 'Disk drives', 'Mice and other pointing devices', 'Monitors', 'Network adapters', 'Processors']
+FAILURES 0 []
+exit 0
+items: 41
+kwin: -rw------- 1 tester tester    0 Oct 13 07:21 kwin-xwayland-eis-socket.31.lock
+kwin: srwxr-xr-x 1 tester tester    0 Oct 13 07:21 wayland-c7
+kwin: -rw-r----- 1 tester tester    0 Oct 13 07:21 wayland-c7.lock

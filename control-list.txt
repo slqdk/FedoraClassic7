@@ -1,0 +1,41 @@
+Classic7.System                    System                           classic7-system
+Classic7.SystemProperties          System Properties                classic7-system --properties
+Classic7.DeviceManager             Device Manager                   classic7-devmgmt
+Classic7.Update                    Classic 7 Update                 classic7-update --gui
+Classic7.PowerOptions              Power Options                    kcmshell6 kcm_powerdevilprofilesconfig
+Classic7.AdministrativeTools       Administrative Tools             classic7-diskmgmt
+Classic7.DiskManagement            Disk Management                  classic7-diskmgmt
+Classic7.TaskManager               Task Manager                     classic7-taskmgr
+Classic7.NetworkCenter             Network and Sharing Center       classic7-network
+Classic7.MapNetworkDrive           Map Network Drive                classic7-netdrive
+Classic7.InternetOptions           Internet Options                 kcmshell6 kcm_proxy
+Classic7.RemoteDesktop             Remote Desktop                   kcmshell6 kcm_krdpserver
+Classic7.DevicesAndPrinters        Devices and Printers             kcmshell6 kcm_printer_manager
+Classic7.Bluetooth                 Bluetooth Devices                kcmshell6 kcm_bluetooth
+Classic7.AutoPlay                  AutoPlay                         kcmshell6 kcm_device_automounter
+Classic7.Sound                     Sound                            kcmshell6 kcm_pulseaudio
+Classic7.Display                   Display                          kcmshell6 kcm_kscreen
+Classic7.Mouse                     Mouse                            kcmshell6 kcm_mouse
+Classic7.Keyboard                  Keyboard                         kcmshell6 kcm_keyboard
+Classic7.Touchpad                  Touchpad                         kcmshell6 kcm_touchpad
+Classic7.GameControllers           Game Controllers                 kcmshell6 kcm_gamecontroller
+Classic7.PenAndTouch               Pen and Touch                    kcmshell6 kcm_tablet
+Classic7.GraphicsCard              Graphics Card (LACT)             lact gui
+Classic7.ProgramsAndFeatures       Programs and Features            flatpak run io.github.kolunmi.Bazaar
+Classic7.DefaultPrograms           Default Programs                 kcmshell6 kcm_componentchooser
+Classic7.StartupPrograms           Startup Programs                 kcmshell6 kcm_autostart
+Classic7.Games                     Games                            steam steam://open/games
+Classic7.UserAccounts              User Accounts                    kcmshell6 kcm_users
+Classic7.CredentialManager         Credential Manager               kcmshell6 kcm_kwallet5
+Classic7.OnlineAccounts            Online Accounts                  kcmshell6 kcm_kaccounts
+Classic7.LoginScreen               Login Screen                     kcmshell6 kcm_sddm
+Classic7.Personalization           Personalization                  classic7-appearance
+Classic7.Background                Desktop Background               kcmshell6 kcm_wallpaper
+Classic7.Fonts                     Fonts                            kcmshell6 kcm_fontinst
+Classic7.Notifications             Notification Area Icons          kcmshell6 kcm_notifications
+Classic7.ScreenLock                Screen Saver and Lock            kcmshell6 kcm_screenlocker
+Classic7.WindowBehavior            Window Behavior                  kcmshell6 kcm_kwinoptions
+Classic7.FolderOptions             Folder Options                   kcmshell6 kcm_desktoppaths
+Classic7.DateAndTime               Date and Time                    kcmshell6 kcm_clock
+Classic7.RegionAndLanguage         Region and Language              kcmshell6 kcm_regionandlang
+Classic7.EaseOfAccess              Ease of Access Center            kcmshell6 kcm_access

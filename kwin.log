@@ -1,0 +1,6 @@
+total 8
+drwx------ 2 tester tester 4096 Oct 13 07:21 .
+drwxrwxrwt 1 root   root   4096 Oct 13 07:21 ..
+-rw------- 1 tester tester    0 Oct 13 07:21 kwin-xwayland-eis-socket.31.lock
+srwxr-xr-x 1 tester tester    0 Oct 13 07:21 wayland-c7
+-rw-r----- 1 tester tester    0 Oct 13 07:21 wayland-c7.lock
