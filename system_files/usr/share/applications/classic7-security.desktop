@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Classic 7 Security
+Comment=Lock, switch user, log off, change a password or start Task Manager (Ctrl+Alt+Del)
+Exec=classic7-security
+Icon=system-lock-screen
+Terminal=false
+NoDisplay=true
+StartupWMClass=classic7-security

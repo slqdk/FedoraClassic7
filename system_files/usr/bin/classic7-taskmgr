@@ -1,0 +1,18 @@
+#!/usr/bin/python3
+"""Task Manager: see and end running programs and processes, and watch CPU, memory and network use, in the style of Windows 7.
+
+    classic7-taskmgr                 open Task Manager (or bring the open one to the front)
+    classic7-taskmgr --performance   open on the Performance tab (also --processes, --services,
+                                     --networking, --users)
+"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
+        print(__doc__.strip())
+        sys.exit(0)
+    from taskmgr_app import main
+    sys.exit(main(sys.argv[1:]))

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Task Manager
+GenericName=System Monitor
+Comment=See and end running programs, and watch CPU, memory and network use
+Exec=classic7-taskmgr
+Icon=utilities-system-monitor
+Terminal=false
+Categories=Qt;System;Monitor;
+Keywords=taskmgr;task manager;processes;performance;cpu;memory;end task;kill;jobliste;
+StartupWMClass=classic7-taskmgr

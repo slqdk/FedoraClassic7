@@ -12,3 +12,12 @@ _launch=Ctrl+Alt+T
 
 [services][classic7-run.desktop]
 _launch=Meta+R
+
+[services][classic7-taskmgr.desktop]
+_launch=Ctrl+Shift+Esc
+
+[services][classic7-security.desktop]
+_launch=Ctrl+Alt+Del
+
+[ksmserver]
+Log Out=none,Ctrl+Alt+Del,Show Logout Screen
