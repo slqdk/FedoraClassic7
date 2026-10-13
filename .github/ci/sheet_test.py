@@ -19,7 +19,9 @@ from PySide6.QtTest import QTest                   # noqa: E402
 from PySide6.QtWidgets import QApplication, QDialog, QMessageBox  # noqa: E402
 
 app = QApplication([])
-QIcon.setThemeName(os.environ.get("ICON_THEME", QIcon.themeName() or "breeze"))
+if not QIcon.themeName():          # offscreen: no desktop platform theme to say where icons are
+    QIcon.setThemeSearchPaths(QIcon.themeSearchPaths() + ["/usr/share/icons", "/usr/local/share/icons"])
+    QIcon.setThemeName(os.environ.get("ICON_THEME", "breeze"))
 QDialog.exec = lambda self: QDialog.Rejected
 QMessageBox.question = staticmethod(lambda *a, **k: QMessageBox.No)
 QMessageBox.warning = QMessageBox.information = QMessageBox.critical = staticmethod(lambda *a, **k: QMessageBox.Ok)
@@ -55,14 +57,20 @@ wb = w.wb
 g = w.grid
 
 
+def target():
+    """Where keys go: the cell editor while editing, else the grid (sent directly, because
+    under a compositor a test window need not have the keyboard focus)."""
+    return g.editor if g.editor.isVisible() else g
+
+
 def type_cell(r, c, text):
     g.select(r, c)
     g.setFocus()
     app.processEvents()
-    QTest.keyClicks(app.focusWidget() or g, text[:1])
+    QTest.keyClicks(target(), text[:1])
     app.processEvents()
-    QTest.keyClicks(app.focusWidget(), text[1:])
-    QTest.keyClick(app.focusWidget(), Qt.Key_Return)
+    QTest.keyClicks(target(), text[1:])
+    QTest.keyClick(target(), Qt.Key_Return)
     app.processEvents()
 
 
@@ -93,10 +101,10 @@ def _():
     w.undo()
     g.select(9, 3)
     g.setFocus()
-    QTest.keyClicks(g, "=")
-    QTest.keyClicks(app.focusWidget(), "a1")
-    QTest.keyClick(app.focusWidget(), Qt.Key_F4)
-    QTest.keyClick(app.focusWidget(), Qt.Key_Return)
+    QTest.keyClicks(target(), "=")
+    QTest.keyClicks(target(), "a1")
+    QTest.keyClick(target(), Qt.Key_F4)
+    QTest.keyClick(target(), Qt.Key_Return)
     app.processEvents()
     check("F4 makes $A$1", wb.ws.cells[(9, 3)].formula == "=$A$1", wb.ws.cells[(9, 3)].formula)
     wb.set_input(wb.ws, 9, 3, "")
