@@ -61,6 +61,7 @@ DISPLAY= classic7-arrange cascade >> /out/arrange.log 2>&1; sleep 2; shot 05-cas
 # the menu's Start Task Manager entry: open the menu again and pick it by its text
 X mousemove 760 790 click 3; sleep 2
 DISPLAY= classic7-programs --list > /out/programs.txt 2>&1
+{ id; flatpak list --app --columns=application,name,version,installation,size,origin; } > /out/flatpak.txt 2>&1
 CLASSIC7_LIB=/usr/lib/classic7 python3 - >> /out/menu.log 2>&1 <<'EOP'
 import subprocess, time
 # KWin bridge: list windows and find Task Manager after clicking the menu entry found by OCR-free means:
@@ -84,6 +85,7 @@ su tester -c "dbus-run-session -- bash /tmp/inner.sh"
 {
     tail -3 /out/build.log | sed 's/^/build: /'
     grep -c . /out/programs.txt | sed 's/^/programs listed: /'
+    head -3 /out/flatpak.txt | sed 's/^/flatpak: /'
     cat /out/actionplugins.txt
     grep WINDOWS /out/menu.log
     cat /out/arrange.log

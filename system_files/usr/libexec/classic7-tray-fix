@@ -7,6 +7,9 @@
  2. Explorer's navigation pane without Recent / Search For / Tags. KDE creates the places
     file the first time a file window opens, so this is retried at each login until it
     exists.  Marker: places-fixed
+ 3. The taskbar's right-click menu like Windows 7 (Cascade windows... Start Task Manager): sets
+    the panels' menu plugin to org.classic7.taskbarmenu. A panel reads it when Plasma starts,
+    so this too is done before Plasma.  Marker: taskbar-menu
 """
 import os
 import re
@@ -18,7 +21,7 @@ from pathlib import Path
 NM, OURS = "org.kde.plasma.networkmanagement", "org.classic7.network"
 CONFIG = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config")
 APPLETSRC = CONFIG / "plasma-org.kde.plasma.desktop-appletsrc"
-MARKER = CONFIG / "classic7" / "tray-fixed-2"     # -2: the entry lists live in the tray applet's [General]
+MARKER = CONFIG / "classic7" / "tray-fixed-3"     # -3: Plasma 6.7 keeps the tray items inside the tray applet
 
 
 def plasma_running() -> bool:
@@ -60,16 +63,23 @@ def set_key(lines, name, value):
 
 def fix(text: str) -> tuple[str, bool]:
     sections = parse(text)
-    trays = {key(lines, "SystrayContainmentId") for _h, lines in sections if key(lines, "SystrayContainmentId")}
-    trays.discard(None)
-    if not trays:
+    # Where the tray's own items live:
+    #  * Plasma 6.7+: inside the system tray applet, [Containments][2][Applets][7][Applets][17]
+    #  * older: in a separate containment named by SystrayContainmentId, [Containments][8][Applets][20]
+    prefixes = []
+    for head, lines in sections:
+        if head and key(lines, "plugin") == "org.kde.plasma.systemtray":
+            prefixes.append(head[:-1] + "][Applets][")
+        tray_id = key(lines, "SystrayContainmentId")
+        if tray_id:
+            prefixes.append(f"[Containments][{tray_id}][Applets][")
+    if not prefixes:
         return text, False
-    remove: set[str] = set()          # "[Containments][8][Applets][20]" prefixes
-    for tray in trays:
+    remove: set[str] = set()          # "[Containments][2][Applets][7][Applets][17]" headers
+    for prefix in prefixes:
         ours_seen = False
         for head, lines in sections:
-            m = re.fullmatch(rf"\[Containments\]\[{re.escape(tray)}\]\[Applets\]\[(\d+)\]", head or "")
-            if not m:
+            if not head or not head.startswith(prefix) or not re.fullmatch(r"\d+\]", head[len(prefix):]):
                 continue
             plugin = key(lines, "plugin")
             if plugin == NM or (plugin == OURS and ours_seen):
@@ -122,12 +132,38 @@ def places_fix():
         print(f"classic7-tray-fix: places: {e}")
 
 
+MENU_PLUGIN = "org.classic7.taskbarmenu"
+MENU_SO = Path("/usr/lib64/qt6/plugins/plasma/containmentactions") / f"{MENU_PLUGIN}.so"
+MENU_MARKER = CONFIG / "classic7" / "taskbar-menu"
+
+
+def menu_fix(text: str) -> tuple[str, bool]:
+    """[ActionPlugins][1] (1 = panels): RightButton;NoModifier=org.classic7.taskbarmenu."""
+    sections = parse(text)
+    for head, lines in sections:
+        if head == "[ActionPlugins][1]":
+            if key(lines, "RightButton;NoModifier") == MENU_PLUGIN:
+                return text, False
+            set_key(lines, "RightButton;NoModifier", MENU_PLUGIN)
+            break
+    else:
+        if sections and sections[-1][1] and sections[-1][1][-1].strip():
+            sections[-1][1].append("")
+        sections.append(("[ActionPlugins][1]", [f"RightButton;NoModifier={MENU_PLUGIN}", ""]))
+    body = []
+    for head, lines in sections:
+        if head:
+            body.append(head)
+        body += lines
+    return "\n".join(body).rstrip("\n") + "\n", True
+
+
 def main() -> int:
     force = "--force" in sys.argv
     places_fix()
-    if MARKER.exists() and not force:
-        return 0
-    if not Path(f"/usr/share/plasma/plasmoids/{OURS}").is_dir():
+    do_tray = (force or not MARKER.exists()) and Path(f"/usr/share/plasma/plasmoids/{OURS}").is_dir()
+    do_menu = (force or not MENU_MARKER.exists()) and MENU_SO.exists()
+    if not (do_tray or do_menu):
         return 0
     if plasma_running() and not force:
         print("classic7-tray-fix: Plasma is running; the change is made at the next login")
@@ -136,7 +172,17 @@ def main() -> int:
         text = APPLETSRC.read_text()
     except OSError:
         return 0                       # new account: the Classic 7 layout is created later
-    new, changed = fix(text)
+    new, changed = text, False
+    if do_tray:
+        new, c = fix(new)
+        if c:
+            print("classic7-tray-fix: removed Plasma's network icon from the system tray")
+        changed |= c
+    if do_menu:
+        new, c = menu_fix(new)
+        if c:
+            print("classic7-tray-fix: the taskbar's right-click menu is now the Windows 7 one")
+        changed |= c
     if changed:
         backup = APPLETSRC.with_name(APPLETSRC.name + ".before-tray-fix")
         if not backup.exists():
@@ -144,9 +190,10 @@ def main() -> int:
         tmp = APPLETSRC.with_name(APPLETSRC.name + ".tmp")
         tmp.write_text(new)
         tmp.replace(APPLETSRC)
-        print("classic7-tray-fix: removed Plasma's network icon from the system tray")
-    MARKER.parent.mkdir(parents=True, exist_ok=True)
-    MARKER.write_text("1\n")
+    for marker, done in ((MARKER, do_tray), (MENU_MARKER, do_menu)):
+        if done:
+            marker.parent.mkdir(parents=True, exist_ok=True)
+            marker.write_text("1\n")
     return 0
 
 
