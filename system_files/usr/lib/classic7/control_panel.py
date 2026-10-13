@@ -1,8 +1,12 @@
 """Control Panel, in the style of Windows 7: Category view, category pages, All Control Panel
-Items (large or small icons) and search. The items are in control_items.py."""
+Items (large or small icons) and search. The items are in control_items.py. It opens in Small icons
+until the "View by" choice is changed; the choice is kept in ~/.config/classic7/controlpanel.json."""
 from __future__ import annotations
 
+import json
+import os
 import sys
+from pathlib import Path
 
 from PySide6.QtCore import QSize, Qt, Signal
 from PySide6.QtGui import QColor, QIcon, QKeySequence, QPainter, QLinearGradient, QPalette, QShortcut
@@ -10,6 +14,34 @@ from PySide6.QtWidgets import (QApplication, QFrame, QGridLayout, QHBoxLayout, Q
                                QMenu, QScrollArea, QSizePolicy, QToolBar, QToolButton, QVBoxLayout, QWidget)
 
 import control_items as ci
+
+VIEWS = ("category", "large", "small")
+DEFAULT_VIEW = "small"
+SETTINGS = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config") / "classic7" / "controlpanel.json"
+
+
+def saved_view() -> str:
+    try:
+        view = json.loads(SETTINGS.read_text()).get("view")
+    except (OSError, ValueError, AttributeError):
+        view = None
+    return view if view in VIEWS else DEFAULT_VIEW
+
+
+def save_view(view: str):
+    try:
+        data = json.loads(SETTINGS.read_text())
+        if not isinstance(data, dict):
+            data = {}
+    except (OSError, ValueError):
+        data = {}
+    data["view"] = view
+    try:
+        SETTINGS.parent.mkdir(parents=True, exist_ok=True)
+        SETTINGS.write_text(json.dumps(data, indent=1) + "\n")
+    except OSError:
+        pass
+
 
 GREEN = QColor(0x1e, 0x7b, 0x1e)      # category and item titles
 BLUE = QColor(0x1f, 0x4e, 0x9c)       # task links
@@ -100,7 +132,7 @@ class ControlPanel(QMainWindow):
         self.resize(900, 640)
         self.history: list[tuple[str, str | None]] = []
         self.pos = -1
-        self.view_mode = "category"      # category, large, small
+        self.view_mode = saved_view()     # category, large, small
         self._toolbar()
         self.scroll = QScrollArea()
         self.scroll.setWidgetResizable(True)
@@ -229,6 +261,7 @@ class ControlPanel(QMainWindow):
 
     def _set_view(self, mode: str):
         self.view_mode = mode
+        save_view(mode)
         self.go("home")
 
     def _heading(self, lay: QVBoxLayout, text: str, view_by: bool = True):
@@ -459,8 +492,8 @@ def main(argv: list[str]) -> int:
         kind, value = ci.resolve(arg)
         if kind == "category":
             w.go("category", value)
-        elif kind == "all":
-            w.view_mode = "large"
-            w.go("home")
+        elif kind == "all" and w.view_mode == "category":
+            w.view_mode = "small"        # All Control Panel Items: the icons, without changing the choice
+            w.go("home", record=False)
     w.show()
     return app.exec()

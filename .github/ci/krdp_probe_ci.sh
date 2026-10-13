@@ -55,7 +55,9 @@ openssl x509 -in $C/krdp.crt -noout -text | grep -E "Public Key Algorithm|Public
 head -1 $C/krdp.key >> /out/probe.txt
 Xvfb :99 -screen 0 1200x820x24 >/dev/null 2>&1 &
 sleep 2
-DISPLAY=:99 kwin_wayland --x11-display :99 --width 1180 --height 800 --no-lockscreen --socket wayland-c7 > /out/kwin.log 2>&1 &
+(pipewire > /out/pipewire.log 2>&1 &); sleep 1; (wireplumber > /out/wireplumber.log 2>&1 &); sleep 1
+DISPLAY=:99 QT_FORCE_STDERR_LOGGING=1 QT_LOGGING_RULES="kwin_*=true;kwin_screencast*=true" \
+    kwin_wayland --x11-display :99 --width 1180 --height 800 --no-lockscreen --socket wayland-c7 > /out/kwin.log 2>&1 &
 for i in $(seq 1 40); do [ -S $XDG_RUNTIME_DIR/wayland-c7 ] && break; sleep 0.5; done
 export WAYLAND_DISPLAY=wayland-c7 QT_QPA_PLATFORM=wayland QT_FORCE_STDERR_LOGGING=1 QT_LOGGING_RULES="org.kde.krdp*=true"
 WLOG_LEVEL=DEBUG krdpserver --plasma --port 3390 -u rdpuser -p 'Rdp pass1' --certificate $C/krdp.crt --certificate-key $C/krdp.key > /out/krdp.log 2>&1 &
@@ -69,4 +71,4 @@ echo "xfreerdp /sec:tls: exit $?" >> /out/probe.txt
 EOI
 chown tester /tmp/inner.sh
 su tester -c "timeout 200 dbus-run-session -- bash /tmp/inner.sh"
-{ cat /out/versions.txt /out/probe.txt; grep -hE "nego|Security|security|TLS|tls|X224|CONFIRM" /out/client-default.log | head -20; } > /out/notices.txt 2>&1
+{ cat /out/versions.txt /out/probe.txt; grep -hE "Security:|security" /out/krdp.log | head -12; grep -iE "screencast|pipewire|opengl|qpainter|egl|compositing" /out/kwin.log | head -20; } > /out/notices.txt 2>&1

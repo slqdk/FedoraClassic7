@@ -280,9 +280,41 @@ def _keyring():
         return None
 
 
+# The keyring is only opened for a computer that has saved credentials (mstsc.json lists which, with
+# the user name): opening it can make KDE Wallet ask for its password or to set up a wallet.
+def _history() -> dict:
+    try:
+        data = json.loads(HISTORY.read_text())
+        return data if isinstance(data, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def _write_history(**changes):
+    data = _history()
+    data.update(changes)
+    try:
+        CONFIG.mkdir(parents=True, exist_ok=True)
+        HISTORY.write_text(json.dumps(data, indent=1))
+    except OSError:
+        pass
+
+
+def _saved_index() -> dict:
+    saved = _history().get("saved", {})
+    return saved if isinstance(saved, dict) else {}
+
+
+def saved_user(host: str) -> str:
+    """The user name credentials are saved for ("" when none), without opening the keyring."""
+    return str(_saved_index().get(host.lower(), "")) if host else ""
+
+
 def saved_credentials(host: str) -> dict | None:
+    if not saved_user(host):
+        return None
     kr = _keyring()
-    if not kr or not host:
+    if not kr:
         return None
     try:
         data = kr.get_password(KEYRING, f"TERMSRV/{host.lower()}")
@@ -293,16 +325,22 @@ def saved_credentials(host: str) -> dict | None:
 
 def save_credentials(host: str, user: str, password: str) -> bool:
     kr = _keyring()
-    if not kr:
+    if not kr or not host:
         return False
     try:
         kr.set_password(KEYRING, f"TERMSRV/{host.lower()}", json.dumps({"user": user, "password": password}))
-        return True
     except Exception:  # noqa: BLE001
         return False
+    _write_history(saved={**_saved_index(), host.lower(): user})
+    return True
 
 
 def delete_credentials(host: str):
+    if not host:
+        return
+    index = _saved_index()
+    if index.pop(host.lower(), None) is not None:
+        _write_history(saved=index)
     kr = _keyring()
     if kr:
         try:
@@ -312,19 +350,13 @@ def delete_credentials(host: str):
 
 
 def load_history() -> list[str]:
-    try:
-        return [h for h in json.loads(HISTORY.read_text()).get("computers", []) if isinstance(h, str)][:10]
-    except (OSError, ValueError, AttributeError):
-        return []
+    computers = _history().get("computers", [])
+    return [h for h in computers if isinstance(h, str)][:10] if isinstance(computers, list) else []
 
 
 def remember_computer(host: str):
     hosts = [host] + [h for h in load_history() if h.lower() != host.lower()]
-    try:
-        CONFIG.mkdir(parents=True, exist_ok=True)
-        HISTORY.write_text(json.dumps({"computers": hosts[:10]}, indent=1))
-    except OSError:
-        pass
+    _write_history(computers=hosts[:10])
 
 
 def app_icon() -> QIcon:
@@ -795,8 +827,8 @@ class RemoteDesktop(QDialog):
 
     def _update_cred_note(self):
         host = self.host()
-        saved = saved_credentials(host) if host else None
-        user = self.user_edit.text().strip() or (saved or {}).get("user", "")
+        saved = saved_user(host)
+        user = self.user_edit.text().strip() or saved
         self.user_label.setText(user or "None specified")
         if saved:
             text = ("Saved credentials will be used to connect to this computer. You can <a href='edit'>edit</a> "
@@ -811,8 +843,7 @@ class RemoteDesktop(QDialog):
         if link == "delete":
             delete_credentials(host)
         elif link == "edit":
-            saved = saved_credentials(host) or {}
-            d = CredentialsDialog(self, host, saved.get("user", self.user_edit.text()))
+            d = CredentialsDialog(self, host, saved_user(host) or self.user_edit.text())
             if d.exec() == QDialog.Accepted and d.user.text().strip():
                 save_credentials(host, d.user.text().strip(), d.password.text())
                 self.user_edit.setText(d.user.text().strip())
@@ -965,7 +996,7 @@ class RemoteDesktop(QDialog):
             self.show()
             return
         if kind == "logon":
-            if saved_credentials(host):
+            if saved_user(host):
                 delete_credentials(host)
             self.ask_and_start(program, rdp, self.session_user, "The logon attempt failed")
             return
