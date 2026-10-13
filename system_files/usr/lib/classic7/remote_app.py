@@ -16,6 +16,7 @@ import os
 import re
 import shutil
 import sys
+import time
 from pathlib import Path
 
 from PySide6.QtCore import QProcess, QRectF, Qt, QTimer, QUrl
@@ -258,11 +259,26 @@ ERRORS = [
 NORMAL_EXITS = {0, 1, 2, 11, 12}       # success, disconnect, logoff, disconnected or logged off by the user
 
 
-def explain(output: str, code: int, host: str) -> tuple[str, str]:
-    """(kind, message) for FreeRDP's output and exit code: kind is ok, logon, quiet or fatal."""
-    for marks, kind, message in ERRORS:
+# the server ended the connection before the session started (a FreeRDP state other than ACTIVE)
+EARLY_END = re.compile(r"CONNECTION_STATE_(?!ACTIVE\b)[A-Z_]+ status STATE_RUN_(?:QUIT_SESSION|FAILED)")
+REFUSED_WITHIN = 8.0           # seconds: a server that checks the password after connecting (TLS, as
+                               # KRdp) drops a wrong one at once, which FreeRDP reports as a log-off
+
+
+def explain(output: str, code: int, host: str, seconds: float | None = None) -> tuple[str, str]:
+    """(kind, message) for FreeRDP's output and exit code: kind is ok, logon, quiet or fatal.
+    seconds: how long the connection lasted."""
+    *specific, generic = ERRORS
+    for marks, kind, message in specific:
         if any(m in output for m in marks):
             return kind, message.format(host=host)
+    early = seconds is not None and seconds < REFUSED_WITHIN
+    dropped = "Broken pipe" in output or "Connection reset" in output      # connected, then cut off
+    if EARLY_END.search(output) or (early and (code in NORMAL_EXITS or (code == 147 and dropped))):
+        return "logon", "The logon attempt failed"
+    marks, kind, message = generic
+    if any(m in output for m in marks):
+        return kind, message.format(host=host)
     if code in NORMAL_EXITS:
         return "ok", ""
     if code in (131, 141, 147):
@@ -963,6 +979,7 @@ class RemoteDesktop(QDialog):
         self.proc.finished.connect(lambda code, _status: self._finished(program, rdp, code))
         self.proc.started.connect(lambda: self._send_args(args))
         self.hide()
+        self.started_at = time.monotonic()
         self.proc.start()
         # once the session has lasted a little, the password worked: keep it if asked to
         QTimer.singleShot(8000, self._logged_in)
@@ -990,7 +1007,7 @@ class RemoteDesktop(QDialog):
         if proc is not None:
             proc.deleteLater()
         host = str(rdp.get("full address"))
-        kind, message = explain(self.output, code, host)
+        kind, message = explain(self.output, code, host, time.monotonic() - getattr(self, "started_at", 0.0))
         if os.environ.get("CLASSIC7_MSTSC_LOG"):
             Path(os.environ["CLASSIC7_MSTSC_LOG"]).write_text(f"exit {code}: {kind}\n{self.output}")
         if kind == "ok":

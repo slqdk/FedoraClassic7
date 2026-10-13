@@ -5,7 +5,10 @@ set -x
 exec 2>/out/script.log
 mkdir -p /out && chmod 777 /out
 useradd -m -u 1000 tester 2>/dev/null
+# the image has no /etc/shadow (accounts are made at install time): make it, or PAM finds no password
+[ -f /etc/shadow ] || pwconv
 echo 'tester:Classic7pass!' | chpasswd
+{ ls -l /etc/shadow; getent shadow tester | cut -d: -f1,3; } > /out/shadow.txt 2>&1
 {
     ls -l /usr/sbin/unix_chkpwd /usr/bin/su /usr/bin/passwd /usr/bin/sudo 2>&1
     getcap /usr/sbin/unix_chkpwd /usr/bin/passwd 2>&1

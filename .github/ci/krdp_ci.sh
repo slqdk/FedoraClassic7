@@ -41,7 +41,10 @@ else:
     print(f"no negotiation answer: {data.hex(' ')}")
 EOP
 useradd -m -u 1000 tester 2>/dev/null
+# the image has no /etc/shadow (accounts are made at install time): make it, or PAM finds no password
+[ -f /etc/shadow ] || pwconv
 echo 'tester:Classic7pass!' | chpasswd
+{ ls -l /etc/shadow; getent shadow tester | cut -d: -f1,3; } > /out/shadow.txt 2>&1
 cat > /tmp/inner.sh <<'EOI'
 round=$1
 export XDG_RUNTIME_DIR=/tmp/xdg-t; mkdir -p $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
