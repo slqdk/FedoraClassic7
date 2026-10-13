@@ -32,7 +32,7 @@ image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomic + KDE Plas
 | Control Panel | Windows 7 Category view, category pages, all items (large/small icons) and search; items open KDE settings modules on their own (`kcmshell6`) or Classic 7 windows; `control`, `*.cpl` and `control /name ...` work in Run |
 | Task Manager | Ctrl+Shift+Esc: Applications (window list through a KWin script), Processes, Services, Performance (LED meters, per-CPU history), Networking, Users; Ctrl+Alt+Del opens the blue Windows 7 security screen |
 | System / Device Manager | Win+Pause System window, System Properties (rename, environment variables, System Restore = rollback), Device Manager (PCI/USB/input/monitors/disks by type, driver and status) |
-| Taskbar and windows | Show desktop button, Classic Alt+Tab, Aero Shake (and Win+Home), Win+Up/Down, snap to edges, Start menu jump lists (recent documents, tasks) |
+| Taskbar and windows | Windows 7 right-click menu (Cascade, Stacked, Side by side, Start Task Manager), Show desktop button, Classic Alt+Tab, Aero Shake (and Win+Home), Win+Up/Down, snap to edges, Start menu jump lists (recent documents, tasks) |
 | Classic 7 Update | One click installs the newest Classic 7, app updates and new settings for your account; settings follow automatically after a restart |
 | Login screen | Classic "Log On" dialog on the desktop blue (SDDM theme) |
 | Appearance | Start > Settings > **Appearance**: classic-style dialog with colour schemes, per-item colours, font size and live preview |
@@ -266,6 +266,15 @@ selection plus zoom in the status bar.
   as a table; undo and redo for everything.
 - Print and Print Preview with Page Setup: paper, orientation, margins, scale or fit to pages, print area, rows
   to repeat at the top, gridlines and headings, header and footer (&P page, &N pages, &A sheet, &F file).
+
+## Programs and Features
+
+Control Panel > Programs > **Uninstall a program** (`appwiz.cpl` in Run, `classic7-programs`): one list of
+app store apps (Flatpak), Steam games and tools, and packages added to the system image with rpm-ostree;
+publisher, install date, size and version, search, and the details bar at the bottom. **Uninstall** asks
+first and shows progress; Steam games are removed by Steam (it asks itself), added packages go away at the
+next restart. **Change** opens the app store or the game's page in Steam. Programs that come with
+Classic 7 are part of the system image and are not listed.
 
 ## Disk Management and drive letters
 

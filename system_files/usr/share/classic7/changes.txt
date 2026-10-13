@@ -1,6 +1,12 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
+## 2026-10-13  Taskbar menu, Programs and Features, one network icon
+- **Right-click the taskbar** for the Windows 7 menu: Cascade windows, Show windows stacked, Show windows side by side, Show the desktop and **Start Task Manager**.
+- **Programs and Features** (Control Panel > Uninstall a program, or `appwiz.cpl` in Run): app store apps, Steam games and packages added to the system, with publisher, install date, size and version. Select one and click Uninstall (Steam games are removed by Steam itself; added packages after a restart). Get new programs opens the app store.
+- The Control Panel's "Uninstall a program" and "Install a program" links work again (the app store is a normal program on Bazzite, not a Flatpak).
+- Only one network icon in the notification area also with Plasma 6.7, which keeps the icons inside the tray itself.
+
 ## 2026-10-13  Sheet (spreadsheets), Disk Management, Control Panel, Task Manager, Ctrl+Alt+Del, System and Device Manager, Windows 7 taskbar keys
 - **Sheet**, a spreadsheet in the Excel 2007 style (Start menu, `excel` in Run): opens .xlsx and old .xls workbooks and CSV files, saves .xlsx, CSV and PDF. About 200 functions (SUM, IF, VLOOKUP, INDEX/MATCH, SUMIFS, dates, text, finance), number formats, Format Cells, borders, merge, Conditional Formatting, Data Validation, sort and AutoFilter, Freeze Panes, charts (column, bar, line, pie, area, scatter), comments, names, find and replace, and printing with Page Setup.
 - **Disk Management** (`diskmgmt.msc` in Run, Control Panel > System and Security, or Computer > Manage drives): the volume list and the disks drawn as bars. Right-click a volume: **Change Drive Letter and Paths**, Format, Delete Volume, Check for Errors, Use for Steam Games; right-click unallocated space: New Simple Volume; new disks: Initialize Disk (GPT or MBR). An administrator password is asked for changes.
