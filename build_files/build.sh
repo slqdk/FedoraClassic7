@@ -461,6 +461,19 @@ for f in org.kde.konsole.desktop io.github.rfrench3.bazzite-updater.desktop org.
         sed -i -e '/^NoDisplay=/d' -e '0,/^\[Desktop Entry\]/s//[Desktop Entry]\nNoDisplay=true/' "/usr/share/applications/$f"
     fi
 done
+# Startup programs (System Configuration > Startup): Bazzite Announcements and KDE Connect are off
+# until ticked there, the XApp tray watcher (for other desktops) doesn't start in Plasma
+# (build_files/startup/trim_startup.py), and the UnifiedPush distributor (push messages for KDE chat
+# apps, none installed) isn't started with every session any more
+python3 /ctx/startup/trim_startup.py /etc/xdg/autostart
+rm -f /usr/lib/systemd/user/*.wants/kunifiedpush-distributor.service
+[[ ! -f /etc/xdg/autostart/bazzite-announcement.desktop ]] || grep -q '^X-Classic7-Disabled=true' /etc/xdg/autostart/bazzite-announcement.desktop
+[[ ! -f /etc/xdg/autostart/org.kde.kdeconnect.daemon.desktop ]] || grep -q '^Hidden=true' /etc/xdg/autostart/org.kde.kdeconnect.daemon.desktop
+[[ ! -f /etc/xdg/autostart/xapp-sn-watcher.desktop ]] || grep -q '^NotShowIn=.*KDE' /etc/xdg/autostart/xapp-sn-watcher.desktop
+# Bazzite's "Welcome to Bazzite" banner in every terminal (ublue-motd, from /etc/profile.d):
+# Command Prompt starts with Classic 7's own header line
+rm -f /etc/profile.d/user-motd.sh
+test ! -e /etc/profile.d/user-motd.sh
 # One KDE text editor: KWrite stays (Notepad is classic7-notepad, "notepad" in Run). Kate goes.
 if rpm -q kate >/dev/null 2>&1; then
     dnf5 -y remove kate $(rpm -q kate-plugins >/dev/null 2>&1 && echo kate-plugins)

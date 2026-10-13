@@ -1,10 +1,13 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
-## 2026-10-13  Remote Desktop both ways
+## 2026-10-13  Remote Desktop both ways, Control Panel in Small icons, fewer startup programs
 - **Remote Desktop to this computer works again.** Windows said "Your credentials did not work" for every account, because KDE's Remote Desktop server and the newer FreeRDP that Fedora updated to didn't agree on how to log on. Classic 7 now carries KDE's fix until Plasma ships it.
 - **System Properties > Remote** (Control Panel > System > Remote settings): choose *Allow connections from computers running any version of Remote Desktop* and click OK. Log on from Windows with this computer's account name and password while you are logged on here; nothing has to be accepted on this screen, the certificate lasts ten years, and Classic 7 offers to open the firewall. Select Users... adds names and passwords only for Remote Desktop.
 - **Remote Desktop Connection** to Windows computers (Start > All Programs > Accessories, or `mstsc` in Run): the Windows 7 window with Show Options (General, Display, Local Resources, Experience, Advanced), the Windows Security box for the user name and password (Remember my credentials), and .rdp files that open with a double-click and that Windows can open too.
+- **Control Panel** opens in **Small icons**, and keeps the view you choose under *View by* (Category, Large icons or Small icons).
+- **Fewer startup programs**: Bazzite Announcements and KDE Connect no longer start at login (tick them in System Configuration > Startup to have them back), and the XApp tray helper, which Plasma doesn't need, is gone. System Configuration lists only what really starts; the desktop's own helpers are behind *Hide the desktop's own startup items*.
+- **Command Prompt** opens without Bazzite's "Welcome to Bazzite" banner (Konsole too).
 
 ## 2026-10-13  Accessories, Explorer windows, notification area, system tools, screen savers, start-up and shut-down screens
 - **Accessories** in the Windows 7 look, in their own Start > All Programs > **Accessories** folder (with **System Tools** inside, as in Windows 7): Notepad, Calculator (Standard, Scientific and Programmer, History), Paint, Sticky Notes, and Character Map under System Tools.

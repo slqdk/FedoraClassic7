@@ -36,7 +36,7 @@ same tests or are drawn off-screen by the programs themselves; the right-click m
 | Mail | E-mail and contacts in the Outlook 2007 style: IMAP/SMTP, Gmail (app password), Outlook.com (Microsoft sign-in); folders, date groups, Reading Pane with pictures blocked until allowed; messages written in Write's editor; Address Cards, vCard import/export |
 | Network | Network Connections (`ncpa.cpl`) with Status and the IPv4 Properties dialog, **Map Network Drive** (SMB shares as folders that every program can use) |
 | Disk Management | `diskmgmt.msc`: volumes and disk bars, drive letters mounted at every start-up (`/var/mnt/D`), format, new/delete partitions, initialize disks, check for errors, Steam libraries on NTFS drives with Proton's compatdata kept on the system disk |
-| Control Panel | Windows 7 Category view, category pages, all items (large/small icons) and search; items open KDE settings modules on their own (`kcmshell6`) or Classic 7 windows; `control`, `*.cpl` and `control /name ...` work in Run |
+| Control Panel | All items in Small icons (View by: Category, Large icons or Small icons is remembered), Windows 7 Category view and category pages, and search; items open KDE settings modules on their own (`kcmshell6`) or Classic 7 windows; `control`, `*.cpl` and `control /name ...` work in Run |
 | Task Manager | Ctrl+Shift+Esc: Applications (window list through a KWin script), Processes, Services, Performance (LED meters, per-CPU history), Networking, Users; Ctrl+Alt+Del opens the blue Windows 7 security screen |
 | System / Device Manager | Win+Pause System window, System Properties (rename, environment variables, System Restore = rollback), Device Manager (PCI/USB/input/monitors/disks by type, driver and status) |
 | System tools | **System Configuration** (`msconfig`), **Event Viewer** over the system journal (`eventvwr`), **Resource Monitor** (`resmon`), **Firewall** over firewalld (`firewall.cpl`), **Programs and Features** (`appwiz.cpl`) |
@@ -578,7 +578,11 @@ switcher `/usr/share/kwin-wayland/tabbox/classic7`; the Show desktop button is t
   versions the computer can start, and the kernel's options), Services (the system's and your own, with their
   maker), Startup (the programs that start when you log in, with maker, command, location and the date they
   were turned off), Tools. A startup program is turned off with a copy of its .desktop file with `Hidden=true` in
-  `~/.config/autostart`, as KDE's own settings do; system services change in one go through pkexec.
+  `~/.config/autostart`, as KDE's own settings do; system services change in one go through pkexec. The list
+  is what a Plasma session really starts (systemd's XDG autostart rules); *Hide the desktop's own startup
+  items* hides the plumbing (KDE, the wallet, location, the Xwayland video bridge, virtual machine agents,
+  input-remapper, Classic 7's login helpers). Bazzite Announcements and KDE Connect are off until ticked, and
+  *Normal startup* means this default set.
 - **Event Viewer** (`eventvwr`, or Action Center's problem reports): the systemd journal as Windows logs —
   Administrative Events (critical, error, warning), Problem Reports (programs that crashed), Application,
   Security (sign-ins, sudo, polkit), Setup (updates), System, Kernel and This start; Filter Current Log, Find,
