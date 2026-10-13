@@ -729,6 +729,11 @@ def main(argv):
     except Fail as e:
         print(str(e), file=sys.stderr)
         return e.code
+    except Exception as e:  # noqa: BLE001 - say what went wrong instead of a bare traceback
+        import traceback
+        where = traceback.extract_tb(e.__traceback__)[-1]
+        print(f"Something went wrong: {e} (line {where.lineno}, {where.name})", file=sys.stderr)
+        return 5
     finally:
         os.close(fd)
 

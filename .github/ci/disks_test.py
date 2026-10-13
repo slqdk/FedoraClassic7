@@ -36,7 +36,7 @@ def closer():
     w = QApplication.activeModalWidget()
     if isinstance(w, QMessageBox):
         boxes.append(w.text())
-        print("BOX  " + w.text().replace("\n", " | ")[:300], flush=True)
+        print("BOX  " + w.text().replace("\n", " | "), flush=True)
         shot(w, "message")
         w.reject() if w.escapeButton() else w.accept()
 
