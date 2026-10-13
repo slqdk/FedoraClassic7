@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Properties
+Comment=Properties of a file, folder or drive
+Exec=classic7-properties %F
+Icon=document-properties
+NoDisplay=true
+Terminal=false

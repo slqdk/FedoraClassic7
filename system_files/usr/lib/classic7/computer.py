@@ -721,8 +721,18 @@ class ComputerWindow(QMainWindow):
         self.refresh(force=True)
 
     def _properties(self):
-        if self.current:
-            PropertiesDialog(self.current.drive, self).exec()
+        if not self.current:
+            return
+        d = self.current.drive
+        if d.mounted and d.mountpoint and os.path.isdir(d.mountpoint):
+            # the Windows 7 Properties window (General, Tools, Security) for an opened drive
+            from pathlib import Path
+            import properties_app
+            dlg = properties_app.PropertiesDialog([Path(d.mountpoint)], self)
+            dlg.setAttribute(Qt.WA_DeleteOnClose)
+            dlg.show()
+        else:
+            PropertiesDialog(d, self).exec()
 
 
 def main(argv=None):

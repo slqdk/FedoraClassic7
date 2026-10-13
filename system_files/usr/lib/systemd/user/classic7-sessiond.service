@@ -1,0 +1,20 @@
+[Unit]
+Description=Classic 7 session helper (file copy progress windows, Recycle Bin icon)
+# KWin has exported WAYLAND_DISPLAY when its service is up; the desktop must start after this
+# one, so the file-operation names are ours, not the notification area's
+After=plasma-kwin_wayland.service
+Before=plasma-plasmashell.service
+PartOf=graphical-session.target
+
+[Service]
+Type=dbus
+BusName=org.classic7.Session
+ExecStart=/usr/libexec/classic7-sessiond
+# never hold up the desktop for long
+TimeoutStartSec=6
+Restart=on-failure
+RestartSec=2
+Slice=session.slice
+
+[Install]
+WantedBy=plasma-core.target

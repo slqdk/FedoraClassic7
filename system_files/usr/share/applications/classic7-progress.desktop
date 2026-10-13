@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=File Operations
+Comment=Progress of copying, moving and deleting files
+Exec=/usr/libexec/classic7-sessiond
+Icon=edit-copy
+NoDisplay=true
+Terminal=false

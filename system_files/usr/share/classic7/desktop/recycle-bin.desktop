@@ -1,7 +1,13 @@
 [Desktop Entry]
-Type=Link
+Type=Application
 Name=Recycle Bin
-Comment=Contains deleted files
-URL=trash:/
-Icon=user-trash-full
-EmptyIcon=user-trash
+Comment=Contains files and folders that you have deleted
+Exec=classic7-recyclebin %U
+Icon=user-trash
+Actions=Empty;
+X-Classic7-RecycleBin=true
+
+[Desktop Action Empty]
+Name=Empty Recycle Bin
+Icon=trash-empty
+Exec=classic7-recyclebin --empty

@@ -1,0 +1,17 @@
+[Desktop Entry]
+Type=Application
+Name=Recycle Bin
+GenericName=Deleted files
+Comment=Contains files and folders that you have deleted
+Exec=classic7-recyclebin %U
+Icon=user-trash-full
+NoDisplay=true
+Terminal=false
+Categories=System;FileManager;
+Keywords=trash;deleted;restore;
+Actions=Empty;
+
+[Desktop Action Empty]
+Name=Empty Recycle Bin
+Icon=trash-empty
+Exec=classic7-recyclebin --empty

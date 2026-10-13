@@ -1195,7 +1195,7 @@ def main(argv: list[str]) -> int:
     app.setDesktopFileName("classic7-diskmgmt")
     w = DiskManagement()
     w.show()
-    if len(argv) >= 2 and argv[0] in ("--letter", "--format"):
+    if len(argv) >= 2 and argv[0] in ("--letter", "--format", "--check"):
         def open_dialog(action=argv[0], dev=os.path.realpath(argv[1])):
             r = next((x for x in dk.all_regions(w.disks) if x.path and os.path.realpath(x.path) == dev), None)
             if r is None:
@@ -1205,5 +1205,11 @@ def main(argv: list[str]) -> int:
                 LettersDialog(w, r).exec()
             elif action == "--format" and w.can_format(r):
                 w.format(r)
+            elif action == "--check":
+                if w.can_check(r):
+                    w.check(r)
+                else:
+                    QMessageBox.information(w, "Error-checking", f"{r.name() or r.path} can't be checked while it is "
+                                            "in use by the system, or its file system has no checker.")
         QTimer.singleShot(200, open_dialog)
     return app.exec()

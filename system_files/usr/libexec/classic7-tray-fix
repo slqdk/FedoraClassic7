@@ -10,6 +10,9 @@
  3. The taskbar's right-click menu like Windows 7 (Cascade windows... Start Task Manager): sets
     the panels' menu plugin to org.classic7.taskbarmenu. A panel reads it when Plasma starts,
     so this too is done before Plasma.  Marker: taskbar-menu
+ 4. The desktop's Recycle Bin opens Classic 7's Recycle Bin window: the icon from the first login
+    (a KDE trash:/ link that opens Explorer) becomes the Recycle Bin program's icon, with "Empty
+    Recycle Bin" on its menu and full / empty pictures.  Marker: recycle-bin-app
 """
 import os
 import re
@@ -158,9 +161,57 @@ def menu_fix(text: str) -> tuple[str, bool]:
     return "\n".join(body).rstrip("\n") + "\n", True
 
 
+RECYCLE_MARKER = CONFIG / "classic7" / "recycle-bin-app"
+RECYCLE_NEW = Path("/usr/share/classic7/desktop/recycle-bin.desktop")
+
+
+def desktop_dir() -> Path:
+    try:
+        out = subprocess.run(["xdg-user-dir", "DESKTOP"], capture_output=True, text=True, timeout=3).stdout.strip()
+        if out and Path(out) != Path.home():
+            return Path(out)
+    except (OSError, subprocess.SubprocessError):
+        pass
+    return Path.home() / "Desktop"
+
+
+def trash_empty() -> bool:
+    info = Path(os.environ.get("XDG_DATA_HOME") or Path.home() / ".local/share") / "Trash" / "info"
+    try:
+        return not any(info.iterdir())
+    except OSError:
+        return True
+
+
+def recycle_fix(force: bool):
+    if (RECYCLE_MARKER.exists() and not force) or not RECYCLE_NEW.exists():
+        return
+    old = desktop_dir() / "recycle-bin.desktop"
+    try:
+        text = old.read_text(errors="replace")
+    except OSError:
+        text = ""
+    if text and "Type=Link" in text and "URL=trash:/" in text:
+        name = next((ln.split("=", 1)[1] for ln in text.splitlines() if ln.startswith("Name=")), "Recycle Bin")
+        new = RECYCLE_NEW.read_text()
+        new = new.replace("Name=Recycle Bin\n", f"Name={name}\n", 1)
+        new = new.replace("Icon=user-trash\n", "Icon=user-trash\n" if trash_empty() else "Icon=user-trash-full\n", 1)
+        tmp = old.with_name(".recycle-bin.desktop.tmp")
+        tmp.write_text(new)
+        os.chmod(tmp, 0o755)
+        tmp.replace(old)
+        print("classic7-tray-fix: the desktop's Recycle Bin now opens the Recycle Bin window")
+    RECYCLE_MARKER.parent.mkdir(parents=True, exist_ok=True)
+    RECYCLE_MARKER.write_text("1\n")
+
+
 def main() -> int:
     force = "--force" in sys.argv
     places_fix()
+    try:
+        recycle_fix(force)
+    except OSError as e:
+        print(f"classic7-tray-fix: Recycle Bin icon not changed: {e}")
     do_tray = (force or not MARKER.exists()) and Path(f"/usr/share/plasma/plasmoids/{OURS}").is_dir()
     do_menu = (force or not MENU_MARKER.exists()) and MENU_SO.exists()
     if not (do_tray or do_menu):

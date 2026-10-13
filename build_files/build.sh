@@ -98,7 +98,8 @@ for pkg in ntfs-3g ntfsprogs exfatprogs dosfstools btrfs-progs e2fsprogs util-li
     rpm -q "$pkg" >/dev/null 2>&1 || dnf5 -y install "$pkg" || echo "NOTE: $pkg not available"
 done
 # Classic 7's small compiled parts (build_files/native), built here against this image's own KDE
-# libraries: the taskbar's right-click menu (a Plasma plugin), classic7-grab (screen pictures for
+# libraries: the taskbar's right-click menu (a Plasma plugin), the Properties plugin (opens the
+# Windows 7 Properties window from Explorer and the desktop), classic7-grab (screen pictures for
 # Quick Shot) and classic7-idle (idle time for the screensaver). The compilers and headers come in
 # for this step only. Meanwhile every package already in the image is locked at its version, so the
 # headers can't quietly update the desktop's own libraries (Fedora's archive of older updates has
@@ -106,7 +107,7 @@ done
 rpm -qa --qf '%{NAME}.%{ARCH} %{EPOCHNUM}:%{VERSION}-%{RELEASE}\n' | LC_ALL=C sort > /tmp/rpms-before
 devel=()
 for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel \
-           kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel qt6-qtbase-devel qt6-qtdeclarative-devel; do
+           kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel; do
     rpm -q "$pkg" >/dev/null 2>&1 || devel+=("$pkg")
 done
 if ((${#devel[@]})); then
@@ -132,15 +133,19 @@ cmake --install /tmp/native-build
 rm -rf /tmp/native-build
 ((${#devel[@]})) && dnf5 -y remove "${devel[@]}"
 rpm -qa --qf '%{NAME}.%{ARCH} %{EPOCHNUM}:%{VERSION}-%{RELEASE}\n' | LC_ALL=C sort > /tmp/rpms-after
-updated=$(LC_ALL=C join /tmp/rpms-before /tmp/rpms-after | awk '$2 != $3 {print $1 " " $2 " -> " $3}')
+# packages whose version changed: their name is both among the lines that went and those that came
+LC_ALL=C comm -23 /tmp/rpms-before /tmp/rpms-after | cut -d' ' -f1 | LC_ALL=C sort -u > /tmp/rpms-gone
+LC_ALL=C comm -13 /tmp/rpms-before /tmp/rpms-after | cut -d' ' -f1 | LC_ALL=C sort -u > /tmp/rpms-came
+updated=$(LC_ALL=C comm -12 /tmp/rpms-gone /tmp/rpms-came | tr '\n' ' ')
 if [[ -n "$updated" ]]; then
     # the line shows on the build's summary page in GitHub
-    echo "::warning title=Building the native parts updated image packages::$(tr '\n' ';' <<<"$updated")"
+    echo "::warning title=Building the native parts updated image packages::$updated"
 fi
-left=$(LC_ALL=C join -v2 /tmp/rpms-before /tmp/rpms-after | cut -d' ' -f1 | tr '\n' ' ')
+left=$(LC_ALL=C comm -13 /tmp/rpms-gone /tmp/rpms-came | tr '\n' ' ')
 [[ -n "$left" ]] && echo "NOTE: left from building the native parts: $left"
-rm -f /tmp/rpms-before /tmp/rpms-after
+rm -f /tmp/rpms-before /tmp/rpms-after /tmp/rpms-gone /tmp/rpms-came
 test -f /usr/lib64/qt6/plugins/plasma/containmentactions/org.classic7.taskbarmenu.so
+test -f /usr/lib64/qt6/plugins/kf6/propertiesdialog/classic7_properties.so
 test -x /usr/libexec/classic7-grab
 test -x /usr/libexec/classic7-idle
 test -f /usr/share/applications/classic7-grab.desktop
@@ -158,7 +163,8 @@ chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-mail /usr/bin/classic7-netw
     /usr/bin/classic7-taskmgr /usr/bin/classic7-security /usr/bin/classic7-jumplist \
     /usr/bin/classic7-system /usr/bin/classic7-devmgmt /usr/bin/classic7-sheet /usr/bin/classic7-arrange \
     /usr/bin/classic7-programs /usr/bin/classic7-notepad /usr/bin/classic7-calc /usr/bin/classic7-charmap \
-    /usr/bin/classic7-stickynotes /usr/bin/classic7-quickshot /usr/bin/classic7-paint
+    /usr/bin/classic7-stickynotes /usr/bin/classic7-quickshot /usr/bin/classic7-paint \
+    /usr/bin/classic7-recyclebin /usr/bin/classic7-properties /usr/libexec/classic7-sessiond
 # KWin looks for window switchers and scripts in kwin-wayland/ (Plasma 6.4+) and, for older
 # packages, in kwin/: make ours visible in both
 for d in tabbox/classic7 scripts/classic7-aeroshake; do
@@ -167,6 +173,8 @@ for d in tabbox/classic7 scripts/classic7-aeroshake; do
 done
 # one network icon in the tray: fixes the saved panel layout at login, before Plasma starts
 systemctl --global enable classic7-tray-fix.service
+# file copy progress windows and the Recycle Bin icon; starts before the desktop (see the unit)
+systemctl --global enable classic7-sessiond.service
 # Classic 7 Update: which build this is (the updater compares it at login to bring each
 # account's settings up to date after a new version starts)
 base="$(. /usr/lib/os-release; echo "${VERSION_ID:-}${OSTREE_VERSION:+ ($OSTREE_VERSION)}")"
@@ -175,7 +183,7 @@ printf '{"build": "%s", "base": "%s", "content": "%s"}\n' "$(date -u +%Y-%m-%dT%
     "$base" "$content" > /usr/share/classic7/build-info.json
 chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
 python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PySide6.QtPrintSupport, PIL, pyte, docx, olefile"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app, accessories, notepad_app, calc_engine, calc_app, charmap_app, stickynotes_app, quickshot_app, paint_canvas, paint_app"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app, accessories, notepad_app, calc_engine, calc_app, charmap_app, stickynotes_app, quickshot_app, paint_canvas, paint_app, recyclebin_app, properties_app, sessiond"
 python3 -c "import PySide6.QtWebEngineWidgets, keyring, html2text" || echo "WARNING: Mail falls back to the simple message view"
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
@@ -229,6 +237,7 @@ test -f /usr/share/kio/servicemenus/classic7-write-pdf.desktop
 test -f /usr/share/kio/servicemenus/classic7-taskbar-pin.desktop
 /usr/bin/classic7-taskbar-pin --help >/dev/null
 test -L /etc/systemd/user/plasma-core.target.wants/classic7-tray-fix.service
+test -L /etc/systemd/user/plasma-core.target.wants/classic7-sessiond.service
 PYTHONPATH=/usr/lib/classic7 python3 -c "import write_pdf"
 # Mail
 test -x /usr/bin/classic7-mail
@@ -263,6 +272,16 @@ assert e.display() == '60', e.display()"
 test -x /usr/bin/classic7-programs
 /usr/bin/classic7-programs --help >/dev/null
 /usr/bin/classic7-arrange --help >/dev/null
+# Explorer: Recycle Bin, Windows 7 Properties, copy progress windows
+/usr/bin/classic7-recyclebin --help >/dev/null
+/usr/bin/classic7-properties --help >/dev/null
+grep -q "X-Classic7-RecycleBin=true" /usr/share/classic7/desktop/recycle-bin.desktop
+PYTHONPATH=/usr/lib/classic7 python3 -c "
+import properties_app as p, sessiond as s
+assert p.short_size(1285) == '1.25 KB', p.short_size(1285)
+assert p.size_text(18) == '18 bytes (18 bytes)'
+assert s.remaining_text(75) == 'About 1 minute', s.remaining_text(75)
+assert s.remaining_text(3700) == 'About 1 hour and 2 minutes', s.remaining_text(3700)"
 # Sheet (spreadsheets)
 test -x /usr/bin/classic7-sheet
 test -f /usr/share/applications/classic7-sheet.desktop

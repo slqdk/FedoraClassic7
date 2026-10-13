@@ -3,6 +3,8 @@
 #   classic7-grab             takes the screen picture for Quick Shot (KWin allows ScreenShot2 only to
 #                             programs whose desktop file asks for it, matched by executable path)
 #   classic7-idle             tells the screensaver when the user has been idle (KIdleTime)
+#   classic7_properties       KDE Properties dialog plugin: opens the Windows 7 style Properties window
+#                             (classic7-properties) for a single local item instead of KDE's dialog
 cmake_minimum_required(VERSION 3.16)
 project(classic7-native LANGUAGES CXX)
 find_package(ECM REQUIRED NO_MODULE)
@@ -11,7 +13,7 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets DBus)
-find_package(KF6 REQUIRED COMPONENTS CoreAddons Config Package WindowSystem IdleTime)
+find_package(KF6 REQUIRED COMPONENTS CoreAddons Config Package WindowSystem IdleTime KIO)
 find_package(Plasma REQUIRED)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -26,3 +28,6 @@ install(TARGETS classic7-grab DESTINATION ${KDE_INSTALL_LIBEXECDIR})
 add_executable(classic7-idle idle.cpp)
 target_link_libraries(classic7-idle Qt6::Gui KF6::IdleTime)
 install(TARGETS classic7-idle DESTINATION ${KDE_INSTALL_LIBEXECDIR})
+
+kcoreaddons_add_plugin(classic7_properties SOURCES properties.cpp INSTALL_NAMESPACE "kf6/propertiesdialog")
+target_link_libraries(classic7_properties Qt6::Gui Qt6::Widgets KF6::KIOWidgets KF6::WindowSystem)
