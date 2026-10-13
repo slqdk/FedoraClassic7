@@ -1,0 +1,64 @@
+# Run a test script from the chosen branch inside the published image, as root in a privileged
+# container. The script gets this repository at /src (read-only) and writes to /out; files in
+# /out go to the ci-shots-<name> branch, and lines of /out/notices.txt become job notices.
+# One workflow for all such tests, so new tests need no change on main.
+name: Test in image
+
+on:
+  workflow_dispatch:
+    inputs:
+      script:
+        description: "Script to run in the image (path in the repository)"
+        required: true
+      name:
+        description: "Short name: the results go to the ci-shots-<name> branch"
+        required: true
+      host_dev:
+        description: "Give the container the runner's /dev (for loop devices with partitions)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+      - name: Run
+        env:
+          SCRIPT: ${{ inputs.script }}
+          HOST_DEV: ${{ inputs.host_dev }}
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/fedoraclassic7:latest"
+          test -f "$SCRIPT"
+          mkdir -p shots && chmod 777 shots
+          extra=()
+          [[ "$HOST_DEV" == "true" ]] && extra+=(-v /dev:/dev)
+          timeout 1500 sudo podman run --rm --privileged "${extra[@]}" -v "$PWD:/src:ro" -v "$PWD/shots:/out" \
+              "$IMAGE" bash "/src/$SCRIPT" > shots/container.log 2>&1 || echo "container exit $?" >> shots/container.log
+          sudo chown -R "$(id -u)" shots || true
+          ls -la shots
+          echo "::notice title=files::$(ls shots | tr '\n' ' ')"
+          if [[ -f shots/notices.txt ]]; then
+              while IFS= read -r l; do echo "::notice title=test::$l"; done < <(tail -n 45 shots/notices.txt)
+          else
+              echo "::notice title=container::$(tail -c 3000 shots/container.log | tr '\n' '|')"
+          fi
+
+      - name: Save results
+        env:
+          NAME: ${{ inputs.name }}
+        run: |
+          [[ "$NAME" =~ ^[a-z0-9-]+$ ]] || exit 1
+          mkdir -p /tmp/o && cp -r shots/. /tmp/o/ 2>/dev/null || true
+          git config user.name "github-actions"; git config user.email "github-actions@users.noreply.github.com"
+          git checkout -q --orphan "ci-shots-$NAME"
+          git rm -rfq --cached . >/dev/null 2>&1 || true
+          git clean -fdxq
+          cp -r /tmp/o/. . 2>/dev/null || true
+          git add -A; git commit -qm "$NAME results" || exit 0
+          git push -f origin "ci-shots-$NAME"
