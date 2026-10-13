@@ -105,9 +105,15 @@ done
 # headers can't quietly update the desktop's own libraries (Fedora's archive of older updates has
 # headers for an image that is a few updates behind).
 rpm -qa --qf '%{NAME}.%{ARCH} %{EPOCHNUM}:%{VERSION}-%{RELEASE}\n' | LC_ALL=C sort > /tmp/rpms-before
+# Remote Desktop: KRdp 6.7 with FreeRDP 3.32 lets nobody log in; its library is built again with
+# KDE's fix (build_files/krdp/fix-krdp.sh says when that is needed and what it needs)
+krdp_fix=0
+bash /ctx/krdp/fix-krdp.sh check && krdp_fix=1
 devel=()
+# shellcheck disable=SC2046 # one name per word
 for pkg in cmake gcc-c++ extra-cmake-modules libplasma-devel kf6-kcoreaddons-devel kf6-kconfig-devel \
-           kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel; do
+           kf6-kpackage-devel kf6-kwindowsystem-devel kf6-kidletime-devel kf6-kio-devel qt6-qtbase-devel qt6-qtdeclarative-devel \
+           $( ((krdp_fix)) && bash /ctx/krdp/fix-krdp.sh deps ); do
     rpm -q "$pkg" >/dev/null 2>&1 || devel+=("$pkg")
 done
 if ((${#devel[@]})); then
@@ -131,6 +137,10 @@ cmake -S /ctx/native -B /tmp/native-build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INS
 cmake --build /tmp/native-build -j"$(nproc)"
 cmake --install /tmp/native-build
 rm -rf /tmp/native-build
+if ((krdp_fix)); then
+    TMPDIR=/var/tmp bash /ctx/krdp/fix-krdp.sh build \
+        || echo "::warning title=Remote Desktop::KRdp's library could not be rebuilt with the FreeRDP 3.32 fix; logging in to this computer with Remote Desktop will fail"
+fi
 ((${#devel[@]})) && dnf5 -y remove "${devel[@]}"
 rpm -qa --qf '%{NAME}.%{ARCH} %{EPOCHNUM}:%{VERSION}-%{RELEASE}\n' | LC_ALL=C sort > /tmp/rpms-after
 # packages whose version changed: their name is both among the lines that went and those that came
@@ -167,7 +177,7 @@ chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-mail /usr/bin/classic7-netw
     /usr/bin/classic7-recyclebin /usr/bin/classic7-properties /usr/libexec/classic7-sessiond \
     /usr/bin/classic7-timedate /usr/bin/classic7-mixer /usr/bin/classic7-actioncenter \
     /usr/bin/classic7-msconfig /usr/bin/classic7-eventvwr /usr/bin/classic7-resmon /usr/bin/classic7-firewall \
-    /usr/libexec/classic7-firewall-helper /usr/bin/classic7-screensaver /usr/bin/classic7-goodbye
+    /usr/libexec/classic7-firewall-helper /usr/bin/classic7-screensaver /usr/bin/classic7-goodbye /usr/bin/classic7-mstsc
 # KWin looks for window switchers and scripts in kwin-wayland/ (Plasma 6.4+) and, for older
 # packages, in kwin/: make ours visible in both
 for d in tabbox/classic7 scripts/classic7-aeroshake; do
@@ -186,7 +196,7 @@ printf '{"build": "%s", "base": "%s", "content": "%s"}\n' "$(date -u +%Y-%m-%dT%
     "$base" "$content" > /usr/share/classic7/build-info.json
 chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
 python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PySide6.QtPrintSupport, PIL, pyte, docx, olefile"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app, accessories, notepad_app, calc_engine, calc_app, charmap_app, stickynotes_app, quickshot_app, paint_canvas, paint_app, recyclebin_app, properties_app, sessiond, timedate_app, mixer_app, actioncenter_checks, actioncenter_app, cpl_page, msconfig_app, eventvwr_app, resmon_app, firewall_app, screensaver_app"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app, accessories, notepad_app, calc_engine, calc_app, charmap_app, stickynotes_app, quickshot_app, paint_canvas, paint_app, recyclebin_app, properties_app, sessiond, timedate_app, mixer_app, actioncenter_checks, actioncenter_app, cpl_page, msconfig_app, eventvwr_app, resmon_app, firewall_app, screensaver_app, remote_app, remote_server"
 python3 -c "import PySide6.QtWebEngineWidgets, keyring, html2text" || echo "WARNING: Mail falls back to the simple message view"
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
@@ -298,6 +308,20 @@ grep -q "org.classic7.clock" /usr/share/plasma/look-and-feel/org.classic7.deskto
 # Resource Monitor, Firewall (the helper runs as root through pkexec)
 /usr/bin/classic7-resmon --help >/dev/null
 /usr/bin/classic7-firewall --help >/dev/null
+# Remote Desktop: the client (FreeRDP) and Classic 7's Remote Desktop Connection; .rdp files
+rpm -q freerdp >/dev/null 2>&1 || dnf5 -y install freerdp
+command -v sdl-freerdp || command -v xfreerdp
+/usr/bin/classic7-mstsc --help >/dev/null
+test -f /usr/share/applications/classic7-mstsc.desktop
+update-mime-database /usr/share/mime
+grep -q "application/x-rdp" /usr/share/mime/globs2
+PYTHONPATH=/usr/lib/classic7 QT_QPA_PLATFORM=offscreen python3 -c "
+import remote_app as r
+from pathlib import Path
+f = r.RdpFile(); f.set('full address', 'pc01:3390'); f.set('username', r'OFFICE\anna'); f.save(Path('/tmp/t.rdp'))
+g = r.RdpFile(Path('/tmp/t.rdp')); a = r.freerdp_args(g, g.get('username'), 'x', '/usr/bin/sdl-freerdp')
+assert '/v:pc01:3390' in a and '/u:anna' in a and '/d:OFFICE' in a and '/f' in a, a"
+rm -f /tmp/t.rdp
 # Screen savers; the Logging off / Restarting / Shutting down screen
 /usr/bin/classic7-screensaver --list | grep "^pipes" >/dev/null
 for f in classic7-screensaver classic7-logoff classic7-restart classic7-shutdown; do

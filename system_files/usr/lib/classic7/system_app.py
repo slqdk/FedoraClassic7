@@ -8,12 +8,12 @@ import subprocess
 import sys
 from pathlib import Path
 
-from PySide6.QtCore import QProcess, QSize, Qt
-from PySide6.QtGui import QColor, QKeySequence, QPalette, QShortcut
-from PySide6.QtWidgets import (QApplication, QDialog, QDialogButtonBox, QFormLayout, QFrame, QGridLayout,
-                               QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QMessageBox, QPushButton,
-                               QScrollArea, QTabWidget, QToolBar, QTreeWidget, QTreeWidgetItem, QVBoxLayout,
-                               QWidget)
+from PySide6.QtCore import QProcess, QSize, Qt, QUrl
+from PySide6.QtGui import QColor, QDesktopServices, QGuiApplication, QKeySequence, QPalette, QShortcut
+from PySide6.QtWidgets import (QApplication, QButtonGroup, QDialog, QDialogButtonBox, QFormLayout, QFrame,
+                               QGridLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMainWindow, QMessageBox,
+                               QPushButton, QRadioButton, QScrollArea, QTabWidget, QToolBar, QTreeWidget,
+                               QTreeWidgetItem, QVBoxLayout, QWidget)
 
 import sysinfo as si
 from control_panel import BLUE, HEAD, Link, NavPane, icon
@@ -317,21 +317,112 @@ class SystemProperties(QDialog):
                                 or ("Done. Restart the computer to go back." if r.returncode == 0 else "It did not work."))
 
     def _remote_tab(self):
+        """Windows 7's Remote tab: who may connect to this computer with Remote Desktop."""
+        import remote_server as rs
+        self.rs = rs
         w = QWidget()
         lay = QVBoxLayout(w)
         box = QGroupBox("Remote Desktop")
         bl = QVBoxLayout(box)
-        t = QLabel("Let other computers connect to this one with Remote Desktop (RDP).")
-        t.setWordWrap(True)
-        bl.addWidget(t)
-        b = QPushButton("Remote Desktop settings...")
-        b.clicked.connect(lambda: run_detached(["kcmshell6", "kcm_krdpserver"]))
-        bl.addWidget(b, 0, Qt.AlignRight)
+        bl.addWidget(QLabel("Click an option, and then specify who can connect, if needed."))
+        self.remote_group = QButtonGroup(w)
+        self.remote_off = QRadioButton("Don't allow connections to this computer")
+        self.remote_any = QRadioButton("Allow connections from computers running any version of Remote Desktop")
+        self.remote_nla = QRadioButton("Allow connections only from computers running Remote Desktop with\n"
+                                       "Network Level Authentication (more secure)")
+        self.remote_nla.setEnabled(False)
+        self.remote_nla.setToolTip("Classic 7's Remote Desktop server doesn't do Network Level Authentication yet.")
+        for i, r in enumerate((self.remote_off, self.remote_any, self.remote_nla)):
+            self.remote_group.addButton(r, i)
+            bl.addWidget(r)
+        row = QHBoxLayout()
+        help_link = QLabel("<a href='#'>Help me choose</a>")
+        help_link.linkActivated.connect(lambda _l: QDesktopServices.openUrl(
+            QUrl("https://github.com/slqdk/FedoraClassic7#remote-desktop")))
+        row.addWidget(help_link)
+        row.addStretch(1)
+        users = QPushButton("Select Users...")
+        users.clicked.connect(self._remote_users)
+        row.addWidget(users)
+        bl.addLayout(row)
+        self.remote_info = QLabel()
+        self.remote_info.setWordWrap(True)
+        self.remote_info.setTextInteractionFlags(Qt.TextSelectableByMouse)
+        bl.addWidget(self.remote_info)
         lay.addWidget(box)
         lay.addStretch(1)
+        if not rs.available():
+            for r in (self.remote_off, self.remote_any):
+                r.setEnabled(False)
+            users.setEnabled(False)
+            self.remote_info.setText("Remote Desktop is not available on this computer.")
+            self.remote_was = None
+            return w
+        st = rs.state()
+        self.remote_was = 1 if st["enabled"] else 0
+        self.remote_group.button(self.remote_was).setChecked(True)
+        self.remote_group.idToggled.connect(lambda *_: self._remote_describe())
+        self._remote_describe()
         return w
 
+    def _remote_describe(self):
+        user = os.environ.get("USER") or Path.home().name
+        if self.remote_group.checkedId() != 1:
+            self.remote_info.setText("Nobody can connect to this computer with Remote Desktop.")
+            return
+        host, _pretty = si.computer_name()
+        addrs = self.rs.addresses()
+        where = f"<b>{host}</b>" + (f" ({', '.join(addrs)})" if addrs else "")
+        self.remote_info.setText(
+            f"Other computers connect to {where} with Remote Desktop Connection. <b>{user}</b> logs on with the "
+            "password used to log on to Classic 7, while logged on here; the person at this computer sees what "
+            "happens. No question is asked on this screen.")
+
+    def _remote_users(self):
+        user = os.environ.get("USER") or Path.home().name
+        box = QMessageBox(self)
+        box.setWindowTitle("Remote Desktop Users")
+        box.setIcon(QMessageBox.Information)
+        box.setText(f"{user} already has access.")
+        box.setInformativeText("Remote Desktop shows the session of the account that is logged on here, and that "
+                               "account logs on with its own password. Extra Remote Desktop accounts with their own "
+                               "passwords can be added in the Remote Desktop settings.")
+        more = box.addButton("Remote Desktop settings...", QMessageBox.ActionRole)
+        box.addButton(QMessageBox.Close)
+        box.exec()
+        if box.clickedButton() is more:
+            run_detached(["kcmshell6", "kcm_krdpserver"])
+
+    def _remote_apply(self) -> bool:
+        if getattr(self, "remote_was", None) is None:
+            return True
+        want = self.remote_group.checkedId()
+        if want == self.remote_was and (want != 1 or self.rs.state()["active"]):
+            return True
+        QGuiApplication.setOverrideCursor(Qt.WaitCursor)
+        try:
+            ok, msg = self.rs.allow() if want == 1 else self.rs.disallow()
+        finally:
+            QGuiApplication.restoreOverrideCursor()
+        if not ok:
+            QMessageBox.warning(self, "System Properties", msg or "Remote Desktop could not be changed.")
+            return False
+        self.remote_was = want
+        if want == 1:
+            port = self.rs.state()["port"]
+            is_open, zone = self.rs.firewall_status(port)
+            if is_open is False and QMessageBox.question(
+                    self, "System Properties",
+                    "The firewall doesn't let Remote Desktop connections in yet. Allow them through the firewall "
+                    f"for this network ({zone})?\n\nThis needs an administrator's password.") == QMessageBox.Yes:
+                done, out = self.rs.open_firewall(zone, port)
+                if not done:
+                    QMessageBox.warning(self, "System Properties", f"The firewall wasn't changed.\n\n{out}")
+        return True
+
     def _apply(self):
+        if not self._remote_apply():
+            return False
         _host, pretty = si.computer_name()
         if self.desc.text().strip() != pretty:
             r = subprocess.run(["hostnamectl", "set-hostname", "--pretty", self.desc.text().strip()],

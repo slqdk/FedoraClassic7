@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Remote Desktop Connection
+GenericName=Remote Desktop
+Comment=Use another computer (Windows, or anything with Remote Desktop switched on) from this one
+Exec=classic7-mstsc %f
+Icon=krdc
+Terminal=false
+Categories=Network;RemoteAccess;
+MimeType=application/x-rdp;
+Keywords=mstsc;rdp;remote desktop;remote;terminal server;windows;

@@ -10,6 +10,7 @@
 		<Directory>classic7-accessories.directory</Directory>
 		<Include>
 			<Filename>classic7-calc.desktop</Filename>
+			<Filename>classic7-mstsc.desktop</Filename>
 			<Filename>classic7-prompt.desktop</Filename>
 			<Filename>classic7-notepad.desktop</Filename>
 			<Filename>classic7-paint.desktop</Filename>
@@ -41,6 +42,12 @@
 			<Filename>classic7-notepad.desktop</Filename>
 			<Filename>classic7-quickshot.desktop</Filename>
 			<Filename>classic7-stickynotes.desktop</Filename>
+		</Exclude>
+	</Menu>
+	<Menu>
+		<Name>Internet</Name>
+		<Exclude>
+			<Filename>classic7-mstsc.desktop</Filename>
 		</Exclude>
 	</Menu>
 	<Menu>

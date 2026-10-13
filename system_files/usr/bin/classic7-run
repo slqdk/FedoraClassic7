@@ -90,6 +90,9 @@ ALIASES = {
     "wf.msc": ["classic7-firewall"],
     "control firewall.cpl": ["classic7-firewall"],
     "scrnsave.scr": ["classic7-screensaver", "--settings"],
+    "mstsc": ["classic7-mstsc"],
+    "mstsc.exe": ["classic7-mstsc"],
+    "remote desktop": ["classic7-mstsc"],
     "control desk.cpl,,@screensaver": ["classic7-screensaver", "--settings"],
 }
 
@@ -140,6 +143,10 @@ def resolve(text: str):
         argv = shlex.split(expanded)
     except ValueError as e:
         return None, f"Cannot run '{text}': {e}"
+    # a Windows name with arguments: "mstsc /v:server", "notepad file.txt"
+    first = argv[0].lower() if argv else ""
+    if len(argv) > 1 and first in ALIASES and shutil.which(ALIASES[first][0]):
+        return ALIASES[first] + argv[1:], None
     if shutil.which(argv[0]):
         return argv, None
     # a desktop file id, e.g. "steam" -> steam.desktop

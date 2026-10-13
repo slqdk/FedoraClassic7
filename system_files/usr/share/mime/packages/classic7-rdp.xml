@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Classic 7: Windows' Remote Desktop connection files open in Remote Desktop Connection -->
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+  <mime-type type="application/x-rdp">
+    <comment>Remote Desktop Connection</comment>
+    <icon name="krdc"/>
+    <glob pattern="*.rdp"/>
+  </mime-type>
+</mime-info>
