@@ -25,11 +25,20 @@ for i in $(seq 1 40); do [ -S $XDG_RUNTIME_DIR/wayland-c7 ] && break; sleep 0.5;
 export WAYLAND_DISPLAY=wayland-c7 QT_QPA_PLATFORM=wayland
 plasma-apply-colorscheme Classic7 >/dev/null 2>&1
 classic7-sheet --help > /out/help.txt 2>&1
-OUT=/out SAMPLES=/tmp/samples C7LIB=/usr/lib/classic7 timeout 900 python3 /src/.github/ci/sheet_test.py > /out/sheet.log 2>&1
+# first offscreen (no compositor needed), then the same under KWin for real-looking screenshots
+mkdir -p /out/offscreen
+OUT=/out/offscreen SAMPLES=/tmp/samples C7LIB=/usr/lib/classic7 QT_QPA_PLATFORM=offscreen timeout 900 \
+    python3 -X faulthandler /src/.github/ci/sheet_test.py > /out/sheet-offscreen.log 2>&1
+echo "exit $?" >> /out/sheet-offscreen.log
+ls -la $XDG_RUNTIME_DIR > /out/runtime.txt
+OUT=/out C7LIB=/usr/lib/classic7 QT_DEBUG_PLUGINS=0 timeout 600 python3 -X faulthandler /src/.github/ci/sheet_test.py > /out/sheet.log 2>&1
 echo "exit $?" >> /out/sheet.log
 EOI
 chown tester /tmp/inner.sh
 su tester -c "dbus-run-session -- bash /tmp/inner.sh"
 echo "samples: $(ls /tmp/samples | wc -l)" >> /out/notices.txt
-grep -E "^(FAIL|exit|Traceback|[A-Za-z]+Error)" /out/sheet.log | head -30 >> /out/notices.txt
+for f in /out/sheet-offscreen.log /out/sheet.log; do
+    echo "== $(basename $f): $(grep -c '^PASS' $f) passed" >> /out/notices.txt
+    grep -E "^(FAIL|exit|Traceback|Fatal|[A-Za-z]+Error|  File)" $f | head -30 >> /out/notices.txt
+done
 tail -1 /out/dnf.log 2>/dev/null | sed 's/^/dnf: /' >> /out/notices.txt
