@@ -1,0 +1,393 @@
+===== plasma-pa qml
+/usr/lib64/qt6/qml/org/kde/plasma/private/volume:
+PulseObjectFilterModel.qml
+kde-qmlmodule.version
+libplasma-volume-declarative.so
+plasma-volume-declarative.qmltypes
+qmldir
+module org.kde.plasma.private.volume
+linktarget plasma-volume-declarative
+plugin plasma-volume-declarative
+classname org_kde_plasma_private_volumePlugin
+typeinfo plasma-volume-declarative.qmltypes
+prefer :/qt/qml/org/kde/plasma/private/volume/
+PulseObjectFilterModel 0.1 PulseObjectFilterModel.qml
+depends QtQuick
+
+===== kded modules
+appmenu.so
+audioshortcutsservice.so
+baloosearchmodule.so
+bluedevil.so
+browserintegrationflatpakintegrator.so
+browserintegrationreminder.so
+colord.so
+desktopnotifier.so
+device_automounter.so
+devicenotifications.so
+dnssdwatcher.so
+donationmessage.so
+filenamesearchmodule.so
+freespacenotifier.so
+geotimezoned.so
+gtkconfig.so
+inotify.so
+kameleon.so
+kded_accounts.so
+kded_bolt.so
+kded_touchpad.so
+keyboard.so
+kscreen.so
+ktimezoned.so
+kwrited.so
+lookandfeelautoswitcher.so
+mprisservice.so
+networkmanagement.so
+oom_notifier.so
+plasma_accentcolor_service.so
+plasma_session_shortcuts.so
+plasmavault.so
+printmanager.so
+remotenotifier.so
+smart.so
+smbwatcher.so
+soliduiserver.so
+statusnotifierwatcher.so
+trashdirnotify.so
+wpad_detector.so
+===== tools
+spectacle                    /usr/sbin/spectacle
+pactl                        /usr/sbin/pactl
+wpctl                        /usr/sbin/wpctl
+pw-dump                      /usr/sbin/pw-dump
+firewall-cmd                 /usr/sbin/firewall-cmd
+firewall-offline-cmd         /usr/sbin/firewall-offline-cmd
+firewall-config              /usr/sbin/firewall-config
+plymouth-set-default-theme   /usr/sbin/plymouth-set-default-theme
+plymouth                     /usr/sbin/plymouth
+dracut                       /usr/sbin/dracut
+lsinitrd                     /usr/sbin/lsinitrd
+kwrite                       /usr/sbin/kwrite
+kate                         -
+kolourpaint                  -
+kcharselect                  -
+knotes                       -
+ktrash6                      /usr/sbin/ktrash6
+kioclient5                   /usr/sbin/kioclient5
+kioclient                    /usr/sbin/kioclient
+gio                          /usr/sbin/gio
+plasma-apply-wallpaperimage  /usr/sbin/plasma-apply-wallpaperimage
+qdbus6                       -
+qdbus                        /usr/sbin/qdbus
+journalctl                   /usr/sbin/journalctl
+smartctl                     /usr/sbin/smartctl
+loginctl                     /usr/sbin/loginctl
+setsid                       /usr/sbin/setsid
+kstart                       /usr/sbin/kstart
+kstart6                      -
+xdg-open                     /usr/sbin/xdg-open
+notify-send                  /usr/sbin/notify-send
+===== python
+dbus 1.4.0
+gi 3.56.3
+systemd /usr/lib64/python3.14/site-packages/systemd/__init__.py
+PIL 12.3.0
+psutil 7.2.2
+ModuleNotFoundError: No module named 'pulsectl'
+numpy 2.4.6
+cairo /usr/lib64/python3.14/site-packages/cairo/__init__.py
+===== plymouth
+# Administrator customizations go in this file
+#[Daemon]
+#Theme=fade-in
+bgrt
+bgrt
+charge
+details
+spinner
+text
+tribar
+===== kargs
+cat: '/usr/lib/bootc/kargs.d/*': No such file or directory
+===== initramfs
+-rw------- 2 root root 254064703 Jan  1  1970 /usr/lib/modules/7.2.9-ogc3.1.fc44.x86_64/initramfs.img
+kver 7.2.9-ogc3.1.fc44.x86_64
+Arguments:  --no-hostonly --kver '7.2.9-ogc3.1.fc44.x86_64' --reproducible --zstd -v --add 'ostree' --add 'fido2' -f
+dracut modules:
+plymouth
+drwxr-xr-x   2 root     root            0 Jan  1  1970 etc/plymouth
+-rw-r--r--   1 root     root           72 Jan  1  1970 etc/plymouth/plymouthd.conf
+-rwxr-xr-x   1 root     root        49280 Jan  1  1970 usr/bin/plymouth
+-rwxr-xr-x   1 root     root         6926 Jan  1  1970 usr/bin/plymouth-set-default-theme
+-rwxr-xr-x   1 root     root       152480 Jan  1  1970 usr/bin/plymouthd
+lrwxrwxrwx   1 root     root           24 Jan  1  1970 usr/lib/systemd/system/halt.target.wants/plymouth-halt.service -> ../plymouth-halt.service
+lrwxrwxrwx   1 root     root           25 Jan  1  1970 usr/lib/systemd/system/initrd-switch-root.target.wants/plymouth-start.service -> ../plymouth-start.service
+lrwxrwxrwx   1 root     root           31 Jan  1  1970 usr/lib/systemd/system/initrd-switch-root.target.wants/plymouth-switch-root.service -> ../plymouth-switch-root.service
+lrwxrwxrwx   1 root     root           25 Jan  1  1970 usr/lib/systemd/system/kexec.target.wants/plymouth-kexec.service -> ../plymouth-kexec.service
+lrwxrwxrwx   1 root     root           29 Jan  1  1970 usr/lib/systemd/system/multi-user.target.wants/plymouth-quit-wait.service -> ../plymouth-quit-wait.service
+lrwxrwxrwx   1 root     root           24 Jan  1  1970 usr/lib/systemd/system/multi-user.target.wants/plymouth-quit.service -> ../plymouth-quit.service
+-rw-r--r--   1 root     root          403 Jan  1  1970 usr/lib/systemd/system/plymouth-halt.service
+-rw-r--r--   1 root     root          417 Jan  1  1970 usr/lib/systemd/system/plymouth-kexec.service
+-rw-r--r--   1 root     root          412 Jan  1  1970 usr/lib/systemd/system/plymouth-poweroff.service
+-rw-r--r--   1 root     root          224 Jan  1  1970 usr/lib/systemd/system/plymouth-quit-wait.service
+-rw-r--r--   1 root     root          218 Jan  1  1970 usr/lib/systemd/system/plymouth-quit.service
+-rw-r--r--   1 root     root          405 Jan  1  1970 usr/lib/systemd/system/plymouth-reboot.service
+-rw-r--r--   1 root     root          584 Jan  1  1970 usr/lib/systemd/system/plymouth-start.service
+-rw-r--r--   1 root     root          315 Jan  1  1970 usr/lib/systemd/system/plymouth-switch-root.service
+lrwxrwxrwx   1 root     root           28 Jan  1  1970 usr/lib/systemd/system/poweroff.target.wants/plymouth-poweroff.service -> ../plymouth-poweroff.service
+lrwxrwxrwx   1 root     root           26 Jan  1  1970 usr/lib/systemd/system/reboot.target.wants/plymouth-reboot.service -> ../plymouth-reboot.service
+lrwxrwxrwx   1 root     root           25 Jan  1  1970 usr/lib/systemd/system/sysinit.target.wants/plymouth-start.service -> ../plymouth-start.service
+-rw-r--r--   1 root     root          454 Jan  1  1970 usr/lib/systemd/system/systemd-ask-password-plymouth.path
+-rw-r--r--   1 root     root          435 Jan  1  1970 usr/lib/systemd/system/systemd-ask-password-plymouth.service
+drwxr-xr-x   2 root     root            0 Jan  1  1970 usr/lib64/plymouth
+-rwxr-xr-x   1 root     root        19968 Jan  1  1970 usr/lib64/plymouth/details.so
+-rwxr-xr-x   1 root     root        24008 Jan  1  1970 usr/lib64/plymouth/label-freetype.so
+Image: /usr/lib/modules/7.2.9-ogc3.1.fc44.x86_64/initramfs.img: 243M
+========================================================================
+Early CPIO image
+========================================================================
+drwxr-xr-x   2 root     root            0 Jan  1  1970 .
+-rw-r--r--   1 root     root            2 Jan  1  1970 early_cpio
+drwxr-xr-x   2 root     root            0 Jan  1  1970 kernel
+drwxr-xr-x   2 root     root            0 Jan  1  1970 kernel/x86
+drwxr-xr-x   2 root     root            0 Jan  1  1970 kernel/x86/microcode
+-rw-r--r--   1 root     root       304866 Jan  1  1970 kernel/x86/microcode/AuthenticAMD.bin
+-rw-r--r--   1 root     root     16778240 Jan  1  1970 kernel/x86/microcode/GenuineIntel.bin
+========================================================================
+Version: 
+
+dracut modules:
+nss-softokn
+bash
+systemd
+fips
+fips-crypto-policies
+systemd-ask-password
+systemd-battery-check
+systemd-cryptsetup
+systemd-initrd
+systemd-journald
+systemd-modules-load
+systemd-pcrphase
+systemd-sysctl
+systemd-tmpfiles
+systemd-udevd
+modsign
+i18n
+drm
+plymouth
+ostree
+systemd-sysusers
+btrfs
+crypt
+dm
+fs-lib
+kernel-modules
+kernel-modules-extra
+lvm
+mdraid
+nvdimm
+qemu
+prefixdevname
+fido2
+pcsc
+pkcs11
+tpm2-tss
+hwdb
+lunmask
+resume
+rootfs-block
+terminfo
+udev-rules
+virtiofs
+dracut-systemd
+initqueue
+usrmount
+base
+memstrack
+shell-interpreter
+shutdown
+openssl
+========================================================================
+===== dracut conf
+/etc/dracut.conf.d:
+
+/usr/lib/dracut/dracut.conf.d:
+01-dist.conf
+10-compression.conf
+20-atomic-nohostonly.conf
+20-atomic-nostrip.conf
+20-atomic-tpm-luks.conf
+20-wl.conf
+50-nss-softokn.conf
+80-vfio.conf
+90-ublue-luks.conf
+
+i18n_vars="/etc/sysconfig/keyboard:KEYTABLE-KEYMAP /etc/sysconfig/i18n:SYSFONT-FONT,FONTACM-FONT_MAP,FONT_UNIMAP"
+i18n_default_font="eurlatgr"
+i18n_install_all="yes"
+
+
+stdloglvl=3
+sysloglvl=5
+install_optional_items+=" vi /usr/libexec/vi /etc/virc ps grep cat rm "
+prefix="/"
+environment=/usr/lib/environment.d
+environmentconfdir=/etc/environment.d
+dbus=/usr/share/dbus-1
+dbusinterfaces=/usr/share/dbus-1/interfaces
+dbusservices=/usr/share/dbus-1/services
+dbussession=/usr/share/dbus-1/session.d
+dbussystem=/usr/share/dbus-1/system.d
+dbussystemservices=/usr/share/dbus-1/system-services
+dbusconfdir=/etc/dbus-1
+dbusinterfacesconfdir=/etc/dbus-1/interfaces
+dbusservicesconfdir=/etc/dbus-1/services
+dbussessionconfdir=/etc/dbus-1/session.d
+dbussystemconfdir=/etc/dbus-1/system.d
+dbussystemservicesconfdir=/etc/dbus-1/system-services
+sysctld=/usr/lib/sysctl.d
+sysctlconfdir=/etc/sysctl.d
+systemdutildir=/usr/lib/systemd
+systemdutilconfdir=/etc/systemd
+systemdcatalog=/usr/lib/systemd/catalog
+systemdntpunits=/usr/lib/systemd/ntp-units.d
+systemdntpunitsconfdir=/etc/systemd/ntp-units.d
+systemdportable=/usr/lib/systemd/portable
+systemdportableconfdir=/etc/systemd/portable
+systemdsystemunitdir=/usr/lib/systemd/system
+systemdsystemconfdir=/etc/systemd/system
+systemduser=/usr/lib/systemd/user
+systemduserconfdir=/etc/systemd/user
+sysusers=/usr/lib/sysusers.d
+sysusersconfdir=/etc/sysusers.d
+udevdir=/usr/lib/udev
+hostonly="yes"
+hostonly_cmdline="no"
+early_microcode="yes"
+reproducible="yes"
+compress="zstd"
+hostonly=no
+do_strip=no
+add_dracutmodules+=" tpm2-tss systemd-pcrphase "
+
+add_dracutmodules+=" nss-softokn "
+force_drivers+=" vfio vfio_iommu_type1 vfio-pci "
+add_dracutmodules+=" fido2 tpm2-tss pkcs11 pcsc "
+===== firewalld
+enabled
+DefaultZone=FedoraWorkstation
+FedoraWorkstation
+FedoraServer FedoraWorkstation block dmz drop external home internal nm-shared public trusted work
+FedoraServer.xml
+FedoraWorkstation.xml
+block.xml
+dmz.xml
+drop.xml
+external.xml
+home.xml
+internal.xml
+nm-shared.xml
+public.xml
+trusted.xml
+work.xml
+FedoraWorkstation (default)
+  target: default
+  ingress-priority: 0
+  egress-priority: 0
+  icmp-block-inversion: no
+  interfaces: 
+  sources: 
+  services: dhcpv6-client samba-client ssh
+  ports: 1025-65535/udp 1025-65535/tcp
+  protocols: 
+  forward: yes
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+public
+  target: default
+  ingress-priority: 0
+  egress-priority: 0
+  icmp-block-inversion: no
+  interfaces: 
+  sources: 
+  services: dhcpv6-client mdns ssh
+  ports: 
+  protocols: 
+  forward: yes
+  masquerade: no
+  forward-ports: 
+  source-ports: 
+  icmp-blocks: 
+  rich rules: 
+===== polkit firewalld
+org.fedoraproject.FirewallD1.desktop.policy.choice
+org.fedoraproject.FirewallD1.policy
+org.fedoraproject.FirewallD1.server.policy.choice
+org.freedesktop.login1.policy
+org.freedesktop.systemd1.policy
+===== devel pkgs
+kf6-kidletime-devel-0:6.25.0-1.fc44.i686
+kf6-kidletime-devel-0:6.25.0-1.fc44.x86_64
+kf6-kidletime-devel-0:6.26.0-1.fc44.x86_64
+kf6-kidletime-devel-0:6.26.0-2.fc44.x86_64
+kf6-kidletime-devel-0:6.27.0-1.fc44.x86_64
+kf6-kidletime-devel-0:6.28.0-1.fc44.x86_64
+kf6-kidletime-devel-0:6.29.0-1.fc44.x86_64
+kf6-kidletime-devel-0:6.30.0-1.fc44.x86_64
+kf6-kidletime-devel-0:6.31.0-1.fc44.i686
+kf6-kidletime-devel-0:6.31.0-1.fc44.x86_64
+===== dbus interfaces
+org.freedesktop.impl.portal.Notification.xml
+org.freedesktop.portal.Notification.xml
+===== plasmanotifyrc defaults
+/etc/xdg/plasmanotifyrc
+freespacenotifier.kcfg
+===== text editor defaults
+text/plain=org.gnome.gedit.desktop
+text/plain=org.kde.kate.desktop;org.kde.kwrite.desktop
+org.kde.kwrite.desktop
+org.kde.spectacle.desktop
+===== spectacle help
+===== screen locker
+kcm_powerdevilprofilesconfig.so
+kcm_screenlocker.so
+===== kidletime
+KF6IdleTimeWaylandPlugin.so
+KF6IdleTimeXcbPlugin0.so
+KF6IdleTimeXcbPlugin1.so
+kf6-kidletime-6.31.0-1.fc44.x86_64
+===== trash
+ls: cannot access '/etc/skel/Desktop': No such file or directory
+===== dolphin
+dolphin-26.08.1-1.fc44.x86_64
+plasma-workspace-6.7.5-1.fc44.x86_64
+package kf6-kio is not installed
+libplasma-6.7.5-1.fc44.x86_64
+plasma-pa-6.7.5-1.fc44.x86_64
+===== cursor/sounds
+Oxygen-Im-Cant-Connect.ogg
+Oxygen-Im-Connection-Lost.ogg
+Oxygen-Im-Contact-In.ogg
+Oxygen-Im-Contact-Out.ogg
+Oxygen-Im-Error-On-Connection.ogg
+Oxygen-Im-Highlight-Msg.ogg
+Oxygen-Im-Internal-Error.ogg
+Oxygen-Im-Irc-Event.ogg
+Oxygen-Im-Low-Priority-Message.ogg
+Oxygen-Im-Message-In.ogg
+alarm-clock-elapsed.oga
+alarm-clock-elapsed.oga.license
+audio-volume-change.oga
+audio-volume-change.oga.license
+battery-caution.oga
+battery-caution.oga.license
+battery-full.oga
+battery-low.oga
+battery-low.oga.license
+bell-window-system.oga
+===== sddm theme
+classic7
