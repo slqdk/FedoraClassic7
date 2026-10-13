@@ -83,7 +83,7 @@ System Settings > Keyboard > Shortcuts (search "Computer").
 Desktop icon, Start menu or **Win+E** (`classic7-computer`). Like the classic Computer page:
 
 - Tiles grouped into *Hard Disk Drives*, *Devices with Removable Storage* and *Network Location*,
-  each with a capacity bar and "X free of Y". The Bazzite system partition shows as **Local Disk (System)**;
+  each with a capacity bar and "X free of Y". The Bazzite system partition shows as **Local Disk (C:)**;
   boot/EFI partitions, swap and snaps are hidden.
 - Double-click opens the drive in Explorer (Dolphin). Drives that aren't mounted yet (a Windows partition, say)
   are mounted first; internal disks may ask for your password.

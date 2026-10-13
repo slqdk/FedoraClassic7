@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Disk Management
+GenericName=Partition Editor
+Comment=Give drives a letter, format them, and create or delete partitions
+Exec=classic7-diskmgmt
+Icon=drive-harddisk
+Terminal=false
+Categories=Qt;System;Settings;
+Keywords=diskmgmt;diskmgmt.msc;disk;drive;partition;format;drive letter;mount;steam library;ntfs;diskhåndtering;drev;
+StartupWMClass=classic7-diskmgmt

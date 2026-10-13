@@ -1,0 +1,18 @@
+#!/usr/bin/python3
+"""Disk Management: partitions, formatting and drive letters, in the style of Windows 7.
+
+    classic7-diskmgmt                     open Disk Management
+    classic7-diskmgmt --letter DEVICE     open "Change Drive Letter and Paths" for a volume
+    classic7-diskmgmt --format DEVICE     open "Format" for a volume
+"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
+        print(__doc__.strip())
+        sys.exit(0)
+    from diskmgmt_app import main
+    sys.exit(main(sys.argv[1:]))

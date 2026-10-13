@@ -1,0 +1,737 @@
+#!/usr/bin/python3 -I
+"""Classic 7 Disk Management: the parts that need root. Run through pkexec (org.classic7.disk).
+
+    letter   DEVICE LETTER                 give a volume a drive letter: mounted at /var/mnt/LETTER now
+                                           and at every start-up (an entry in /etc/fstab)
+    unletter DEVICE|LETTER                 remove the drive letter (unmounts the volume)
+    mount    DEVICE                        mount a volume at its drive letter again
+    format   DEVICE FS LABEL               quick format (ntfs, exfat, vfat, ext4, btrfs); keeps the letter
+    create   DISK START SECTORS FS LABEL [LETTER]
+                                           new partition in unallocated space (512-byte sectors), formatted
+    delete   DEVICE                        delete a partition
+    init     DISK gpt|dos                  write an empty partition table to a disk that has none
+    check    DEVICE                        check a file system for errors and repair what is safe to repair
+
+Everything is checked here again, whatever the window said: nothing that holds the running
+system, nothing that is in use, and only entries Disk Management made itself are changed in
+/etc/fstab (other entries for the same volume are commented out, never deleted).
+"""
+import fcntl
+import os
+import re
+import shutil
+import stat
+import subprocess
+import sys
+import tempfile
+import time
+
+FSTAB = os.environ.get("CLASSIC7_FSTAB", "/etc/fstab")
+ROOT = os.environ.get("CLASSIC7_LETTER_ROOT", "/var/mnt")
+MARK = "# classic7-drive "
+LETTERS = "DEFGHIJKLMNOPQRSTUVWXY"
+SYSTEM_MOUNTS = {"/", "/sysroot", "/usr", "/var", "/etc", "/home", "/var/home", "/ostree", "/sysroot/ostree",
+                 "/boot", "/boot/efi", "/efi"}
+PROTECTED_TYPES = {"c12a7328-f81f-11d2-ba4b-00a0c93ec93b", "e3c9e316-0b5c-4db8-817d-f92df00215ae",
+                   "21686148-6453-6f6e-7420-6e6565644546", "ef", "5", "f", "85"}
+MOUNTABLE = {"ntfs", "vfat", "exfat", "ext2", "ext3", "ext4", "btrfs", "xfs", "f2fs"}
+FORMATS = {"ntfs", "exfat", "vfat", "ext4", "btrfs"}
+GPT_TYPES = {"windows": "EBD0A0A2-B9E5-4433-87C0-68B6B72699C7", "linux": "0FC63DAF-8483-4772-8E79-3D69D8477DE4"}
+DOS_TYPES = {"ntfs": "7", "exfat": "7", "vfat": "c", "linux": "83"}
+PATH = "/usr/sbin:/usr/bin:/sbin:/bin"
+
+
+class Fail(Exception):
+    def __init__(self, msg, code=2):
+        super().__init__(msg)
+        self.code = code
+
+
+def run(argv, check=True, input=None):
+    try:
+        res = subprocess.run(argv, capture_output=True, text=True, input=input,
+                             env={"PATH": PATH, "LC_ALL": "C.UTF-8"})
+    except FileNotFoundError:
+        res = subprocess.CompletedProcess(argv, 127, "", f"{argv[0]} is not installed")
+    if check and res.returncode != 0:
+        msg = (res.stderr or res.stdout).strip().splitlines()
+        raise Fail(f"{os.path.basename(argv[0])}: " + (msg[-1] if msg else f"failed ({res.returncode})"))
+    return res
+
+
+def user():
+    uid = os.environ.get("PKEXEC_UID", "")
+    if not uid.isdigit() or int(uid) < 1000:
+        raise Fail("must be run through pkexec by a normal user")
+    import pwd
+    try:
+        pw = pwd.getpwuid(int(uid))
+    except KeyError:
+        raise Fail(f"unknown user {uid}")
+    return pw.pw_uid, pw.pw_gid
+
+
+# ---- devices ---------------------------------------------------------------------------------
+def kname(dev):
+    if not re.fullmatch(r"/dev/[A-Za-z0-9/_.:+-]+", dev or "") or ".." in dev:
+        raise Fail(f"not a device: {dev}")
+    real = os.path.realpath(dev)
+    try:
+        if not stat.S_ISBLK(os.stat(real).st_mode):
+            raise Fail(f"not a block device: {dev}")
+    except FileNotFoundError:
+        raise Fail(f"no such device: {dev}")
+    return os.path.basename(real)
+
+
+def sysfs(k):
+    return os.path.realpath(f"/sys/class/block/{k}")
+
+
+def read(path, default=""):
+    try:
+        with open(path) as f:
+            return f.read().strip()
+    except OSError:
+        return default
+
+
+def is_partition(k):
+    return os.path.exists(os.path.join(sysfs(k), "partition"))
+
+
+def parent_disk(k):
+    return os.path.basename(os.path.dirname(sysfs(k))) if is_partition(k) else k
+
+
+def part_number(k):
+    return int(read(os.path.join(sysfs(k), "partition"), "0"))
+
+
+def child_partitions(k):
+    try:
+        return [p for p in os.listdir(sysfs(k))
+                if p.startswith(k) and os.path.exists(os.path.join(sysfs(k), p, "partition"))]
+    except OSError:
+        return []
+
+
+def holders(k):
+    try:
+        return os.listdir(os.path.join(sysfs(k), "holders"))
+    except OSError:
+        return []
+
+
+def lower(k):
+    """The devices k is built on (dm/md slaves), recursively, plus k itself and their disks."""
+    out, todo = set(), [k]
+    while todo:
+        x = todo.pop()
+        if x in out:
+            continue
+        out.add(x)
+        try:
+            todo += os.listdir(os.path.join(sysfs(x), "slaves"))
+        except OSError:
+            pass
+        if is_partition(x):
+            out.add(parent_disk(x))
+    return out
+
+
+def mountinfo():
+    out = []
+    with open("/proc/self/mountinfo") as f:
+        for line in f:
+            left, _, right = line.partition(" - ")
+            a, b = left.split(), right.split()
+            if len(a) >= 5 and len(b) >= 2:
+                mp = re.sub(r"\\([0-7]{3})", lambda m: chr(int(m.group(1), 8)), a[4])
+                out.append((b[1], mp, b[0]))
+    return out
+
+
+def source_kname(src):
+    if not src.startswith("/dev/"):
+        return None
+    try:
+        real = os.path.realpath(src)
+        return os.path.basename(real) if stat.S_ISBLK(os.stat(real).st_mode) else None
+    except OSError:
+        return None
+
+
+def mounts_of(k):
+    return [mp for src, mp, _ in mountinfo() if source_kname(src) == k]
+
+
+def swaps():
+    out = set()
+    for line in read("/proc/swaps").splitlines()[1:]:
+        k = source_kname(line.split()[0]) if line.split() else None
+        if k:
+            out |= lower(k)
+    return out
+
+
+def system_devices():
+    """Every device (partitions and disks) that the running system sits on."""
+    out = set()
+    for src, mp, _ in mountinfo():
+        if mp in SYSTEM_MOUNTS:
+            k = source_kname(src)
+            if k:
+                out |= lower(k)
+    return out | swaps()
+
+
+def blkid(dev):
+    res = run(["blkid", "-p", "-o", "export", dev], check=False)
+    info = {}
+    for line in res.stdout.splitlines():
+        k, _, v = line.partition("=")
+        info[k] = re.sub(r"\\(.)", r"\1", v)     # blkid escapes spaces and quotes
+    return info
+
+
+def volume(dev):
+    """Checks shared by everything that touches one volume. Returns (kname, blkid info)."""
+    k = kname(dev)
+    if k in system_devices():
+        raise Fail("This volume holds the running system, so it can't be changed.")
+    if holders(k):
+        raise Fail("This volume is in use (it is encrypted, part of LVM or RAID, or open in another way).")
+    if not is_partition(k):
+        if blkid(f"/dev/{k}").get("PTTYPE") or child_partitions(k):
+            raise Fail("That is a whole disk with partitions; choose one of its partitions.")
+    if read(os.path.join(sysfs(k), "ro")) == "1":
+        raise Fail("The disk is write-protected.")
+    return k, blkid(f"/dev/{k}")
+
+
+def part_type(k):
+    """Partition type code as sfdisk prints it (GUID lower-case, or MBR hex without 0x)."""
+    if not is_partition(k):
+        return ""
+    res = run(["sfdisk", "--part-type", f"/dev/{parent_disk(k)}", str(part_number(k))], check=False)
+    return res.stdout.strip().lower()
+
+
+# ---- fstab -----------------------------------------------------------------------------------
+def lock():
+    fd = os.open("/run/classic7-disk.lock", os.O_CREAT | os.O_RDWR, 0o600)
+    fcntl.flock(fd, fcntl.LOCK_EX)
+    return fd
+
+
+def fstab_lines():
+    try:
+        with open(FSTAB) as f:
+            return f.read().splitlines()
+    except FileNotFoundError:
+        return []
+
+
+def write_fstab(lines):
+    text = "\n".join(lines).rstrip("\n") + "\n"
+    try:
+        shutil.copy2(FSTAB, FSTAB + ".classic7.bak")
+    except OSError:
+        pass
+    d = os.path.dirname(os.path.abspath(FSTAB))
+    fd, tmp = tempfile.mkstemp(prefix=".fstab.", dir=d)
+    with os.fdopen(fd, "w") as f:
+        f.write(text)
+    os.chmod(tmp, 0o644)
+    os.replace(tmp, FSTAB)
+    if os.path.isdir("/run/systemd/system"):
+        run(["systemctl", "daemon-reload"], check=False)
+
+
+def managed():
+    """[(letter, index of the comment line, fields of the entry)]"""
+    lines, out = fstab_lines(), []
+    for i, line in enumerate(lines):
+        m = re.match(r"#\s*classic7-drive\s+([A-Z])\b", line.strip())
+        if m and i + 1 < len(lines) and lines[i + 1].split():
+            out.append((m.group(1), i, lines[i + 1].split()))
+    return out
+
+
+def spec_matches(spec, info, k):
+    spec = spec.strip('"')
+    for key, val in (("UUID=", info.get("UUID")), ("PARTUUID=", info.get("PART_ENTRY_UUID"))):
+        if val and spec.lower() == (key + val).lower():
+            return True
+    for pre, val in (("/dev/disk/by-uuid/", info.get("UUID")), ("/dev/disk/by-partuuid/", info.get("PART_ENTRY_UUID"))):
+        if val and spec.lower() == (pre + val).lower():
+            return True
+    return spec.startswith("/dev/") and source_kname(spec) == k
+
+
+def letter_for(k, info):
+    for letter, _, f in managed():
+        if spec_matches(f[0], info, k):
+            return letter, f
+    return None, None
+
+
+def mountpoint(letter):
+    return os.path.join(ROOT, letter)
+
+
+def options(fs, uid, gid):
+    tail = "nofail,x-systemd.device-timeout=10s"
+    if fs == "ntfs":
+        if ntfs_driver() == "ntfs3":
+            return "ntfs3", f"uid={uid},gid={gid},umask=022,prealloc,{tail}"
+        return "ntfs-3g", f"uid={uid},gid={gid},umask=022,big_writes,{tail}"
+    if fs == "exfat":
+        return "exfat", f"uid={uid},gid={gid},umask=022,{tail}"
+    if fs == "vfat":
+        return "vfat", f"uid={uid},gid={gid},umask=022,utf8,shortname=mixed,{tail}"
+    if fs == "btrfs":
+        return "btrfs", f"defaults,noatime,compress=zstd:1,{tail}"
+    return fs, f"defaults,noatime,{tail}"
+
+
+def ntfs_driver():
+    if "ntfs3" in read("/proc/filesystems"):
+        return "ntfs3"
+    if run(["modprobe", "-q", "ntfs3"], check=False).returncode == 0 and "ntfs3" in read("/proc/filesystems"):
+        return "ntfs3"
+    return "ntfs-3g" if shutil.which("mount.ntfs-3g", path=PATH) or shutil.which("ntfs-3g", path=PATH) else "ntfs3"
+
+
+def remove_entry(letter, lines=None):
+    lines = fstab_lines() if lines is None else lines
+    out, skip = [], False
+    for line in lines:
+        if skip:
+            skip = False
+            continue
+        m = re.match(r"#\s*classic7-drive\s+([A-Z])\b", line.strip())
+        if m and m.group(1) == letter:
+            skip = True
+            continue
+        out.append(line)
+    return out
+
+
+def set_entry(letter, k, info, uid, gid):
+    """Write the entry for LETTER (replacing this volume's old one) and disable others for it."""
+    fs = info.get("TYPE")
+    spec = f"UUID={info['UUID']}" if info.get("UUID") else f"PARTUUID={info['PART_ENTRY_UUID']}"
+    vfs, opts = options(fs, uid, gid)
+    old, _ = letter_for(k, info)
+    lines = remove_entry(letter)
+    if old:
+        lines = remove_entry(old, lines)
+    out = []
+    for line in lines:
+        f = line.split()
+        if f and not line.lstrip().startswith("#") and len(f) >= 2 and spec_matches(f[0], info, k):
+            out.append(f"# disabled by Classic 7 Disk Management (now drive {letter}:): {line}")
+            continue
+        out.append(line)
+    label = (info.get("LABEL") or "").replace("\n", " ")
+    out += [f"{MARK}{letter}  {label}".rstrip(), f"{spec}  {mountpoint(letter)}  {vfs}  {opts}  0  0"]
+    write_fstab(out)
+    return old
+
+
+# ---- mounting --------------------------------------------------------------------------------
+def unmount_all(k, keep_system=True):
+    for mp in sorted(mounts_of(k), key=len, reverse=True):
+        if mp in SYSTEM_MOUNTS:
+            raise Fail("This volume holds the running system.")
+        res = run(["umount", mp], check=False)
+        if res.returncode != 0:
+            raise Fail(f"{mp} is in use. Close the programs and windows that use it and try again.")
+        if mp.startswith("/run/media/"):
+            try:
+                os.rmdir(mp)
+            except OSError:
+                pass
+
+
+def mount_letter(letter, fs, uid, gid):
+    mp = mountpoint(letter)
+    if os.path.ismount(mp):
+        return mp
+    os.makedirs(mp, mode=0o755, exist_ok=True)
+    if os.listdir(mp):
+        raise Fail(f"{mp} is not empty, so the drive can't be opened there.")
+    res = run(["mount", "--target", mp] if os.path.abspath(FSTAB) == "/etc/fstab"
+              else ["mount", "--fstab", FSTAB, "--target", mp], check=False)
+    if res.returncode != 0:
+        detail = (res.stderr or res.stdout).strip()
+        if fs == "ntfs":
+            raise Fail("The drive letter is set, but the drive could not be opened. Windows probably did not "
+                       "shut down completely (Fast Startup or hibernation). Start Windows and choose Restart "
+                       "(not Shut down), or use Check for errors.\n\n" + detail, code=3)
+        raise Fail("The drive letter is set, but the drive could not be opened.\n\n" + detail, code=3)
+    if fs in ("ext2", "ext3", "ext4", "btrfs", "xfs", "f2fs"):
+        st = os.stat(mp)
+        if st.st_uid == 0:   # a fresh Linux file system: let the person save files on it, like on Windows
+            os.chown(mp, uid, gid)
+    return mp
+
+
+def cmd_letter(dev, letter):
+    uid, gid = user()
+    if letter not in LETTERS:
+        raise Fail("Choose a letter from D to Y.")
+    k, info = volume(dev)
+    fs = info.get("TYPE")
+    if fs not in MOUNTABLE:
+        raise Fail("This volume has no file system Classic 7 can open. Format it first.")
+    if not (info.get("UUID") or info.get("PART_ENTRY_UUID")):
+        raise Fail("This volume has no UUID, so it can't get a drive letter.")
+    for other, _, f in managed():
+        if other == letter and not spec_matches(f[0], info, k):
+            raise Fail(f"{letter}: is already used by another drive.")
+    for line in fstab_lines():
+        f = line.split()
+        if f and not line.lstrip().startswith("#") and len(f) >= 2 and f[1] == mountpoint(letter) \
+                and not spec_matches(f[0], info, k):
+            raise Fail(f"{mountpoint(letter)} is already used in /etc/fstab.")
+    if os.path.ismount(mountpoint(letter)) and mountpoint(letter) not in mounts_of(k):
+        raise Fail(f"{letter}: is in use.")
+    unmount_all(k)
+    old = set_entry(letter, k, info, uid, gid)
+    if old and old != letter:
+        try:
+            os.rmdir(mountpoint(old))
+        except OSError:
+            pass
+    mp = mount_letter(letter, fs, uid, gid)
+    print(f"letter={letter}\nmountpoint={mp}")
+
+
+def cmd_unletter(arg):
+    user()
+    if re.fullmatch(r"[A-Z]", arg or ""):
+        letter = arg
+        entry = next((f for l, _, f in managed() if l == letter), None)
+        if entry is None:
+            raise Fail(f"{letter}: was not assigned by Disk Management.")
+    else:
+        k = kname(arg)
+        letter, entry = letter_for(k, blkid(f"/dev/{k}"))
+        if not letter:
+            raise Fail("This volume has no drive letter from Disk Management.")
+    mp = mountpoint(letter)
+    if os.path.ismount(mp):
+        res = run(["umount", mp], check=False)
+        if res.returncode != 0:
+            raise Fail(f"{letter}: is in use. Close the programs and windows that use it and try again.")
+    write_fstab(remove_entry(letter))
+    try:
+        os.rmdir(mp)
+    except OSError:
+        pass
+    print(f"letter={letter}")
+
+
+def cmd_mount(dev):
+    uid, gid = user()
+    k, info = volume(dev)
+    letter, _ = letter_for(k, info)
+    if not letter:
+        raise Fail("This volume has no drive letter.")
+    print(f"mountpoint={mount_letter(letter, info.get('TYPE'), uid, gid)}")
+
+
+# ---- partitions and formatting ---------------------------------------------------------------
+def clean_label(label, fs):
+    label = re.sub(r"[\x00-\x1f\"'\\/]", "", label or "").strip()
+    if fs == "vfat":
+        label = re.sub(r"[^A-Za-z0-9 _-]", "", label).upper()[:11]
+    limit = {"ntfs": 32, "exfat": 15, "ext4": 16, "btrfs": 255}.get(fs, 11)
+    return label[:limit]
+
+
+def make_fs(k, fs, label, uid, gid):
+    dev = f"/dev/{k}"
+    label = clean_label(label, fs)
+    run(["wipefs", "-a", "-q", dev])
+    if fs == "ntfs":
+        argv = ["mkfs.ntfs", "-Q", "-F", "-q"] + (["-L", label] if label else []) + [dev]
+    elif fs == "exfat":
+        argv = ["mkfs.exfat", "-q"] + (["-L", label] if label else []) + [dev]
+    elif fs == "vfat":
+        size = int(read(os.path.join(sysfs(k), "size"), "0")) * 512
+        argv = ["mkfs.vfat"] + (["-F", "32"] if size >= 512 * 1024 * 1024 else []) + \
+               (["-n", label] if label else []) + [dev]
+    elif fs == "ext4":
+        argv = ["mkfs.ext4", "-F", "-q", "-E", f"root_owner={uid}:{gid}"] + (["-L", label] if label else []) + [dev]
+    elif fs == "btrfs":
+        argv = ["mkfs.btrfs", "-f", "-q"] + (["-L", label] if label else []) + [dev]
+    else:
+        raise Fail(f"Classic 7 can't format as {fs}.")
+    if not shutil.which(argv[0], path=PATH):
+        raise Fail(f"{argv[0]} is not installed.")
+    run(argv)
+    if fs == "btrfs":
+        tmp = tempfile.mkdtemp(prefix="classic7-disk-")
+        try:
+            if run(["mount", dev, tmp], check=False).returncode == 0:
+                os.chown(tmp, uid, gid)
+                run(["umount", tmp], check=False)
+        finally:
+            try:
+                os.rmdir(tmp)
+            except OSError:
+                pass
+    settle()
+    if is_partition(k):   # so Windows (and Linux) know what is inside
+        want = type_code(parent_disk(k), fs)
+        if want:
+            run(["sfdisk", "--no-reread", "--no-tell-kernel", "-q", "--part-type", f"/dev/{parent_disk(k)}",
+                 str(part_number(k)), want], check=False)
+    return blkid(dev)
+
+
+def type_code(disk, fs):
+    pt = blkid(f"/dev/{disk}").get("PTTYPE")
+    family = "windows" if fs in ("ntfs", "exfat", "vfat") else "linux"
+    if pt == "gpt":
+        return GPT_TYPES[family]
+    if pt == "dos":
+        return DOS_TYPES[fs if family == "windows" else "linux"]
+    return None
+
+
+def settle():
+    if shutil.which("udevadm", path=PATH) and os.path.isdir("/run/udev"):
+        run(["udevadm", "settle", "--timeout=10"], check=False)
+
+
+def check_protected_type(k):
+    if part_type(k).removeprefix("0x") in PROTECTED_TYPES:
+        raise Fail("This is a system partition (EFI, Microsoft Reserved, BIOS boot or extended) "
+                   "and can't be changed here.")
+
+
+def cmd_format(dev, fs, label):
+    uid, gid = user()
+    if fs not in FORMATS:
+        raise Fail(f"Unknown file system: {fs}")
+    k, info = volume(dev)
+    check_protected_type(k)
+    letter, _ = letter_for(k, info)
+    if letter and os.path.ismount(mountpoint(letter)):
+        if run(["umount", mountpoint(letter)], check=False).returncode != 0:
+            raise Fail(f"{letter}: is in use. Close the programs and windows that use it and try again.")
+    unmount_all(k)
+    new = make_fs(k, fs, label, uid, gid)
+    print(f"device=/dev/{k}")
+    if letter:
+        write_fstab(remove_entry(letter))
+        set_entry(letter, k, new, uid, gid)
+        print(f"letter={letter}\nmountpoint={mount_letter(letter, fs, uid, gid)}")
+
+
+def disk_checks(disk_dev):
+    k = kname(disk_dev)
+    if is_partition(k):
+        raise Fail("Choose a disk, not a partition.")
+    if read(os.path.join(sysfs(k), "ro")) == "1":
+        raise Fail("The disk is write-protected.")
+    if k.startswith(("dm-", "md", "zram", "loop")) and not os.environ.get("CLASSIC7_ALLOW_LOOP"):
+        raise Fail("That is not a disk.")
+    return k
+
+
+def partitions(disk):
+    """{number: (start, sectors)} straight from the partition table."""
+    import json
+    res = run(["sfdisk", "-J", f"/dev/{disk}"], check=False)
+    if res.returncode != 0:
+        return {}
+    out = {}
+    for p in json.loads(res.stdout).get("partitiontable", {}).get("partitions", []):
+        m = re.search(r"(\d+)$", p["node"])
+        out[int(m.group(1))] = (int(p["start"]), int(p["size"]))
+    return out
+
+
+def part_dev(disk, n):
+    return f"/dev/{disk}{'p' if disk[-1].isdigit() else ''}{n}"
+
+
+def disk_in_use(disk):
+    sysdev = system_devices()
+    used = disk in sysdev
+    for src, _, _ in mountinfo():
+        k = source_kname(src)
+        if k and disk in lower(k):
+            used = True
+    for p in child_partitions(disk):
+        if holders(p):
+            used = True
+    return used
+
+
+def tell_kernel(disk, n, add):
+    """Bring the kernel's idea of the partitions in line with the table (also on a disk in use)."""
+    run(["partx", "-u", f"/dev/{disk}"], check=False)
+    present = os.path.exists(os.path.join(sysfs(disk), part_dev(disk, n).rsplit("/", 1)[1]))
+    if add and not present:
+        run(["partx", "-a", "--nr", str(n), f"/dev/{disk}"], check=False)
+    elif not add and present:
+        run(["partx", "-d", "--nr", str(n), f"/dev/{disk}"], check=False)
+    settle()
+
+
+def cmd_create(disk_dev, start, sectors, fs, label, letter=None):
+    uid, gid = user()
+    disk = disk_checks(disk_dev)
+    if fs not in FORMATS:
+        raise Fail(f"Unknown file system: {fs}")
+    if letter is not None and letter not in LETTERS:
+        raise Fail("Choose a letter from D to Y.")
+    if not (start.isdigit() and sectors.isdigit()):
+        raise Fail("Bad size.")
+    start, sectors = int(start), int(sectors)
+    total = int(read(os.path.join(sysfs(disk), "size"), "0"))
+    pt = blkid(f"/dev/{disk}").get("PTTYPE")
+    if pt not in ("gpt", "dos"):
+        raise Fail("Initialize the disk first.")
+    last = total - 34 if pt == "gpt" else total
+    if start < 2048 or sectors < 2048 or start + sectors > last:
+        raise Fail("The new partition doesn't fit on the disk.")
+    before = partitions(disk)
+    for s, n in before.values():
+        if start < s + n and s < start + sectors:
+            if pt == "dos" and n <= 2:      # an extended partition's first sector
+                continue
+            raise Fail("That space is not free any more. Refresh and try again.")
+    spec = f"start={start}, size={sectors}, type={type_code(disk, fs)}\n"
+    run(["sfdisk", "-q", "--append", "--no-reread", "--no-tell-kernel", f"/dev/{disk}"], input=spec)
+    new = sorted(set(partitions(disk)) - set(before))
+    if not new:
+        raise Fail("The partition was not created.")
+    n = new[0]
+    tell_kernel(disk, n, True)
+    dev = part_dev(disk, n)
+    for _ in range(50):
+        if os.path.exists(dev):
+            break
+        time.sleep(0.1)
+    else:
+        run(["partx", "-a", "--nr", str(n), f"/dev/{disk}"], check=False)
+        if not os.path.exists(dev):
+            raise Fail(f"The partition was created, but {dev} did not appear. Restart the computer.")
+    k = kname(dev)
+    info = make_fs(k, fs, label, uid, gid)
+    print(f"device={dev}")
+    if letter:
+        set_entry(letter, k, info, uid, gid)
+        print(f"letter={letter}\nmountpoint={mount_letter(letter, fs, uid, gid)}")
+
+
+def cmd_delete(dev):
+    user()
+    k, info = volume(dev)
+    if not is_partition(k):
+        raise Fail("Only partitions can be deleted.")
+    check_protected_type(k)
+    letter, _ = letter_for(k, info)
+    if letter and os.path.ismount(mountpoint(letter)):
+        if run(["umount", mountpoint(letter)], check=False).returncode != 0:
+            raise Fail(f"{letter}: is in use. Close the programs and windows that use it and try again.")
+    unmount_all(k)
+    disk, n = parent_disk(k), part_number(k)
+    run(["wipefs", "-a", "-q", f"/dev/{k}"], check=False)
+    run(["sfdisk", "-q", "--delete", "--no-reread", "--no-tell-kernel", f"/dev/{disk}", str(n)])
+    if letter:
+        write_fstab(remove_entry(letter))
+        try:
+            os.rmdir(mountpoint(letter))
+        except OSError:
+            pass
+    tell_kernel(disk, n, False)
+    print(f"deleted=/dev/{k}")
+
+
+def cmd_init(disk_dev, style):
+    user()
+    disk = disk_checks(disk_dev)
+    if style not in ("gpt", "dos"):
+        raise Fail("Choose GPT or MBR.")
+    info = blkid(f"/dev/{disk}")
+    if info.get("PTTYPE") or info.get("TYPE"):
+        raise Fail("This disk is already initialized.")
+    if disk_in_use(disk) or child_partitions(disk):
+        raise Fail("This disk is in use.")
+    run(["sfdisk", "-q", f"/dev/{disk}"], input=f"label: {style}\n")
+    run(["partx", "-u", f"/dev/{disk}"], check=False)
+    settle()
+    print(f"disk=/dev/{disk}")
+
+
+def cmd_check(dev):
+    uid, gid = user()
+    k, info = volume(dev)
+    fs = info.get("TYPE")
+    progs = {"ntfs": ["ntfsfix", "-d"], "vfat": ["fsck.vfat", "-a", "-w"], "exfat": ["fsck.exfat", "-p"],
+             "ext2": ["e2fsck", "-f", "-p"], "ext3": ["e2fsck", "-f", "-p"], "ext4": ["e2fsck", "-f", "-p"],
+             "btrfs": ["btrfs", "check", "--readonly"], "xfs": ["xfs_repair", "-n"],
+             "f2fs": ["fsck.f2fs", "-a"]}
+    if fs not in progs:
+        raise Fail("Classic 7 can't check this kind of volume.")
+    if not shutil.which(progs[fs][0], path=PATH):
+        raise Fail(f"{progs[fs][0]} is not installed.")
+    letter, _ = letter_for(k, info)
+    if letter and os.path.ismount(mountpoint(letter)):
+        if run(["umount", mountpoint(letter)], check=False).returncode != 0:
+            raise Fail(f"{letter}: is in use. Close the programs and windows that use it and try again.")
+    unmount_all(k)
+    res = run(progs[fs] + [f"/dev/{k}"], check=False)
+    print((res.stdout + res.stderr).strip())
+    # e2fsck: 1 = errors fixed; fsck.vfat/exfat the same
+    bad = res.returncode not in (0, 1) if fs.startswith("ext") or fs in ("vfat", "exfat", "f2fs") else res.returncode != 0
+    if letter:
+        try:
+            mount_letter(letter, fs, uid, gid)
+        except Fail:
+            pass
+    if bad:
+        raise Fail("Some problems could not be fixed." if fs != "ntfs" else
+                   "The drive could not be repaired here. Run chkdsk on it in Windows.", code=4)
+
+
+COMMANDS = {"letter": (cmd_letter, 2, 2), "unletter": (cmd_unletter, 1, 1), "mount": (cmd_mount, 1, 1),
+            "format": (cmd_format, 3, 3), "create": (cmd_create, 5, 6), "delete": (cmd_delete, 1, 1),
+            "init": (cmd_init, 2, 2), "check": (cmd_check, 1, 1)}
+
+
+def main(argv):
+    if not argv or argv[0] not in COMMANDS:
+        print(__doc__.strip(), file=sys.stderr)
+        return 2
+    fn, lo, hi = COMMANDS[argv[0]]
+    args = argv[1:]
+    if not lo <= len(args) <= hi:
+        print(f"classic7-disk-helper {argv[0]}: wrong number of arguments", file=sys.stderr)
+        return 2
+    if os.geteuid() != 0:
+        print("classic7-disk-helper: must run as root (through pkexec)", file=sys.stderr)
+        return 2
+    os.umask(0o022)
+    fd = lock()
+    try:
+        fn(*args)
+        return 0
+    except Fail as e:
+        print(str(e), file=sys.stderr)
+        return e.code
+    finally:
+        os.close(fd)
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

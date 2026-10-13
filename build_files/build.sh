@@ -93,12 +93,17 @@ for pkg in 7zip ark; do rpm -q "$pkg" >/dev/null 2>&1 || dnf5 -y install "$pkg";
 for pkg in qt6-qtimageformats kf6-kimageformats kio-fuse; do
     rpm -q "$pkg" >/dev/null 2>&1 || dnf5 -y install "$pkg" || echo "NOTE: $pkg not available"
 done
+# Disk Management: formatting (NTFS, exFAT, FAT32, ext4, Btrfs) and checking drives
+for pkg in ntfs-3g ntfsprogs exfatprogs dosfstools btrfs-progs e2fsprogs util-linux; do
+    rpm -q "$pkg" >/dev/null 2>&1 || dnf5 -y install "$pkg" || echo "NOTE: $pkg not available"
+done
 for pkg in hunspell-da hunspell-en hunspell-en-US hunspell-en-GB google-carlito-fonts \
            google-crosextra-caladea-fonts google-caladea-fonts wv; do
     rpm -q "$pkg" >/dev/null 2>&1 || dnf5 -y install "$pkg" || echo "NOTE: $pkg not available"
 done
 chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-mail /usr/bin/classic7-network /usr/bin/classic7-netdrive /usr/libexec/classic7-update-system /usr/libexec/classic7-netdrive-helper \
-    /usr/bin/classic7-taskbar-pin /usr/libexec/classic7-tray-fix /usr/bin/classic7-photos /usr/bin/classic7-show
+    /usr/bin/classic7-taskbar-pin /usr/libexec/classic7-tray-fix /usr/bin/classic7-photos /usr/bin/classic7-show \
+    /usr/bin/classic7-diskmgmt /usr/libexec/classic7-disk-helper
 # one network icon in the tray: fixes the saved panel layout at login, before Plasma starts
 systemctl --global enable classic7-tray-fix.service
 # Classic 7 Update: which build this is (the updater compares it at login to bring each
@@ -109,7 +114,7 @@ printf '{"build": "%s", "base": "%s", "content": "%s"}\n' "$(date -u +%Y-%m-%dT%
     "$base" "$content" > /usr/share/classic7/build-info.json
 chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
 python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PySide6.QtPrintSupport, PIL, pyte, docx, olefile"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import classic7theme, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app"
 python3 -c "import PySide6.QtWebEngineWidgets, keyring, html2text" || echo "WARNING: Mail falls back to the simple message view"
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
@@ -184,6 +189,15 @@ img = show_render.Renderer(q).thumbnail(q.slides[0], 200); assert not img.isNull
 rm -f /tmp/c7show.pptx
 # Photo Viewer and 7-Zip
 test -x /usr/bin/classic7-photos
+# Disk Management
+test -x /usr/bin/classic7-diskmgmt
+test -x /usr/libexec/classic7-disk-helper
+test -f /usr/share/applications/classic7-diskmgmt.desktop
+test -f /usr/share/polkit-1/actions/org.classic7.disk.policy
+for prog in sfdisk partx wipefs blkid mkfs.ntfs mkfs.exfat mkfs.vfat mkfs.ext4 mkfs.btrfs ntfsfix; do
+    command -v "$prog" >/dev/null || echo "WARNING: $prog missing (Disk Management)"
+done
+PYTHONPATH=/usr/lib/classic7 QT_QPA_PLATFORM=offscreen python3 -c "import disks; print([d.title for d in disks.list_disks()], disks.available_formats())" || true
 test -f /usr/share/applications/classic7-photos.desktop
 grep -q "^image/jpeg=classic7-photos.desktop" /etc/xdg/mimeapps.list
 command -v 7z && command -v ark

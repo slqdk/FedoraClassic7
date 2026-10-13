@@ -451,6 +451,8 @@ class ComputerWindow(QMainWindow):
         if self.store:
             cmd.addAction("Uninstall or change a program", lambda: launch(*self.store))
         cmd.addAction("Map network drive", lambda: self._netdrive([]))
+        if shutil.which("classic7-diskmgmt"):
+            cmd.addAction("Manage drives", lambda: launch("classic7-diskmgmt", []))
         cmd.addAction("Disconnect network drive", lambda: self._netdrive(["--disconnect"]))
         if shutil.which("systemsettings"):
             cmd.addAction("Open Control Panel", lambda: launch("systemsettings", []))
@@ -625,6 +627,10 @@ class ComputerWindow(QMainWindow):
         open_act = m.addAction("Open", lambda: self._open(tile.drive))
         open_act.setFont(f)
         m.addAction("Open in new window", lambda: self._open(tile.drive, keep=True))
+        if tile.drive.device and tile.drive.kind in ("Local Disk", "Removable Disk") and shutil.which("classic7-diskmgmt"):
+            m.addSeparator()
+            m.addAction("Format...", lambda: launch("classic7-diskmgmt", ["--format", tile.drive.device]))
+            m.addAction("Change drive letter...", lambda: launch("classic7-diskmgmt", ["--letter", tile.drive.device]))
         if tile.drive.group in (dr.REMOVABLE, dr.NETWORK):
             m.addSeparator()
             m.addAction("Eject" if tile.drive.kind == "CD Drive" else

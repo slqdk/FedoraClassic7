@@ -15,7 +15,7 @@ from dataclasses import dataclass
 HARD_DISK, REMOVABLE, NETWORK = "Hard Disk Drives", "Devices with Removable Storage", "Network Location"
 GROUP_ORDER = [HARD_DISK, REMOVABLE, NETWORK]
 
-LSBLK_COLUMNS = "PATH,NAME,LABEL,FSTYPE,MOUNTPOINTS,SIZE,FSAVAIL,FSSIZE,RM,HOTPLUG,TYPE,TRAN,PKNAME,PARTTYPENAME,MODEL"
+LSBLK_COLUMNS = "PATH,NAME,LABEL,FSTYPE,MOUNTPOINTS,SIZE,FSAVAIL,FSSIZE,RM,HOTPLUG,TYPE,TRAN,PKNAME,PARTTYPENAME,MODEL,UUID,PARTUUID"
 
 # Filesystems that are not something a user browses
 SKIP_FSTYPES = {"swap", "crypto_LUKS", "LVM2_member", "linux_raid_member", "zfs_member", "BitLocker",
@@ -41,6 +41,7 @@ class Drive:
     total: int | None
     free: int | None
     label: str | None
+    letter: str | None = None   # "C", "D", ... (Disk Management drive letters)
 
     @property
     def mounted(self) -> bool:
@@ -132,8 +133,29 @@ def _pick_mount(mounts: list[str]) -> tuple[str | None, bool]:
     return sorted(mounts, key=len)[0], False
 
 
+def _letters():
+    """Drive letters from Disk Management: (fstab entries, function mountpoint -> letter)."""
+    try:
+        import disks
+        return disks.read_fstab(), disks.letter_of_mount
+    except Exception:  # noqa: BLE001 - letters are a nicety
+        return [], lambda _mp: None
+
+
+def _fstab_letter(entries, d: dict) -> str | None:
+    for e in entries:
+        if not e.letter:
+            continue
+        spec = e.spec.strip('"')
+        for key, val in (("UUID=", d.get("uuid")), ("PARTUUID=", d.get("partuuid"))):
+            if val and spec.lower() == (key + val).lower():
+                return e.letter
+    return None
+
+
 def list_drives() -> list[Drive]:
     devices = _lsblk()
+    entries, letter_of_mount = _letters()
     by_name = {d.get("name"): d for d in devices}
     drives: list[Drive] = []
 
@@ -168,15 +190,24 @@ def list_drives() -> list[Drive]:
             kind, group, icon = "Local Disk", HARD_DISK, "drive-harddisk"
 
         mountpoint, is_system = _pick_mount(mounts)
+        letter = None
+        for m in mounts:
+            letter = letter or letter_of_mount(m)
+        if letter:
+            mountpoint = next(m for m in mounts if letter_of_mount(m) == letter)
+        letter = letter or _fstab_letter(entries, d)
         label = d.get("label")
         size = d.get("fssize") or d.get("size")
         if is_system:
             icon = "drive-harddisk-system"
-            display = "Local Disk (System)"
+            letter = "C"
+            display = "Local Disk (C:)"
         elif kind == "CD Drive":
             display = f"DVD Drive ({label})" if label else "DVD Drive"
+        elif letter:
+            display = f"{label or kind} ({letter}:)"
         else:
-            # Like "Local Disk (C:)": the label stands in for the drive letter
+            # Without a drive letter, the label stands in for it
             display = f"{kind} ({label or human(int(size) if size else None)})"
 
         total = size
@@ -187,7 +218,8 @@ def list_drives() -> list[Drive]:
         drives.append(Drive(
             key=d.get("path") or name, name=display, group=group, kind=kind, icon=icon,
             device=d.get("path"), parent=parent.get("path"), mountpoint=mountpoint, fstype=fstype,
-            total=int(total) if total else None, free=int(free) if free is not None else None, label=label))
+            total=int(total) if total else None, free=int(free) if free is not None else None, label=label,
+            letter=letter))
 
     # Network shares (mapped drives get their letter, like "Data (\\30.11.0.2) (Z:)")
     mappings = _mappings()
@@ -216,7 +248,7 @@ def list_drives() -> list[Drive]:
                 icon="network-server", device=None, parent=None, mountpoint=None, fstype="cifs",
                 total=None, free=None, label=m.letter))
 
-    drives.sort(key=lambda x: (GROUP_ORDER.index(x.group), x.name != "Local Disk (System)", x.name.lower()))
+    drives.sort(key=lambda x: (GROUP_ORDER.index(x.group), x.letter is None, x.letter or "", x.name.lower()))
     return drives
 
 
