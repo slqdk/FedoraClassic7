@@ -4,11 +4,26 @@
 set -x
 exec 2>/out/script.log
 mkdir -p /out && chmod 777 /out
-useradd -m -u 1000 tester 2>/dev/null
+# PAM modules log to syslog: catch what they say (there is no journal in the container)
+python3 - <<'EOP' &
+import socket, os
+try: os.unlink("/dev/log")
+except OSError: pass
+s = socket.socket(socket.AF_UNIX, socket.SOCK_DGRAM); s.bind("/dev/log"); os.chmod("/dev/log", 0o666)
+with open("/out/syslog.txt", "a", buffering=1) as f:
+    while True: f.write(s.recv(4096).decode(errors="replace") + "\n")
+EOP
+sleep 1
+useradd -m -u 1000 tester
 # the image has no /etc/shadow (accounts are made at install time): make it, or PAM finds no password
 [ -f /etc/shadow ] || pwconv
 echo 'tester:Classic7pass!' | chpasswd
-{ ls -l /etc/shadow; getent shadow tester | cut -d: -f1,3; } > /out/shadow.txt 2>&1
+{ ls -l /etc/shadow /etc/passwd; getent passwd tester; getent shadow tester | cut -c1-24; grep -c . /etc/shadow
+  ls -ld /sys/fs/selinux 2>&1; python3 -c "import ctypes; print('selinux enabled:', ctypes.CDLL('libselinux.so.1').is_selinux_enabled())"
+  grep -E '^(passwd|shadow)' /etc/nsswitch.conf; grep -E '^ENCRYPT|^YESCRYPT' /etc/login.defs
+  rpm -q pam libxcrypt shadow-utils; } > /out/shadow.txt 2>&1
+# the same check with pam_unix's debug output
+printf 'auth required pam_unix.so debug\naccount required pam_unix.so debug\n' > /etc/pam.d/c7debug
 {
     ls -l /usr/sbin/unix_chkpwd /usr/bin/su /usr/bin/passwd /usr/bin/sudo 2>&1
     getcap /usr/sbin/unix_chkpwd /usr/bin/passwd 2>&1
@@ -44,7 +59,8 @@ def conv(n, msgs, resp, _data):
 c = PamConv(CONV(conv), None)
 h = ctypes.c_void_p()
 libpam.pam_strerror.restype = ctypes.c_char_p
-rc = libpam.pam_start(b"login", sys.argv[1].encode(), ctypes.byref(c), ctypes.byref(h))
+service = sys.argv[3].encode() if len(sys.argv) > 3 else b"login"
+rc = libpam.pam_start(service, sys.argv[1].encode(), ctypes.byref(c), ctypes.byref(h))
 rc = libpam.pam_authenticate(h, 0)
 print("pam_authenticate:", rc, libpam.pam_strerror(h, rc).decode())
 rc2 = libpam.pam_acct_mgmt(h, 0)
@@ -54,6 +70,9 @@ EOP
     echo "as root, right password:"; python3 /tmp/pamtest.py tester 'Classic7pass!'
     echo "as tester, right password:"; su tester -c "python3 /tmp/pamtest.py tester 'Classic7pass!'"
     echo "as tester, wrong password:"; su tester -c "python3 /tmp/pamtest.py tester 'nope'"
+    echo "as root, debug service:"; python3 /tmp/pamtest.py tester 'Classic7pass!' c7debug
+    echo "as tester, debug service:"; su tester -c "python3 /tmp/pamtest.py tester 'Classic7pass!' c7debug"
+    echo "unix_chkpwd directly:"; printf 'Classic7pass!\0' | su tester -c "/usr/sbin/unix_chkpwd tester nullok; echo exit \$?"
 } > /out/result.txt 2>&1
-journalctl -n 20 --no-pager >> /out/result.txt 2>&1
-{ cat /out/result.txt | head -12; head -4 /out/pam.txt; } > /out/notices.txt
+sleep 1
+{ grep -v '^+' /out/result.txt; echo "--- syslog"; tail -n 25 /out/syslog.txt; echo "--- shadow"; cat /out/shadow.txt; } > /out/notices.txt
