@@ -1,0 +1,25 @@
+#!/usr/bin/python3
+"""Device Manager: the computer's devices by type, with their drivers and status, in
+the style of Windows 7.
+
+    classic7-devmgmt        open Device Manager
+    classic7-devmgmt --list print the devices
+"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
+        print(__doc__.strip())
+        sys.exit(0)
+    if len(sys.argv) > 1 and sys.argv[1] == "--list":
+        import sysinfo
+        for cat, devs in sysinfo.all_devices().items():
+            print(cat)
+            for d in devs:
+                print(f"    {d.name}" + (f"  [{d.driver}]" if d.driver else "") + (f"  !! {d.problem}" if d.problem else ""))
+        sys.exit(0)
+    from devmgmt_app import main
+    sys.exit(main(sys.argv[1:]))

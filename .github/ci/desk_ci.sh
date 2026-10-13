@@ -36,8 +36,13 @@ for i in $(seq 1 40); do [ -S $XDG_RUNTIME_DIR/wayland-c7 ] && break; sleep 0.5;
 export WAYLAND_DISPLAY=wayland-c7 QT_QPA_PLATFORM=wayland
 unset DISPLAY
 kbuildsycoca6 --noincremental > /out/sycoca.log 2>&1
-plasmashell > /out/plasmashell.log 2>&1 &
-sleep 25
+# services started over D-Bus (activity manager, portals) must find the nested session too
+dbus-update-activation-environment WAYLAND_DISPLAY QT_QPA_PLATFORM XDG_RUNTIME_DIR XDG_CURRENT_DESKTOP \
+    KDE_FULL_SESSION KDE_SESSION_VERSION XDG_SESSION_TYPE HOME >> /out/sycoca.log 2>&1
+for p in /usr/libexec/kactivitymanagerd /usr/lib64/libexec/kactivitymanagerd; do [ -x $p ] && { $p > /out/kamd.log 2>&1 & break; }; done
+sleep 2
+QT_FORCE_STDERR_LOGGING=1 plasmashell --no-respawn > /out/plasmashell.log 2>&1 &
+sleep 30
 export DISPLAY=:99
 X() { DISPLAY=:99 xdotool "$@"; }
 shot() { DISPLAY=:99 import -window root "/out/$1.png"; }

@@ -112,5 +112,38 @@ s._password()
 shot(s, "security-password")
 s.close()
 
+# ---- System and Device Manager
+import system_app  # noqa: E402
+import devmgmt_app  # noqa: E402
+import sysinfo  # noqa: E402
+sw = system_app.SystemWindow()
+sw.show()
+shot(sw, "system-window")
+ok(sysinfo.cpu_name() != "", f"processor: {sysinfo.cpu_name()}")
+ok(sysinfo.memory()[1] > 0, f"memory: {sysinfo.memory()}")
+sp = system_app.SystemProperties(None, 0)
+sp.show()
+shot(sp, "system-properties")
+sp.tabs.setCurrentIndex(3)
+shot(sp, "system-protection")
+sp.close()
+dm = devmgmt_app.DeviceManager()
+dm.resize(560, 640)
+dm.show()
+root = dm.tree.topLevelItem(0)
+for i in range(root.childCount()):
+    root.child(i).setExpanded(True)
+shot(dm, "device-manager")
+groups = sysinfo.all_devices()
+ok(len(groups) >= 4, f"Device Manager groups: {list(groups)}")
+dev = next((d for v in groups.values() for d in v if d.driver), None)
+if dev:
+    pd = devmgmt_app.DevicePropertiesDialog(dev)
+    pd.show()
+    shot(pd, "device-properties")
+    pd.findChild(devmgmt_app.QTabWidget).setCurrentIndex(1)
+    shot(pd, "device-driver")
+    pd.close()
+
 print("FAILURES", len(fails), fails, flush=True)
 sys.exit(1 if fails else 0)

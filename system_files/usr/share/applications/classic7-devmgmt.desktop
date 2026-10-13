@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Device Manager
+GenericName=Hardware List
+Comment=See the computer's devices, their drivers and status
+Exec=classic7-devmgmt
+Icon=computer
+Terminal=false
+Categories=Qt;System;
+Keywords=devmgmt;devmgmt.msc;device manager;hardware;drivers;pci;usb;enhedshåndtering;
+StartupWMClass=classic7-devmgmt

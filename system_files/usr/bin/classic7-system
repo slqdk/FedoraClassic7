@@ -1,0 +1,19 @@
+#!/usr/bin/python3
+"""System: the computer's processor, memory, graphics and name (Win+Pause), and System
+Properties (sysdm.cpl), in the style of Windows 7.
+
+    classic7-system                    the System window
+    classic7-system --properties [N]   System Properties (tab N: 0 Computer Name, 1 Hardware,
+                                       2 Advanced, 3 System Protection, 4 Remote)
+"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] in ("-h", "--help"):
+        print(__doc__.strip())
+        sys.exit(0)
+    from system_app import main
+    sys.exit(main(sys.argv[1:]))

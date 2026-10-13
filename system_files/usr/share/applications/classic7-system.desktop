@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Name=System
+GenericName=System Information
+Comment=See the processor, memory, graphics and name of this computer
+Exec=classic7-system
+Icon=computer
+Terminal=false
+NoDisplay=true
+Categories=Qt;System;
+Keywords=system;about;computer name;ram;processor;sysdm;win+pause;system properties;
+StartupWMClass=classic7-system

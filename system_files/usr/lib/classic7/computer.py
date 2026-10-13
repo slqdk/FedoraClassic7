@@ -446,7 +446,9 @@ class ComputerWindow(QMainWindow):
         self.eject_action = cmd.addAction("Eject", self._eject)
         self.eject_action.setEnabled(False)
         cmd.addSeparator()
-        if shutil.which("kinfocenter"):
+        if shutil.which("classic7-system"):
+            cmd.addAction("System properties", lambda: launch("classic7-system", []))
+        elif shutil.which("kinfocenter"):
             cmd.addAction("System properties", lambda: launch("kinfocenter", []))
         if self.store:
             cmd.addAction("Uninstall or change a program", lambda: launch(*self.store))

@@ -4,7 +4,7 @@ set -x
 exec 2>/out/script.log
 S=/src/system_files
 cp -a $S/usr/lib/classic7/. /usr/lib/classic7/
-for b in classic7-control classic7-taskmgr classic7-security classic7-diskmgmt classic7-run; do
+for b in classic7-control classic7-taskmgr classic7-security classic7-diskmgmt classic7-run classic7-system classic7-devmgmt; do
     cp $S/usr/bin/$b /usr/bin/ && chmod +x /usr/bin/$b
 done
 cp $S/usr/share/applications/classic7-*.desktop /usr/share/applications/
