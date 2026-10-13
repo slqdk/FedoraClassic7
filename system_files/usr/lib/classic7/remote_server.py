@@ -19,6 +19,7 @@ import os
 import shutil
 import socket
 import subprocess
+import time
 from pathlib import Path
 
 UNIT = "app-org.kde.krdpserver.service"
@@ -76,6 +77,14 @@ def _certificate_ok(cert: str, key: str) -> bool:
     return _run("openssl", "x509", "-checkend", str(7 * 86400), "-noout", "-in", cert)[0] == 0
 
 
+def configured() -> bool:
+    """On, the way System Properties sets it (KDE's own settings page makes a certificate that lasts a day
+    and has the person at this computer accept every connection)."""
+    st = state()
+    return (st["enabled"] and st["active"] and st["unattended"] and st["system_user"]
+            and _certificate_ok(read_config("Certificate"), read_config("CertificateKey")))
+
+
 def ensure_certificate() -> tuple[bool, str]:
     cert, key = read_config("Certificate"), read_config("CertificateKey")
     if _certificate_ok(cert, key):
@@ -115,6 +124,11 @@ def allow(unattended: bool = True) -> tuple[bool, str]:
     code, out = systemctl("restart", UNIT)
     if code != 0:
         return False, f"Remote Desktop could not be started: {out}\n\n{journal_tail()}"
+    # krdpserver gives up at once when it can't listen (port taken) or has no way to log anyone on
+    for _ in range(6):
+        time.sleep(0.5)
+        if systemctl("is-active", UNIT)[1].splitlines()[:1] != ["active"]:
+            return False, f"Remote Desktop stopped right after it started:\n\n{journal_tail()}"
     return True, ""
 
 

@@ -105,7 +105,7 @@ Colors & Themes > Global Theme > *Classic 7* with **Desktop and window layout** 
 - **Start menu** (the Start button or the Windows key): pinned programs at the top left, then the programs you
   used last; rest the mouse on Write, Show, Mail, Steam or Firefox for a **jump list** (recent documents,
   tasks). **All Programs** lists the folders, with Windows 7's **Accessories** (Calculator, Command Prompt,
-  Notepad, Paint, Run, Quick Shot, Sticky Notes, Dolphin as Explorer) and **Accessories > System Tools** (Character Map,
+  Notepad, Paint, Remote Desktop Connection, Run, Quick Shot, Sticky Notes, Dolphin as Explorer) and **Accessories > System Tools** (Character Map,
   Computer, Device Manager, Disk Management, Event Viewer, System Configuration, Resource Monitor, Task Manager).
   *Search programs and files* finds programs, settings, files and does sums. The right column has your name,
   Documents, Pictures, Music, Games (the Steam library), Computer, Control Panel, Devices and Printers, Default
@@ -124,6 +124,7 @@ Colors & Themes > Global Theme > *Classic 7* with **Desktop and window layout** 
 | `explorer`, `computer` | Explorer (Dolphin), Computer |
 | `notepad`, `calc`, `mspaint`/`pbrush`, `charmap`, `stikynot`, `snippingtool`/`lightshot` | Accessories |
 | `write`/`winword`/`wordpad`, `excel`, `powerpnt`, `outlook`, `photoviewer`, `7zfm` | Write, Sheet, Show, Mail, Photo Viewer, 7-Zip File Manager |
+| `mstsc` (`mstsc /v:server`, `mstsc file.rdp`), `SystemPropertiesRemote` | Remote Desktop Connection, System Properties > Remote |
 | `control`, `control mouse`, `main.cpl`, `desk.cpl`, `mmsys.cpl`, `timedate.cpl`, `appwiz.cpl`, `ncpa.cpl`, `firewall.cpl`, `wscui.cpl`, `sysdm.cpl` | Control Panel and its items |
 | `taskmgr`, `msconfig`, `eventvwr`, `resmon`/`perfmon`, `devmgmt.msc`, `diskmgmt.msc`/`compmgmt.msc`, `msinfo32`/`winver`, `wf.msc` | System tools |
 | `sndvol`, `scrnsave.scr`, `wuapp`, `shell:recyclebinfolder`, `regedit` | Volume Mixer, Screen Saver Settings, Classic 7 Update, Recycle Bin, System Settings |
@@ -441,6 +442,51 @@ Navigation Pane (Favorite Folders, Mail Folders, Mail/Contacts buttons), message
   `\\server\share` becomes a folder in `~/Network` that every program can use (mounted by the kernel through
   `mount.cifs`), reconnected at sign-in; `classic7-netdrive --disconnect` / `--list`.
 
+## Remote Desktop
+
+<p>
+<img src="docs/screens/remote-settings.png" alt="System Properties > Remote" width="40%">
+<img src="docs/screens/remote-desktop-connection.png" alt="Remote Desktop Connection" width="58%">
+</p>
+
+**To this PC from Windows** (Remote Desktop Connection, or any RDP client):
+
+1. Control Panel > System > **Remote settings** (or `SystemPropertiesRemote` in Run): choose **Allow
+   connections from computers running any version of Remote Desktop** and click OK. If the firewall doesn't
+   let Remote Desktop in yet, Classic 7 offers to open it (an administrator password).
+2. On Windows, run `mstsc` and type the address the Remote tab shows (its name or IP address).
+3. Log on with the **user name and password of the account that is logged on here** (the account name the
+   Remote tab shows, e.g. `soren`, and the password you log on to Classic 7 with).
+4. Windows says once that *the identity of the remote computer cannot be verified*: tick *Don't ask me
+   again for connections to this computer* and click Yes. Classic 7 made that certificate; it lasts ten years.
+
+What you get is the live desktop of the account that is logged on here — someone sitting at the PC sees the
+same screen — not a second session as on Windows Server. So the PC must be logged on (nobody can connect
+at the login screen; a virtual machine or a PC without a screen needs automatic login), and another Linux
+account's password is refused while you are logged on. For a separate name and password that only Remote
+Desktop accepts, click **Select Users...** > Remote Desktop settings > Add User; it shows the same desktop.
+Nobody is asked on the PC's screen when someone connects, as in Windows. Turning it on writes
+`~/.config/krdpserverrc` and starts KDE's Remote Desktop server (KRdp) at every login
+(`app-org.kde.krdpserver.service`, with `--plasma` so KWin allows it without asking).
+
+KRdp 6.7 refuses every login when it runs on FreeRDP 3.32, which Fedora updated to ("Your credentials did
+not work" on Windows; [KDE bug 526514](https://bugs.kde.org/show_bug.cgi?id=526514)). Until Plasma ships the
+fix, the image rebuilds KRdp's library with it (`build_files/krdp/fix-krdp.sh`; a build warning says if it
+couldn't). Network Level Authentication (the Remote tab's third choice) isn't there with KRdp 6.7.
+The clipboard works both ways; this PC's sound doesn't play on Windows, and Windows' drives and printers
+aren't brought over.
+
+**From this PC to Windows**: Start > All Programs > Accessories > **Remote Desktop Connection** (`mstsc` in
+Run; `.rdp` files open in it too). Type the computer, click Connect and give the Windows user name and
+password in the *Windows Security* box (*Remember my credentials* keeps them in KDE Wallet; a domain
+account is `DOMAIN\user`). **Show Options** has the Windows 7 tabs: General (Save, Save As and Open .rdp
+files, which Windows opens too), Display (size up to full screen, all monitors, colors), Local Resources
+(sound, where Windows key combinations go, printers, clipboard, and drives or the home folder under
+More...), Experience (connection speed, reconnect) and Advanced (certificate warnings, a Remote Desktop
+Gateway). Ctrl+Alt+Enter switches between full screen and a window. The connection is made by FreeRDP
+(`sdl-freerdp`), and its errors are shown with the Windows texts. The Windows PC must allow connections
+(System Properties > Remote, Windows Pro or Enterprise; Home editions can't be connected to).
+
 ## Appearance dialog
 
 ![Appearance dialog](docs/appearance-dialog.png)
@@ -562,6 +608,7 @@ switcher `/usr/share/kwin-wayland/tabbox/classic7`; the Show desktop button is t
 | `classic7-screensaver --settings \| --run NAME \| --list` (`scrnsave.scr`) | Screen Saver Settings, or a screen saver now |
 | `classic7-goodbye --logoff\|--restart\|--shutdown` | Ends the session with the classic screen (what the Start menu uses) |
 | `classic7-network`, `classic7-netdrive` | Network Connections, Map Network Drive |
+| `classic7-mstsc [FILE.rdp] [/v:COMPUTER[:PORT]] [/f] [/w:W /h:H] [/edit FILE.rdp]` (`mstsc`) | Remote Desktop Connection |
 | `classic7-photos [--slideshow] [PICTURE\|FOLDER]` | Photo Viewer |
 | `classic7-run [TEXT]` | Run dialog, or run TEXT the way the dialog does |
 
@@ -656,6 +703,8 @@ Other knobs:
 - Screen savers: a game pad doesn't count as activity (as for the screen dimming); games and video
   players that keep the screen on, and full-screen windows, are respected. "On resume, display logon
   screen" shows KDE's lock screen, and nothing is drawn over the lock screen.
+- Remote Desktop to this PC shows the logged-on desktop (no separate session, no login screen over RDP),
+  without Network Level Authentication, sound, or the client's drives and printers (KRdp 6.7).
 - Command Prompt is a small terminal of its own: no tabs, no mouse support inside full-screen programs
   (htop/mc take keyboard only), no ligatures or sixel images. Use Konsole for those.
 

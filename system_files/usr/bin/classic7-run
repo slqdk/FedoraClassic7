@@ -93,6 +93,8 @@ ALIASES = {
     "mstsc": ["classic7-mstsc"],
     "mstsc.exe": ["classic7-mstsc"],
     "remote desktop": ["classic7-mstsc"],
+    "systempropertiesremote": ["classic7-system", "--properties", "4"],
+    "systempropertiesremote.exe": ["classic7-system", "--properties", "4"],
     "control desk.cpl,,@screensaver": ["classic7-screensaver", "--settings"],
 }
 

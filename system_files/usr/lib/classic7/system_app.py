@@ -397,7 +397,7 @@ class SystemProperties(QDialog):
         if getattr(self, "remote_was", None) is None:
             return True
         want = self.remote_group.checkedId()
-        if want == self.remote_was and (want != 1 or self.rs.state()["active"]):
+        if want == self.remote_was and (want != 1 or self.rs.configured()):
             return True
         QGuiApplication.setOverrideCursor(Qt.WaitCursor)
         try:
