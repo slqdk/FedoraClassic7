@@ -1,0 +1,29 @@
+PASS typed text
+PASS typed number
+PASS formula
+PASS formula normalized
+PASS recalc
+PASS undo
+PASS redo
+PASS F4 makes $A$1
+PASS relative paste
+PASS fill series
+PASS sort
+PASS sum after sort
+PASS fn =VLOOKUP("b",{"a",1;"b",2},2,FALSE)
+PASS fn =IFERROR(1/0,"x")
+PASS fn =ROUND(2.345,2)
+PASS fn =TEXT(0.5,"0%")
+PASS fn =DATE(2024,2,29)+1
+PASS fn =SUMPRODUCT({1,2},{3,4})
+PASS fn =LEFT("Classic",4)&"7"
+PASS fn =AND(TRUE,1>0)
+PASS fn =-2^2
+PASS fn =IFNA()
+PASS roundtrip xlsx
+PASS roundtrip csv
+PASS pdf pages
+PASS window rendered
+PASS demo total
+27/27 passed
+exit 0

@@ -1,0 +1,7 @@
+sheet: 27/27 passed
+samples: 120
+== sheet-offscreen.log: 107 passed
+exit 0
+== sheet.log: 27 passed
+exit 0
+dnf: Complete!

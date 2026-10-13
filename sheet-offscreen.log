@@ -1,0 +1,114 @@
+PASS typed text
+PASS typed number
+PASS formula
+PASS formula normalized
+PASS recalc
+PASS undo
+PASS redo
+PASS F4 makes $A$1
+PASS relative paste
+PASS fill series
+PASS sort
+PASS sum after sort
+PASS fn =VLOOKUP("b",{"a",1;"b",2},2,FALSE)
+PASS fn =IFERROR(1/0,"x")
+PASS fn =ROUND(2.345,2)
+PASS fn =TEXT(0.5,"0%")
+PASS fn =DATE(2024,2,29)+1
+PASS fn =SUMPRODUCT({1,2},{3,4})
+PASS fn =LEFT("Classic",4)&"7"
+PASS fn =AND(TRUE,1>0)
+PASS fn =-2^2
+PASS fn =IFNA()
+PASS roundtrip xlsx
+PASS roundtrip csv
+PASS open sample 12561-2.xls
+PASS open sample 13796.xls
+PASS open sample 15228.xls
+PASS open sample 1900DateWindowing.xls
+PASS open sample 1_NoIden.xlsx
+PASS open sample 25695.xls
+PASS open sample 27349-vlookupAcrossSheets.xls
+PASS open sample 27933.xls
+PASS open sample 29942.xls
+PASS open sample 30978-alt.xls
+PASS open sample 31979.xls
+PASS open sample 35564.xls
+PASS open sample 37376.xls
+PASS open sample 37684.xls
+PASS open sample 3dFormulas.xls
+PASS open sample 42016.xls
+PASS open sample 42844.xls
+PASS open sample 43902.xls
+PASS open sample 44200.xls
+PASS open sample 44636.xls
+PASS open sample 44861.xls
+PASS open sample 45129.xls
+PASS open sample 45365.xls
+PASS open sample 45538_classic_Footer.xls
+PASS open sample 45540_classic_Footer.xlsx
+/usr/lib/python3.14/site-packages/openpyxl/worksheet/header_footer.py:48: UserWarning: Cannot parse header or footer so it will be ignored
+  warn("""Cannot parse header or footer so it will be ignored""")
+PASS open sample 45544.xlsx
+PASS open sample 45761.xls
+PASS open sample 46137.xls
+PASS open sample 46515.xls
+PASS open sample 46670_local.xls
+PASS open sample 47089.xlsm
+WARNING *** file size (28937) not 512 + multiple of sector size (512)
+PASS open sample 47251.xls
+PASS open sample 47701.xls
+PASS open sample 47847.xls
+PASS open sample 47924.xls
+PASS open sample 48495.xlsx
+PASS open sample 48779.xlsx
+PASS open sample 49096.xls
+PASS open sample 49237.xls
+PASS open sample 49524.xls
+PASS open sample 49612.xls
+PASS open sample 49872.xlsx
+PASS open sample 49931.xls
+PASS open sample 50298.xls
+PASS open sample 50756.xls
+PASS open sample 50786-indexed_colours.xlsx
+PASS open sample 50867_with_table.xlsx
+PASS open sample 51262.xls
+PASS open sample 51519.xlsb
+PASS open sample 51626.xlsx
+PASS open sample 51710.xlsx
+PASS open sample 51998.xlsx
+PASS open sample 52527.xls
+PASS open sample 52716.xlsx
+PASS open sample 53282.xlsx
+PASS open sample 53446.xls
+PASS open sample 53734.xlsx
+PASS open sample 53972.xls
+PASS open sample 54071.xlsx
+PASS open sample 54288-ref.xlsx
+PASS open sample 54500.xls
+PASS open sample 54764-2.xlsx
+PASS open sample 55640.xlsx
+PASS open sample 55850.xlsx
+PASS open sample 55923.xlsx
+PASS open sample 55982.xls
+PASS open sample 56170.xlsx
+PASS open sample 56315.xlsx
+PASS open sample 56450.xls
+PASS open sample 56514.xlsx
+PASS open sample 56574.xlsx
+PASS open sample 56688_3.xlsx
+PASS open sample 56737.xls
+PASS open sample 57003-FixedFunctionTestCaseData.xls
+PASS open sample 57176.xlsx
+PASS open sample 57362.xlsx
+/usr/lib/python3.14/site-packages/openpyxl/worksheet/_reader.py:329: UserWarning: Unknown extension is not supported and will be removed
+  warn(msg)
+PASS open sample 57523.xlsx
+PASS open sample 57826.xlsx
+PASS open sample 57893-many-merges.xlsx
+PASS open sample 58315.xlsx
+PASS pdf pages
+PASS window rendered
+PASS demo total
+107/107 passed
+exit 0

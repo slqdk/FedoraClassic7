@@ -1,0 +1,3 @@
+Sheet: spreadsheets in the style of Excel 2007.
+
+classic7-sheet [FILE]...          open workbooks (.xlsx .xlsm .xltx .xls .csv .txt)
