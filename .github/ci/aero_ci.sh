@@ -128,8 +128,10 @@ X keydown alt; X key Tab; sleep 1.2; shot 04-alt-tab; X keyup alt; sleep 1
 apply() {  # $1 = name, rest = options
     local name=$1; shift
     timeout 120 classic7-appearance "$@" > /out/apply-$name.log 2>&1
-    echo "== $name ($*): exit $? $(layout)" >> /out/result.txt
-    sleep 6
+    local rc=$?
+    sleep 4    # Plasma deletes removed widgets a moment later
+    echo "== $name ($*): exit $rc $(layout)" >> /out/result.txt
+    sleep 2
 }
 apply basic --look basic; shot 07-basic
 apply classic --look classic; shot 08-classic
@@ -159,12 +161,14 @@ else:
     new.start = {**new.start, "powerAction": "shutdown", "showVideos": False, "showGames": True, "recentCount": 10}
     new.tray.show_all = False
 print("apply:", tp.apply(cur, new))
+import time
+time.sleep(4)    # Plasma deletes removed widgets a moment later
 after = tp.read()
 print("now:", after.location, after.buttons, after.quicklaunch, after.locked, after.start["powerAction"],
       after.start["showVideos"], after.start["recentCount"], after.tray and after.tray.show_all)
 EOP
 python3 /tmp/tbchange.py change >> /out/result.txt 2>&1
-echo "== after change: $(layout)" >> /out/result.txt
+sleep 1; echo "== after change: $(layout)" >> /out/result.txt
 sleep 4; shot 15-taskbar-top
 X mousemove 26 20 click 1; sleep 3; shot 16-start-top
 X key Escape; sleep 1
