@@ -79,6 +79,6 @@ def pictures_dir() -> str:
 
 
 def config_dir() -> Path:
-    d = Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config") / "classic7"
-    d.mkdir(parents=True, exist_ok=True)
-    return d
+    """~/.config/classic7 (not created here: modules ask for it at import time, also during the
+    image build where there is no home folder)."""
+    return Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config") / "classic7"

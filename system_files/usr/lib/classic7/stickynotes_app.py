@@ -251,6 +251,7 @@ class StickyNotes:
 
     def save_settings(self):
         try:
+            SETTINGS.parent.mkdir(parents=True, exist_ok=True)
             SETTINGS.write_text(json.dumps(self.settings))
         except OSError:
             pass
@@ -308,6 +309,7 @@ class StickyNotes:
         if not self.notes and not self.quitting:
             return
         try:
+            STORE.parent.mkdir(parents=True, exist_ok=True)
             tmp = STORE.with_suffix(".tmp")
             tmp.write_text(json.dumps([n.data() for n in self.notes], indent=1))
             tmp.replace(STORE)
