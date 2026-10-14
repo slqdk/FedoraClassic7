@@ -208,7 +208,8 @@ python3 -c "import PySide6.QtWebEngineWidgets, keyring, html2text" || echo "WARN
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
 command -v udisksctl
-python3 -m compileall -q /usr/lib/classic7
+# hash-based .pyc files: see "Compiled Python" at the end
+python3 -m compileall -q -f --invalidation-mode checked-hash /usr/lib/classic7
 
 ### 4. Sanity checks: fail the build early if a theme part is missing -------------------
 test -f /usr/share/plasma/look-and-feel/org.classic7.desktop/metadata.json
@@ -645,3 +646,38 @@ for path in glob.glob("/etc/yum.repos.d/*.repo"):
     open(path, "w").writelines(out)
     print(f"Disabled third-party repos with local GPG keys in {path}: {', '.join(sorted(bad))}")
 PY
+
+# --- Compiled Python for the installed system --------------------------------------------
+# An installed system is an ostree deployment, where every file in /usr has the time 0. A .pyc file
+# made in timestamp mode records the time of its .py file, so Python finds it stale and compiles the
+# code again at every start, and can't save the result (/usr is read-only). That was the case for
+# all of Classic 7's programs and for many of Python's own modules and the packages installed above.
+# Hash-based .pyc files stay valid whatever the times are, and a changed .py file is still noticed.
+# Last in the build, after everything that installs Python code. (-j0: the same bytes every build.)
+pyc_dirs=$(ls -d /usr/lib/classic7 /usr/lib64/python3.* /usr/lib/python3.* 2>/dev/null)
+python3 -m compileall -q -f -j0 --invalidation-mode checked-hash -x 'deploy_lib/android/recipes' $pyc_dirs \
+    > /tmp/compileall.log 2>&1 \
+    || echo "::warning title=Python::$(grep -c '^\*\*\* Error' /tmp/compileall.log) .py files could not be compiled: $(grep '^\*\*\* Error' /tmp/compileall.log | head -3 | tr '\n' ' ')"
+python3 - $pyc_dirs <<'PY'
+# check: every .py file in those folders has a .pyc that an installed system can use
+import os, struct, sys
+from importlib.util import MAGIC_NUMBER, cache_from_source
+bad = []
+for root in sys.argv[1:]:
+    for d, dirs, files in os.walk(root):
+        dirs[:] = [x for x in dirs if x != "__pycache__"]
+        for f in files:
+            if not f.endswith(".py") or "deploy_lib/android/recipes" in d:
+                continue
+            try:
+                with open(cache_from_source(os.path.join(d, f)), "rb") as h:
+                    head = h.read(8)
+            except OSError:
+                continue          # never compiled (not importable as is): nothing to check
+            if head[:4] != MAGIC_NUMBER or not struct.unpack("<I", head[4:8])[0] & 1:
+                bad.append(os.path.join(d, f))
+print(f"Compiled Python: {len(bad)} .pyc files still in timestamp mode", *bad[:5], sep="\n  ")
+if any(b.startswith("/usr/lib/classic7/") for b in bad):
+    sys.exit("Classic 7's own .pyc files must be hash-based")
+PY
+

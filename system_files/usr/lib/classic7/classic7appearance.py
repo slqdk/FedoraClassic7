@@ -913,26 +913,37 @@ def global_theme(package: str, run: Runner):
 
 
 def kwin_look(theme: str, border: str, right_buttons: str, tabbox: str, run: Runner, blur: bool = False,
-              whole: bool = True):
-    """The window borders; with whole also their size, the buttons, Alt+Tab and (Aero) the blur."""
+              whole: bool = True, solid: bool = False):
+    """The window borders; with whole also their size, the buttons and Alt+Tab. blur: Aero's glass
+    is blurred. solid: Aero drawn solid because KWin can't blur here, or only on the processor;
+    then KWin's blur and background contrast are off too, so nothing is blurred on the CPU at
+    every frame."""
     def kw(group, key, value):
         run("kwriteconfig6", "--file", "kwinrc", "--group", group, "--key", key, value)
     kw("org.kde.kdecoration2", "library", "org.kde.kwin.aurorae")
     kw("org.kde.kdecoration2", "theme", theme)
-    if not whole:
-        run("dbus-send", "--session", "--type=signal", "/KWin", "org.kde.KWin.reloadConfig")
-        return
-    kw("org.kde.kdecoration2", "BorderSize", border)
-    kw("org.kde.kdecoration2", "BorderSizeAuto", "false")
-    kw("org.kde.kdecoration2", "ButtonsOnLeft", "M")
-    kw("org.kde.kdecoration2", "ButtonsOnRight", right_buttons)
-    kw("TabBox", "LayoutName", tabbox)
+    if whole:
+        kw("org.kde.kdecoration2", "BorderSize", border)
+        kw("org.kde.kdecoration2", "BorderSizeAuto", "false")
+        kw("org.kde.kdecoration2", "ButtonsOnLeft", "M")
+        kw("org.kde.kdecoration2", "ButtonsOnRight", right_buttons)
+        kw("TabBox", "LayoutName", tabbox)
+    effects = []
     if blur:
         # Windows 7's glass is softly blurred, without noise
         kw("Plugins", "blurEnabled", "true")
         kw("Effect-blur", "BlurStrength", "8")
         kw("Effect-blur", "NoiseStrength", "0")
+        run("kwriteconfig6", "--file", "kwinrc", "--group", "Plugins", "--key", "contrastEnabled", "--delete")
+        effects = [("loadEffect", "blur"), ("loadEffect", "contrast")]
+    elif solid:
+        kw("Plugins", "blurEnabled", "false")
+        kw("Plugins", "contrastEnabled", "false")
+        effects = [("unloadEffect", "blur"), ("unloadEffect", "contrast")]
     run("dbus-send", "--session", "--type=signal", "/KWin", "org.kde.KWin.reloadConfig")
+    for method, effect in effects:
+        run("dbus-send", "--session", "--type=method_call", "--dest=org.kde.KWin", "/Effects",
+            f"org.kde.kwin.Effects.{method}", f"string:{effect}")
 
 
 def lock_screen(image: str | None, colour: str, run: Runner):
@@ -960,9 +971,50 @@ def remove_glass_files(slot: str):
                 shutil.rmtree(path, ignore_errors=True)
 
 
+# OpenGL drawn by the processor (Mesa's software renderers; through virgl when the virtual machine's
+# host has no graphics card): blur works there, but blurring every frame on the CPU makes moving
+# windows slow
+SOFTWARE_GL = re.compile(r"llvmpipe|softpipe|swrast|lavapipe|software rasteri[sz]er", re.I)
+_gl_renderer: list = []
+
+
+def gl_renderer() -> str | None:
+    """The OpenGL renderer KWin draws with ("AMD Radeon RX 7900 XTX (radeonsi ...)", "llvmpipe (...)",
+    "virgl (llvmpipe ...)"), "" when it composites without OpenGL, None when KWin doesn't answer.
+    CLASSIC7_GL_RENDERER decides instead (tests)."""
+    if "CLASSIC7_GL_RENDERER" in os.environ:
+        return os.environ["CLASSIC7_GL_RENDERER"]
+    if _gl_renderer:
+        return _gl_renderer[0]
+    if shutil.which("dbus-send") is None:
+        return None
+    try:
+        r = subprocess.run(["dbus-send", "--session", "--print-reply=literal", "--dest=org.kde.KWin", "/KWin",
+                            "org.kde.KWin.supportInformation"],
+                           capture_output=True, text=True, timeout=5, stdin=subprocess.DEVNULL)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if r.returncode != 0 or "Compositing" not in r.stdout:
+        return None
+    renderer = ""
+    for line in r.stdout.splitlines():
+        key, _, value = line.strip().partition(":")
+        if key == "OpenGL renderer string":
+            renderer = value.strip()
+            break
+    _gl_renderer.append(renderer)
+    return renderer
+
+
+def software_gl() -> bool:
+    """KWin draws with OpenGL, but on the processor (no graphics card, or a virtual machine's)."""
+    return bool(SOFTWARE_GL.search(gl_renderer() or ""))
+
+
 def blur_supported(run: Runner | None = None) -> bool | None:
-    """Whether KWin can blur what is behind glass. It needs OpenGL: a computer or virtual
-    machine without 3D graphics composites without it. None when KWin doesn't answer.
+    """Whether KWin can blur what is behind glass. It needs OpenGL on a graphics card: a computer or
+    virtual machine without 3D graphics composites without it, and OpenGL drawn by the processor
+    would make every frame slow (Windows 7 turns Aero off then too). None when KWin doesn't answer.
     CLASSIC7_BLUR=1 or 0 decides instead (tests)."""
     forced = os.environ.get("CLASSIC7_BLUR", "")
     if forced in ("0", "1"):
@@ -978,7 +1030,7 @@ def blur_supported(run: Runner | None = None) -> bool | None:
     words = r.stdout.split()
     if r.returncode != 0 or not words or words[-1] not in ("true", "false"):
         return None
-    return words[-1] == "true"
+    return words[-1] == "true" and not software_gl()
 
 
 def _apply_modern(look: str, glass: aero.Glass, p: t.Palette, run: Runner, state: State, switching: bool) -> Result:
@@ -1016,7 +1068,8 @@ def _apply_modern(look: str, glass: aero.Glass, p: t.Palette, run: Runner, state
         cursors = aero_cursors()
         set_gtk_theme("Classic7Aero", cursors, run)
         set_cursors(cursors, run)
-    kwin_look(aero.deco_id(ids), "Large", "IAX", "classic7aero", run, blur=(look == "aero"), whole=switching)
+    kwin_look(aero.deco_id(ids), "Large", "IAX", "classic7aero", run, blur=(look == "aero" and not solid),
+              whole=switching, solid=solid)
     apply_fonts(p.font_size, run, bold_titles=False)
     height = 30 if state.small_icons else 40
     # from Classic: the Aero taskbar and wallpaper; between Aero and Basic both stay
