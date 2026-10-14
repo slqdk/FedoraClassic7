@@ -18,6 +18,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QDialog, QDialogButtonBo
                                QWidget)
 
 import session_actions as sa
+from qtlater import after_first_paint
 import taskmgr_data as td
 
 GRID = QColor(0, 128, 64)
@@ -213,7 +214,9 @@ class TaskManager(QMainWindow):
         self.services_timer = QTimer(self)
         self.services_timer.timeout.connect(self._fill_services_if_visible)
         self.services_timer.start(5000)
-        QTimer.singleShot(0, lambda: self.tick(force=True))
+        # the lists are filled just after the window is on the screen (reading every process and
+        # asking KWin for its windows takes a moment)
+        after_first_paint(lambda: self.tick(force=True), 300)
         QShortcut(QKeySequence("F5"), self, lambda: self.tick(force=True))
 
     # ---- menus and status bar -------------------------------------------------------------

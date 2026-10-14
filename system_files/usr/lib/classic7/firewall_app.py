@@ -12,13 +12,16 @@ administrator's password, as Windows asks before "Change settings"."""
 from __future__ import annotations
 
 import json
+import shutil
 import subprocess
 import sys
+import threading
 import xml.etree.ElementTree as ET
+from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass, field
 from pathlib import Path
 
-from PySide6.QtCore import QProcess, Qt
+from PySide6.QtCore import QProcess, Qt, QTimer
 from PySide6.QtGui import QColor, QIcon, QPainter
 from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog, QDialogButtonBox, QFrame, QGridLayout,
                                QHBoxLayout, QHeaderView, QLabel, QLineEdit, QMessageBox, QPushButton, QRadioButton,
@@ -77,13 +80,20 @@ class State:
 
 
 def zone_info(name: str) -> Zone:
+    """The zone's saved settings (or, if they can't be read, the ones in use): one firewall-cmd
+    (each run takes a tenth of a second or more)."""
     z = Zone(name)
     for perm in (["--permanent"], []):
-        code, target = fwcmd(*perm, f"--zone={name}", "--get-target")
+        code, out = fwcmd(*perm, f"--zone={name}", "--list-all")
         if code == 0:
-            z.target = target or "default"
-            z.services = fwcmd(*perm, f"--zone={name}", "--list-services")[1].split()
-            z.ports = fwcmd(*perm, f"--zone={name}", "--list-ports")[1].split()
+            for line in out.splitlines():
+                key, _, value = line.strip().partition(":")
+                if key == "target":
+                    z.target = value.strip() or "default"
+                elif key == "services":
+                    z.services = value.split()
+                elif key == "ports":
+                    z.ports = value.split()
             break
     z.blocked_all = (BLOCKED / f"{name}.json").exists()
     return z
@@ -113,13 +123,21 @@ def connections(default: str) -> list[Connection]:
 
 
 def read_state() -> State:
-    installed = fwcmd("--version")[0] == 0
-    running = installed and fwcmd("--state")[0] == 0
-    default = fwcmd("--get-default-zone")[1] if running else "FedoraWorkstation"
-    default = default or "FedoraWorkstation"
-    private = zone_info(default) if running else Zone(default)
-    public = zone_info(PUBLIC) if running else Zone(PUBLIC)
-    return State(installed, running, default, private, public, connections(default) if running else [])
+    """firewalld's state, the two zones and the network connections, asked side by side."""
+    fallback = "FedoraWorkstation"
+    if shutil.which("firewall-cmd") is None:
+        return State(False, False, fallback, Zone(fallback), Zone(PUBLIC), [])
+    with ThreadPoolExecutor(4) as pool:
+        state = pool.submit(fwcmd, "--state")
+        default_zone = pool.submit(fwcmd, "--get-default-zone")
+        running = state.result()[0] == 0
+        default = (default_zone.result()[1] if running else "") or fallback
+        if not running:
+            return State(True, False, default, Zone(default), Zone(PUBLIC), [])
+        private = pool.submit(zone_info, default)
+        public = pool.submit(zone_info, PUBLIC)
+        conns = pool.submit(connections, default)
+        return State(True, True, default, private.result(), public.result(), conns.result())
 
 
 def catalog() -> dict[str, tuple[str, str, list[str]]]:
@@ -295,9 +313,24 @@ class Firewall(PageWindow):
         self.nav_link("Troubleshoot my network", lambda: ci.launch(["classic7-network"]))
         self.see_also_link("Action Center", lambda: ci.launch(["classic7-actioncenter"]))
         self.see_also_link("Network Connections", lambda: ci.launch(["classic7-network"]))
-        self.state = read_state()
+        self.state: State | None = None
         self.cat: dict | None = None
         self.show_page(page)
+        # firewall-cmd answers slowly: the window comes first, the settings a moment later
+        result = {}
+        worker = threading.Thread(target=lambda: result.update(state=read_state()), daemon=True)
+        worker.start()
+        self.setCursor(Qt.BusyCursor)
+
+        def arrived():
+            if worker.is_alive():
+                return
+            poll.stop()
+            self.unsetCursor()
+            self.state = result.get("state") or read_state()
+            self.show_page(self.page)
+        poll = QTimer(self, interval=30, timeout=arrived)
+        poll.start()
 
     def refresh(self):
         self.state = read_state()
@@ -322,7 +355,12 @@ class Firewall(PageWindow):
     def show_page(self, page: str):
         self.page = page
         self.clear_body()
-        getattr(self, f"_page_{page}")()
+        if self.state is None:
+            wait = QLabel("Checking the firewall settings...")
+            wait.setStyleSheet("color: #5A5A5A;")
+            self.body.addWidget(wait)
+        else:
+            getattr(self, f"_page_{page}")()
         self.body.addStretch(1)
 
     def _page_home(self):

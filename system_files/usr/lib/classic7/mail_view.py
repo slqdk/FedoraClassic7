@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import html as htmlmod
+import importlib.util
 import os
 import re
 import secrets
@@ -17,18 +18,16 @@ import mail_accounts as acc_mod
 import mail_icons as icons
 import mail_render as render
 import mail_ui as ui
+from qtlater import after_first_paint
 
 WRITE_TYPES = (".doc", ".docx", ".rtf", ".odt", ".dot", ".dotx")
 SHOW_TYPES = (".pptx", ".ppt", ".pps", ".ppsx", ".pot", ".potx", ".pptm", ".ppsm")
 SHEET_TYPES = (".xlsx", ".xlsm", ".xltx", ".xltm", ".xls", ".xlt", ".csv")
 
-try:
-    from PySide6.QtWebEngineCore import (QWebEnginePage, QWebEngineProfile, QWebEngineSettings,
-                                         QWebEngineUrlRequestInterceptor)
-    from PySide6.QtWebEngineWidgets import QWebEngineView
-    HAVE_WEBENGINE = os.environ.get("CLASSIC7_MAIL_NO_WEBENGINE") != "1"
-except ImportError:      # pragma: no cover - the image ships QtWebEngine
-    HAVE_WEBENGINE = False
+# QtWebEngine is imported (0.15 s) and started (0.6 s) only when the first message is shown
+HAVE_WEBENGINE = (os.environ.get("CLASSIC7_MAIL_NO_WEBENGINE") != "1"
+                  and importlib.util.find_spec("PySide6.QtWebEngineWidgets") is not None)
+_web = None
 
 
 def open_dir() -> Path:
@@ -59,8 +58,20 @@ def open_file(path: Path, prefer_write: bool = True):
 
 
 # ---- body views -------------------------------------------------------------------------------
-if HAVE_WEBENGINE:
-    class _Guard(QWebEngineUrlRequestInterceptor):
+def _webengine():
+    """QtWebEngine's view, a page that opens links outside, and the profile all message views share
+    (off the record: no cookies or cache on disk; scripts off; Internet content blocked unless
+    allowed for the message). Made the first time it is needed."""
+    global _web
+    if _web is not None:
+        return _web
+    from types import SimpleNamespace
+
+    from PySide6.QtWebEngineCore import (QWebEnginePage, QWebEngineProfile, QWebEngineSettings,
+                                         QWebEngineUrlRequestInterceptor)
+    from PySide6.QtWebEngineWidgets import QWebEngineView
+
+    class Guard(QWebEngineUrlRequestInterceptor):
         """Blocks pictures and other content from the Internet unless allowed for this message."""
 
         def __init__(self):
@@ -72,7 +83,7 @@ if HAVE_WEBENGINE:
             if scheme in ("http", "https", "ftp", "ws", "wss") and not self.allow_remote:
                 info.block(True)
 
-    class _Page(QWebEnginePage):
+    class Page(QWebEnginePage):
         def acceptNavigationRequest(self, url, nav_type, is_main):
             if nav_type == QWebEnginePage.NavigationTypeLinkClicked:
                 QDesktopServices.openUrl(url)
@@ -82,41 +93,40 @@ if HAVE_WEBENGINE:
         def createWindow(self, _type):
             return None
 
-    _profile = None
-    _guard = None
-
-    def _shared_profile():
-        global _profile, _guard
-        if _profile is None:
-            _profile = QWebEngineProfile()          # off the record: no cookies or cache on disk
-            _guard = _Guard()
-            _profile.setUrlRequestInterceptor(_guard)
-            s = _profile.settings()
-            s.setAttribute(QWebEngineSettings.JavascriptEnabled, False)
-            s.setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
-            s.setAttribute(QWebEngineSettings.LocalContentCanAccessFileUrls, True)
-            s.setAttribute(QWebEngineSettings.PluginsEnabled, False)
-            s.setAttribute(QWebEngineSettings.AutoLoadImages, True)
-            s.setAttribute(QWebEngineSettings.ErrorPageEnabled, False)
-        return _profile, _guard
+    profile = QWebEngineProfile()
+    guard = Guard()
+    profile.setUrlRequestInterceptor(guard)
+    st = profile.settings()
+    st.setAttribute(QWebEngineSettings.JavascriptEnabled, False)
+    st.setAttribute(QWebEngineSettings.LocalContentCanAccessRemoteUrls, True)
+    st.setAttribute(QWebEngineSettings.LocalContentCanAccessFileUrls, True)
+    st.setAttribute(QWebEngineSettings.PluginsEnabled, False)
+    st.setAttribute(QWebEngineSettings.AutoLoadImages, True)
+    st.setAttribute(QWebEngineSettings.ErrorPageEnabled, False)
+    _web = SimpleNamespace(View=QWebEngineView, Page=Page, profile=profile, guard=guard)
+    return _web
 
 
 class BodyView(QWidget):
     """The message text: QtWebEngine (scripts off, Internet content blocked) or, without it,
-    QTextBrowser."""
+    QTextBrowser. QtWebEngine takes more than half a second to start (Chromium), so the web view is
+    made just after the window is first drawn; a message shown before that waits for it."""
 
     def __init__(self, parent=None):
         super().__init__(parent)
         lay = QVBoxLayout(self)
         lay.setContentsMargins(0, 0, 0, 0)
         self.web = None
+        self.guard = None
+        self.pending: QUrl | None = None
+        self.allow_remote = False
+        self.loaded = False
+        self.after_load = []
         if HAVE_WEBENGINE:
-            profile, self.guard = _shared_profile()
-            self.web = QWebEngineView()
-            self.web.setPage(_Page(profile, self.web))
-            self.web.setContextMenuPolicy(Qt.DefaultContextMenu)
-            lay.addWidget(self.web)
-            self.view = self.web
+            self.view = QWidget()                   # white until the web view is there
+            self.view.setStyleSheet("background: white")
+            lay.addWidget(self.view)
+            after_first_paint(self.make_web)
         else:
             self.text = QTextBrowser()
             self.text.setOpenLinks(False)
@@ -125,6 +135,30 @@ class BodyView(QWidget):
             lay.addWidget(self.text)
             self.view = self.text
         self.dir: Path | None = None
+
+    def make_web(self):
+        if self.web is not None or not HAVE_WEBENGINE:
+            return
+        w = _webengine()
+        self.guard = w.guard
+        self.web = w.View()
+        self.web.setPage(w.Page(w.profile, self.web))
+        self.web.setContextMenuPolicy(Qt.DefaultContextMenu)
+        self.web.loadFinished.connect(self._load_finished)
+        old = self.view
+        self.layout().replaceWidget(old, self.web)
+        old.deleteLater()
+        self.view = self.web
+        if self.pending is not None:
+            url, self.pending = self.pending, None
+            self.guard.allow_remote = self.allow_remote
+            self.web.setUrl(url)
+
+    def _load_finished(self, _ok):
+        self.loaded = True
+        calls, self.after_load = self.after_load, []
+        for fn in calls:
+            fn()
 
     def show_html(self, html: str, files: dict[str, bytes], allow_remote: bool):
         """files: name -> bytes written next to the page (inline pictures)."""
@@ -136,7 +170,12 @@ class BodyView(QWidget):
             (self.dir / name).write_bytes(data)
         page = self.dir / "message.html"
         page.write_text(html, encoding="utf-8")
-        if self.web is not None:
+        if HAVE_WEBENGINE:
+            self.loaded = False
+            self.allow_remote = allow_remote
+            if self.web is None:
+                self.pending = QUrl.fromLocalFile(str(page))
+                return
             self.guard.allow_remote = allow_remote
             self.web.setUrl(QUrl.fromLocalFile(str(page)))
         else:
@@ -146,16 +185,21 @@ class BodyView(QWidget):
             self.text.setHtml(body)
 
     def clear(self):
+        self.pending = None
         if self.web is not None:
             self.web.setHtml("<html><body style='background:white'></body></html>")
-        else:
+        elif not HAVE_WEBENGINE:
             self.text.clear()
         if self.dir:
             shutil.rmtree(self.dir, ignore_errors=True)
             self.dir = None
 
     def print_to(self, printer, done=None):
-        if self.web is not None:
+        if HAVE_WEBENGINE:
+            if self.web is None or not self.loaded:
+                self.after_load.append(lambda: self.print_to(printer, done))
+                self.make_web()
+                return
             self.web.page().print(printer, lambda ok: done and done(ok))
         else:
             self.text.document().print_(printer)

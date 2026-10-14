@@ -23,6 +23,7 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QComboBox, QDialog, QDia
 
 import write_model as m
 import write_ribbon as rb
+from qtlater import after_first_paint
 from write_page import MARGINS, PAPER, PageEdit, PageSetup, print_document
 
 APP = "Write"
@@ -51,13 +52,28 @@ class Speller(QSyntaxHighlighter):
 
     WORD = re.compile(r"[^\W\d_]+(?:['’][^\W\d_]+)?", re.UNICODE)
 
+    TAGS = ("da_DK", "en_US", "en_GB")
+
     def __init__(self, doc):
         super().__init__(doc)
         self.dicts = []
+        self.loaded = False
         self.ignored = set()
+        self.enabled = True
+        self.on_loaded = []           # called once the dictionaries are there
+        self.fmt = QTextCharFormat()
+        self.fmt.setUnderlineStyle(QTextCharFormat.SpellCheckUnderline)
+        self.fmt.setUnderlineColor(QColor("#FF0000"))
+        # loading the dictionaries takes a tenth of a second: after the window is on the screen
+        after_first_paint(self.load)
+
+    def load(self):
+        if self.loaded:
+            return
+        self.loaded = True
         try:
             import enchant
-            for tag in ("da_DK", "en_US", "en_GB"):
+            for tag in self.TAGS:
                 try:
                     if enchant.dict_exists(tag):
                         self.dicts.append(enchant.Dict(tag))
@@ -65,13 +81,17 @@ class Speller(QSyntaxHighlighter):
                     pass
         except ImportError:
             pass
-        self.enabled = bool(self.dicts)
-        self.fmt = QTextCharFormat()
-        self.fmt.setUnderlineStyle(QTextCharFormat.SpellCheckUnderline)
-        self.fmt.setUnderlineColor(QColor("#FF0000"))
+        if not self.dicts:
+            self.enabled = False
+        elif self.enabled and self.document() is not None:
+            self.rehighlight()
+        calls, self.on_loaded = self.on_loaded, []
+        for fn in calls:
+            fn()
 
     @property
     def available(self) -> bool:
+        self.load()
         return bool(self.dicts)
 
     def setDocument(self, doc):
@@ -85,9 +105,11 @@ class Speller(QSyntaxHighlighter):
     def ok(self, word: str) -> bool:
         if len(word) < 2 or word.lower() in self.ignored or word.isupper():
             return True
-        return any(d.check(word) for d in self.dicts)
+        self.load()
+        return not self.dicts or any(d.check(word) for d in self.dicts)
 
     def suggest(self, word: str) -> list[str]:
+        self.load()
         out = []
         for d in self.dicts:
             for s in d.suggest(word)[:6]:
@@ -104,7 +126,7 @@ class Speller(QSyntaxHighlighter):
         self.rehighlight()
 
     def highlightBlock(self, text: str):
-        if not self.enabled or not self.dicts:
+        if not self.enabled or not self.dicts:      # (nothing yet while the dictionaries load)
             return
         for mt in self.WORD.finditer(text):
             if not self.ok(mt.group()):
@@ -660,8 +682,11 @@ class WriteWindow(QMainWindow):
         g = r.group(tab, "Proofing")
         g.add(rb.big_button(self.a_spell))
         g.add(rb.big_button(self.a_count))
-        if not self.speller.available:
-            self.a_spell.setToolTip("Spelling: no dictionaries installed")
+
+        def no_dictionaries():
+            if not self.speller.dicts:
+                self.a_spell.setToolTip("Spelling: no dictionaries installed")
+        self.speller.on_loaded.append(no_dictionaries)
         return g
 
     def _office_menu(self) -> QMenu:

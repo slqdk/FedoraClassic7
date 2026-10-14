@@ -21,6 +21,7 @@ from PySide6.QtWidgets import (
 import classic7aero as aero
 import classic7appearance as backend
 import classic7theme as t
+from qtlater import after_first_paint
 
 PREVIEW_W, PREVIEW_H = 420, 250       # Appearance tab: the Classic sample windows
 SCENE_W, SCENE_H = 460, 260           # Window Color tab: a desktop at real size
@@ -553,7 +554,17 @@ class ColorTab(QWidget):
         self._changed()
 
     def _redraw(self):
+        # drawn when the tab is looked at (the picture takes a tenth of a second)
+        if not self.isVisible():
+            self._stale = True
+            return
+        self._stale = False
         self.preview.show_look("aero", self.glass, self.dialog.palette())
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        if getattr(self, "_stale", True):
+            self._timer.start()
 
     def set_enabled_for(self, look: str):
         self.note.setVisible(look != "aero")
@@ -887,7 +898,8 @@ class PersonalizationDialog(QDialog):
         self.appearance.changed.connect(self._pictures.start)
         self.tabs.currentChanged.connect(self._tab_changed)
         self._look_chosen(self.theme.look(), initial=True)
-        self._refresh_pictures()
+        # the three pictures take a quarter of a second to draw: just after the window is shown
+        after_first_paint(self._refresh_pictures)
         self.show_page(page)
         self._dirty = False
 

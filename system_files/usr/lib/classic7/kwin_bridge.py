@@ -12,7 +12,7 @@ import tempfile
 import uuid
 
 from PySide6.QtCore import ClassInfo, QObject, QTimer, Signal, Slot
-from PySide6.QtDBus import QDBusConnection, QDBusInterface, QDBusMessage
+from PySide6.QtDBus import QDBusConnection, QDBusInterface, QDBusMessage, QDBusPendingCallWatcher
 
 LIST_JS = """
 const out = [];
@@ -119,12 +119,18 @@ class KWinBridge(QObject):
         fd, path = tempfile.mkstemp(prefix="classic7-kwin-", suffix=".js")
         with os.fdopen(fd, "w") as f:
             f.write(js)
-        reply = self.kwin.call("loadScript", path, name)
-        args = reply.arguments() if reply.type() == QDBusMessage.ReplyMessage else []
-        if args and isinstance(args[0], int) and args[0] >= 0:
-            # start() runs every loaded script that isn't running yet (ours); asking the script's
-            # own D-Bus object to run can race with KWin registering it
-            self.kwin.call("start")
+        # without waiting for KWin (it compiles the script): the program goes on drawing meanwhile
+        watcher = QDBusPendingCallWatcher(self.kwin.asyncCall("loadScript", path, name), self)
+
+        def loaded(w):
+            reply = w.reply()
+            args = reply.arguments() if reply.type() == QDBusMessage.ReplyMessage else []
+            if args and isinstance(args[0], int) and args[0] >= 0:
+                # start() runs every loaded script that isn't running yet (ours); asking the script's
+                # own D-Bus object to run can race with KWin registering it
+                self.kwin.asyncCall("start")
+            w.deleteLater()
+        watcher.finished.connect(loaded)
 
         def cleanup():
             self.kwin.call("unloadScript", name)
