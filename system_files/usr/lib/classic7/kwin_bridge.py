@@ -120,7 +120,7 @@ class KWinBridge(QObject):
         with os.fdopen(fd, "w") as f:
             f.write(js)
         # without waiting for KWin (it compiles the script): the program goes on drawing meanwhile
-        watcher = QDBusPendingCallWatcher(self.kwin.asyncCall("loadScript", path, name), self)
+        watcher = QDBusPendingCallWatcher(self.kwin.asyncCallWithArgumentList("loadScript", [path, name]), self)
 
         def loaded(w):
             reply = w.reply()

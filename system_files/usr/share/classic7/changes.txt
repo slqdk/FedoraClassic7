@@ -1,6 +1,11 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
+## 2026-10-14  Programs start faster; no blur when 3D is drawn by the processor
+- **Programs start faster**: the compiled program code in Classic 7 was not used on an installed computer, so every Classic 7 program (and Python's own modules) was compiled again at each start. It is used now, which saves up to a sixth of a second per program, and more on a slow processor.
+- **Windows appear first, slow parts follow**: Mail shows its window about 0.7 s sooner and fills the Reading Pane a moment later; Write and Show load the spelling dictionaries after their window is up; Task Manager fills its lists and Personalization draws its pictures right after the window appears. Firewall opens at once and shows its settings when the firewall has answered, which it now asks fewer questions.
+- **Without a graphics card the glass is drawn solid**: when 3D graphics are drawn by the processor (for example a virtual machine with VirGL on a host without a graphics card), blurring the glass would slow down every movement on the screen. Aero is then drawn solid and KWin's blur is turned off, as Windows 7 turns Aero glass off without a suitable graphics card. Personalization > Window Color says when this is the case.
+
 ## 2026-10-14  Window titles like Windows 7, the Windows 7 login screen, Remote Desktop logon
 - **The login screen follows your theme**: Aero and Basic get the Windows 7 Welcome screen (your account picture in its glass frame, the password box with the arrow, "Welcome", the red power button with Restart and Sleep beside it); Classic keeps the Log On dialog. It changes when you choose a theme in Personalization.
 - **The login screen uses your screen resolution** (and refresh rate and scale): change it in Control Panel > Display and the login screen has it from the next time it appears. (For administrators; it takes no password.)
