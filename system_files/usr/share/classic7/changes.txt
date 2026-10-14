@@ -1,6 +1,12 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
+## 2026-10-14  Window titles like Windows 7, solid glass without 3D graphics, Computer > Properties
+- **Window titles in Aero and Basic** sit where Windows 7 puts them: the Minimize, Maximize and Close buttons hang from the top edge, and the window's icon and title are lower, in the middle of the title bar. On glass the title has a soft light behind it, so it stays readable on any colour.
+- **The title font changes at once** when you switch themes: titles are plain in Aero and Basic and bold in Classic, without logging out first.
+- **Without 3D graphics the glass is drawn solid.** KWin can only blur what is behind glass with OpenGL; in a virtual machine without 3D acceleration the borders showed the window behind sharply, text and all, through the title. They now keep their colour but are solid, as Windows 7 falls back to Basic. When the graphics can blur (a 3D driver, 3D turned on in the virtual machine), the glass becomes see-through again at the next login. Personalization > Window Color says when this is the case.
+- **Computer > Properties** on the desktop opens the System window, as in Windows 7, instead of the shortcut's details.
+
 ## 2026-10-13  Aero, Personalization, Taskbar and Start Menu Properties
 - **The Aero look**, as well as Classic: glass window borders and a glass taskbar in the colour you choose, the round Start button, a Start menu with a white list and the glass column on the right, task buttons with icons where programs are pinned, Aero Peek on the Show desktop button, Windows 7 buttons, tabs and scroll bars in programs, a new wallpaper and white cursors. **Basic** is the same look in light blue without glass. New accounts start in Aero; your account keeps Classic until you choose otherwise.
 - **Personalization** (Control Panel > Appearance and Personalization > Personalization): click Aero, Basic or Classic and Apply. **Window Color** has 16 glass colours, Enable transparency, Color intensity and a colour mixer, with a preview; the Classic colour schemes and the font size are on the Appearance tab. Programs that are open get the new controls when they start again.

@@ -9,7 +9,7 @@ built as an image-based OS on top of [Bazzite](https://bazzite.gg) (Fedora Atomi
 </p>
 
 *Taken by the automatic tests in a Plasma session inside the image (it has no 3D graphics, so Aero's glass is
-see-through there but not blurred). The other pictures on this page come from the same tests or are drawn
+see-through there but not blurred; on such a computer Classic 7 draws the glass solid). The other pictures on this page come from the same tests or are drawn
 off-screen by the programs themselves; the right-click menu picture is a mockup.*
 
 ## What you get
@@ -17,7 +17,7 @@ off-screen by the programs themselves; the right-click menu picture is a mockup.
 | Area | Details |
 |---|---|
 | Looks | **Aero** (new accounts): glass window borders and taskbar in the colour you choose, the round Start orb, task buttons with icons and pinned programs, Aero Peek, its own wallpaper. **Basic**: the same in opaque light blue. **Classic**: grey bevels, blue gradient title bars, Start button, Quick Launch, task buttons with text, classic blue desktop. Switch in Personalization |
-| Window borders | Own Aurorae themes `Classic7Aero` (glass, blurred by KWin), `Classic7Basic` and `Classic7` (pixel-drawn buttons) |
+| Window borders | Aero and Basic: own KWin decorations `classic7aero` and `classic7basic` (QML, run by Aurorae) laid out like Windows 7: buttons hanging from the top edge, icon and title lower in the title bar, a soft light behind the title on glass (blurred by KWin; drawn solid when the graphics can't blur). Classic: the Aurorae theme `Classic7` (pixel-drawn buttons) |
 | Taskbar & popups | Own Plasma styles `classic7-aero` (see-through), `classic7-basic` and `classic7` |
 | Colours | `Classic7Aero` colour scheme (Windows 7 colours) and `Classic7` (Windows Standard palette) |
 | Apps | Aero and Basic: Kvantum style `Classic7Aero` (Windows 7 buttons, tabs, scroll bars, menus) and GTK theme `Classic7Aero`; Classic: Qt "Windows" widget style and GTK `Classic7` (Chicago95 recoloured to the Windows Standard palette) |
@@ -198,7 +198,8 @@ Desktop icon, Start menu or **Win+E** (`classic7-computer`). Like the classic Co
   Security and Details; a folder General, Security and Customize (folder icon); a shortcut also Shortcut; a
   drive General, Tools (Check now) and Security. Read-only is the owner's write permission, Hidden puts the name
   in the folder's `.hidden` file (Explorer and the desktop hide those), and Security shows owner, group and
-  everyone else with the Windows permission names.
+  everyone else with the Windows permission names. Properties of the desktop's **Computer** icon is the System
+  window, as in Windows 7.
 - **Copying, moving and deleting** shows the Windows 7 progress window: "43% complete", "Copying 6,001 items
   (1.52 GB) from Downloads to Documents", time remaining, a progress bar, *More details* (name, from, to, items
   remaining, speed) and Cancel. Several operations share one window; quick ones show nothing, as in Windows. The
@@ -522,7 +523,8 @@ Control Panel > Appearance and Personalization > **Personalization**, Start > Al
   settings.
 - **Window Color** (Aero): 16 glass colours, *Enable transparency*, *Color intensity* and a colour mixer (hue,
   saturation, brightness), with a preview drawn by the theme code. A colour other than the default draws your own
-  copy of the glass theme in `~/.local/share`.
+  copy of the glass theme in `~/.local/share`. Without 3D graphics (KWin can't blur, as in many virtual machines)
+  the glass is drawn solid, as Windows 7 falls back to Basic; it is checked again at each login.
 - **Appearance:** the Classic theme's colour schemes, like the classic Display Properties > Appearance page:
   - **Color scheme:** Classic 7 Standard, XP Blue, Seven Basic, Eleven Light (rounded corners, flat title buttons), Classic Grey, Slate, Sandstone, Terracotta, Pine, Night, High Contrast, plus your own (*Save As…*). The layout stays the same; only colours (and for Eleven Light the window corners and title buttons) change.
   - **Item / Color 1 / Color 2 / Text:** Desktop, Active and Inactive Title Bar (two-colour gradient), 3D Objects, Window, Selected Items, ToolTip. Bevel shades follow the 3D Objects colour.
@@ -726,8 +728,7 @@ Other knobs:
 - No Microsoft artwork, fonts or sounds: icons, Start emblem and fonts are free look-alikes (Noto Sans).
 - The login screen always uses the Classic 7 Standard blue; Personalization doesn't change it.
 - Aero's glass is blurred by KWin's Blur effect, which needs OpenGL: in a virtual machine without 3D
-  acceleration the glass is see-through but sharp. Window titles have no white glow behind the text, and Aero
-  Peek shows the desktop rather than outlines of the windows.
+  acceleration the glass is drawn solid instead. Aero Peek shows the desktop rather than outlines of the windows.
 - Programs pick their controls when they start, so open programs keep the old ones after a theme change
   until they are started again. Taskbar and Start Menu Properties has only Quick Launch under Toolbars
   (no Address, Links or Desktop toolbars).
