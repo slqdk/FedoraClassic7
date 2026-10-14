@@ -1,0 +1,47 @@
+/home/tester:
+total 44
+drwxr-xr-x  7 tester tester 4096 Oct 14 11:38 .
+drwxr-xr-x  3 root   root   4096 Oct 14 11:36 ..
+-rw-r--r--  1 tester tester   18 Jan  1  1970 .bash_logout
+-rw-r--r--  1 tester tester  144 Jan  1  1970 .bash_profile
+-rw-r--r--  1 tester tester  522 Jan  1  1970 .bashrc
+drwxr-xr-x  7 tester tester 4096 Oct 14 11:38 .cache
+drwxr-xr-x 14 tester tester 4096 Oct 14 11:38 .config
+-rw-r--r--  1 tester tester  356 Oct 14 11:38 .gtkrc-2.0
+drwxr-xr-x  4 tester tester 4096 Oct 14 11:33 .local
+drwxr-xr-x  3 tester tester 4096 Jan  1  1970 .var
+drwxr-xr-x  2 tester tester 4096 Oct 14 11:36 Desktop
+
+/tmp:
+total 144
+drwxrwxrwt 1 root   root    4096 Oct 14 11:38 .
+dr-xr-xr-x 1 root   root    4096 Oct 14 11:35 ..
+drwxrwxrwt 2 tester tester  4096 Oct 14 11:36 .X11-unix
+-r--r--r-- 1 tester tester    11 Oct 14 11:36 .X99-lock
+-rw------- 1 tester tester   616 Oct 14 11:37 classic7-kwin-4i29nbcp.js
+-rw------- 1 tester tester   616 Oct 14 11:38 classic7-kwin-73mqlyl5.js
+-rw------- 1 tester tester   617 Oct 14 11:38 classic7-kwin-eu2at8nj.js
+-rw------- 1 tester tester   616 Oct 14 11:37 classic7-kwin-su__jmra.js
+-rw------- 1 tester tester   616 Oct 14 11:37 classic7-kwin-xxisl3ti.js
+-rw------- 1 tester tester   616 Oct 14 11:38 classic7-kwin-zux91w0_.js
+srwxrwxrwx 1 tester tester     0 Oct 14 11:36 dbus-vISUfzGTZQ
+-rw-r--r-- 1 tester root    5926 Oct 14 11:36 inner.sh
+-rw-r--r-- 1 tester tester 81946 Oct 14 11:38 kwin perf statistics X11-0.csv
+-rw-r--r-- 1 root   root     574 Oct 14 11:36 kwjs.py
+drwx------ 2 tester tester  4096 Oct 14 11:36 plasma-csd-generator.JYkQBu
+drwx------ 8 tester tester  4096 Oct 14 11:36 xdg-t
+
+/tmp/xdg-t:
+total 28
+drwx------ 8 tester tester 4096 Oct 14 11:36 .
+drwxrwxrwt 1 root   root   4096 Oct 14 11:38 ..
+drwx------ 2 tester tester 4096 Oct 14 11:36 at-spi
+drwx------ 2 tester tester 4096 Oct 14 11:38 dconf
+dr-x------ 2 tester tester    0 Jan  1  1970 doc
+drwx------ 2 tester tester 4096 Oct 14 11:36 gvfs
+drwx------ 2 tester tester 4096 Oct 14 11:36 gvfsd
+-rw------- 1 tester tester    0 Oct 14 11:36 kwin-xwayland-eis-socket.146.lock
+drwx------ 2 tester tester 4096 Oct 14 11:36 pulse
+srwxr-xr-x 1 tester tester    0 Oct 14 11:36 wayland-c7
+-rw-r----- 1 tester tester    0 Oct 14 11:36 wayland-c7.lock
+/tmp/kwin perf statistics X11-0.csv

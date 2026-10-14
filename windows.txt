@@ -1,0 +1,12 @@
+== aero-blur-as-before
+  'changes.txt - Notepad' 100,120 700x480 active
+== aero-blur-as-before after the drags
+  'changes.txt - Notepad' 100,120 700x480 active
+== aero-now
+  'changes.txt - Notepad' 100,120 700x480 active
+== aero-now after the drags
+  'changes.txt - Notepad' 100,120 700x480 active
+== classic
+  'changes.txt - Notepad' 100,120 700x480 active
+== classic after the drags
+  'changes.txt - Notepad' 100,120 700x480 active

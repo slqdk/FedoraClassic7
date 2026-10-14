@@ -1,0 +1,21 @@
++ cat /out/compositing.txt
++ tail -1
+gl_renderer: '' software_gl: False blur_supported: False
++ cat /out/drag.txt
+aero as before (see-through, blur): blur loaded: booleanfalse  contrast loaded: booleanfalse  
+library=org.kde.kwin.aurorae theme=classic7aero 
+aero-blur-as-before: nothing (3 s)   3004 ms   KWin    10 ms (  0% of a core)   Xvfb    10   Plasma    0   program    0
+aero-blur-as-before: pointer only    5343 ms   KWin    90 ms (  1% of a core)   Xvfb    60   Plasma   10   program   10
+aero-blur-as-before: drag            5739 ms   KWin   200 ms (  3% of a core)   Xvfb    50   Plasma   70   program   10
+aero-blur-as-before: drag again      5739 ms   KWin   210 ms (  3% of a core)   Xvfb    70   Plasma   80   program   10
+aero now: blur loaded: booleanfalse  contrast loaded: booleanfalse   blurEnabled=false contrastEnabled=false  "solid":true
+library=org.kde.kwin.aurorae theme=classic7aerousera 
+aero-now: nothing (3 s)              3004 ms   KWin    10 ms (  0% of a core)   Xvfb     0   Plasma   10   program   10
+aero-now: pointer only               5345 ms   KWin   100 ms (  1% of a core)   Xvfb    60   Plasma   10   program    0
+aero-now: drag                       5741 ms   KWin   220 ms (  3% of a core)   Xvfb    70   Plasma   70   program   10
+aero-now: drag again                 5740 ms   KWin   230 ms (  4% of a core)   Xvfb    60   Plasma   70   program   20
+library=org.kde.kwin.aurorae theme=__aurorae__svg__Classic7 
+classic: nothing (3 s)               3004 ms   KWin    10 ms (  0% of a core)   Xvfb     0   Plasma   10   program    0
+classic: pointer only                5344 ms   KWin    70 ms (  1% of a core)   Xvfb    60   Plasma    0   program   10
+classic: drag                        5740 ms   KWin   210 ms (  3% of a core)   Xvfb    60   Plasma   80   program   10
+classic: drag again                  5739 ms   KWin   210 ms (  3% of a core)   Xvfb    60   Plasma   80   program   10

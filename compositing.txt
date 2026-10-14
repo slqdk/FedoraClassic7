@@ -1,0 +1,8 @@
+method return time=1791977814.283394 sender=:1.0 -> destination=:1.33 serial=294 reply_serial=2
+   variant       string "qpainter"
+what OpenGL driver and which effects are running.
+compositingMode: 1
+Compositing
+Compositing is active
+Compositing Type: QPainter
+gl_renderer: '' software_gl: False blur_supported: False
