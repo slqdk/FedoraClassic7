@@ -1,0 +1,41 @@
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.2' (uid=1000 pid=493 comm="/usr/libexec/kactivitymanagerd" label="crun (unconfined)")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='ca.desrt.dconf' requested by ':1.3' (uid=1000 pid=505 comm="gsettings set org.gnome.desktop.interface gtk-them" label="crun (unconfined)")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Successfully activated service 'ca.desrt.dconf'
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.5' (uid=1000 pid=508 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.5' (uid=1000 pid=508 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.5' (uid=1000 pid=508 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:508): xdg-desktop-portal-WARNING **: 15:37:29.836: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.5' (uid=1000 pid=508 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.10' (uid=1000 pid=557 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.9' (uid=1000 pid=557 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[571]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=557 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:557): xdg-desktop-portal-gtk-WARNING **: 15:37:29.919: error: Could not connect: No such file or directory
+
+dbus-daemon[571]: Successfully activated service 'org.a11y.atspi.Registry'
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+(/usr/libexec/xdg-desktop-portal:508): xdg-desktop-portal-WARNING **: 15:37:29.930: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.5' (uid=1000 pid=508 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='org.kde.KSplash' requested by ':1.17' (uid=1000 pid=590 comm="plasmashell --no-respawn" label="plasmashell (enforce)")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='org.kde.kded6' requested by ':1.19' (uid=1000 pid=612 comm="/usr/libexec/kf6/kioworker /usr/lib64/qt6/plugins/" label="unconfined")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Successfully activated service 'org.kde.kded6'
+xsettingsd: Loaded 16 settings from /home/tester/.config/xsettingsd/xsettingsd.conf
+xsettingsd: Unable to open connection to X server
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='org.kde.kdeconnect' requested by ':1.17' (uid=1000 pid=590 comm="plasmashell --no-respawn" label="plasmashell (enforce)")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Successfully activated service 'org.kde.kdeconnect'
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='org.freedesktop.Notifications' requested by ':1.25' (uid=1000 pid=657 comm="/usr/bin/kdeconnectd" label="crun (unconfined)")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Successfully activated service 'org.freedesktop.Notifications'
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activated service 'org.kde.KSplash' failed: Process org.kde.KSplash exited with status 1
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activating service name='org.kde.KSplash' requested by ':1.48' (uid=1000 pid=827 comm="plasmashell --no-respawn" label="plasmashell (enforce)")
+dbus-daemon[475]: [session uid=1000 pid=475 pidfd=5] Activated service 'org.kde.KSplash' failed: Process org.kde.KSplash exited with status 1
+A connection to the bus can't be made

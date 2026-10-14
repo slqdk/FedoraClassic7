@@ -1,0 +1,25 @@
+start-menu-default: row at 160 = none
+start-menu-default: row at 214 = none
+start-menu-default: row at 268 = none
+start-menu-default: row at 322 = 309 344 114 271
+start-menu-default: next row at 362 = 345 380 87 261
+start-menu-default: Plasma CPU 790 ms, KWin CPU 140 ms for 40 moves
+start-menu-default-again: row at 160 = none
+start-menu-default-again: row at 214 = none
+start-menu-default-again: row at 268 = none
+start-menu-default-again: row at 322 = 309 344 114 271
+start-menu-default-again: next row at 362 = 345 380 87 261
+start-menu-default-again: Plasma CPU 810 ms, KWin CPU 140 ms for 40 moves
+notepad: row at 200 = none
+start-menu-software: row at 160 = none
+start-menu-software: row at 214 = none
+start-menu-software: row at 268 = none
+start-menu-software: row at 322 = 309 344 48 271
+start-menu-software: next row at 362 = 345 380 90 261
+start-menu-software: Plasma CPU 150 ms, KWin CPU 150 ms for 40 moves
+start-menu-software-again: row at 160 = none
+start-menu-software-again: row at 214 = none
+start-menu-software-again: row at 268 = none
+start-menu-software-again: row at 322 = 309 344 48 271
+start-menu-software-again: next row at 362 = 345 380 90 261
+start-menu-software-again: Plasma CPU 160 ms, KWin CPU 160 ms for 40 moves

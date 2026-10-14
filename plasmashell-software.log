@@ -1,0 +1,59 @@
+Detected locale "C" with character encoding "ANSI_X3.4-1968", which is not UTF-8.
+Qt depends on a UTF-8 locale, and has switched to "C.UTF-8" instead.
+If this causes problems, reconfigure your locale. See the locale(1) manual
+for more information.
+Could not load a session backend. Session management operations such as shutdown will not be operational. This is a setup issue.
+qt.scenegraph.general: Loading backend software
+qt.qml.propertyCache.append: Member visible of the object PlasmaQuick::Dialog overrides a member of the base object. Consider renaming it or adding final or override specifier
+qt.qml.propertyCache.append: Member enabled of the object DeclarativeDropArea overrides a member of the base object. Consider renaming it or adding final or override specifier
+qt.qml.propertyCache.append: Member data of the object PlasmoidItem_QML_366 overrides a member of the base object. Consider renaming it or adding final or override specifier
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+Detected locale "C" with character encoding "ANSI_X3.4-1968", which is not UTF-8.
+Qt depends on a UTF-8 locale, and has switched to "C.UTF-8" instead.
+If this causes problems, reconfigure your locale. See the locale(1) manual
+for more information.
+Connecting to deprecated signal QDBusConnectionInterface::serviceOwnerChanged(QString,QString,QString)
+Detected locale "C" with character encoding "ANSI_X3.4-1968", which is not UTF-8.
+Qt depends on a UTF-8 locale, and has switched to "C.UTF-8" instead.
+If this causes problems, reconfigure your locale. See the locale(1) manual
+for more information.
+QPainter::begin: Paint device returned engine == 0, type: 2
+QPainter::setCompositionMode: Painter not active
+QPainter::setRenderHint: Painter must be active to set rendering hints
+QPainter::end: Painter not active, aborted
+QPainter::begin: Paint device returned engine == 0, type: 2
+QPainter::setCompositionMode: Painter not active
+QPainter::setRenderHint: Painter must be active to set rendering hints
+QPainter::end: Painter not active, aborted
+QPainter::begin: Paint device returned engine == 0, type: 2
+QPainter::setCompositionMode: Painter not active
+QPainter::setRenderHint: Painter must be active to set rendering hints
+QPainter::end: Painter not active, aborted
+QPainter::begin: Paint device returned engine == 0, type: 2
+QPainter::setCompositionMode: Painter not active
+QPainter::setRenderHint: Painter must be active to set rendering hints
+QPainter::end: Painter not active, aborted
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0
+kpipewire_logging: error: "Failed to connect to PipeWire" 0

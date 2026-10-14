@@ -1,0 +1,538 @@
++ rpm -q kwin aurorae plasma-workspace
+kwin-6.7.5-1.fc44.x86_64
+aurorae-6.7.5-1.fc44.x86_64
+plasma-workspace-6.7.5-1.fc44.x86_64
++ ls /usr/share/kwin/decorations /usr/share/aurorae/themes
+/usr/share/aurorae/themes:
+Classic7
+Classic7Aero
+Classic7Basic
+
+/usr/share/kwin/decorations:
+classic7aero
+classic7basic
+kwin4_decoration_qml_plastik
++ for f in /usr/lib64/libkwin.so.6*
+++ grep -a -o 'KWIN_[A-Z_]*PERF[A-Z_]*' /usr/lib64/libkwin.so.6
+++ sort -u
+++ tr '\n' ' '
++ echo '/usr/lib64/libkwin.so.6: KWIN_LOG_PERFORMANCE_DATA KWIN_PERF_FTRACE KWIN_PERF_FTRACE_FILE '
+/usr/lib64/libkwin.so.6: KWIN_LOG_PERFORMANCE_DATA KWIN_PERF_FTRACE KWIN_PERF_FTRACE_FILE 
++ for f in /usr/lib64/libkwin.so.6*
+++ grep -a -o 'KWIN_[A-Z_]*PERF[A-Z_]*' /usr/lib64/libkwin.so.6.7.5
+++ sort -u
+++ tr '\n' ' '
++ echo '/usr/lib64/libkwin.so.6.7.5: KWIN_LOG_PERFORMANCE_DATA KWIN_PERF_FTRACE KWIN_PERF_FTRACE_FILE '
+/usr/lib64/libkwin.so.6.7.5: KWIN_LOG_PERFORMANCE_DATA KWIN_PERF_FTRACE KWIN_PERF_FTRACE_FILE 
++ nproc
+4
++ grep -m1 'model name' /proc/cpuinfo
+model name	: Intel(R) Xeon(R) Platinum 8370C CPU @ 2.80GHz
++ python3 -c 'import Xlib; print('\''python3-xlib'\'', Xlib.__version__)'
+python3-xlib (0, 33)
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Archive.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Attica.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6AuthCore.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Baloo.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6BalooEngine.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6BalooWidgets.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6BluezQt.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Bookmarks.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6BookmarksWidgets.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6BreezeIcons.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6CalendarCore.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6CalendarEvents.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Codecs.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6ColorScheme.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Completion.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6ConfigCore.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6ConfigGui.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6ConfigQml.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6ConfigWidgets.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Contacts.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6CoreAddons.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Crash.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6DBusAddons.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6DNSSD.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6DocTools.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6GlobalAccel.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6GuiAddons.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Holidays.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6I18n.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6I18nLocaleData.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6I18nQml.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6IconThemes.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6IconWidgets.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6IdleTime.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6ItemModels.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6ItemViews.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6JobWidgets.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6KCMUtils.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6KCMUtilsCore.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6KCMUtilsQuick.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6KIOCore.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6KIOFileWidgets.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6KIOGui.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6KIOWidgets.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6ModemManagerQt.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6NetworkManagerQt.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6NewStuffCore.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6NewStuffWidgets.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Notifications.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6NotifyConfig.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Package.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Parts.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6People.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6PeopleBackend.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6PeopleWidgets.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Prison.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6PrisonScanner.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Pty.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Purpose.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6PurposeWidgets.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Runner.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Service.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Solid.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6SonnetCore.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6SonnetUi.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6StatusNotifierItem.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Style.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Su.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Svg.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Syndication.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6SyntaxHighlighting.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6TextEditor.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6TextTemplate.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6TextWidgets.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6UnitConversion.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6UserFeedbackCore.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6UserFeedbackWidgets.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6Wallet.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6WalletBackend.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6WidgetsAddons.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6WindowSystem.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libKF6XmlGui.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/lib64/libPlasma5Support.so.6
+++ sort -u
+++ tr '\n' ' '
++ k=
++ '[' -n '' ']'
++ for f in /usr/lib64/libKF6*.so.6 /usr/lib64/libPlasma*.so.6 /usr/bin/plasmashell
+++ grep -a -o 'QtQuickRendererSettings\|SceneGraphBackend\|RenderLoop' /usr/bin/plasmashell
+++ sort -u
+++ tr '\n' ' '
++ k='SceneGraphBackend '
++ '[' -n 'SceneGraphBackend ' ']'
++ echo '/usr/bin/plasmashell: SceneGraphBackend '
+/usr/bin/plasmashell: SceneGraphBackend 

@@ -1,0 +1,4 @@
+{"label": "start-menu-default", "moves": 40, "missed": 0, "highlight_on_ms": {"median": 32.3, "p90": 33.6, "min": 27.5, "max": 66.1}, "highlight_off_ms": {"median": 32.6, "p90": 33.9, "min": 27.8, "max": 66.4}}
+{"label": "start-menu-default-again", "moves": 40, "missed": 0, "highlight_on_ms": {"median": 32.7, "p90": 50.3, "min": 30.9, "max": 67.6}, "highlight_off_ms": {"median": 33.0, "p90": 50.6, "min": 31.2, "max": 67.8}}
+{"label": "start-menu-software", "moves": 40, "missed": 0, "highlight_on_ms": {"median": 32.8, "p90": 66.0, "min": 29.4, "max": 82.3}, "highlight_off_ms": {"median": 33.2, "p90": 66.2, "min": 29.7, "max": 82.7}}
+{"label": "start-menu-software-again", "moves": 40, "missed": 0, "highlight_on_ms": {"median": 33.3, "p90": 65.7, "min": 31.1, "max": 82.9}, "highlight_off_ms": {"median": 33.6, "p90": 66.0, "min": 31.3, "max": 83.3}}

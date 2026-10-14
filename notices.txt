@@ -1,0 +1,61 @@
++ cat /out/rows.txt
+start-menu-default: row at 160 = none
+start-menu-default: row at 214 = none
+start-menu-default: row at 268 = none
+start-menu-default: row at 322 = 309 344 114 271
+start-menu-default: next row at 362 = 345 380 87 261
+start-menu-default: Plasma CPU 790 ms, KWin CPU 140 ms for 40 moves
+start-menu-default-again: row at 160 = none
+start-menu-default-again: row at 214 = none
+start-menu-default-again: row at 268 = none
+start-menu-default-again: row at 322 = 309 344 114 271
+start-menu-default-again: next row at 362 = 345 380 87 261
+start-menu-default-again: Plasma CPU 810 ms, KWin CPU 140 ms for 40 moves
+notepad: row at 200 = none
+start-menu-software: row at 160 = none
+start-menu-software: row at 214 = none
+start-menu-software: row at 268 = none
+start-menu-software: row at 322 = 309 344 48 271
+start-menu-software: next row at 362 = 345 380 90 261
+start-menu-software: Plasma CPU 150 ms, KWin CPU 150 ms for 40 moves
+start-menu-software-again: row at 160 = none
+start-menu-software-again: row at 214 = none
+start-menu-software-again: row at 268 = none
+start-menu-software-again: row at 322 = 309 344 48 271
+start-menu-software-again: next row at 362 = 345 380 90 261
+start-menu-software-again: Plasma CPU 160 ms, KWin CPU 160 ms for 40 moves
++ cat /out/latency.jsonl
+{"label": "start-menu-default", "moves": 40, "missed": 0, "highlight_on_ms": {"median": 32.3, "p90": 33.6, "min": 27.5, "max": 66.1}, "highlight_off_ms": {"median": 32.6, "p90": 33.9, "min": 27.8, "max": 66.4}}
+{"label": "start-menu-default-again", "moves": 40, "missed": 0, "highlight_on_ms": {"median": 32.7, "p90": 50.3, "min": 30.9, "max": 67.6}, "highlight_off_ms": {"median": 33.0, "p90": 50.6, "min": 31.2, "max": 67.8}}
+{"label": "start-menu-software", "moves": 40, "missed": 0, "highlight_on_ms": {"median": 32.8, "p90": 66.0, "min": 29.4, "max": 82.3}, "highlight_off_ms": {"median": 33.2, "p90": 66.2, "min": 29.7, "max": 82.7}}
+{"label": "start-menu-software-again", "moves": 40, "missed": 0, "highlight_on_ms": {"median": 33.3, "p90": 65.7, "min": 31.1, "max": 82.9}, "highlight_off_ms": {"median": 33.6, "p90": 66.0, "min": 31.3, "max": 83.3}}
++ echo '-- default:'
+-- default:
++ cat /out/qsg-default.txt
+qt.scenegraph.general: threaded render loop
+qt.scenegraph.general: Using sg animation driver
+qt.scenegraph.general: Animation Driver: using vsync: 16.67 ms
+Could not load a session backend. Session management operations such as shutdown will not be operational. This is a setup issue.
+qt.scenegraph.general: Animation Driver: using vsync: 16.67 ms
+qt.scenegraph.general: Creating QRhi with backend OpenGL for window 0x7f843400c960 (wflags 0x801)
+  Prefer software device: 0
+qt.scenegraph.general: Created QRhi 0x7f83c8001b80 for window 0x7f843400c960
+qt.scenegraph.general: MSAA sample count for the swapchain is 1. Alpha channel requested = no.
+qt.scenegraph.general: rhi texture atlas dimensions: 2048x1024
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
++ echo '-- software:'
+-- software:
++ cat /out/qsg-software.txt
+Could not load a session backend. Session management operations such as shutdown will not be operational. This is a setup issue.
+qt.scenegraph.general: Loading backend software
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+kf.solid.backends.udisks2: Failed to fetch all devices "org.freedesktop.DBus.Error.Disconnected" "Not connected to D-Bus server"
+QPainter::setRenderHint: Painter must be active to set rendering hints
