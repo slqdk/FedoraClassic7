@@ -82,5 +82,6 @@ target="$(rpm -ql $(rpm -qa 'krdp*') 2>/dev/null | grep -E '/libKRdp\.so\.[0-9]+
 [[ -n "$built" && -n "$target" && -f "$target" ]] || { echo "fix-krdp: library not found (built: $built, packaged: $target)" >&2; exit 1; }
 strip --strip-unneeded "$built"
 install -m 755 "$built" "$target"
-echo "fix-krdp: $target rebuilt from KRdp $krdp_ver ($commit) with ${fixes[*]}"
+printf -v joined '%s and ' "${fixes[@]}"
+echo "fix-krdp: $target rebuilt from KRdp $krdp_ver ($commit) with ${joined% and }"
 rm -rf "$work"
