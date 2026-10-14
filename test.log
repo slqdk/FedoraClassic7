@@ -1,0 +1,22 @@
+[92:123:1014/115248.652425:ERROR:../../../src/3rdparty/chromium/dbus/bus.cc:408] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+folders: [('Inbox', 4, 9), ('Sent Items', 1, 2), ('Deleted Items', 1, 1)]
+status: All folders are up to date. Items: 9     Unread: 4
+webengine: True
+reading: Kursus i TwinCAT 3 – uge 44 attachments: ['Program uge 44.docx']
+shot 01_main
+shot 02_reply
+received: [('demouser@example.com', ['kursus@beckhoff.dk'], 4349)]
+shot 03_new
+received2: [('demouser@example.com', ['jens@example.dk'])]
+sent items: ['Tegninger', 'RE: Kursus i TwinCAT 3 – uge 44', 'Fwd: Important notice regarding your account', 'Re: Random question']
+shot 04_sent
+shot 05_contacts
+shot 06_phone
+inbox answered: [('Kursus i TwinCAT 3 – uge 44', True, True), ('Frokost fredag?', False, False), ('Faktura 2026-118', False, True), ('Møde om ny maskine', False, True), ('Velkommen til Classic 7', False, True), ('Hello, World!', False, False), ('Important notice regarding your account', False, False), ('Random question', True, True), ('Re: Re: Random question', False, True)]
+STATUS: 
+after move inbox: ['Kursus i TwinCAT 3 – uge 44', 'Faktura 2026-118', 'Møde om ny maskine', 'Velkommen til Classic 7', 'Hello, World!', 'Important notice regarding your account', 'Random question', 'Re: Re: Random question']
+projekter: ['Frokost fredag?']
+shot 07_folders
+draft: ('967ce062', 'Drafts', 101)
+DONE
+exit 0
