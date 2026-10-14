@@ -1,0 +1,6 @@
+method return time=1791954720.030846 sender=:1.20 -> destination=:1.8315 serial=8485 reply_serial=2
+   variant       array [
+         string ":1.6047/StatusNotifierItem"
+         string ":1.6032/org/ayatana/NotificationItem/c7_indicator_test"
+         string ":1.6053/StatusNotifierItem"
+      ]

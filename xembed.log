@@ -1,0 +1,7 @@
+/tmp/xembed.py:5: DeprecationWarning: Gtk.StatusIcon.new_from_file is deprecated
+  icon = Gtk.StatusIcon.new_from_file("/tmp/icons/c7cyan.png")
+/tmp/xembed.py:6: DeprecationWarning: Gtk.StatusIcon.set_tooltip_text is deprecated
+  icon.set_tooltip_text("XEmbed test")
+/tmp/xembed.py:12: DeprecationWarning: Gtk.StatusIcon.is_embedded is deprecated
+  print("xembed icon up, embedded:", icon.is_embedded(), flush=True)
+xembed icon up, embedded: False

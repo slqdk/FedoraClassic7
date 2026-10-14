@@ -1,0 +1,15 @@
+/tmp/.X11-unix:
+total 8
+drwxrwxrwt 2 tester tester 4096 Oct 14 05:11 .
+drwxrwxrwt 1 root   root   4096 Oct 14 05:11 ..
+srwxr-xr-x 1 tester tester    0 Oct 14 05:11 X0
+srwxrwxrwx 1 tester tester    0 Oct 14 05:11 X99
+
+/tmp/xdg-t:
+total 8
+drwx------ 2 tester tester 4096 Oct 14 05:11 .
+drwxrwxrwt 1 root   root   4096 Oct 14 05:11 ..
+-rw------- 1 tester tester    0 Oct 14 05:11 kwin-xwayland-eis-socket.118.lock
+srwxr-xr-x 1 tester tester    0 Oct 14 05:11 wayland-c7
+-rw-r----- 1 tester tester    0 Oct 14 05:11 wayland-c7.lock
+Xwayland display: :0 auth: 
