@@ -654,6 +654,9 @@ switcher `/usr/share/kwin-wayland/tabbox/classic7`; the Show desktop button is t
   Classic 7 image and its digest, hardware, KWin's renderer and effects, screens, disks, network, start-up
   times, failed services, crashes, this boot's errors and KRdp's messages in one text file (no passwords,
   keys, serial numbers or MAC addresses); `classic7-perfinfo --report-text FILE` makes it without a desktop.
+  *Record the desktop's drawing times* (`classic7-perfinfo --kwin-perf on|off`) sets `KWIN_LOG_PERFORMANCE_DATA=1`
+  in `~/.config/environment.d` (from the next start), and the report sums up KWin's
+  `~/kwin perf statistics <screen>.csv`: drawing time per picture and the time from starting it to showing it.
 - **Firewall** (`firewall.cpl`, Control Panel > System and Security): on or off for home/work and for public
   networks, block all incoming connections, **Allow a program or feature** (firewalld's services
   and open ports per zone), Restore defaults. Home or work networks are firewalld's default zone, public networks
@@ -672,7 +675,7 @@ switcher `/usr/share/kwin-wayland/tabbox/classic7`; the Show desktop button is t
 | `classic7-msconfig [--tab startup\|services\|general\|boot\|tools]` | System Configuration |
 | `classic7-eventvwr [--problems]` | Event Viewer |
 | `classic7-resmon [--tab overview\|cpu\|memory\|disk\|network]` | Resource Monitor |
-| `classic7-perfinfo [--advanced\|--report\|--rate]` (`winsat`, `perfmon /report`) | Performance Information and Tools; without a window: `--assess` (rate the computer), `--report-text [FILE]`, `--issues`, `--json` |
+| `classic7-perfinfo [--advanced\|--report\|--rate]` (`winsat`, `perfmon /report`) | Performance Information and Tools; without a window: `--assess` (rate the computer), `--report-text [FILE]`, `--issues`, `--json`, `--kwin-perf [on\|off]` |
 | `classic7-firewall [--allowed\|--onoff]` | Firewall |
 | `classic7-screensaver --settings \| --run NAME \| --list` (`scrnsave.scr`) | Screen Saver Settings, or a screen saver now |
 | `classic7-goodbye --logoff\|--restart\|--shutdown` | Ends the session with the classic screen (what the Start menu uses) |

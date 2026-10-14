@@ -359,6 +359,103 @@ def classic7_unit_errors() -> list[str]:
     return [ln[:300] for ln in out.splitlines()][-30:] if code == 0 else []
 
 
+# KWin writes one line per picture it shows to "kwin perf statistics <screen>.csv" in its working
+# folder (the home folder) when KWIN_LOG_PERFORMANCE_DATA=1: when it started and finished drawing,
+# when the picture was meant to be shown and when it was. The user manager hands the variable to KWin
+# from environment.d, so it takes effect at the next start of the computer.
+KWIN_PERF_ENV = CONFIG / "environment.d" / "90-classic7-kwin-perf.conf"
+
+
+def kwin_perf_recording() -> bool:
+    return KWIN_PERF_ENV.exists()
+
+
+def set_kwin_perf_recording(on: bool) -> None:
+    if on:
+        KWIN_PERF_ENV.parent.mkdir(parents=True, exist_ok=True)
+        KWIN_PERF_ENV.write_text("# Classic 7 Performance Information and Tools: KWin records its drawing times\n"
+                                 "KWIN_LOG_PERFORMANCE_DATA=1\n")
+    else:
+        try:
+            KWIN_PERF_ENV.unlink()
+        except FileNotFoundError:
+            pass
+
+
+def kwin_perf_files() -> list[Path]:
+    folders = {HOME}
+    code, out = run(["pgrep", "-u", str(os.getuid()), "-x", "kwin_wayland"], 3)
+    for pid in out.split() if code == 0 else []:
+        try:
+            folders.add(Path(os.readlink(f"/proc/{pid}/cwd")))
+        except OSError:
+            pass
+    files = []
+    for d in folders:
+        files += sorted(d.glob("kwin perf statistics *.csv"))
+    return files
+
+
+def kwin_perf_summary(path: Path, last: int = 3000) -> dict:
+    """The last pictures KWin recorded for one screen: how long drawing took, how late pictures were
+    shown, and the time from starting to draw a picture to showing it (KWin's share of the delay)."""
+    try:
+        with open(path, "rb") as fh:
+            fh.seek(0, 2)
+            size = fh.tell()
+            fh.seek(max(0, size - 400 * last))
+            lines = fh.read().decode(errors="replace").splitlines()
+    except OSError:
+        return {}
+    rows = []
+    for ln in lines:
+        parts = ln.split(",")
+        if len(parts) < 9 or not parts[0].strip().lstrip("-").isdigit():
+            continue
+        try:
+            target, flip, start, end, margin, refresh = (int(x) for x in parts[:6])
+            predicted = int(parts[8])
+        except ValueError:
+            continue
+        rows.append((target, flip, start, end, margin, refresh, predicted))
+    rows = rows[-last:]
+    if len(rows) < 5:
+        return {"frames": len(rows)}
+
+    def pct(values, q):
+        v = sorted(values)
+        return v[min(len(v) - 1, int(len(v) * q))]
+    ms = 1e6
+    render = [(r[3] - r[2]) / ms for r in rows if r[3] > r[2] > 0]
+    shown = [(r[1] - r[2]) / ms for r in rows if r[2] > 0 and r[1] > r[2]]
+    late = [(r[1] - r[0]) / ms for r in rows if r[0] > 0]
+    refresh = pct([r[5] / ms for r in rows if r[5] > 0] or [16.7], 0.5)
+    return {"frames": len(rows), "refresh_ms": round(refresh, 2),
+            "render_ms": {"median": round(pct(render, 0.5), 1), "p95": round(pct(render, 0.95), 1),
+                          "max": round(max(render), 1)} if render else {},
+            "start_to_shown_ms": {"median": round(pct(shown, 0.5), 1), "p95": round(pct(shown, 0.95), 1)}
+            if shown else {},
+            "late_share": round(sum(1 for x in late if x > refresh / 2) / len(late), 3) if late else 0,
+            "predicted_ms": round(pct([r[6] / ms for r in rows], 0.5), 1),
+            "seconds": round((rows[-1][1] - rows[0][1]) / 1e9, 1)}
+
+
+def kwin_perf_lines() -> list[str]:
+    out = []
+    for f in kwin_perf_files():
+        s = kwin_perf_summary(f)
+        name = f.stem.replace("kwin perf statistics ", "")
+        if not s.get("render_ms"):
+            out.append(f"{name}: {s.get('frames', 0)} pictures recorded")
+            continue
+        r, d = s["render_ms"], s.get("start_to_shown_ms", {})
+        out.append(f"{name}: last {s['frames']} pictures over {s['seconds']} s at {1000 / s['refresh_ms']:.0f} Hz; "
+                   f"drawing took {r['median']} ms (95% within {r['p95']} ms, slowest {r['max']} ms); "
+                   f"from starting a picture to showing it {d.get('median', '?')} ms (95% within {d.get('p95', '?')} ms); "
+                   f"{s['late_share'] * 100:.0f}% shown late; KWin expects {s['predicted_ms']} ms per picture")
+    return out
+
+
 def remote_desktop_log(lines: int = 25) -> list[str]:
     """KRdp's own messages this boot (encoder, connections, logons)."""
     code, out = run(["journalctl", "--user", "-b", "--no-pager", "-o", "short-iso", "-q", "-n", str(lines),
@@ -814,6 +911,20 @@ def issues(f: Facts, scores: dict | None = None) -> list[Issue]:
                          f"too late (slowest {raw.get('slowest_ms', 0):.0f} ms). Close busy programs and run the "
                          "assessment again; if it stays, the graphics driver may need attention.", True,
                          "Open Task Manager", ["classic7-taskmgr"]))
+    for path in kwin_perf_files():
+        perf = kwin_perf_summary(path)
+        r = perf.get("render_ms") or {}
+        if r and r["median"] > perf["refresh_ms"]:
+            out.append(Issue("The desktop can't draw its pictures in time",
+                             f"KWin needed {r['median']} ms to draw a picture of "
+                             f"{path.stem.replace('kwin perf statistics ', '')} (half of them took longer), but the "
+                             f"screen shows a new one every {perf['refresh_ms']:.0f} ms: moving windows lags behind "
+                             "the mouse. Graphics drawn by the processor, a high resolution or blur make it slower.",
+                             True))
+    if kwin_perf_recording():
+        out.append(Issue("KWin records its drawing times",
+                         "Turned on in Advanced tools. Turn it off when you have what you need: the record "
+                         "grows while it is on.", False, "Stop recording", ["classic7-perfinfo", "--kwin-perf", "off"]))
     if f.deploy.get("staged"):
         out.append(Issue("A new version of Classic 7 is waiting",
                          "It was downloaded and starts the next time the computer starts.", False))
@@ -896,6 +1007,12 @@ def report(f: Facts, found: list[Issue], scores: dict | None = None) -> str:
     lines.append("== Classic 7's own messages")
     lines += ["  " + ln for ln in classic7_unit_errors()] or ["  none"]
     lines.append("")
+    lines.append("== KWin's drawing times (Advanced tools > Record the desktop's drawing times)")
+    perf = kwin_perf_lines()
+    lines += ["  " + ln for ln in perf] or ["  not recorded"]
+    if kwin_perf_recording():
+        lines.append("  (recording is on)")
+    lines.append("")
     lines.append("== Remote Desktop server (KRdp) this boot")
     lines += ["  " + ln for ln in remote_desktop_log()] or ["  no messages"]
     lines.append("")
@@ -914,9 +1031,19 @@ def facts_json(f: Facts) -> dict:
 # Without a window (a terminal, SSH, or a desktop that won't draw)
 # =============================================================================================
 def main_cli(argv: list[str]) -> int:
-    """--report-text [FILE], --issues, --json; returns the exit code."""
+    """--report-text [FILE], --issues, --json, --kwin-perf [on|off]; returns the exit code."""
     def say(text):
         print(text, file=sys.stderr, flush=True)
+    if "--kwin-perf" in argv:
+        rest = argv[argv.index("--kwin-perf") + 1:]
+        if rest and rest[0] in ("on", "off"):
+            set_kwin_perf_recording(rest[0] == "on")
+            say("KWin records its drawing times from the next start of the computer." if rest[0] == "on" else
+                "KWin stops recording its drawing times at the next start of the computer"
+                + (f"; the records are {', '.join(str(p) for p in kwin_perf_files())}" if kwin_perf_files() else "."))
+        for ln in kwin_perf_lines() or ["Nothing recorded."]:
+            print(ln)
+        return 0
     f = collect(lambda text: say(f"Collecting information: {text}..."))
     scores = load_scores()
     found = issues(f, scores)

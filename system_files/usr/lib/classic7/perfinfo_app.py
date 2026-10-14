@@ -400,6 +400,18 @@ class PerfInfo(PageWindow):
         clear = Link("Clear all Classic 7 Experience Index scores and re-rate the system", BLUE)
         clear.clicked.connect(self._clear_and_rate)
         self.body.addWidget(clear)
+        recording = pc.kwin_perf_recording()
+        rec = Link("Stop recording the desktop's drawing times" if recording else
+                   "Record the desktop's drawing times (from the next start of the computer)", BLUE)
+        rec.setToolTip("KWin writes down how long it takes to draw every picture of the screen and when the "
+                       "picture is shown. The system health report sums it up.")
+        rec.clicked.connect(lambda: self._record(not recording))
+        self.body.addWidget(rec)
+        for line in pc.kwin_perf_lines():
+            lab = QLabel(line)
+            lab.setWordWrap(True)
+            lab.setStyleSheet("color: #555;")
+            self.body.addWidget(lab)
         self.body.addSpacing(10)
         tools = [
             ("View performance details in Event log", "Errors and warnings of programs and services",
@@ -530,6 +542,17 @@ class PerfInfo(PageWindow):
                 self.data["issues"] = pc.issues(self.data["facts"], scores)
                 self.load()
             self.page = "home"
+        self.render()
+
+    def _record(self, on: bool):
+        pc.set_kwin_perf_recording(on)
+        if on:
+            QMessageBox.information(self, APP, "KWin records its drawing times from the next time the computer "
+                                               "starts. Restart it, use it as you normally would (move windows "
+                                               "around), then open the system health report.\n\nTurn the "
+                                               "recording off again here when you're done.")
+        if self.data and self.data.get("facts") is not None:
+            self.data["issues"] = pc.issues(self.data["facts"], pc.load_scores())
         self.render()
 
     def _clear_and_rate(self):
