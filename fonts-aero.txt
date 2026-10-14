@@ -1,0 +1,4 @@
+[WM]
+activeBackground=185,209,234
+activeBlend=220,233,247
+activeFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1

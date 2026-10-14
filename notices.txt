@@ -1,0 +1,58 @@
++ cat /out/versions.txt
++ rpm -q kwin aurorae plasma-workspace
+kwin-6.7.5-1.fc44.x86_64
+aurorae-6.7.5-1.fc44.x86_64
+plasma-workspace-6.7.5-1.fc44.x86_64
++ ls /usr/share/kwin/decorations
+classic7aero
+classic7basic
+kwin4_decoration_qml_plastik
++ cat /out/kwinrc-new-account.txt
+library=org.kde.kwin.aurorae
+theme=classic7aero
++ cat /out/result.txt
+== aero-solid (--look aero): exit 0 "look":"aero" "solid":true  theme=classic7aerousera
+== aero-glass (--look aero): exit 0 "look":"aero" "solid":false  theme=classic7aero
+== classic (--look classic): exit 0 "look":"classic" "solid":false  theme=__aurorae__svg__Classic7
+== aero-again (--look aero): exit 0 "look":"aero" "solid":true  theme=classic7aerousera
+== basic (--look basic): exit 0 "look":"basic" "solid":false  theme=classic7basic
+== ruby (--look aero --glass ruby --intensity 70): exit 0 "look":"aero" "solid":true  theme=classic7aerousera
++ cat /out/fonts-classic.txt /out/fonts-aero.txt
+[WM]
+activeBackground=10,36,106
+activeBlend=166,202,240
+activeFont=Noto Sans,9,-1,5,700,0,0,0,0,0,0,0,0,0,0,1
+[WM]
+activeBackground=185,209,234
+activeBlend=220,233,247
+activeFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1
++ cat /out/windows.txt
+== new account
+  'All Control Panel Items' 132,41 916x678
+  'Bluetooth' 247,87 685x586 active
+== maximized by the button
+  'All Control Panel Items' 40,30 760x480
+  'Bluetooth' 0,0 1180x760 active
+== restored by the button
+  'All Control Panel Items' 40,30 760x480
+  'Bluetooth' 300,200 600x360 active
+== after dragging the top edge from y 201 to 171
+  'All Control Panel Items' 40,30 760x480
+  'Bluetooth' 300,170 600x390 active
+== after dragging the title from 600,186 to 650,216
+  'All Control Panel Items' 40,30 760x480
+  'Bluetooth' 350,200 600x390 active
+== after Computer > Properties
+  'All Control Panel Items' 40,30 760x480
+  'Bluetooth' 300,200 600x360
+  'System' 152,51 876x658 active
++ cat /out/processes.txt
+75495 /usr/bin/python3 /usr/sbin/classic7-system
++ grep -iE 'qml|aurorae|decoration|CaptionButton|classic7' /out/kwin.log
++ sed 's/^/kwin: /'
++ sort
++ uniq -c
++ sort -rn
++ head -12
++ grep -h 'rc=[1-9]\|MISSING\|TIMEOUT' /out/appearance.log
++ head -8

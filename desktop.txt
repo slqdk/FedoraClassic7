@@ -1,0 +1,5 @@
+total 16
+drwxr-xr-x 2 tester tester 4096 Oct 14 12:02 .
+drwxr-xr-x 7 tester tester 4096 Oct 14 12:04 ..
+-rwxr-xr-x 1 tester tester  163 Oct 14 12:02 computer.desktop
+-rwxr-xr-x 1 tester tester  290 Oct 14 12:02 recycle-bin.desktop

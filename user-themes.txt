@@ -1,0 +1,11 @@
+/home/tester/.local/share/aurorae/themes:
+total 12
+drwxr-xr-x 3 tester tester 4096 Oct 14 12:05 .
+drwxr-xr-x 3 tester tester 4096 Oct 14 12:04 ..
+drwxr-xr-x 2 tester tester 4096 Oct 14 12:05 Classic7AeroUserA
+
+/home/tester/.local/share/kwin/decorations:
+total 12
+drwxr-xr-x 3 tester tester 4096 Oct 14 12:05 .
+drwxr-xr-x 3 tester tester 4096 Oct 14 12:04 ..
+drwxr-xr-x 3 tester tester 4096 Oct 14 12:05 classic7aerousera

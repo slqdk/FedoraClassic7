@@ -1,0 +1,249 @@
+2026-10-14 12:04:16 == apply look=aero (was aero) scheme='Classic 7 Standard' glass={'name': 'Sky', 'color': '#74B8FC', 'intensity': 0.45, 'transparency': True}
+2026-10-14 12:04:17 rc=0 0.2s plasma-apply-colorscheme Classic7Aero
+    The requested theme "Classic7Aero" is already set as the theme for the current Plasma session.
+2026-10-14 12:04:17 rc=0 0.2s plasma-apply-desktoptheme classic7-aero-user-a
+    The current Plasma session's theme has been set to classic7-aero-user-a
+2026-10-14 12:04:17 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/Kvantum/kvantum.kvconfig --group General --key theme Classic7Aero
+2026-10-14 12:04:17 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae
+2026-10-14 12:04:17 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key theme classic7aerousera
+2026-10-14 12:04:17 rc=0 0.0s kwriteconfig6 --file kwinrc --group Plugins --key blurEnabled false
+2026-10-14 12:04:17 rc=0 0.0s kwriteconfig6 --file kwinrc --group Plugins --key contrastEnabled false
+2026-10-14 12:04:17 rc=0 0.0s dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig
+2026-10-14 12:04:17 rc=0 0.0s dbus-send --session --type=method_call --dest=org.kde.KWin /Effects org.kde.kwin.Effects.unloadEffect string:blur
+2026-10-14 12:04:17 rc=0 0.0s dbus-send --session --type=method_call --dest=org.kde.KWin /Effects org.kde.kwin.Effects.unloadEffect string:contrast
+2026-10-14 12:04:17 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key font 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:17 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key menuFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:17 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key toolBarFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:17 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key smallestReadableFont 'Noto Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:17 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group WM --key activeFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:17 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-font-name 'Noto Sans 9'
+2026-10-14 12:04:17 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-font-name 'Noto Sans 9'
+2026-10-14 12:04:17 rc=0 0.0s gsettings set org.gnome.desktop.interface font-name 'Noto Sans 9'
+2026-10-14 12:04:17 rc=0 0.0s dbus-send --session --type=signal /KDEPlatformTheme org.kde.KDEPlatformTheme.refreshFonts
+2026-10-14 12:04:17 rc=0 0.0s dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig
+2026-10-14 12:04:17 rc=0 0.0s dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell org.kde.PlasmaShell.evaluateScript 'string:
+var img = "/usr/share/classic7/start-orb.svg";
+var look = "aero";
+var ours = ["/usr/share/classic7/start-button.svg", "/home/tester/.local/share/classic7"];
+var rebuildTaskbar =
+2026-10-14 12:04:29 == apply look=aero (was aero) scheme='Classic 7 Standard' glass={'name': 'Sky', 'color': '#74B8FC', 'intensity': 0.45, 'transparency': True}
+2026-10-14 12:04:29 rc=0 0.2s plasma-apply-colorscheme Classic7Aero
+    The requested theme "Classic7Aero" is already set as the theme for the current Plasma session.
+2026-10-14 12:04:29 rc=0 0.2s plasma-apply-desktoptheme classic7-aero
+    The current Plasma session's theme has been set to classic7-aero
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/Kvantum/kvantum.kvconfig --group General --key theme Classic7Aero
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key theme classic7aero
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --file kwinrc --group Plugins --key blurEnabled true
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --file kwinrc --group Effect-blur --key BlurStrength 8
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --file kwinrc --group Effect-blur --key NoiseStrength 0
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --file kwinrc --group Plugins --key contrastEnabled --delete
+2026-10-14 12:04:29 rc=0 0.0s dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig
+2026-10-14 12:04:29 rc=0 0.0s dbus-send --session --type=method_call --dest=org.kde.KWin /Effects org.kde.kwin.Effects.loadEffect string:blur
+2026-10-14 12:04:29 rc=0 0.0s dbus-send --session --type=method_call --dest=org.kde.KWin /Effects org.kde.kwin.Effects.loadEffect string:contrast
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key font 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key menuFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key toolBarFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key smallestReadableFont 'Noto Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group WM --key activeFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-font-name 'Noto Sans 9'
+2026-10-14 12:04:29 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-font-name 'Noto Sans 9'
+2026-10-14 12:04:29 rc=0 0.0s gsettings set org.gnome.desktop.interface font-name 'Noto Sans 9'
+2026-10-14 12:04:29 rc=0 0.0s dbus-send --session --type=signal /KDEPlatformTheme org.kde.KDEPlatformTheme.refreshFonts
+2026-10-14 12:04:29 rc=0 0.0s dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig
+2026-10-14 12:04:29 rc=0 0.0s dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell org.kde.PlasmaShell.evaluateScript 'string:
+var img = "/usr/share/classic7/start-orb.svg";
+var look = "aero";
+var ours = ["/usr/share/classic7/start-button.svg", "/home/tester/.local/share/classic7"];
+var rebuildTaskbar =
+2026-10-14 12:04:41 == apply look=classic (was aero) scheme='Classic 7 Standard' glass={'name': 'Sky', 'color': '#74B8FC', 'intensity': 0.45, 'transparency': True}
+2026-10-14 12:04:41 rc=0 0.2s plasma-apply-colorscheme Classic7
+    Successfully applied the color scheme Classic7 to your current Plasma session
+2026-10-14 12:04:42 rc=0 0.2s plasma-apply-desktoptheme classic7
+    The current Plasma session's theme has been set to classic7
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group KDE --key widgetStyle Windows
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file kdeglobals --group KDE --key LookAndFeelPackage org.classic7.desktop
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file kdeglobals --group KDE --key DefaultLightLookAndFeel org.classic7.desktop
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file kdeglobals --group KDE --key DefaultDarkLookAndFeel org.classic7.desktop
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-theme-name Classic7
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-cursor-theme-name Chicago95_Standard_Cursors
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-theme-name Classic7
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-cursor-theme-name Chicago95_Standard_Cursors
+2026-10-14 12:04:42 rc=0 0.0s gsettings set org.gnome.desktop.interface gtk-theme Classic7
+2026-10-14 12:04:42 rc=0 0.2s plasma-apply-cursortheme Chicago95_Standard_Cursors
+    Successfully applied the mouse pointer theme Chicago 95 Standard to your current Plasma session
+2026-10-14 12:04:42 rc=0 0.0s gsettings set org.gnome.desktop.interface cursor-theme Chicago95_Standard_Cursors
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key theme __aurorae__svg__Classic7
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key BorderSize Normal
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key BorderSizeAuto false
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key ButtonsOnLeft M
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key ButtonsOnRight IA_X
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file kwinrc --group TabBox --key LayoutName classic7
+2026-10-14 12:04:42 rc=0 0.0s dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key font 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key menuFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key toolBarFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key smallestReadableFont 'Noto Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group WM --key activeFont 'Noto Sans,9,-1,5,700,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-font-name 'Noto Sans 9'
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-font-name 'Noto Sans 9'
+2026-10-14 12:04:42 rc=0 0.0s gsettings set org.gnome.desktop.interface font-name 'Noto Sans 9'
+2026-10-14 12:04:42 rc=0 0.0s dbus-send --session --type=signal /KDEPlatformTheme org.kde.KDEPlatformTheme.refreshFonts
+2026-10-14 12:04:42 rc=0 0.0s dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig
+2026-10-14 12:04:42 rc=0 0.0s dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell org.kde.PlasmaShell.evaluateScript 'string:
+function c7List(w, key) {
+    var v = w.readConfig(key, []);
+    if (typeof v === "string") v = v ? v.split(",") : [];
+    return v;
+}
+function c7Taskbar() {
+    var ps = panels
+2026-10-14 12:04:42 rc=0 0.0s dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell org.kde.PlasmaShell.evaluateScript 'string:
+var img = "/usr/share/classic7/start-button.svg";
+var look = "classic";
+var ours = ["/usr/share/classic7/start-button.svg", "/home/tester/.local/share/classic7"];
+var rebuildTas
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file kscreenlockerrc --group Greeter --key WallpaperPlugin org.kde.color
+2026-10-14 12:04:42 rc=0 0.0s kwriteconfig6 --file kscreenlockerrc --group Greeter --group Wallpaper --group org.kde.color --group General --key Color 58,110,165
+2026-10-14 12:04:54 == apply look=aero (was classic) scheme='Classic 7 Standard' glass={'name': 'Sky', 'color': '#74B8FC', 'intensity': 0.45, 'transparency': True}
+2026-10-14 12:04:54 rc=0 0.2s plasma-apply-colorscheme Classic7Aero
+    Successfully applied the color scheme Classic7Aero to your current Plasma session
+2026-10-14 12:04:54 rc=0 0.1s plasma-apply-desktoptheme classic7-aero-user-a
+    The current Plasma session's theme has been set to classic7-aero-user-a
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/Kvantum/kvantum.kvconfig --group General --key theme Classic7Aero
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group KDE --key widgetStyle kvantum
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file kdeglobals --group KDE --key LookAndFeelPackage org.classic7.aero.desktop
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file kdeglobals --group KDE --key DefaultLightLookAndFeel org.classic7.aero.desktop
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file kdeglobals --group KDE --key DefaultDarkLookAndFeel org.classic7.aero.desktop
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-theme-name Classic7Aero
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-cursor-theme-name Breeze_Light
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-theme-name Classic7Aero
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-cursor-theme-name Breeze_Light
+2026-10-14 12:04:54 rc=0 0.0s gsettings set org.gnome.desktop.interface gtk-theme Classic7Aero
+2026-10-14 12:04:54 rc=0 0.2s plasma-apply-cursortheme Breeze_Light
+    Successfully applied the mouse pointer theme Breeze Light to your current Plasma session
+2026-10-14 12:04:54 rc=0 0.0s gsettings set org.gnome.desktop.interface cursor-theme Breeze_Light
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key theme classic7aerousera
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key BorderSize Large
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key BorderSizeAuto false
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key ButtonsOnLeft M
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key ButtonsOnRight IAX
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file kwinrc --group TabBox --key LayoutName classic7aero
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file kwinrc --group Plugins --key blurEnabled false
+2026-10-14 12:04:54 rc=0 0.0s kwriteconfig6 --file kwinrc --group Plugins --key contrastEnabled false
+2026-10-14 12:04:54 rc=0 0.0s dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig
+2026-10-14 12:04:54 rc=0 0.0s dbus-send --session --type=method_call --dest=org.kde.KWin /Effects org.kde.kwin.Effects.unloadEffect string:blur
+2026-10-14 12:04:55 rc=0 0.0s dbus-send --session --type=method_call --dest=org.kde.KWin /Effects org.kde.kwin.Effects.unloadEffect string:contrast
+2026-10-14 12:04:55 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key font 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:55 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key menuFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:55 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key toolBarFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:55 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key smallestReadableFont 'Noto Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:55 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group WM --key activeFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:04:55 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-font-name 'Noto Sans 9'
+2026-10-14 12:04:55 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-font-name 'Noto Sans 9'
+2026-10-14 12:04:55 rc=0 0.0s gsettings set org.gnome.desktop.interface font-name 'Noto Sans 9'
+2026-10-14 12:04:55 rc=0 0.0s dbus-send --session --type=signal /KDEPlatformTheme org.kde.KDEPlatformTheme.refreshFonts
+2026-10-14 12:04:55 rc=0 0.0s dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig
+2026-10-14 12:04:55 rc=0 0.0s dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell org.kde.PlasmaShell.evaluateScript 'string:
+function c7List(w, key) {
+    var v = w.readConfig(key, []);
+    if (typeof v === "string") v = v ? v.split(",") : [];
+    return v;
+}
+function c7Taskbar() {
+    var ps = panels
+2026-10-14 12:04:55 rc=0 0.0s dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell org.kde.PlasmaShell.evaluateScript 'string:
+var img = "/usr/share/classic7/start-orb.svg";
+var look = "aero";
+var ours = ["/usr/share/classic7/start-button.svg", "/home/tester/.local/share/classic7"];
+var rebuildTaskbar =
+2026-10-14 12:04:55 rc=0 0.0s kwriteconfig6 --file kscreenlockerrc --group Greeter --key WallpaperPlugin org.kde.image
+2026-10-14 12:04:55 rc=0 0.0s kwriteconfig6 --file kscreenlockerrc --group Greeter --group Wallpaper --group org.kde.image --group General --key Image /usr/share/wallpapers/Classic7Aero/
+2026-10-14 12:05:06 == apply look=basic (was aero) scheme='Classic 7 Standard' glass={'name': 'Sky', 'color': '#74B8FC', 'intensity': 0.45, 'transparency': True}
+2026-10-14 12:05:07 rc=0 0.2s plasma-apply-colorscheme Classic7Aero
+    The requested theme "Classic7Aero" is already set as the theme for the current Plasma session.
+2026-10-14 12:05:07 rc=0 0.2s plasma-apply-desktoptheme classic7-basic
+    The current Plasma session's theme has been set to classic7-basic
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/Kvantum/kvantum.kvconfig --group General --key theme Classic7Aero
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group KDE --key widgetStyle kvantum
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file kdeglobals --group KDE --key LookAndFeelPackage org.classic7.aero.desktop
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file kdeglobals --group KDE --key DefaultLightLookAndFeel org.classic7.aero.desktop
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file kdeglobals --group KDE --key DefaultDarkLookAndFeel org.classic7.aero.desktop
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-theme-name Classic7Aero
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-cursor-theme-name Breeze_Light
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-theme-name Classic7Aero
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-cursor-theme-name Breeze_Light
+2026-10-14 12:05:07 rc=0 0.0s gsettings set org.gnome.desktop.interface gtk-theme Classic7Aero
+2026-10-14 12:05:07 rc=0 0.2s plasma-apply-cursortheme Breeze_Light
+    The requested theme “Breeze_Light” is already set as the theme for the current Plasma session.
+2026-10-14 12:05:07 rc=0 0.0s gsettings set org.gnome.desktop.interface cursor-theme Breeze_Light
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key theme classic7basic
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key BorderSize Large
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key BorderSizeAuto false
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key ButtonsOnLeft M
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key ButtonsOnRight IAX
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file kwinrc --group TabBox --key LayoutName classic7aero
+2026-10-14 12:05:07 rc=0 0.0s dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key font 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key menuFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key toolBarFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key smallestReadableFont 'Noto Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group WM --key activeFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-font-name 'Noto Sans 9'
+2026-10-14 12:05:07 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-font-name 'Noto Sans 9'
+2026-10-14 12:05:07 rc=0 0.0s gsettings set org.gnome.desktop.interface font-name 'Noto Sans 9'
+2026-10-14 12:05:07 rc=0 0.0s dbus-send --session --type=signal /KDEPlatformTheme org.kde.KDEPlatformTheme.refreshFonts
+2026-10-14 12:05:07 rc=0 0.0s dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig
+2026-10-14 12:05:07 rc=0 0.0s dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell org.kde.PlasmaShell.evaluateScript 'string:
+var img = "/usr/share/classic7/start-orb.svg";
+var look = "basic";
+var ours = ["/usr/share/classic7/start-button.svg", "/home/tester/.local/share/classic7"];
+var rebuildTaskbar
+2026-10-14 12:05:19 == apply look=aero (was basic) scheme='Classic 7 Standard' glass={'name': 'Ruby', 'color': '#C7313E', 'intensity': 0.7, 'transparency': True}
+2026-10-14 12:05:19 rc=0 0.2s plasma-apply-colorscheme Classic7Aero
+    The requested theme "Classic7Aero" is already set as the theme for the current Plasma session.
+2026-10-14 12:05:19 rc=0 0.2s plasma-apply-desktoptheme classic7-aero-user-a
+    The current Plasma session's theme has been set to classic7-aero-user-a
+2026-10-14 12:05:19 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/Kvantum/kvantum.kvconfig --group General --key theme Classic7Aero
+2026-10-14 12:05:19 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group KDE --key widgetStyle kvantum
+2026-10-14 12:05:19 rc=0 0.0s kwriteconfig6 --file kdeglobals --group KDE --key LookAndFeelPackage org.classic7.aero.desktop
+2026-10-14 12:05:19 rc=0 0.0s kwriteconfig6 --file kdeglobals --group KDE --key DefaultLightLookAndFeel org.classic7.aero.desktop
+2026-10-14 12:05:19 rc=0 0.0s kwriteconfig6 --file kdeglobals --group KDE --key DefaultDarkLookAndFeel org.classic7.aero.desktop
+2026-10-14 12:05:19 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-theme-name Classic7Aero
+2026-10-14 12:05:19 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-cursor-theme-name Breeze_Light
+2026-10-14 12:05:19 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-theme-name Classic7Aero
+2026-10-14 12:05:19 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-cursor-theme-name Breeze_Light
+2026-10-14 12:05:19 rc=0 0.0s gsettings set org.gnome.desktop.interface gtk-theme Classic7Aero
+2026-10-14 12:05:20 rc=0 0.2s plasma-apply-cursortheme Breeze_Light
+    The requested theme “Breeze_Light” is already set as the theme for the current Plasma session.
+2026-10-14 12:05:20 rc=0 0.0s gsettings set org.gnome.desktop.interface cursor-theme Breeze_Light
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key library org.kde.kwin.aurorae
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key theme classic7aerousera
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key BorderSize Large
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key BorderSizeAuto false
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key ButtonsOnLeft M
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --file kwinrc --group org.kde.kdecoration2 --key ButtonsOnRight IAX
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --file kwinrc --group TabBox --key LayoutName classic7aero
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --file kwinrc --group Plugins --key blurEnabled false
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --file kwinrc --group Plugins --key contrastEnabled false
+2026-10-14 12:05:20 rc=0 0.0s dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig
+2026-10-14 12:05:20 rc=0 0.0s dbus-send --session --type=method_call --dest=org.kde.KWin /Effects org.kde.kwin.Effects.unloadEffect string:blur
+2026-10-14 12:05:20 rc=0 0.0s dbus-send --session --type=method_call --dest=org.kde.KWin /Effects org.kde.kwin.Effects.unloadEffect string:contrast
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key font 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key menuFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key toolBarFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group General --key smallestReadableFont 'Noto Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --notify --file kdeglobals --group WM --key activeFont 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-3.0/settings.ini --group Settings --key gtk-font-name 'Noto Sans 9'
+2026-10-14 12:05:20 rc=0 0.0s kwriteconfig6 --file /home/tester/.config/gtk-4.0/settings.ini --group Settings --key gtk-font-name 'Noto Sans 9'
+2026-10-14 12:05:20 rc=0 0.0s gsettings set org.gnome.desktop.interface font-name 'Noto Sans 9'
+2026-10-14 12:05:20 rc=0 0.0s dbus-send --session --type=signal /KDEPlatformTheme org.kde.KDEPlatformTheme.refreshFonts
+2026-10-14 12:05:20 rc=0 0.0s dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig
+2026-10-14 12:05:20 rc=0 0.0s dbus-send --session --dest=org.kde.plasmashell --type=method_call /PlasmaShell org.kde.PlasmaShell.evaluateScript 'string:
+var img = "/usr/share/classic7/start-orb.svg";
+var look = "aero";
+var ours = ["/usr/share/classic7/start-button.svg", "/home/tester/.local/share/classic7"];
+var rebuildTaskbar =

@@ -1,0 +1,8 @@
++ rpm -q kwin aurorae plasma-workspace
+kwin-6.7.5-1.fc44.x86_64
+aurorae-6.7.5-1.fc44.x86_64
+plasma-workspace-6.7.5-1.fc44.x86_64
++ ls /usr/share/kwin/decorations
+classic7aero
+classic7basic
+kwin4_decoration_qml_plastik

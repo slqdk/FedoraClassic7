@@ -1,0 +1,6 @@
+== aero-solid (--look aero): exit 0 "look":"aero" "solid":true  theme=classic7aerousera
+== aero-glass (--look aero): exit 0 "look":"aero" "solid":false  theme=classic7aero
+== classic (--look classic): exit 0 "look":"classic" "solid":false  theme=__aurorae__svg__Classic7
+== aero-again (--look aero): exit 0 "look":"aero" "solid":true  theme=classic7aerousera
+== basic (--look basic): exit 0 "look":"basic" "solid":false  theme=classic7basic
+== ruby (--look aero --glass ruby --intensity 70): exit 0 "look":"aero" "solid":true  theme=classic7aerousera

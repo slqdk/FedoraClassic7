@@ -1,0 +1,19 @@
+== new account
+  'All Control Panel Items' 132,41 916x678
+  'Bluetooth' 247,87 685x586 active
+== maximized by the button
+  'All Control Panel Items' 40,30 760x480
+  'Bluetooth' 0,0 1180x760 active
+== restored by the button
+  'All Control Panel Items' 40,30 760x480
+  'Bluetooth' 300,200 600x360 active
+== after dragging the top edge from y 201 to 171
+  'All Control Panel Items' 40,30 760x480
+  'Bluetooth' 300,170 600x390 active
+== after dragging the title from 600,186 to 650,216
+  'All Control Panel Items' 40,30 760x480
+  'Bluetooth' 350,200 600x390 active
+== after Computer > Properties
+  'All Control Panel Items' 40,30 760x480
+  'Bluetooth' 300,200 600x360
+  'System' 152,51 876x658 active
