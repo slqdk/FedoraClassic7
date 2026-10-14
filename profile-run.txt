@@ -1,0 +1,131 @@
+         85360 function calls (83836 primitive calls) in 0.205 seconds
+
+   Ordered by: internal time
+   List reduced from 444 to 45 due to restriction <45>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.103    0.103    0.191    0.191 /usr/bin/classic7-run:176(dialog)
+        1    0.023    0.023    0.023    0.023 {method 'setEditable' of 'PySide6.QtWidgets.QComboBox' objects}
+     1471    0.009    0.000    0.020    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+        1    0.008    0.008    0.008    0.008 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+     1703    0.005    0.000    0.011    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+        1    0.004    0.004    0.004    0.004 /tmp/perf_run.py:26(mem)
+      120    0.003    0.000    0.029    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+     3071    0.003    0.000    0.003    0.000 /usr/lib64/python3.14/enum.py:812(__setattr__)
+ 1665/194    0.003    0.000    0.023    0.000 {built-in method __new__ of type object at 0x7fc0e4f791a0}
+        1    0.002    0.002    0.002    0.002 {built-in method builtins.compile}
+     1474    0.002    0.000    0.005    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+       24    0.002    0.000    0.002    0.000 {method 'readlines' of '_io._IOBase' objects}
+    13079    0.002    0.000    0.002    0.000 {built-in method builtins.isinstance}
+     2017    0.002    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:747(__delattr__)
+        1    0.002    0.002    0.010    0.010 {function dialog_exec.<locals>.patched at 0x7fc0d5ad71c0}
+        7    0.002    0.000    0.002    0.000 {built-in method marshal.loads}
+     8122    0.002    0.000    0.002    0.000 {method 'get' of 'mappingproxy' objects}
+        1    0.001    0.001    0.001    0.001 {method 'pixmap' of 'PySide6.QtGui.QIcon' objects}
+     2017    0.001    0.000    0.003    0.000 {built-in method builtins.delattr}
+      116    0.001    0.000    0.043    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+     6201    0.001    0.000    0.001    0.000 {built-in method builtins.hasattr}
+     1753    0.001    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:77(_is_private)
+     8830    0.001    0.000    0.001    0.000 {built-in method builtins.len}
+     10/2    0.001    0.000    0.202    0.101 {built-in method builtins.exec}
+     4644    0.001    0.000    0.001    0.000 {method 'append' of 'list' objects}
+     1521    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:36(_is_descriptor)
+     1894    0.001    0.000    0.003    0.000 {built-in method builtins.setattr}
+      348    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:970(_find_data_type_)
+     3484    0.001    0.000    0.001    0.000 {built-in method builtins.issubclass}
+2894/2893    0.001    0.000    0.001    0.000 {built-in method builtins.getattr}
+     1648    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:46(_is_dunder)
+     1753    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:57(_is_sunder)
+       91    0.001    0.000    0.001    0.000 {built-in method posix.stat}
+       35    0.001    0.000    0.006    0.000 shibokensupport/feature.py:151(_mod_uses_pyside)
+       27    0.001    0.000    0.001    0.000 {built-in method _io.open}
+      129    0.000    0.000    0.000    0.000 {method 'update' of 'dict' objects}
+        4    0.000    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:1741(convert_class)
+     1679    0.000    0.000    0.000    0.000 {method 'setdefault' of 'dict' objects}
+      198    0.000    0.000    0.000    0.000 {method 'join' of 'str' objects}
+      348    0.000    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:929(_get_mixins_)
+     1471    0.000    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:68(_is_internal_class)
+        1    0.000    0.000    0.003    0.003 <frozen runpy>:257(_get_code_from_file)
+        2    0.000    0.000    0.000    0.000 {built-in method _imp.create_dynamic}
+      116    0.000    0.000    0.000    0.000 /usr/lib64/python3.14/enum.py:997(_find_new_)
+       17    0.000    0.000    0.000    0.000 {built-in method _io.open_code}
+
+
+         85360 function calls (83836 primitive calls) in 0.205 seconds
+
+   Ordered by: cumulative time
+   List reduced from 444 to 70 due to restriction <70>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.205    0.205 <frozen runpy>:269(run_path)
+     10/2    0.001    0.000    0.202    0.101 {built-in method builtins.exec}
+        1    0.000    0.000    0.200    0.200 <frozen runpy>:91(_run_module_code)
+        1    0.000    0.000    0.200    0.200 <frozen runpy>:65(_run_code)
+        1    0.000    0.000    0.200    0.200 /usr/bin/classic7-run:1(<module>)
+        1    0.103    0.103    0.191    0.191 /usr/bin/classic7-run:176(dialog)
+      125    0.000    0.000    0.043    0.000 /usr/lib64/python3.14/enum.py:677(__call__)
+      116    0.001    0.000    0.043    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+      120    0.003    0.000    0.029    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+        1    0.023    0.023    0.023    0.023 {method 'setEditable' of 'PySide6.QtWidgets.QComboBox' objects}
+ 1665/194    0.003    0.000    0.023    0.000 {built-in method __new__ of type object at 0x7fc0e4f791a0}
+     1471    0.009    0.000    0.020    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+     11/4    0.000    0.000    0.014    0.003 <frozen importlib._bootstrap>:1360(_find_and_load)
+     11/4    0.000    0.000    0.014    0.003 <frozen importlib._bootstrap>:1308(_find_and_load_unlocked)
+     10/4    0.000    0.000    0.013    0.003 <frozen importlib._bootstrap>:914(_load_unlocked)
+      7/4    0.000    0.000    0.013    0.003 <frozen importlib._bootstrap_external>:757(exec_module)
+     23/8    0.000    0.000    0.011    0.001 <frozen importlib._bootstrap>:483(_call_with_frames_removed)
+     1703    0.005    0.000    0.011    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+        1    0.000    0.000    0.011    0.011 /tmp/perf_run.py:86(patched)
+        1    0.002    0.002    0.010    0.010 {function dialog_exec.<locals>.patched at 0x7fc0d5ad71c0}
+        1    0.000    0.000    0.009    0.009 /tmp/perf_run.py:88(<lambda>)
+        1    0.000    0.000    0.009    0.009 /tmp/perf_run.py:55(finish)
+        1    0.008    0.008    0.008    0.008 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+        1    0.000    0.000    0.007    0.007 /usr/lib64/python3.14/subprocess.py:1(<module>)
+       90    0.000    0.000    0.006    0.000 shibokensupport/signature/loader.py:68(feature_imported)
+       90    0.000    0.000    0.006    0.000 shibokensupport/feature.py:135(feature_imported)
+       35    0.001    0.000    0.006    0.000 shibokensupport/feature.py:151(_mod_uses_pyside)
+     1474    0.002    0.000    0.005    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+       35    0.000    0.000    0.005    0.000 /usr/lib64/python3.14/inspect.py:1162(getsource)
+       35    0.000    0.000    0.005    0.000 /usr/lib64/python3.14/inspect.py:1141(getsourcelines)
+       35    0.000    0.000    0.005    0.000 /usr/lib64/python3.14/inspect.py:957(findsource)
+        1    0.000    0.000    0.004    0.004 /tmp/perf_run.py:43(dump_profile)
+       24    0.000    0.000    0.004    0.000 /usr/lib64/python3.14/linecache.py:32(getlines)
+       24    0.000    0.000    0.004    0.000 /usr/lib64/python3.14/linecache.py:106(updatecache)
+        1    0.004    0.004    0.004    0.004 /tmp/perf_run.py:26(mem)
+     3071    0.003    0.000    0.003    0.000 /usr/lib64/python3.14/enum.py:812(__setattr__)
+        1    0.000    0.000    0.003    0.003 /usr/lib64/python3.14/pstats.py:1(<module>)
+     2017    0.001    0.000    0.003    0.000 {built-in method builtins.delattr}
+        1    0.000    0.000    0.003    0.003 <frozen runpy>:257(_get_code_from_file)
+     1894    0.001    0.000    0.003    0.000 {built-in method builtins.setattr}
+        1    0.002    0.002    0.002    0.002 {built-in method builtins.compile}
+        7    0.000    0.000    0.002    0.000 <frozen importlib._bootstrap_external>:830(get_code)
+       24    0.002    0.000    0.002    0.000 {method 'readlines' of '_io._IOBase' objects}
+        2    0.000    0.000    0.002    0.001 /usr/lib64/python3.14/dataclasses.py:1440(wrap)
+    13079    0.002    0.000    0.002    0.000 {built-in method builtins.isinstance}
+        2    0.000    0.000    0.002    0.001 /usr/lib64/python3.14/dataclasses.py:986(_process_class)
+     2017    0.002    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:747(__delattr__)
+        1    0.000    0.000    0.002    0.002 /usr/lib64/python3.14/pkgutil.py:1(<module>)
+     1753    0.001    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:77(_is_private)
+        7    0.000    0.000    0.002    0.000 <frozen importlib._bootstrap_external>:509(_compile_bytecode)
+        7    0.002    0.000    0.002    0.000 {built-in method marshal.loads}
+     8122    0.002    0.000    0.002    0.000 {method 'get' of 'mappingproxy' objects}
+      116    0.000    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:466(__prepare__)
+      348    0.000    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:929(_get_mixins_)
+     1521    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:36(_is_descriptor)
+        1    0.001    0.001    0.001    0.001 {method 'pixmap' of 'PySide6.QtGui.QIcon' objects}
+     6201    0.001    0.000    0.001    0.000 {built-in method builtins.hasattr}
+       11    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap>:1243(_find_spec)
+       24    0.000    0.000    0.001    0.000 /usr/lib64/python3.14/tokenize.py:457(open)
+        1    0.000    0.000    0.001    0.001 /usr/lib64/python3.14/signal.py:1(<module>)
+     8830    0.001    0.000    0.001    0.000 {built-in method builtins.len}
+      348    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:970(_find_data_type_)
+        4    0.000    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:1741(convert_class)
+        3    0.000    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:881(_convert_)
+        2    0.000    0.000    0.001    0.000 /usr/lib64/python3.14/dataclasses.py:478(add_fns_to_class)
+        1    0.000    0.000    0.001    0.001 /usr/lib64/python3.14/locale.py:1(<module>)
+     1648    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:46(_is_dunder)
+     4644    0.001    0.000    0.001    0.000 {method 'append' of 'list' objects}
+     1753    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:57(_is_sunder)
+       10    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap_external>:1288(find_spec)
+
+

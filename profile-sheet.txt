@@ -1,0 +1,131 @@
+         203433 function calls (199090 primitive calls) in 0.496 seconds
+
+   Ordered by: internal time
+   List reduced from 879 to 45 due to restriction <45>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.094    0.094    0.352    0.352 /usr/lib/classic7/sheet_app.py:2289(main)
+      105    0.063    0.001    0.063    0.001 {method 'isNull' of 'PySide6.QtGui.QIcon' objects}
+        1    0.030    0.030    0.030    0.030 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+       23    0.021    0.001    0.021    0.001 {method 'drawText' of 'PySide6.QtGui.QPainter' objects}
+        1    0.021    0.021    0.023    0.023 /usr/lib/classic7/sheet_grid.py:108(__init__)
+        1    0.019    0.019    0.019    0.019 {method 'setMenuWidget' of 'PySide6.QtWidgets.QMainWindow' objects}
+     2709    0.017    0.000    0.038    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+       96    0.014    0.000    0.015    0.000 {method 'setStyleSheet' of 'PySide6.QtWidgets.QWidget' objects}
+     3237    0.009    0.000    0.021    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+      6/5    0.008    0.001    0.014    0.003 {built-in method _imp.exec_dynamic}
+       22    0.007    0.000    0.007    0.000 {built-in method marshal.loads}
+      265    0.006    0.000    0.056    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+ 3031/322    0.006    0.000    0.043    0.000 {built-in method __new__ of type object at 0x7f2dac00d1a0}
+     35/2    0.006    0.000    0.495    0.247 {built-in method builtins.exec}
+     5486    0.005    0.000    0.006    0.000 /usr/lib64/python3.14/enum.py:812(__setattr__)
+        1    0.004    0.004    0.005    0.005 /tmp/perf_run.py:26(mem)
+        1    0.004    0.004    0.138    0.138 /usr/lib/classic7/sheet_app.py:1(<module>)
+      369    0.004    0.000    0.004    0.000 {method 'addAction' of 'PySide6.QtWidgets.QMenu' objects}
+    29595    0.004    0.000    0.004    0.000 {built-in method builtins.isinstance}
+     2709    0.004    0.000    0.010    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+        1    0.004    0.004    0.004    0.004 {method 'horizontalAdvance' of 'PySide6.QtGui.QFontMetrics' objects}
+       45    0.004    0.000    0.004    0.000 {method 'readlines' of '_io._IOBase' objects}
+     4003    0.003    0.000    0.003    0.000 /usr/lib64/python3.14/enum.py:747(__delattr__)
+        6    0.003    0.001    0.003    0.001 {built-in method _imp.create_dynamic}
+      164    0.003    0.000    0.003    0.000 {method 'addWidget' of 'PySide6.QtWidgets.QBoxLayout' objects}
+        1    0.003    0.003    0.012    0.012 {built-in method exec}
+    14232    0.003    0.000    0.003    0.000 {method 'get' of 'mappingproxy' objects}
+   192/31    0.003    0.000    0.007    0.000 /usr/lib64/python3.14/re/_parser.py:512(_parse)
+     4007    0.003    0.000    0.006    0.000 {built-in method builtins.delattr}
+       97    0.003    0.000    0.003    0.000 {method 'addWidget' of 'PySide6.QtWidgets.QGridLayout' objects}
+      264    0.002    0.000    0.083    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+       79    0.002    0.000    0.073    0.001 /usr/lib/classic7/sheet_app.py:268(act)
+19902/19520    0.002    0.000    0.003    0.000 {built-in method builtins.len}
+       49    0.002    0.000    0.006    0.000 /usr/lib/classic7/write_ribbon.py:181(big_button)
+       49    0.002    0.000    0.002    0.000 {method 'sizeHint' of 'PySide6.QtWidgets.QToolButton' objects}
+       27    0.002    0.000    0.006    0.000 /usr/lib/classic7/write_ribbon.py:50(__init__)
+    12987    0.002    0.000    0.002    0.000 {method 'append' of 'list' objects}
+        1    0.002    0.002    0.034    0.034 /usr/lib/classic7/sheet_grid.py:159(__init__)
+       15    0.002    0.000    0.008    0.001 {method 'viewport' of 'PySide6.QtWidgets.QAbstractScrollArea' objects}
+     3246    0.002    0.000    0.003    0.000 /usr/lib64/python3.14/enum.py:77(_is_private)
+    11271    0.002    0.000    0.002    0.000 {built-in method builtins.hasattr}
+        8    0.002    0.000    0.004    0.000 {method 'findChildren' of 'PySide6.QtCore.QObject' objects}
+        1    0.002    0.002    0.039    0.039 /usr/lib/classic7/sheet_dialogs.py:1(<module>)
+      229    0.002    0.000    0.002    0.000 {method 'connect' of 'PySide6.QtCore.SignalInstance' objects}
+        1    0.002    0.002    0.023    0.023 /usr/lib/classic7/sheet_app.py:488(_tab_home)
+
+
+         203433 function calls (199090 primitive calls) in 0.496 seconds
+
+   Ordered by: cumulative time
+   List reduced from 879 to 70 due to restriction <70>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.496    0.496 <frozen runpy>:269(run_path)
+     35/2    0.006    0.000    0.495    0.247 {built-in method builtins.exec}
+        1    0.000    0.000    0.493    0.493 <frozen runpy>:91(_run_module_code)
+        1    0.000    0.000    0.493    0.493 <frozen runpy>:65(_run_code)
+        1    0.000    0.000    0.493    0.493 /usr/bin/classic7-sheet:1(<module>)
+        1    0.094    0.094    0.352    0.352 /usr/lib/classic7/sheet_app.py:2289(main)
+        1    0.000    0.000    0.206    0.206 /usr/lib/classic7/sheet_app.py:235(__init__)
+     30/4    0.000    0.000    0.156    0.039 <frozen importlib._bootstrap>:1360(_find_and_load)
+     30/4    0.000    0.000    0.155    0.039 <frozen importlib._bootstrap>:1308(_find_and_load_unlocked)
+     29/4    0.000    0.000    0.154    0.039 <frozen importlib._bootstrap>:914(_load_unlocked)
+     22/4    0.000    0.000    0.154    0.039 <frozen importlib._bootstrap_external>:757(exec_module)
+     67/8    0.000    0.000    0.151    0.019 <frozen importlib._bootstrap>:483(_call_with_frames_removed)
+        1    0.004    0.004    0.138    0.138 /usr/lib/classic7/sheet_app.py:1(<module>)
+        1    0.000    0.000    0.090    0.090 /usr/lib/classic7/sheet_app.py:395(_ribbon)
+      393    0.001    0.000    0.084    0.000 /usr/lib64/python3.14/enum.py:677(__call__)
+      264    0.002    0.000    0.083    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+      118    0.000    0.000    0.081    0.001 /usr/lib/classic7/write_ribbon.py:38(icon)
+        1    0.000    0.000    0.073    0.073 /usr/lib/classic7/sheet_app.py:286(_actions)
+       79    0.002    0.000    0.073    0.001 /usr/lib/classic7/sheet_app.py:268(act)
+      105    0.063    0.001    0.063    0.001 {method 'isNull' of 'PySide6.QtGui.QIcon' objects}
+      265    0.006    0.000    0.056    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+ 3031/322    0.006    0.000    0.043    0.000 {built-in method __new__ of type object at 0x7f2dac00d1a0}
+        1    0.002    0.002    0.039    0.039 /usr/lib/classic7/sheet_dialogs.py:1(<module>)
+     2709    0.017    0.000    0.038    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+        1    0.002    0.002    0.034    0.034 /usr/lib/classic7/sheet_grid.py:159(__init__)
+        1    0.030    0.030    0.030    0.030 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+        1    0.002    0.002    0.023    0.023 /usr/lib/classic7/sheet_app.py:488(_tab_home)
+        1    0.021    0.021    0.023    0.023 /usr/lib/classic7/sheet_grid.py:108(__init__)
+       23    0.021    0.001    0.021    0.001 {method 'drawText' of 'PySide6.QtGui.QPainter' objects}
+     3237    0.009    0.000    0.021    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+       19    0.001    0.000    0.019    0.001 /usr/lib/classic7/write_ribbon.py:18(text_icon)
+        1    0.019    0.019    0.019    0.019 {method 'setMenuWidget' of 'PySide6.QtWidgets.QMainWindow' objects}
+        1    0.000    0.000    0.018    0.018 /usr/lib/classic7/sheet_io.py:1(<module>)
+        1    0.000    0.000    0.017    0.017 /usr/lib/classic7/sheet_formula.py:1(<module>)
+       96    0.014    0.000    0.015    0.000 {method 'setStyleSheet' of 'PySide6.QtWidgets.QWidget' objects}
+      7/5    0.000    0.000    0.014    0.003 <frozen importlib._bootstrap>:1409(_handle_fromlist)
+      2/1    0.000    0.000    0.014    0.014 {built-in method builtins.__import__}
+      6/5    0.000    0.000    0.014    0.003 <frozen importlib._bootstrap_external>:1063(exec_module)
+      6/5    0.008    0.001    0.014    0.003 {built-in method _imp.exec_dynamic}
+        1    0.000    0.000    0.014    0.014 /usr/lib/classic7/write_ribbon.py:403(apply_scheme)
+       21    0.001    0.000    0.013    0.001 /usr/lib/classic7/sheet_app.py:468(_menu_button)
+       12    0.000    0.000    0.013    0.001 /usr/lib64/python3.14/dataclasses.py:1440(wrap)
+       12    0.001    0.000    0.013    0.001 /usr/lib64/python3.14/dataclasses.py:986(_process_class)
+      217    0.000    0.000    0.012    0.000 shibokensupport/signature/loader.py:68(feature_imported)
+       21    0.000    0.000    0.012    0.001 /usr/lib64/python3.14/re/__init__.py:330(_compile)
+        1    0.000    0.000    0.012    0.012 /tmp/perf_run.py:78(patched)
+      217    0.000    0.000    0.012    0.000 shibokensupport/feature.py:135(feature_imported)
+        1    0.003    0.003    0.012    0.012 {built-in method exec}
+       22    0.000    0.000    0.012    0.001 <frozen importlib._bootstrap_external>:830(get_code)
+       20    0.000    0.000    0.012    0.001 /usr/lib64/python3.14/re/__init__.py:287(compile)
+       57    0.001    0.000    0.011    0.000 shibokensupport/feature.py:151(_mod_uses_pyside)
+       21    0.000    0.000    0.011    0.001 /usr/lib64/python3.14/re/_compiler.py:757(compile)
+       57    0.000    0.000    0.011    0.000 /usr/lib64/python3.14/inspect.py:1162(getsource)
+       57    0.000    0.000    0.010    0.000 /usr/lib64/python3.14/inspect.py:1141(getsourcelines)
+     2709    0.004    0.000    0.010    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+        1    0.000    0.000    0.010    0.010 /usr/lib/classic7/sheet_model.py:1(<module>)
+       57    0.000    0.000    0.009    0.000 /usr/lib64/python3.14/inspect.py:957(findsource)
+        1    0.001    0.001    0.009    0.009 /usr/lib/classic7/write_model.py:1(<module>)
+        1    0.000    0.000    0.009    0.009 /tmp/perf_run.py:80(<lambda>)
+        1    0.000    0.000    0.009    0.009 /tmp/perf_run.py:55(finish)
+        1    0.001    0.001    0.008    0.008 /usr/lib/classic7/write_ribbon.py:1(<module>)
+       15    0.002    0.000    0.008    0.001 {method 'viewport' of 'PySide6.QtWidgets.QAbstractScrollArea' objects}
+        1    0.000    0.000    0.008    0.008 /usr/lib64/python3.14/statistics.py:1(<module>)
+       22    0.001    0.000    0.008    0.000 <frozen importlib._bootstrap_external>:509(_compile_bytecode)
+        1    0.001    0.001    0.008    0.008 /usr/lib/classic7/sheet_app.py:657(_tab_insert)
+        1    0.000    0.000    0.008    0.008 /usr/lib/classic7/sheet_app.py:718(_tab_formulas)
+       45    0.000    0.000    0.008    0.000 /usr/lib64/python3.14/linecache.py:32(getlines)
+       45    0.000    0.000    0.007    0.000 /usr/lib64/python3.14/linecache.py:106(updatecache)
+       21    0.000    0.000    0.007    0.000 /usr/lib64/python3.14/re/_parser.py:963(parse)
+       22    0.007    0.000    0.007    0.000 {built-in method marshal.loads}
+
+

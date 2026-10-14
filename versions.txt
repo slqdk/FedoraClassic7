@@ -1,0 +1,16 @@
++ echo 'python 3.14'
+python 3.14
++ rpm -q python3 python3-pyside6 plasma-workspace kwin kvantum
+python3-3.14.8-1.fc44.x86_64
+python3-pyside6-6.11.2-1.fc44.x86_64
+plasma-workspace-6.7.5-1.fc44.x86_64
+kwin-6.7.5-1.fc44.x86_64
+kvantum-1.1.6-1.fc44.x86_64
++ nproc
+4
++ grep -m1 'model name' /proc/cpuinfo
+model name	: AMD EPYC 9V74 80-Core Processor
++ free -m
+               total        used        free      shared  buff/cache   available
+Mem:           15989        1223        3004          43       12151       14766
+Swap:           3071           0        3071

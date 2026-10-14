@@ -1,0 +1,6 @@
+C firewall-cmd--state 0.214 0.144 0.045 45872 36
+C rpm-ostree-status 0.032 0.010 0.006 23392 1
+C coredumpctl-list 0.004 0.001 0.003 12056 1
+C actioncenter--json 0.316 0.223 0.080 46040 0
+C network--json 0.114 0.048 0.028 16772 0
+C nmcli-device-status 0.016 0.003 0.005 12140 1

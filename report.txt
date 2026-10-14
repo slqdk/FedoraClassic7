@@ -1,0 +1,26 @@
+Start-up until the first window is drawn, median of the runs (ms)
+program                        C  PySide6   saved     MB  mods
+mail                        1186      110       0    241   261
+show                         789      108       0    103   254
+write                        608      110       0     83   195
+firewall                     581      109       0     50   190
+sheet                        581      104       0     76   200
+appearance                   515      108       0     66   184
+paint                        494      106       0     83   279
+taskmgr                      487      111       0     58   197
+control                      437      120       0     53   191
+prompt                       386      110       0     60   245
+photos                       357      107       0     56   193
+computer                     349      109       0     52   194
+notepad                      332      112       0     49   174
+run                          311      107       0     49   179
+sum                         7413
+
+Helpers (wall s / CPU s / max memory MB)
+helper                                           C
+firewall-cmd--state             0.21/0.19/  45 x36
+rpm-ostree-status                0.03/0.02/  23 x1
+coredumpctl-list                 0.00/0.00/  12 x1
+actioncenter--json                  0.32/0.30/  45
+network--json                       0.11/0.08/  16
+nmcli-device-status              0.02/0.01/  12 x1

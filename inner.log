@@ -1,0 +1,1057 @@
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.2' (uid=1000 pid=132 comm="/usr/libexec/kactivitymanagerd" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='ca.desrt.dconf' requested by ':1.3' (uid=1000 pid=144 comm="gsettings set org.gnome.desktop.interface gtk-them" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'ca.desrt.dconf'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.5' (uid=1000 pid=147 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.5' (uid=1000 pid=147 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.5' (uid=1000 pid=147 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:147): xdg-desktop-portal-WARNING **: 11:06:56.633: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.5' (uid=1000 pid=147 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.12' (uid=1000 pid=196 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.11' (uid=1000 pid=196 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[212]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=196 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:196): xdg-desktop-portal-gtk-WARNING **: 11:06:56.743: error: Could not connect: No such file or directory
+
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[212]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+(/usr/libexec/xdg-desktop-portal:147): xdg-desktop-portal-WARNING **: 11:06:56.757: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.5' (uid=1000 pid=147 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.kde.KSplash' requested by ':1.20' (uid=1000 pid=243 comm="plasmashell --no-respawn" label="plasmashell (enforce)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.kde.kded6' requested by ':1.22' (uid=1000 pid=265 comm="/usr/libexec/kf6/kioworker /usr/lib64/qt6/plugins/" label="unconfined")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.kde.kded6'
+xsettingsd: Loaded 16 settings from /home/tester/.config/xsettingsd/xsettingsd.conf
+xsettingsd: Unable to open connection to X server
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.kde.kdeconnect' requested by ':1.20' (uid=1000 pid=243 comm="plasmashell --no-respawn" label="plasmashell (enforce)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.kde.kdeconnect'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.Notifications' requested by ':1.28' (uid=1000 pid=310 comm="/usr/bin/kdeconnectd" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.Notifications'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activated service 'org.kde.KSplash' failed: Process org.kde.KSplash exited with status 1
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.62' (uid=1000 pid=416 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:write /" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.63' (uid=1000 pid=419 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.63' (uid=1000 pid=419 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.63' (uid=1000 pid=419 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:419): xdg-desktop-portal-WARNING **: 11:09:24.129: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.63' (uid=1000 pid=419 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.68' (uid=1000 pid=451 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.67' (uid=1000 pid=451 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[465]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=451 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:451): xdg-desktop-portal-gtk-WARNING **: 11:09:24.236: error: Could not connect: No such file or directory
+
+dbus-daemon[465]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:419): xdg-desktop-portal-WARNING **: 11:09:24.252: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.63' (uid=1000 pid=419 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.74' (uid=1000 pid=483 comm="/usr/bin/ksecretd" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.75' (uid=1000 pid=494 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.75' (uid=1000 pid=494 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.75' (uid=1000 pid=494 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:494): xdg-desktop-portal-WARNING **: 11:09:24.656: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.75' (uid=1000 pid=494 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.81' (uid=1000 pid=523 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.79' (uid=1000 pid=523 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[540]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=523 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:523): xdg-desktop-portal-gtk-WARNING **: 11:09:24.780: error: Could not connect: No such file or directory
+
+dbus-daemon[540]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:494): xdg-desktop-portal-WARNING **: 11:09:24.799: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.88' (uid=1000 pid=569 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:write /" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.89' (uid=1000 pid=572 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.89' (uid=1000 pid=572 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.89' (uid=1000 pid=572 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:572): xdg-desktop-portal-WARNING **: 11:09:25.992: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.89' (uid=1000 pid=572 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.94' (uid=1000 pid=604 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.93' (uid=1000 pid=604 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[618]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=604 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:604): xdg-desktop-portal-gtk-WARNING **: 11:09:26.109: error: Could not connect: No such file or directory
+
+dbus-daemon[618]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:572): xdg-desktop-portal-WARNING **: 11:09:26.125: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.89' (uid=1000 pid=572 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.100' (uid=1000 pid=636 comm="/usr/bin/ksecretd" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.101' (uid=1000 pid=647 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.101' (uid=1000 pid=647 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.101' (uid=1000 pid=647 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:647): xdg-desktop-portal-WARNING **: 11:09:26.527: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.101' (uid=1000 pid=647 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.106' (uid=1000 pid=676 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.105' (uid=1000 pid=676 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[693]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=676 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:676): xdg-desktop-portal-gtk-WARNING **: 11:09:26.625: error: Could not connect: No such file or directory
+
+dbus-daemon[693]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:647): xdg-desktop-portal-WARNING **: 11:09:26.641: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.113' (uid=1000 pid=721 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:sheet /" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.114' (uid=1000 pid=724 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.114' (uid=1000 pid=724 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.114' (uid=1000 pid=724 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:724): xdg-desktop-portal-WARNING **: 11:09:27.938: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.114' (uid=1000 pid=724 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.119' (uid=1000 pid=755 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.118' (uid=1000 pid=755 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[772]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=755 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:755): xdg-desktop-portal-gtk-WARNING **: 11:09:28.041: error: Could not connect: No such file or directory
+
+dbus-daemon[772]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:724): xdg-desktop-portal-WARNING **: 11:09:28.059: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.114' (uid=1000 pid=724 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.125' (uid=1000 pid=787 comm="/usr/bin/ksecretd" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.126' (uid=1000 pid=798 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.126' (uid=1000 pid=798 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.126' (uid=1000 pid=798 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:798): xdg-desktop-portal-WARNING **: 11:09:28.502: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.126' (uid=1000 pid=798 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.131' (uid=1000 pid=830 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.130' (uid=1000 pid=830 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[844]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=830 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:830): xdg-desktop-portal-gtk-WARNING **: 11:09:28.626: error: Could not connect: No such file or directory
+
+dbus-daemon[844]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:798): xdg-desktop-portal-WARNING **: 11:09:28.644: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.138' (uid=1000 pid=872 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:sheet /" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.139' (uid=1000 pid=875 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.139' (uid=1000 pid=875 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.139' (uid=1000 pid=875 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:875): xdg-desktop-portal-WARNING **: 11:09:29.765: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.139' (uid=1000 pid=875 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.145' (uid=1000 pid=911 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.144' (uid=1000 pid=911 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[928]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=911 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:911): xdg-desktop-portal-gtk-WARNING **: 11:09:29.876: error: Could not connect: No such file or directory
+
+dbus-daemon[928]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:875): xdg-desktop-portal-WARNING **: 11:09:29.895: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.139' (uid=1000 pid=875 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.151' (uid=1000 pid=943 comm="/usr/bin/ksecretd" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.152' (uid=1000 pid=954 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.152' (uid=1000 pid=954 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.152' (uid=1000 pid=954 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:954): xdg-desktop-portal-WARNING **: 11:09:30.369: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.152' (uid=1000 pid=954 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.157' (uid=1000 pid=987 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.156' (uid=1000 pid=987 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[1001]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=987 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:987): xdg-desktop-portal-gtk-WARNING **: 11:09:30.485: error: Could not connect: No such file or directory
+
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[1001]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+(/usr/libexec/xdg-desktop-portal:954): xdg-desktop-portal-WARNING **: 11:09:30.502: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.164' (uid=1000 pid=1036 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:show /u" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.165' (uid=1000 pid=1039 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.165' (uid=1000 pid=1039 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.165' (uid=1000 pid=1039 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:1039): xdg-desktop-portal-WARNING **: 11:09:31.980: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.165' (uid=1000 pid=1039 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.170' (uid=1000 pid=1071 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.169' (uid=1000 pid=1071 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[1085]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=1071 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:1071): xdg-desktop-portal-gtk-WARNING **: 11:09:32.080: error: Could not connect: No such file or directory
+
+dbus-daemon[1085]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:1039): xdg-desktop-portal-WARNING **: 11:09:32.095: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.165' (uid=1000 pid=1039 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.177' (uid=1000 pid=1115 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:show /u" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.178' (uid=1000 pid=1118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.178' (uid=1000 pid=1118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.178' (uid=1000 pid=1118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:1118): xdg-desktop-portal-WARNING **: 11:09:33.066: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.178' (uid=1000 pid=1118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.183' (uid=1000 pid=1151 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.182' (uid=1000 pid=1151 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[1165]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=1151 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:1151): xdg-desktop-portal-gtk-WARNING **: 11:09:33.173: error: Could not connect: No such file or directory
+
+dbus-daemon[1165]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:1118): xdg-desktop-portal-WARNING **: 11:09:33.188: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.178' (uid=1000 pid=1118 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.190' (uid=1000 pid=1195 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:show /u" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.191' (uid=1000 pid=1198 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.191' (uid=1000 pid=1198 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.191' (uid=1000 pid=1198 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:1198): xdg-desktop-portal-WARNING **: 11:09:34.192: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.191' (uid=1000 pid=1198 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.196' (uid=1000 pid=1231 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.195' (uid=1000 pid=1231 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[1245]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=1231 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:1231): xdg-desktop-portal-gtk-WARNING **: 11:09:34.308: error: Could not connect: No such file or directory
+
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[1245]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+(/usr/libexec/xdg-desktop-portal:1198): xdg-desktop-portal-WARNING **: 11:09:34.328: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.191' (uid=1000 pid=1198 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.204' (uid=1000 pid=1284 comm="python3 /tmp/perf_run.py /out/prof.jsonl P:paint /" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.205' (uid=1000 pid=1287 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.205' (uid=1000 pid=1287 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.205' (uid=1000 pid=1287 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:1287): xdg-desktop-portal-WARNING **: 11:09:35.440: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.205' (uid=1000 pid=1287 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.210' (uid=1000 pid=1320 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.209' (uid=1000 pid=1320 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[1335]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=1320 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:1320): xdg-desktop-portal-gtk-WARNING **: 11:09:35.549: error: Could not connect: No such file or directory
+
+dbus-daemon[1335]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.205' (uid=1000 pid=1287 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:1287): xdg-desktop-portal-WARNING **: 11:09:35.729: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.205' (uid=1000 pid=1287 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.219' (uid=1000 pid=1379 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:paint /" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.220' (uid=1000 pid=1382 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.220' (uid=1000 pid=1382 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.220' (uid=1000 pid=1382 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:1382): xdg-desktop-portal-WARNING **: 11:09:37.130: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.220' (uid=1000 pid=1382 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.225' (uid=1000 pid=1415 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.224' (uid=1000 pid=1415 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[1436]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=1415 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:1415): xdg-desktop-portal-gtk-WARNING **: 11:09:37.321: error: Could not connect: No such file or directory
+
+dbus-daemon[1436]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.220' (uid=1000 pid=1382 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:1382): xdg-desktop-portal-WARNING **: 11:09:37.482: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.220' (uid=1000 pid=1382 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.234' (uid=1000 pid=1475 comm="python3 /tmp/perf_run.py /out/prof.jsonl P:mail /u" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.235' (uid=1000 pid=1478 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.235' (uid=1000 pid=1478 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.235' (uid=1000 pid=1478 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:1478): xdg-desktop-portal-WARNING **: 11:09:39.013: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.235' (uid=1000 pid=1478 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.240' (uid=1000 pid=1509 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.239' (uid=1000 pid=1509 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[1532]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=1509 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:1509): xdg-desktop-portal-gtk-WARNING **: 11:09:39.125: error: Could not connect: No such file or directory
+
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[1532]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+(/usr/libexec/xdg-desktop-portal:1478): xdg-desktop-portal-WARNING **: 11:09:39.141: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.235' (uid=1000 pid=1478 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.248' (uid=1000 pid=1611 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:mail /u" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.249' (uid=1000 pid=1614 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.249' (uid=1000 pid=1614 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.249' (uid=1000 pid=1614 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:1614): xdg-desktop-portal-WARNING **: 11:09:40.738: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.249' (uid=1000 pid=1614 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.254' (uid=1000 pid=1646 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.253' (uid=1000 pid=1646 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[1669]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=1646 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:1646): xdg-desktop-portal-gtk-WARNING **: 11:09:40.845: error: Could not connect: No such file or directory
+
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[1669]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+(/usr/libexec/xdg-desktop-portal:1614): xdg-desktop-portal-WARNING **: 11:09:40.862: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.249' (uid=1000 pid=1614 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.261' (uid=1000 pid=1747 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:mail /u" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.262' (uid=1000 pid=1750 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.262' (uid=1000 pid=1750 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.262' (uid=1000 pid=1750 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:1750): xdg-desktop-portal-WARNING **: 11:09:42.284: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.262' (uid=1000 pid=1750 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.267' (uid=1000 pid=1782 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.266' (uid=1000 pid=1782 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[1805]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=1782 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:1782): xdg-desktop-portal-gtk-WARNING **: 11:09:42.394: error: Could not connect: No such file or directory
+
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[1805]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+(/usr/libexec/xdg-desktop-portal:1750): xdg-desktop-portal-WARNING **: 11:09:42.410: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.262' (uid=1000 pid=1750 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.274' (uid=1000 pid=1882 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:mail /u" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.275' (uid=1000 pid=1885 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.275' (uid=1000 pid=1885 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.275' (uid=1000 pid=1885 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:1885): xdg-desktop-portal-WARNING **: 11:09:43.813: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.275' (uid=1000 pid=1885 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.280' (uid=1000 pid=1917 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.279' (uid=1000 pid=1917 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[1940]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=1917 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:1917): xdg-desktop-portal-gtk-WARNING **: 11:09:43.928: error: Could not connect: No such file or directory
+
+dbus-daemon[1940]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:1885): xdg-desktop-portal-WARNING **: 11:09:43.943: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.275' (uid=1000 pid=1885 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.288' (uid=1000 pid=2016 comm="python3 /tmp/perf_run.py /out/prof.jsonl P:appeara" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.289' (uid=1000 pid=2019 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.289' (uid=1000 pid=2019 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.289' (uid=1000 pid=2019 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2019): xdg-desktop-portal-WARNING **: 11:09:45.182: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.289' (uid=1000 pid=2019 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.295' (uid=1000 pid=2051 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.294' (uid=1000 pid=2051 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[2069]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=2051 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:2051): xdg-desktop-portal-gtk-WARNING **: 11:09:45.287: error: Could not connect: No such file or directory
+
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[2069]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+(/usr/libexec/xdg-desktop-portal:2019): xdg-desktop-portal-WARNING **: 11:09:45.302: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.289' (uid=1000 pid=2019 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.302' (uid=1000 pid=2095 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:appeara" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.303' (uid=1000 pid=2098 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.303' (uid=1000 pid=2098 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.303' (uid=1000 pid=2098 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2098): xdg-desktop-portal-WARNING **: 11:09:46.224: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.303' (uid=1000 pid=2098 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.309' (uid=1000 pid=2134 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.308' (uid=1000 pid=2134 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[2148]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=2134 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:2134): xdg-desktop-portal-gtk-WARNING **: 11:09:46.335: error: Could not connect: No such file or directory
+
+dbus-daemon[2148]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:2098): xdg-desktop-portal-WARNING **: 11:09:46.351: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.303' (uid=1000 pid=2098 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.318' (uid=1000 pid=2188 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:appeara" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.319' (uid=1000 pid=2191 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.319' (uid=1000 pid=2191 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.319' (uid=1000 pid=2191 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2191): xdg-desktop-portal-WARNING **: 11:09:47.846: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.319' (uid=1000 pid=2191 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.325' (uid=1000 pid=2228 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.324' (uid=1000 pid=2228 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[2242]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=2228 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:2228): xdg-desktop-portal-gtk-WARNING **: 11:09:47.950: error: Could not connect: No such file or directory
+
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[2242]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+(/usr/libexec/xdg-desktop-portal:2191): xdg-desktop-portal-WARNING **: 11:09:47.969: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.319' (uid=1000 pid=2191 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.331' (uid=1000 pid=2258 comm="/usr/bin/ksecretd" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.332' (uid=1000 pid=2266 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.332' (uid=1000 pid=2266 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.332' (uid=1000 pid=2266 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2266): xdg-desktop-portal-WARNING **: 11:09:48.231: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.332' (uid=1000 pid=2266 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.337' (uid=1000 pid=2297 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.336' (uid=1000 pid=2297 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[2311]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=2297 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:2297): xdg-desktop-portal-gtk-WARNING **: 11:09:48.335: error: Could not connect: No such file or directory
+
+dbus-daemon[2311]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:2266): xdg-desktop-portal-WARNING **: 11:09:48.350: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.344' (uid=1000 pid=2345 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:control" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.345' (uid=1000 pid=2348 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.345' (uid=1000 pid=2348 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.345' (uid=1000 pid=2348 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2348): xdg-desktop-portal-WARNING **: 11:09:49.506: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.345' (uid=1000 pid=2348 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.350' (uid=1000 pid=2380 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.349' (uid=1000 pid=2380 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[2403]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=2380 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:2380): xdg-desktop-portal-gtk-WARNING **: 11:09:49.701: error: Could not connect: No such file or directory
+
+dbus-daemon[2403]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.345' (uid=1000 pid=2348 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2348): xdg-desktop-portal-WARNING **: 11:09:49.868: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.345' (uid=1000 pid=2348 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.360' (uid=1000 pid=2442 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:control" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.361' (uid=1000 pid=2445 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.361' (uid=1000 pid=2445 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.361' (uid=1000 pid=2445 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2445): xdg-desktop-portal-WARNING **: 11:09:50.987: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.361' (uid=1000 pid=2445 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.366' (uid=1000 pid=2477 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.365' (uid=1000 pid=2477 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[2500]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=2477 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:2477): xdg-desktop-portal-gtk-WARNING **: 11:09:51.171: error: Could not connect: No such file or directory
+
+dbus-daemon[2500]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.361' (uid=1000 pid=2445 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2445): xdg-desktop-portal-WARNING **: 11:09:51.338: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.361' (uid=1000 pid=2445 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.375' (uid=1000 pid=2548 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:taskmgr" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.376' (uid=1000 pid=2551 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.376' (uid=1000 pid=2551 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.376' (uid=1000 pid=2551 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2551): xdg-desktop-portal-WARNING **: 11:09:52.741: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.376' (uid=1000 pid=2551 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.381' (uid=1000 pid=2588 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.380' (uid=1000 pid=2588 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[2606]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=2588 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:2588): xdg-desktop-portal-gtk-WARNING **: 11:09:52.870: error: Could not connect: No such file or directory
+
+dbus-daemon[2606]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.376' (uid=1000 pid=2551 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2551): xdg-desktop-portal-WARNING **: 11:09:53.039: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.376' (uid=1000 pid=2551 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.390' (uid=1000 pid=2646 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:taskmgr" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.391' (uid=1000 pid=2649 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.391' (uid=1000 pid=2649 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.391' (uid=1000 pid=2649 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2649): xdg-desktop-portal-WARNING **: 11:09:54.360: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.391' (uid=1000 pid=2649 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.396' (uid=1000 pid=2686 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.395' (uid=1000 pid=2686 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[2704]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=2686 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:2686): xdg-desktop-portal-gtk-WARNING **: 11:09:54.486: error: Could not connect: No such file or directory
+
+dbus-daemon[2704]: Successfully activated service 'org.a11y.atspi.Registry'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.391' (uid=1000 pid=2649 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2649): xdg-desktop-portal-WARNING **: 11:09:54.655: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.391' (uid=1000 pid=2649 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.406' (uid=1000 pid=2745 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:firewal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.407' (uid=1000 pid=2748 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.407' (uid=1000 pid=2748 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.407' (uid=1000 pid=2748 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2748): xdg-desktop-portal-WARNING **: 11:09:56.009: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.407' (uid=1000 pid=2748 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.412' (uid=1000 pid=2781 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.411' (uid=1000 pid=2781 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[2795]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=2781 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:2781): xdg-desktop-portal-gtk-WARNING **: 11:09:56.118: error: Could not connect: No such file or directory
+
+dbus-daemon[2795]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:2748): xdg-desktop-portal-WARNING **: 11:09:56.132: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.407' (uid=1000 pid=2748 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.418' (uid=1000 pid=2810 comm="/usr/bin/ksecretd" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.419' (uid=1000 pid=2831 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.419' (uid=1000 pid=2831 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.419' (uid=1000 pid=2831 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2831): xdg-desktop-portal-WARNING **: 11:09:56.504: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.419' (uid=1000 pid=2831 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.424' (uid=1000 pid=2860 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.423' (uid=1000 pid=2860 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[2877]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=2860 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:2860): xdg-desktop-portal-gtk-WARNING **: 11:09:56.610: error: Could not connect: No such file or directory
+
+dbus-daemon[2877]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:2831): xdg-desktop-portal-WARNING **: 11:09:56.627: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.431' (uid=1000 pid=2906 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:firewal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.432' (uid=1000 pid=2909 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.432' (uid=1000 pid=2909 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.432' (uid=1000 pid=2909 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2909): xdg-desktop-portal-WARNING **: 11:09:57.798: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.432' (uid=1000 pid=2909 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.437' (uid=1000 pid=2942 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.436' (uid=1000 pid=2942 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[2956]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=2942 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:2942): xdg-desktop-portal-gtk-WARNING **: 11:09:57.902: error: Could not connect: No such file or directory
+
+dbus-daemon[2956]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:2909): xdg-desktop-portal-WARNING **: 11:09:57.918: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.432' (uid=1000 pid=2909 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.443' (uid=1000 pid=2971 comm="/usr/bin/ksecretd" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.444' (uid=1000 pid=2991 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.444' (uid=1000 pid=2991 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.444' (uid=1000 pid=2991 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:2991): xdg-desktop-portal-WARNING **: 11:09:58.312: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.444' (uid=1000 pid=2991 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.449' (uid=1000 pid=3021 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.448' (uid=1000 pid=3021 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[3038]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3021 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:3021): xdg-desktop-portal-gtk-WARNING **: 11:09:58.419: error: Could not connect: No such file or directory
+
+dbus-daemon[3038]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:2991): xdg-desktop-portal-WARNING **: 11:09:58.436: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.456' (uid=1000 pid=3091 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:prompt" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.457' (uid=1000 pid=3094 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.457' (uid=1000 pid=3094 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.457' (uid=1000 pid=3094 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:3094): xdg-desktop-portal-WARNING **: 11:09:59.620: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.457' (uid=1000 pid=3094 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.462' (uid=1000 pid=3146 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.461' (uid=1000 pid=3146 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[3164]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3146 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:3146): xdg-desktop-portal-gtk-WARNING **: 11:09:59.725: error: Could not connect: No such file or directory
+
+dbus-daemon[3164]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:3094): xdg-desktop-portal-WARNING **: 11:09:59.738: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.457' (uid=1000 pid=3094 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.471' (uid=1000 pid=3228 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:prompt" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.472' (uid=1000 pid=3231 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.472' (uid=1000 pid=3231 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.472' (uid=1000 pid=3231 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:3231): xdg-desktop-portal-WARNING **: 11:10:01.058: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.472' (uid=1000 pid=3231 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.477' (uid=1000 pid=3281 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.476' (uid=1000 pid=3281 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[3295]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3281 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:3281): xdg-desktop-portal-gtk-WARNING **: 11:10:01.154: error: Could not connect: No such file or directory
+
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+dbus-daemon[3295]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+(/usr/libexec/xdg-desktop-portal:3231): xdg-desktop-portal-WARNING **: 11:10:01.167: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.472' (uid=1000 pid=3231 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.485' (uid=1000 pid=3330 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:compute" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.486' (uid=1000 pid=3333 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.486' (uid=1000 pid=3333 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.486' (uid=1000 pid=3333 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:3333): xdg-desktop-portal-WARNING **: 11:10:02.421: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.486' (uid=1000 pid=3333 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.486' (uid=1000 pid=3333 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.492' (uid=1000 pid=3379 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.491' (uid=1000 pid=3379 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[3393]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3379 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:3379): xdg-desktop-portal-gtk-WARNING **: 11:10:02.681: error: Could not connect: No such file or directory
+
+dbus-daemon[3393]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:3333): xdg-desktop-portal-WARNING **: 11:10:02.695: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.486' (uid=1000 pid=3333 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.500' (uid=1000 pid=3428 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:compute" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.501' (uid=1000 pid=3431 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.501' (uid=1000 pid=3431 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.501' (uid=1000 pid=3431 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:3431): xdg-desktop-portal-WARNING **: 11:10:03.763: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.501' (uid=1000 pid=3431 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.501' (uid=1000 pid=3431 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.507' (uid=1000 pid=3478 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.506' (uid=1000 pid=3478 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[3492]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3478 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:3478): xdg-desktop-portal-gtk-WARNING **: 11:10:04.009: error: Could not connect: No such file or directory
+
+dbus-daemon[3492]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:3431): xdg-desktop-portal-WARNING **: 11:10:04.022: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.501' (uid=1000 pid=3431 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.516' (uid=1000 pid=3523 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:photos" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.517' (uid=1000 pid=3526 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.517' (uid=1000 pid=3526 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.517' (uid=1000 pid=3526 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:3526): xdg-desktop-portal-WARNING **: 11:10:05.251: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.517' (uid=1000 pid=3526 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.522' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.521' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[3578]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3564 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:3564): xdg-desktop-portal-gtk-WARNING **: 11:10:05.351: error: Could not connect: No such file or directory
+
+dbus-daemon[3578]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:3526): xdg-desktop-portal-WARNING **: 11:10:05.364: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.517' (uid=1000 pid=3526 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.530' (uid=1000 pid=3609 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:photos" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.531' (uid=1000 pid=3612 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.531' (uid=1000 pid=3612 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.531' (uid=1000 pid=3612 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:3612): xdg-desktop-portal-WARNING **: 11:10:06.543: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.531' (uid=1000 pid=3612 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.531' (uid=1000 pid=3612 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.537' (uid=1000 pid=3655 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.536' (uid=1000 pid=3655 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[3669]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3655 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:3655): xdg-desktop-portal-gtk-WARNING **: 11:10:06.795: error: Could not connect: No such file or directory
+
+dbus-daemon[3669]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:3612): xdg-desktop-portal-WARNING **: 11:10:06.808: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.531' (uid=1000 pid=3612 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.545' (uid=1000 pid=3703 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:notepad" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.546' (uid=1000 pid=3706 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.546' (uid=1000 pid=3706 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.546' (uid=1000 pid=3706 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:3706): xdg-desktop-portal-WARNING **: 11:10:07.973: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.546' (uid=1000 pid=3706 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.551' (uid=1000 pid=3746 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.550' (uid=1000 pid=3746 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[3760]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3746 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:3746): xdg-desktop-portal-gtk-WARNING **: 11:10:08.071: error: Could not connect: No such file or directory
+
+dbus-daemon[115]: dbus-daemon[3760]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'Successfully activated service 'org.a11y.atspi.Registry'
+
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+(/usr/libexec/xdg-desktop-portal:3706): xdg-desktop-portal-WARNING **: 11:10:08.086: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.546' (uid=1000 pid=3706 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.559' (uid=1000 pid=3794 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:notepad" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.560' (uid=1000 pid=3797 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.560' (uid=1000 pid=3797 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.560' (uid=1000 pid=3797 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:3797): xdg-desktop-portal-WARNING **: 11:10:09.280: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.560' (uid=1000 pid=3797 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.565' (uid=1000 pid=3837 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.564' (uid=1000 pid=3837 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[3851]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3837 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:3837): xdg-desktop-portal-gtk-WARNING **: 11:10:09.383: error: Could not connect: No such file or directory
+
+dbus-daemon[3851]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:3797): xdg-desktop-portal-WARNING **: 11:10:09.400: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.560' (uid=1000 pid=3797 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.574' (uid=1000 pid=3886 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:run /us" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.575' (uid=1000 pid=3889 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.575' (uid=1000 pid=3889 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.575' (uid=1000 pid=3889 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:3889): xdg-desktop-portal-WARNING **: 11:10:10.628: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.575' (uid=1000 pid=3889 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.580' (uid=1000 pid=3929 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.579' (uid=1000 pid=3929 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[3943]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=3929 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:3929): xdg-desktop-portal-gtk-WARNING **: 11:10:10.730: error: Could not connect: No such file or directory
+
+dbus-daemon[3943]: Successfully activated service 'org.a11y.atspi.Registry'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+
+(/usr/libexec/xdg-desktop-portal:3889): xdg-desktop-portal-WARNING **: 11:10:10.743: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.575' (uid=1000 pid=3889 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Desktop' requested by ':1.588' (uid=1000 pid=3977 comm="python3 /tmp/perf_run.py /out/apps.jsonl C:run /us" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.PermissionStore' requested by ':1.589' (uid=1000 pid=3980 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.PermissionStore'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.portal.Documents' requested by ':1.589' (uid=1000 pid=3980 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Documents'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kde' requested by ':1.589' (uid=1000 pid=3980 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kde'
+
+(/usr/libexec/xdg-desktop-portal:3980): xdg-desktop-portal-WARNING **: 11:10:11.896: Failed to create RealtimeKit proxy: Could not connect: No such file or directory
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.gtk' requested by ':1.589' (uid=1000 pid=3980 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.a11y.Bus' requested by ':1.594' (uid=1000 pid=4021 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.a11y.Bus'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.gtk.vfs.Daemon' requested by ':1.593' (uid=1000 pid=4021 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.gtk.vfs.Daemon'
+dbus-daemon[4035]: Activating service name='org.a11y.atspi.Registry' requested by ':1.0' (uid=1000 pid=4021 comm="/usr/libexec/xdg-desktop-portal-gtk" label="crun (unconfined)")
+
+(xdg-desktop-portal-gtk:4021): xdg-desktop-portal-gtk-WARNING **: 11:10:12.000: error: Could not connect: No such file or directory
+
+dbus-daemon[4035]: Successfully activated service 'org.a11y.atspi.Registry'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.gtk'
+SpiRegistry daemon is running with well-known name - org.a11y.atspi.Registry
+
+(/usr/libexec/xdg-desktop-portal:3980): xdg-desktop-portal-WARNING **: 11:10:12.017: Failed to connect to PipeWire: Couldn't connect to PipeWire
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Activating service name='org.freedesktop.impl.portal.desktop.kwallet' requested by ':1.589' (uid=1000 pid=3980 comm="/usr/libexec/xdg-desktop-portal" label="crun (unconfined)")
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.portal.Desktop'
+dbus-daemon[115]: [session uid=1000 pid=115 pidfd=5] Successfully activated service 'org.freedesktop.impl.portal.desktop.kwallet'
+A connection to the bus can't be made

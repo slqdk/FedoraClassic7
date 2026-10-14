@@ -1,0 +1,131 @@
+         123743 function calls (121651 primitive calls) in 0.307 seconds
+
+   Ordered by: internal time
+   List reduced from 597 to 45 due to restriction <45>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.098    0.098    0.239    0.239 /usr/lib/classic7/control_panel.py:477(main)
+       47    0.025    0.001    0.025    0.001 {method 'pixmap' of 'PySide6.QtGui.QIcon' objects}
+        1    0.023    0.023    0.027    0.027 /usr/lib/classic7/control_panel.py:148(_toolbar)
+       51    0.012    0.000    0.012    0.000 {method 'isNull' of 'PySide6.QtGui.QIcon' objects}
+     1853    0.010    0.000    0.024    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+        1    0.010    0.010    0.010    0.010 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+        1    0.009    0.009    0.009    0.009 {method 'setWidget' of 'PySide6.QtWidgets.QScrollArea' objects}
+     2125    0.006    0.000    0.013    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+       99    0.006    0.000    0.006    0.000 {method 'addWidget' of 'PySide6.QtWidgets.QBoxLayout' objects}
+      751    0.004    0.000    0.004    0.000 {built-in method posix.stat}
+        1    0.004    0.004    0.084    0.084 /usr/lib/classic7/control_panel.py:393(_all_items)
+        1    0.003    0.003    0.003    0.003 {method 'setText' of 'PySide6.QtWidgets.QLineEdit' objects}
+     3545    0.003    0.000    0.004    0.000 /usr/lib64/python3.14/enum.py:812(__setattr__)
+ 2084/231    0.003    0.000    0.027    0.000 {built-in method __new__ of type object at 0x7fc482f5c1a0}
+      140    0.003    0.000    0.034    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+        1    0.003    0.003    0.009    0.009 {built-in method exec}
+        1    0.003    0.003    0.064    0.064 /usr/lib/classic7/control_panel.py:1(<module>)
+     1856    0.003    0.000    0.007    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+        1    0.003    0.003    0.003    0.003 /tmp/perf_run.py:26(mem)
+       14    0.003    0.000    0.003    0.000 {built-in method marshal.loads}
+       47    0.003    0.000    0.009    0.000 /usr/lib/classic7/control_panel.py:61(__init__)
+       47    0.003    0.000    0.003    0.000 {method 'setTextFormat' of 'PySide6.QtWidgets.QLabel' objects}
+    18136    0.002    0.000    0.002    0.000 {built-in method builtins.isinstance}
+       49    0.002    0.000    0.002    0.000 {method 'setStyleSheet' of 'PySide6.QtWidgets.QWidget' objects}
+       33    0.002    0.000    0.003    0.000 {method 'readlines' of '_io._IOBase' objects}
+     21/2    0.002    0.000    0.306    0.153 {built-in method builtins.exec}
+     2509    0.002    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:747(__delattr__)
+     9420    0.002    0.000    0.002    0.000 {method 'get' of 'mappingproxy' objects}
+     2511    0.001    0.000    0.003    0.000 {built-in method builtins.delattr}
+      136    0.001    0.000    0.051    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+     2175    0.001    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:77(_is_private)
+        1    0.001    0.001    0.001    0.001 {method 'setReadOnly' of 'PySide6.QtWidgets.QLineEdit' objects}
+     7837    0.001    0.000    0.001    0.000 {built-in method builtins.hasattr}
+11294/11269    0.001    0.000    0.001    0.000 {built-in method builtins.len}
+        8    0.001    0.000    0.002    0.000 <frozen os>:297(walk)
+     6388    0.001    0.000    0.001    0.000 {method 'append' of 'list' objects}
+     1903    0.001    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:36(_is_descriptor)
+     2361    0.001    0.000    0.003    0.000 {built-in method builtins.setattr}
+3574/3569    0.001    0.000    0.001    0.000 {built-in method builtins.getattr}
+        4    0.001    0.000    0.001    0.000 {built-in method posix.listdir}
+      147    0.001    0.000    0.007    0.000 /usr/lib64/python3.14/shutil.py:1561(which)
+     4285    0.001    0.000    0.001    0.000 {built-in method builtins.issubclass}
+       47    0.001    0.000    0.001    0.000 {method 'addWidget' of 'PySide6.QtWidgets.QGridLayout' objects}
+     2050    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:46(_is_dunder)
+        4    0.001    0.000    0.001    0.000 {built-in method _imp.create_dynamic}
+
+
+         123743 function calls (121651 primitive calls) in 0.307 seconds
+
+   Ordered by: cumulative time
+   List reduced from 597 to 70 due to restriction <70>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.307    0.307 <frozen runpy>:269(run_path)
+     21/2    0.002    0.000    0.306    0.153 {built-in method builtins.exec}
+        1    0.000    0.000    0.305    0.305 <frozen runpy>:91(_run_module_code)
+        1    0.000    0.000    0.305    0.305 <frozen runpy>:65(_run_code)
+        1    0.000    0.000    0.305    0.305 /usr/bin/classic7-control:1(<module>)
+        1    0.098    0.098    0.239    0.239 /usr/lib/classic7/control_panel.py:477(main)
+        1    0.000    0.000    0.122    0.122 /usr/lib/classic7/control_panel.py:128(__init__)
+        1    0.000    0.000    0.094    0.094 /usr/lib/classic7/control_panel.py:170(go)
+        1    0.004    0.004    0.084    0.084 /usr/lib/classic7/control_panel.py:393(_all_items)
+     21/4    0.000    0.000    0.078    0.019 <frozen importlib._bootstrap>:1360(_find_and_load)
+     21/4    0.000    0.000    0.077    0.019 <frozen importlib._bootstrap>:1308(_find_and_load_unlocked)
+     20/4    0.000    0.000    0.076    0.019 <frozen importlib._bootstrap>:914(_load_unlocked)
+     14/4    0.000    0.000    0.076    0.019 <frozen importlib._bootstrap_external>:757(exec_module)
+     48/8    0.000    0.000    0.075    0.009 <frozen importlib._bootstrap>:483(_call_with_frames_removed)
+        1    0.003    0.003    0.064    0.064 /usr/lib/classic7/control_panel.py:1(<module>)
+      177    0.000    0.000    0.051    0.000 /usr/lib64/python3.14/enum.py:677(__call__)
+      136    0.001    0.000    0.051    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+      140    0.003    0.000    0.034    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+ 2084/231    0.003    0.000    0.027    0.000 {built-in method __new__ of type object at 0x7fc482f5c1a0}
+        1    0.023    0.023    0.027    0.027 /usr/lib/classic7/control_panel.py:148(_toolbar)
+       47    0.025    0.001    0.025    0.001 {method 'pixmap' of 'PySide6.QtGui.QIcon' objects}
+     1853    0.010    0.000    0.024    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+        1    0.000    0.000    0.020    0.020 /usr/lib/classic7/control_items.py:316(items)
+     2125    0.006    0.000    0.013    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+       51    0.000    0.000    0.012    0.000 /usr/lib/classic7/control_panel.py:52(icon)
+       51    0.012    0.000    0.012    0.000 {method 'isNull' of 'PySide6.QtGui.QIcon' objects}
+        1    0.000    0.000    0.011    0.011 /usr/lib/classic7/control_items.py:1(<module>)
+      145    0.000    0.000    0.011    0.000 /usr/lib/classic7/control_items.py:305(available)
+        1    0.010    0.010    0.010    0.010 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+        1    0.000    0.000    0.010    0.010 /usr/lib/classic7/control_panel.py:187(_show_page)
+       47    0.003    0.000    0.009    0.000 /usr/lib/classic7/control_panel.py:61(__init__)
+        1    0.000    0.000    0.009    0.009 /tmp/perf_run.py:78(patched)
+        1    0.009    0.009    0.009    0.009 {method 'setWidget' of 'PySide6.QtWidgets.QScrollArea' objects}
+        1    0.003    0.003    0.009    0.009 {built-in method exec}
+        1    0.000    0.000    0.009    0.009 /usr/lib/classic7/control_items.py:74(_items)
+      147    0.001    0.000    0.007    0.000 /usr/lib64/python3.14/shutil.py:1561(which)
+      140    0.000    0.000    0.007    0.000 shibokensupport/signature/loader.py:68(feature_imported)
+      140    0.000    0.000    0.007    0.000 shibokensupport/feature.py:135(feature_imported)
+        1    0.000    0.000    0.007    0.007 /usr/lib/classic7/programs_data.py:1(<module>)
+       47    0.001    0.000    0.007    0.000 shibokensupport/feature.py:151(_mod_uses_pyside)
+     1856    0.003    0.000    0.007    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+       47    0.000    0.000    0.007    0.000 /usr/lib64/python3.14/inspect.py:1162(getsource)
+        1    0.000    0.000    0.006    0.006 /usr/lib64/python3.14/subprocess.py:1(<module>)
+       47    0.000    0.000    0.006    0.000 /usr/lib64/python3.14/inspect.py:1141(getsourcelines)
+        1    0.000    0.000    0.006    0.006 /tmp/perf_run.py:80(<lambda>)
+        1    0.000    0.000    0.006    0.006 /tmp/perf_run.py:55(finish)
+       47    0.000    0.000    0.006    0.000 /usr/lib64/python3.14/inspect.py:957(findsource)
+       99    0.006    0.000    0.006    0.000 {method 'addWidget' of 'PySide6.QtWidgets.QBoxLayout' objects}
+        6    0.000    0.000    0.005    0.001 /usr/lib64/python3.14/dataclasses.py:1440(wrap)
+        6    0.000    0.000    0.005    0.001 /usr/lib64/python3.14/dataclasses.py:986(_process_class)
+       14    0.000    0.000    0.005    0.000 <frozen importlib._bootstrap_external>:830(get_code)
+       33    0.000    0.000    0.005    0.000 /usr/lib64/python3.14/linecache.py:32(getlines)
+       33    0.000    0.000    0.005    0.000 /usr/lib64/python3.14/linecache.py:106(updatecache)
+      441    0.000    0.000    0.005    0.000 /usr/lib64/python3.14/shutil.py:1546(_access_check)
+      751    0.004    0.000    0.004    0.000 {built-in method posix.stat}
+     3545    0.003    0.000    0.004    0.000 /usr/lib64/python3.14/enum.py:812(__setattr__)
+        6    0.000    0.000    0.004    0.001 /usr/lib64/python3.14/dataclasses.py:1423(dataclass)
+        1    0.000    0.000    0.004    0.004 /usr/lib/classic7/control_panel.py:267(_heading)
+        1    0.000    0.000    0.003    0.003 /usr/lib/classic7/control_panel.py:166(_set_address)
+     2511    0.001    0.000    0.003    0.000 {built-in method builtins.delattr}
+        1    0.003    0.003    0.003    0.003 {method 'setText' of 'PySide6.QtWidgets.QLineEdit' objects}
+     2361    0.001    0.000    0.003    0.000 {built-in method builtins.setattr}
+      474    0.000    0.000    0.003    0.000 <frozen genericpath>:16(exists)
+        1    0.000    0.000    0.003    0.003 /usr/lib/classic7/control_items.py:284(_kcm_names)
+        1    0.000    0.000    0.003    0.003 /usr/lib64/python3.14/xml/etree/ElementTree.py:1(<module>)
+       14    0.000    0.000    0.003    0.000 <frozen importlib._bootstrap_external>:509(_compile_bytecode)
+        1    0.003    0.003    0.003    0.003 /tmp/perf_run.py:26(mem)
+        1    0.000    0.000    0.003    0.003 /tmp/perf_run.py:43(dump_profile)
+       14    0.003    0.000    0.003    0.000 {built-in method marshal.loads}
+       48    0.000    0.000    0.003    0.000 {method 'font' of 'PySide6.QtWidgets.QWidget' objects}
+
+

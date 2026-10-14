@@ -1,0 +1,131 @@
+         308981 function calls (304725 primitive calls) in 0.506 seconds
+
+   Ordered by: internal time
+   List reduced from 1165 to 45 due to restriction <45>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.106    0.106    0.278    0.278 /usr/lib/classic7/paint_app.py:1124(main)
+        1    0.029    0.029    0.033    0.033 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+        4    0.024    0.006    0.024    0.006 {method 'drawText' of 'PySide6.QtGui.QPainter' objects}
+        1    0.015    0.015    0.015    0.015 {method 'setMenuWidget' of 'PySide6.QtWidgets.QMainWindow' objects}
+     2574    0.015    0.000    0.036    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+        7    0.014    0.002    0.014    0.002 {built-in method _imp.create_dynamic}
+      101    0.013    0.000    0.013    0.000 {built-in method marshal.loads}
+     3087    0.009    0.000    0.020    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+      117    0.009    0.000    0.010    0.000 {method 'readlines' of '_io._IOBase' objects}
+       26    0.007    0.000    0.007    0.000 {method 'setStyleSheet' of 'PySide6.QtWidgets.QWidget' objects}
+       49    0.007    0.000    0.007    0.000 {method 'isNull' of 'PySide6.QtGui.QIcon' objects}
+        7    0.007    0.001    0.011    0.002 {built-in method _imp.exec_dynamic}
+      256    0.007    0.000    0.055    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+      373    0.006    0.000    0.011    0.000 /usr/lib64/python3.14/inspect.py:797(cleandoc)
+3825/1251    0.006    0.000    0.042    0.000 {built-in method __new__ of type object at 0x7f55b93871a0}
+        1    0.005    0.005    0.017    0.017 {built-in method exec}
+     5338    0.005    0.000    0.006    0.000 /usr/lib64/python3.14/enum.py:812(__setattr__)
+    37146    0.005    0.000    0.005    0.000 {built-in method builtins.isinstance}
+        1    0.005    0.005    0.223    0.223 /usr/lib/classic7/paint_app.py:1(<module>)
+        1    0.005    0.005    0.005    0.005 /tmp/perf_run.py:26(mem)
+       48    0.004    0.000    0.017    0.000 {method 'viewport' of 'PySide6.QtWidgets.QAbstractScrollArea' objects}
+      657    0.004    0.000    0.004    0.000 {built-in method posix.stat}
+      400    0.004    0.000    0.008    0.000 /usr/lib/classic7/paint_canvas.py:495(_stamp)
+     2577    0.004    0.000    0.010    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+33740/33713    0.004    0.000    0.004    0.000 {built-in method builtins.len}
+      205    0.004    0.000    0.004    0.000 {method 'read' of '_io.BufferedReader' objects}
+13554/13552    0.004    0.000    0.004    0.000 {built-in method builtins.getattr}
+       11    0.003    0.000    0.021    0.002 /usr/lib/classic7/paint_canvas.py:258(__init__)
+     3796    0.003    0.000    0.003    0.000 /usr/lib64/python3.14/enum.py:747(__delattr__)
+      205    0.003    0.000    0.004    0.000 {built-in method _io.open_code}
+    14723    0.003    0.000    0.003    0.000 {built-in method builtins.hasattr}
+        1    0.003    0.003    0.031    0.031 /usr/lib/classic7/paint_app.py:486(_tab_home)
+  176/175    0.003    0.000    0.007    0.000 {built-in method builtins.__build_class__}
+    13445    0.003    0.000    0.003    0.000 {method 'get' of 'mappingproxy' objects}
+        8    0.003    0.000    0.004    0.001 {method 'findChildren' of 'PySide6.QtCore.QObject' objects}
+      250    0.002    0.000    0.081    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+     3796    0.002    0.000    0.006    0.000 {built-in method builtins.delattr}
+    10766    0.002    0.000    0.002    0.000 {method 'append' of 'list' objects}
+     1750    0.002    0.000    0.002    0.000 {method 'join' of 'str' objects}
+     3137    0.002    0.000    0.003    0.000 /usr/lib64/python3.14/enum.py:77(_is_private)
+      136    0.002    0.000    0.025    0.000 shibokensupport/feature.py:151(_mod_uses_pyside)
+        3    0.002    0.001    0.002    0.001 {method 'addTab' of 'PySide6.QtWidgets.QTabWidget' objects}
+     5068    0.002    0.000    0.005    0.000 {built-in method builtins.setattr}
+        1    0.002    0.002    0.006    0.006 /usr/lib/classic7/paint_app.py:648(_tab_text)
+      101    0.002    0.000    0.015    0.000 <frozen importlib._bootstrap_external>:509(_compile_bytecode)
+
+
+         308981 function calls (304725 primitive calls) in 0.506 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1165 to 70 due to restriction <70>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.506    0.506 <frozen runpy>:269(run_path)
+    105/2    0.002    0.000    0.505    0.252 {built-in method builtins.exec}
+        1    0.000    0.000    0.503    0.503 <frozen runpy>:91(_run_module_code)
+        1    0.000    0.000    0.503    0.503 <frozen runpy>:65(_run_code)
+        1    0.000    0.000    0.503    0.503 /usr/bin/classic7-paint:1(<module>)
+        1    0.106    0.106    0.278    0.278 /usr/lib/classic7/paint_app.py:1124(main)
+    114/3    0.001    0.000    0.230    0.077 <frozen importlib._bootstrap>:1360(_find_and_load)
+    114/3    0.001    0.000    0.230    0.077 <frozen importlib._bootstrap>:1308(_find_and_load_unlocked)
+    110/3    0.000    0.000    0.229    0.076 <frozen importlib._bootstrap>:914(_load_unlocked)
+    101/3    0.000    0.000    0.229    0.076 <frozen importlib._bootstrap_external>:757(exec_module)
+    354/6    0.000    0.000    0.227    0.038 <frozen importlib._bootstrap>:483(_call_with_frames_removed)
+        1    0.005    0.005    0.223    0.223 /usr/lib/classic7/paint_app.py:1(<module>)
+        1    0.001    0.001    0.145    0.145 /usr/lib/classic7/paint_canvas.py:1(<module>)
+        1    0.000    0.000    0.135    0.135 /usr/lib64/python3.14/site-packages/numpy/__init__.py:1(<module>)
+   124/10    0.000    0.000    0.129    0.013 {built-in method builtins.__import__}
+   150/24    0.000    0.000    0.124    0.005 <frozen importlib._bootstrap>:1409(_handle_fromlist)
+        1    0.001    0.001    0.122    0.122 /usr/lib/classic7/paint_app.py:327(__init__)
+        1    0.000    0.000    0.094    0.094 /usr/lib/classic7/paint_app.py:425(_ribbon)
+      344    0.001    0.000    0.082    0.000 /usr/lib64/python3.14/enum.py:677(__call__)
+      250    0.002    0.000    0.081    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+        1    0.000    0.000    0.077    0.077 /usr/lib64/python3.14/site-packages/numpy/__config__.py:1(<module>)
+        1    0.000    0.000    0.076    0.076 /usr/lib64/python3.14/site-packages/numpy/_core/__init__.py:1(<module>)
+      256    0.007    0.000    0.055    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+        1    0.000    0.000    0.051    0.051 /usr/lib64/python3.14/site-packages/numpy/lib/__init__.py:1(<module>)
+3825/1251    0.006    0.000    0.042    0.000 {built-in method __new__ of type object at 0x7f55b93871a0}
+     2574    0.015    0.000    0.036    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+        1    0.000    0.000    0.034    0.034 /usr/lib64/python3.14/site-packages/numpy/lib/_arraypad_impl.py:1(<module>)
+        1    0.029    0.029    0.033    0.033 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+        1    0.000    0.000    0.033    0.033 /usr/lib64/python3.14/site-packages/numpy/lib/_index_tricks_impl.py:1(<module>)
+        1    0.003    0.003    0.031    0.031 /usr/lib/classic7/paint_app.py:486(_tab_home)
+        1    0.000    0.000    0.028    0.028 /usr/lib64/python3.14/site-packages/numpy/matrixlib/__init__.py:1(<module>)
+        1    0.000    0.000    0.027    0.027 /usr/lib64/python3.14/site-packages/numpy/matrixlib/defmatrix.py:1(<module>)
+      101    0.001    0.000    0.027    0.000 <frozen importlib._bootstrap_external>:830(get_code)
+        1    0.000    0.000    0.027    0.027 /usr/lib64/python3.14/site-packages/numpy/linalg/__init__.py:1(<module>)
+     1494    0.001    0.000    0.027    0.000 shibokensupport/signature/loader.py:68(feature_imported)
+        1    0.000    0.000    0.027    0.027 /usr/lib64/python3.14/site-packages/numpy/_core/multiarray.py:1(<module>)
+     1494    0.001    0.000    0.026    0.000 shibokensupport/feature.py:135(feature_imported)
+        1    0.000    0.000    0.025    0.025 /usr/lib/classic7/write_ribbon.py:414(office_orb)
+        1    0.000    0.000    0.025    0.025 /usr/lib64/python3.14/site-packages/numpy/linalg/_linalg.py:1(<module>)
+      136    0.002    0.000    0.025    0.000 shibokensupport/feature.py:151(_mod_uses_pyside)
+        4    0.024    0.006    0.024    0.006 {method 'drawText' of 'PySide6.QtGui.QPainter' objects}
+      136    0.000    0.000    0.023    0.000 /usr/lib64/python3.14/inspect.py:1162(getsource)
+      136    0.000    0.000    0.022    0.000 /usr/lib64/python3.14/inspect.py:1141(getsourcelines)
+       11    0.003    0.000    0.021    0.002 /usr/lib/classic7/paint_canvas.py:258(__init__)
+     3087    0.009    0.000    0.020    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+      136    0.000    0.000    0.020    0.000 /usr/lib64/python3.14/inspect.py:957(findsource)
+        1    0.000    0.000    0.019    0.019 /usr/lib64/python3.14/site-packages/numpy/_typing/__init__.py:1(<module>)
+      110    0.000    0.000    0.017    0.000 <frozen importlib._bootstrap>:809(module_from_spec)
+      117    0.000    0.000    0.017    0.000 /usr/lib64/python3.14/linecache.py:32(getlines)
+      117    0.001    0.000    0.017    0.000 /usr/lib64/python3.14/linecache.py:106(updatecache)
+        1    0.000    0.000    0.017    0.017 /tmp/perf_run.py:78(patched)
+        1    0.005    0.005    0.017    0.017 {built-in method exec}
+       48    0.004    0.000    0.017    0.000 {method 'viewport' of 'PySide6.QtWidgets.QAbstractScrollArea' objects}
+        1    0.015    0.015    0.015    0.015 {method 'setMenuWidget' of 'PySide6.QtWidgets.QMainWindow' objects}
+      101    0.002    0.000    0.015    0.000 <frozen importlib._bootstrap_external>:509(_compile_bytecode)
+        1    0.000    0.000    0.015    0.015 /usr/lib64/python3.14/site-packages/numpy/_core/_add_newdocs.py:1(<module>)
+      350    0.001    0.000    0.014    0.000 /usr/lib64/python3.14/site-packages/numpy/_core/function_base.py:490(add_newdoc)
+        7    0.000    0.000    0.014    0.002 <frozen importlib._bootstrap_external>:1055(create_module)
+        7    0.014    0.002    0.014    0.002 {built-in method _imp.create_dynamic}
+      101    0.013    0.000    0.013    0.000 {built-in method marshal.loads}
+        1    0.000    0.000    0.013    0.013 /usr/lib64/python3.14/site-packages/numpy/_core/einsumfunc.py:1(<module>)
+       10    0.001    0.000    0.013    0.001 /usr/lib/classic7/paint_app.py:69(brush_icon)
+        1    0.000    0.000    0.012    0.012 /usr/lib64/python3.14/site-packages/numpy/_core/numeric.py:1(<module>)
+        1    0.000    0.000    0.011    0.011 /usr/lib/classic7/write_ribbon.py:403(apply_scheme)
+        1    0.000    0.000    0.011    0.011 /tmp/perf_run.py:80(<lambda>)
+        1    0.000    0.000    0.011    0.011 /tmp/perf_run.py:55(finish)
+      373    0.006    0.000    0.011    0.000 /usr/lib64/python3.14/inspect.py:797(cleandoc)
+        7    0.000    0.000    0.011    0.002 <frozen importlib._bootstrap_external>:1063(exec_module)
+        7    0.007    0.001    0.011    0.002 {built-in method _imp.exec_dynamic}
+      350    0.000    0.000    0.010    0.000 /usr/lib64/python3.14/site-packages/numpy/_core/function_base.py:474(_add_docstring)
+
+

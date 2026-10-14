@@ -1,0 +1,19 @@
++ dnf5 -y -q install xorg-x11-server-Xvfb
+++ python3 -c 'import sys; print("%d.%d" % sys.version_info[:2])'
++ PYV=3.14
++ ROOTS='/usr/lib/classic7 /usr/lib64/python3.14 /usr/lib/python3.14'
++ rm -f /usr/share/dbus-1/services/org.bluez.obex.service
++ find /usr/lib/classic7 /usr/lib64/python3.14 /usr/lib/python3.14 -xdev '(' -type f -o -type l ')' -exec touch -h -d @0 '{}' +
++ python3 -m compileall -q -f -j0 --invalidation-mode checked-hash /usr/lib/classic7 /usr/lib64/python3.14 /usr/lib/python3.14
++ useradd -m -u 1000 tester
++ cp -an /etc/skel/. /home/tester/
++ chown -R tester /home/tester
++ mkdir -p /out
++ chmod 777 /out
++ cp /src/.github/ci/perf_run.py /src/.github/ci/perf_idle.py /src/.github/ci/perf_report.py /tmp/
++ cat
++ chmod 755 /tmp/perf_idle.py /tmp/perf_report.py /tmp/perf_run.py /tmp/ptime.py
++ cat
++ chown tester /tmp/inner.sh
++ su tester -c 'dbus-run-session -- bash /tmp/inner.sh'
++ python3 /tmp/perf_report.py /out/apps.jsonl /out/helpers.txt C

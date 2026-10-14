@@ -1,0 +1,10 @@
+/usr/lib/python3.14/site-packages/amdsmi/amdsmi_interface.py:3569: SyntaxWarning: 'return' in a 'finally' block
+  return return_dictionary
+/usr/lib/python3.14/site-packages/amdsmi/amdsmi_interface.py:3603: SyntaxWarning: 'return' in a 'finally' block
+  return return_dictionary
+*** Error compiling '/usr/lib/python3.14/site-packages/PySide6/scripts/deploy_lib/android/recipes/PySide6/__init__.tmpl.py'...
+  File "/usr/lib/python3.14/site-packages/PySide6/scripts/deploy_lib/android/recipes/PySide6/__init__.tmpl.py", line 39
+    {% for module in qt_modules %}  # noqa: E999
+     ^
+SyntaxError: invalid syntax
+

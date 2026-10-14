@@ -1,0 +1,131 @@
+         499075 function calls (496759 primitive calls) in 0.577 seconds
+
+   Ordered by: internal time
+   List reduced from 951 to 45 due to restriction <45>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.099    0.099    0.496    0.496 /usr/lib/classic7/appearance_gui.py:981(main)
+       11    0.048    0.004    0.048    0.004 {method 'render' of 'PySide6.QtSvg.QSvgRenderer' objects}
+     2904    0.048    0.000    0.074    0.000 /usr/lib/classic7/classic7aero.py:154(edge)
+       47    0.035    0.001    0.038    0.001 /usr/lib/classic7/classic7theme.py:289(svg)
+    36497    0.029    0.000    0.041    0.000 /usr/lib/classic7/classic7aero.py:182(_f)
+        1    0.028    0.028    0.028    0.028 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+        3    0.018    0.006    0.018    0.006 /usr/lib/classic7/appearance_gui.py:60(wallpaper)
+    96892    0.015    0.000    0.015    0.000 {method 'append' of 'list' objects}
+    18246    0.013    0.000    0.053    0.000 /usr/lib/classic7/classic7aero.py:192(<genexpr>)
+     1340    0.013    0.000    0.020    0.000 /usr/lib/classic7/classic7aero.py:123(arc)
+       11    0.012    0.001    0.062    0.006 /usr/lib/classic7/appearance_gui.py:43(render_svg)
+    73407    0.012    0.000    0.012    0.000 {method 'rstrip' of 'str' objects}
+     1899    0.011    0.000    0.026    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+        1    0.011    0.011    0.117    0.117 {built-in method exec}
+     2217    0.006    0.000    0.014    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+        4    0.006    0.001    0.006    0.001 {method 'addTab' of 'PySide6.QtWidgets.QTabWidget' objects}
+       21    0.005    0.000    0.005    0.000 {method 'scaled' of 'PySide6.QtGui.QImage' objects}
+1981/1759    0.005    0.000    0.060    0.000 {method 'join' of 'str' objects}
+        1    0.004    0.004    0.059    0.059 /usr/lib/classic7/appearance_gui.py:1(<module>)
+        1    0.004    0.004    0.250    0.250 /usr/lib/classic7/appearance_gui.py:841(__init__)
+       69    0.004    0.000    0.007    0.000 /usr/lib/classic7/classic7theme.py:268(edge)
+    20985    0.004    0.000    0.004    0.000 /usr/lib/classic7/classic7theme.py:259(set)
+      163    0.004    0.000    0.037    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+        1    0.004    0.004    0.004    0.004 /tmp/perf_run.py:26(mem)
+    36300    0.004    0.000    0.004    0.000 /usr/lib/classic7/classic7aero.py:174(<lambda>)
+    36300    0.004    0.000    0.004    0.000 /usr/lib/classic7/classic7aero.py:175(<lambda>)
+     3722    0.004    0.000    0.004    0.000 /usr/lib64/python3.14/enum.py:812(__setattr__)
+     24/2    0.004    0.000    0.583    0.291 {built-in method builtins.exec}
+ 2174/275    0.004    0.000    0.029    0.000 {built-in method __new__ of type object at 0x7fbafee481a0}
+       11    0.003    0.000    0.003    0.000 {built-in method marshal.loads}
+      726    0.003    0.000    0.078    0.000 /usr/lib/classic7/classic7aero.py:152(clip)
+     1902    0.003    0.000    0.007    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+       32    0.003    0.000    0.003    0.000 {method 'readlines' of '_io._IOBase' objects}
+    18718    0.003    0.000    0.003    0.000 {built-in method builtins.isinstance}
+        2    0.003    0.001    0.003    0.001 {method 'poll' of 'select.poll' objects}
+    14752    0.002    0.000    0.002    0.000 {built-in method math.cos}
+        3    0.002    0.001    0.099    0.033 {built-in method processEvents}
+    14752    0.002    0.000    0.002    0.000 {built-in method math.sin}
+     2688    0.002    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:747(__delattr__)
+      564    0.002    0.000    0.025    0.000 /usr/lib/classic7/classic7aero.py:118(rrect)
+15974/15952    0.002    0.000    0.002    0.000 {built-in method builtins.len}
+        1    0.002    0.002    0.014    0.014 /usr/lib/classic7/appearance_gui.py:382(__init__)
+        9    0.002    0.000    0.002    0.000 {method 'drawImage' of 'PySide6.QtGui.QPainter' objects}
+        4    0.002    0.000    0.263    0.066 /usr/lib/classic7/appearance_gui.py:93(look_image)
+       88    0.002    0.000    0.136    0.002 /usr/lib/classic7/classic7aero.py:237(layer_svg)
+
+
+         499075 function calls (496759 primitive calls) in 0.577 seconds
+
+   Ordered by: cumulative time
+   List reduced from 951 to 70 due to restriction <70>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.585    0.585 <frozen runpy>:269(run_path)
+     24/2    0.004    0.000    0.583    0.291 {built-in method builtins.exec}
+        1    0.000    0.000    0.581    0.581 <frozen runpy>:91(_run_module_code)
+        1    0.000    0.000    0.581    0.581 <frozen runpy>:65(_run_code)
+        1    0.000    0.000    0.581    0.581 /usr/bin/classic7-appearance:1(<module>)
+        1    0.099    0.099    0.496    0.496 /usr/lib/classic7/appearance_gui.py:981(main)
+        4    0.002    0.000    0.263    0.066 /usr/lib/classic7/appearance_gui.py:93(look_image)
+        1    0.004    0.004    0.250    0.250 /usr/lib/classic7/appearance_gui.py:841(__init__)
+        3    0.000    0.000    0.173    0.058 /usr/lib/classic7/classic7aero.py:1402(scene)
+        1    0.000    0.000    0.168    0.168 /usr/lib/classic7/appearance_gui.py:909(_refresh_pictures)
+        1    0.000    0.000    0.168    0.168 /usr/lib/classic7/appearance_gui.py:360(set_pictures)
+        3    0.000    0.000    0.168    0.056 /usr/lib/classic7/appearance_gui.py:127(thumbnail)
+       88    0.000    0.000    0.136    0.002 /usr/lib/classic7/classic7aero.py:1284(_all)
+       88    0.002    0.000    0.136    0.002 /usr/lib/classic7/classic7aero.py:237(layer_svg)
+        1    0.000    0.000    0.117    0.117 /tmp/perf_run.py:78(patched)
+        1    0.011    0.011    0.117    0.117 {built-in method exec}
+        1    0.000    0.000    0.107    0.107 /tmp/perf_run.py:80(<lambda>)
+        1    0.000    0.000    0.107    0.107 /tmp/perf_run.py:55(finish)
+        6    0.001    0.000    0.106    0.018 /usr/lib/classic7/classic7aero.py:1316(_window)
+        3    0.002    0.001    0.099    0.033 {built-in method processEvents}
+        1    0.000    0.000    0.097    0.097 /usr/lib/classic7/appearance_gui.py:552(_redraw)
+        1    0.000    0.000    0.097    0.097 /usr/lib/classic7/appearance_gui.py:241(show_look)
+     16/5    0.000    0.000    0.087    0.017 <frozen importlib._bootstrap>:1360(_find_and_load)
+     16/5    0.000    0.000    0.086    0.017 <frozen importlib._bootstrap>:1308(_find_and_load_unlocked)
+     15/5    0.000    0.000    0.085    0.017 <frozen importlib._bootstrap>:914(_load_unlocked)
+     11/5    0.000    0.000    0.085    0.017 <frozen importlib._bootstrap_external>:757(exec_module)
+    34/10    0.000    0.000    0.082    0.008 <frozen importlib._bootstrap>:483(_call_with_frames_removed)
+      726    0.003    0.000    0.078    0.000 /usr/lib/classic7/classic7aero.py:152(clip)
+     2904    0.048    0.000    0.074    0.000 /usr/lib/classic7/classic7aero.py:154(edge)
+       11    0.012    0.001    0.062    0.006 /usr/lib/classic7/appearance_gui.py:43(render_svg)
+1981/1759    0.005    0.000    0.060    0.000 {method 'join' of 'str' objects}
+        1    0.004    0.004    0.059    0.059 /usr/lib/classic7/appearance_gui.py:1(<module>)
+      406    0.001    0.000    0.058    0.000 /usr/lib/classic7/classic7aero.py:187(path_d)
+      246    0.000    0.000    0.056    0.000 /usr/lib64/python3.14/enum.py:677(__call__)
+      159    0.002    0.000    0.055    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+        1    0.001    0.001    0.053    0.053 /usr/lib/classic7/appearance_gui.py:571(__init__)
+    18246    0.013    0.000    0.053    0.000 /usr/lib/classic7/classic7aero.py:192(<genexpr>)
+        1    0.000    0.000    0.050    0.050 /usr/lib/classic7/appearance_gui.py:237(show_palette)
+       36    0.001    0.000    0.049    0.001 /usr/lib/classic7/classic7aero.py:1294(_icon)
+       11    0.048    0.004    0.048    0.004 {method 'render' of 'PySide6.QtSvg.QSvgRenderer' objects}
+    36497    0.029    0.000    0.041    0.000 /usr/lib/classic7/classic7aero.py:182(_f)
+       47    0.035    0.001    0.038    0.001 /usr/lib/classic7/classic7theme.py:289(svg)
+      163    0.004    0.000    0.037    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+        3    0.000    0.000    0.031    0.010 /usr/lib/classic7/classic7aero.py:1378(_taskbar)
+        1    0.001    0.001    0.030    0.030 /usr/lib/classic7/classic7theme.py:904(classic_scene_svg)
+        3    0.000    0.000    0.030    0.010 /usr/lib/classic7/classic7aero.py:1357(_explorer)
+        1    0.000    0.000    0.030    0.030 /usr/lib/classic7/appearance_gui.py:47(svg_pixmap)
+ 2174/275    0.004    0.000    0.029    0.000 {built-in method __new__ of type object at 0x7fbafee481a0}
+        1    0.028    0.028    0.028    0.028 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+     1899    0.011    0.000    0.026    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+        5    0.000    0.000    0.025    0.005 /usr/lib/classic7/classic7theme.py:824(_window)
+      564    0.002    0.000    0.025    0.000 /usr/lib/classic7/classic7aero.py:118(rrect)
+        1    0.000    0.000    0.020    0.020 /usr/lib/classic7/classic7theme.py:870(appearance_preview_svg)
+     1340    0.013    0.000    0.020    0.000 /usr/lib/classic7/classic7aero.py:123(arc)
+        3    0.018    0.006    0.018    0.006 /usr/lib/classic7/appearance_gui.py:60(wallpaper)
+    96892    0.015    0.000    0.015    0.000 {method 'append' of 'list' objects}
+     2217    0.006    0.000    0.014    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+        1    0.002    0.002    0.014    0.014 /usr/lib/classic7/appearance_gui.py:382(__init__)
+        3    0.000    0.000    0.014    0.005 /usr/lib/classic7/classic7theme.py:849(_field)
+    73407    0.012    0.000    0.012    0.000 {method 'rstrip' of 'str' objects}
+        1    0.000    0.000    0.012    0.012 /usr/lib/classic7/classic7appearance.py:1(<module>)
+       12    0.000    0.000    0.009    0.001 /usr/lib64/python3.14/dataclasses.py:1440(wrap)
+       12    0.001    0.000    0.009    0.001 /usr/lib64/python3.14/dataclasses.py:986(_process_class)
+        6    0.000    0.000    0.008    0.001 /usr/lib/classic7/classic7aero.py:344(frame_layers)
+      143    0.000    0.000    0.008    0.000 shibokensupport/signature/loader.py:68(feature_imported)
+      143    0.000    0.000    0.008    0.000 shibokensupport/feature.py:135(feature_imported)
+      147    0.000    0.000    0.008    0.000 /usr/lib/classic7/classic7aero.py:1298(r)
+       44    0.001    0.000    0.008    0.000 shibokensupport/feature.py:151(_mod_uses_pyside)
+        1    0.000    0.000    0.008    0.008 /usr/lib/classic7/classic7aero.py:1(<module>)
+       69    0.004    0.000    0.007    0.000 /usr/lib/classic7/classic7theme.py:268(edge)
+
+
