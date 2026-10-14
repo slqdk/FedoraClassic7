@@ -9,7 +9,7 @@ S=/src/system_files
 cp -a $S/usr/lib/classic7/. /usr/lib/classic7/
 cp -a $S/usr/bin/. /usr/bin/ && chmod +x /usr/bin/classic7-*
 cp -a $S/usr/libexec/. /usr/libexec/
-for d in plasma kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers; do
+for d in plasma kwin kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers; do
     mkdir -p /usr/share/$d && cp -a $S/usr/share/$d/. /usr/share/$d/
 done
 cp -a $S/etc/xdg/. /etc/xdg/
@@ -30,6 +30,8 @@ cat > /tmp/inner.sh <<'EOI'
 export XDG_RUNTIME_DIR=/tmp/xdg-t; mkdir -p $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
 export HOME=/home/tester XDG_CURRENT_DESKTOP=KDE KDE_FULL_SESSION=true KDE_SESSION_VERSION=6 XDG_SESSION_TYPE=wayland
 export XDG_MENU_PREFIX=plasma-
+# pictures as with 3D graphics (see-through glass; this KWin composites without blur, so sharp)
+export CLASSIC7_BLUR=1
 cp -an /etc/skel/. $HOME/
 ls -la $HOME/.config > /out/home-config.txt
 Xvfb :99 -screen 0 1200x820x24 >/dev/null 2>&1 &

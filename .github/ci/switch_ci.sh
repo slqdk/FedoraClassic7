@@ -9,7 +9,7 @@ S=/src/system_files
 cp -a $S/usr/lib/classic7/. /usr/lib/classic7/
 cp -a $S/usr/bin/. /usr/bin/ && chmod +x /usr/bin/classic7-*
 cp -a $S/usr/libexec/. /usr/libexec/
-for d in plasma kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers; do
+for d in plasma kwin kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers; do
     mkdir -p /usr/share/$d && cp -a $S/usr/share/$d/. /usr/share/$d/
 done
 cp -a $S/etc/xdg/. /etc/xdg/

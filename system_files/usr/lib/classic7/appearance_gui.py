@@ -434,10 +434,10 @@ class ColorTab(QWidget):
         side.addWidget(self.transparency)
         if backend.blur_supported() is False:
             # as Windows 7 without Aero graphics: no see-through glass (it would show what is
-            # behind a window sharply, through its title)
-            solid = QLabel("The graphics of this computer can't blur, so the glass is drawn solid. "
-                           "With a 3D graphics driver it becomes see-through.")
-            solid.setWordWrap(True)
+            # behind a window sharply, through its title). Two set lines: a wrapping label is
+            # given too little height in a dialog and would cover the preview.
+            solid = QLabel("Drawn solid: the graphics here can't blur.\n"
+                           "A 3D graphics driver makes it see-through.")
             solid.setStyleSheet("color: #5A5A5A;")
             side.addWidget(solid)
         ilab = QLabel("Color &intensity:")

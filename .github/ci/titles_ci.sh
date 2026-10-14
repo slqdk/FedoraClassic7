@@ -142,7 +142,8 @@ sleep 7; shot 13-window-color
 X key Escape; sleep 1
 # Computer > Properties is the System window
 ls -la $HOME/Desktop > /out/desktop.txt 2>&1
-(DISPLAY= classic7-properties "$HOME/Desktop/Computer.desktop" > /out/properties.log 2>&1 &)
+COMPUTER=$(grep -l "classic7-computer" $HOME/Desktop/*.desktop | head -1)
+(DISPLAY= classic7-properties "$COMPUTER" > /out/properties.log 2>&1 &)
 sleep 7; shot 14-computer-properties
 windows "after Computer > Properties"
 pgrep -af "classic7-system|system_app|classic7-properties" > /out/processes.txt 2>&1
