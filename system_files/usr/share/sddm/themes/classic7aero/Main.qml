@@ -15,6 +15,8 @@ Item {
     readonly property bool several: userModel.count > 1
     // -1: the list of accounts; otherwise the chosen account
     property int chosen: -1
+    // no account to show (SDDM lists none): type the user name, as Windows 7's "Other User"
+    readonly property bool other: userModel.count === 0
     // "", "welcome" (logging on) or "failed"
     property string phase: ""
 
@@ -26,17 +28,19 @@ Item {
         chosen = i
         phase = ""
         password.text = ""
-        if (i >= 0)
+        if (other)
+            otherName.forceActiveFocus()
+        else if (i >= 0)
             password.forceActiveFocus()
         else
             listFocus.forceActiveFocus()
     }
     function login() {
-        if (chosen < 0 || !users.itemAt(chosen))
+        var name = other ? otherName.text.trim() : (chosen >= 0 && users.itemAt(chosen) ? users.itemAt(chosen).name : "")
+        if (name === "")
             return
         phase = "welcome"
-        sddm.login(users.itemAt(chosen).name, password.text,
-                   sessionModel.lastIndex >= 0 ? sessionModel.lastIndex : 0)
+        sddm.login(name, password.text, sessionModel.lastIndex >= 0 ? sessionModel.lastIndex : 0)
     }
 
     Connections {
@@ -251,7 +255,7 @@ Item {
     FocusScope {
         id: listFocus
         anchors.fill: parent
-        visible: root.chosen < 0
+        visible: root.chosen < 0 && !root.other
         property int current: Math.max(0, userModel.lastIndex)
         Keys.onLeftPressed: current = Math.max(0, current - 1)
         Keys.onRightPressed: current = Math.min(userModel.count - 1, current + 1)
@@ -296,7 +300,7 @@ Item {
     // ---- the chosen account ----------------------------------------------------------------
     Column {
         id: one
-        visible: root.chosen >= 0
+        visible: root.chosen >= 0 || root.other
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: -40
@@ -308,7 +312,7 @@ Item {
         }
         Text {
             anchors.horizontalCenter: parent.horizontalCenter
-            text: root.chosen >= 0 && users.itemAt(root.chosen) ? users.itemAt(root.chosen).label : ""
+            text: root.other ? "Other User" : (root.chosen >= 0 && users.itemAt(root.chosen) ? users.itemAt(root.chosen).label : "")
             font.family: root.fam
             font.pixelSize: 26
             color: "#FFFFFF"
@@ -316,6 +320,43 @@ Item {
             styleColor: "#50000000"
         }
         Item { width: 1; height: 4 }
+
+        // the user name, when there is no account to pick
+        Rectangle {
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.horizontalCenterOffset: -19
+            visible: root.other && root.phase === ""
+            width: 232
+            height: 26
+            radius: 2
+            color: "#FFFFFF"
+            border.color: otherName.activeFocus ? "#3D7BAD" : "#8E8F8F"
+            TextInput {
+                id: otherName
+                anchors.fill: parent
+                anchors.leftMargin: 6
+                anchors.rightMargin: 6
+                verticalAlignment: TextInput.AlignVCenter
+                font.family: root.fam
+                font.pixelSize: 13
+                color: "#000000"
+                selectionColor: "#3399FF"
+                clip: true
+                KeyNavigation.tab: password
+                onAccepted: password.forceActiveFocus()
+            }
+            Text {
+                anchors.fill: parent
+                anchors.leftMargin: 7
+                verticalAlignment: Text.AlignVCenter
+                visible: otherName.text === ""
+                text: "User name"
+                font.family: root.fam
+                font.pixelSize: 13
+                font.italic: true
+                color: "#6D6D6D"
+            }
+        }
 
         // the password box and the arrow
         Item {

@@ -16,6 +16,7 @@ chosen there (kde_settings.conf, read after this file) still wins."""
 import json
 import os
 import pwd
+import stat
 import sys
 import tempfile
 from pathlib import Path
@@ -26,14 +27,13 @@ THEMES = {"aero": ("classic7aero", "Breeze_Light"), "basic": ("classic7aero", "B
 MAX_SCREEN = 1 << 20
 
 
-def write(path: Path, data: bytes, uid: int = 0, gid: int = 0, mode: int = 0o644):
-    """Replace the file in one step (a new file renamed over it, never through a link)."""
+def write(path: Path, data: bytes, mode: int = 0o644):
+    """Replace a root-owned file in one step (a new file renamed over it, never through a link)."""
     fd, tmp = tempfile.mkstemp(dir=path.parent, prefix=".classic7-")
     try:
         with os.fdopen(fd, "wb") as f:
             f.write(data)
-        os.chmod(tmp, mode)
-        os.chown(tmp, uid, gid)
+            os.fchmod(f.fileno(), mode)
         os.replace(tmp, path)
     except BaseException:
         Path(tmp).unlink(missing_ok=True)
@@ -60,6 +60,49 @@ def set_theme(look: str) -> str | None:
     return f"theme {theme}"
 
 
+def _as_sddm(sddm: pwd.struct_passwd, data: bytes, cfg) -> bool:
+    """In a child process that is the sddm account (no root left), so nothing sddm owns, such as a
+    link put in place of a file, can make root write somewhere else. True when the file changed."""
+    pid = os.fork()
+    if pid == 0:
+        code = 3
+        try:
+            os.setgroups([])
+            os.setgid(sddm.pw_gid)
+            os.setuid(sddm.pw_uid)
+            home = Path(sddm.pw_dir or "/var/lib/sddm")
+            conf = home / ".config"
+            if conf.is_symlink():
+                conf.unlink()
+            conf.mkdir(mode=0o750, exist_ok=True)
+            target = conf / "kwinoutputconfig.json"
+            same = False
+            try:
+                fd = os.open(target, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+                with os.fdopen(fd, "rb") as f:
+                    if stat.S_ISREG(os.fstat(f.fileno()).st_mode):
+                        same = json.loads(f.read(MAX_SCREEN + 1)) == cfg
+            except (OSError, ValueError):
+                pass
+            if same:
+                code = 0
+            else:
+                fd, tmp = tempfile.mkstemp(dir=conf, prefix=".classic7-")
+                with os.fdopen(fd, "wb") as f:
+                    f.write(data)
+                    os.fchmod(f.fileno(), 0o644)
+                os.replace(tmp, target)
+                code = 1
+        except BaseException:  # noqa: BLE001 - the child only reports through its exit code
+            code = 3
+        os._exit(code)
+    _pid, status = os.waitpid(pid, 0)
+    code = os.waitstatus_to_exitcode(status)
+    if code not in (0, 1):
+        raise OSError("the screen settings couldn't be written to the login screen's settings")
+    return code == 1
+
+
 def set_screen(data: bytes) -> str | None:
     if len(data) > MAX_SCREEN:
         raise ValueError("the screen settings are too large")
@@ -70,22 +113,7 @@ def set_screen(data: bytes) -> str | None:
         sddm = pwd.getpwnam("sddm")
     except KeyError:
         raise ValueError("there is no sddm account (the login screen isn't SDDM)") from None
-    home = Path(sddm.pw_dir or "/var/lib/sddm")
-    conf = home / ".config"
-    if not conf.is_dir() or conf.is_symlink():
-        if conf.is_symlink():
-            conf.unlink()
-        conf.mkdir(parents=True, mode=0o750, exist_ok=True)
-        os.chown(conf, sddm.pw_uid, sddm.pw_gid)
-    target = conf / "kwinoutputconfig.json"
-    if not target.is_symlink():
-        try:
-            if json.loads(target.read_bytes()) == cfg:
-                return None
-        except (OSError, ValueError):
-            pass
-    write(target, data, sddm.pw_uid, sddm.pw_gid)
-    return "screen settings"
+    return "screen settings" if _as_sddm(sddm, data, cfg) else None
 
 
 def main() -> int:

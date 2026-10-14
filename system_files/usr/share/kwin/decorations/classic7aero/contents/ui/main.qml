@@ -45,12 +45,13 @@ Decoration {
         deco: decoration
     }
     Item {
-        // the title bar for dragging and double-clicks, where KWin expects it
+        // the title bar for dragging and double-clicks, in KWin's coordinates (without the shadow);
+        // the strip above it stays the top edge for resizing
         id: titleRect
         x: root.isMax ? 0 : 8
-        y: 0
+        y: root.isMax ? 0 : 4
         width: decoration.client.width
-        height: root.barHeight
+        height: root.barHeight - y
         Component.onCompleted: decoration.installTitleItem(titleRect)
     }
     KSvg.FrameSvg {

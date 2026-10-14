@@ -1909,7 +1909,7 @@ def main(argv=None) -> int:
     if not paths:
         print("classic7-properties: nothing to show", file=sys.stderr)
         return 1
-    if len(paths) == 1 and is_computer_icon(paths[0]):
+    if len(paths) == 1 and is_computer_icon(paths[0]) and trash_info(paths[0]) is None:
         # as in Windows 7: Computer > Properties is the System window, not the shortcut's
         # details (the activation token in the environment goes along, so it gets the focus)
         try:

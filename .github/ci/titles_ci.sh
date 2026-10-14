@@ -120,6 +120,12 @@ windows "maximized by the button"
 X mousemove 1117 10 click 1; sleep 2
 windows "restored by the button"
 two_windows
+# the top edge resizes (dragged up 30 px), the title bar moves (dragged 50 right, 30 down)
+X mousemove 600 201 mousedown 1 sleep 0.4 mousemove 600 190 sleep 0.3 mousemove 600 171 sleep 0.4 mouseup 1; sleep 1.5
+windows "after dragging the top edge from y 201 to 171"
+X mousemove 600 186 mousedown 1 sleep 0.4 mousemove 620 200 sleep 0.3 mousemove 650 216 sleep 0.4 mouseup 1; sleep 1.5
+windows "after dragging the title from 600,186 to 650,216"
+two_windows
 # the other window active
 place "Control Panel" 40 30 760 480; sleep 1.5; shot 05-back-active; titles 05-back-active
 # Aero applied: this KWin can't blur, so the glass is drawn solid

@@ -28,22 +28,23 @@ declare -A TAG_COMMITS=([6.7.5]=270dcf01851229134f74fa7d90ac338ec788ec67)
 krdp_ver="$(rpm -q --qf '%{VERSION}' krdp 2>/dev/null)" || { echo "fix-krdp: KRdp is not installed"; exit 1; }
 rdp_ver="$(rpm -q --qf '%{VERSION}' freerdp-libs 2>/dev/null)" || rdp_ver=0
 
-needed() {
-    [[ "$krdp_ver" == 6.7.* ]] || return 1                  # 6.8 and newer have the fix
-    printf '3.32\n%s\n' "$rdp_ver" | sort -V -C             # FreeRDP 3.32 or newer
-}
+# KRdp 6.7 gets the logon fixes (classic7-logon.patch is written for it), and with FreeRDP 3.32 or
+# newer KDE's extended-security fix too; 6.8 has KDE's fix, and the logon patch would need porting
+needed() { [[ "$krdp_ver" == 6.7.* ]]; }
+freerdp_fix() { printf '3.32\n%s\n' "$rdp_ver" | sort -V -C; }
 
 case "$mode" in
 check)
-    if needed; then echo "fix-krdp: KRdp $krdp_ver with FreeRDP $rdp_ver needs the fix"; exit 0; fi
-    echo "fix-krdp: not needed (KRdp $krdp_ver, FreeRDP $rdp_ver)"; exit 1 ;;
+    if needed; then echo "fix-krdp: KRdp $krdp_ver with FreeRDP $rdp_ver: rebuilt with Classic 7's fixes"; exit 0; fi
+    echo "::warning title=Remote Desktop::KRdp $krdp_ver is not rebuilt: classic7-logon.patch is for KRdp 6.7 (port it), so logons need the exact account name again"
+    exit 1 ;;
 deps)
     echo $DEPS; exit 0 ;;
 build) ;;
 *) echo "usage: fix-krdp.sh check|deps|build" >&2; exit 2 ;;
 esac
 
-needed || { echo "fix-krdp: not needed (KRdp $krdp_ver, FreeRDP $rdp_ver)"; exit 0; }
+needed || { echo "fix-krdp: not for KRdp $krdp_ver (FreeRDP $rdp_ver)"; exit 0; }
 work="${TMPDIR:-/var/tmp}/classic7-krdp"
 rm -rf "$work" && mkdir -p "$work"
 git clone --quiet --depth 1 --branch "v$krdp_ver" https://github.com/KDE/krdp.git "$work/src"
@@ -53,13 +54,24 @@ if [[ -n "${TAG_COMMITS[$krdp_ver]:-}" && "$commit" != "${TAG_COMMITS[$krdp_ver]
     exit 1
 fi
 src="$work/src/src/RdpConnection.cpp"
-if grep -q 'FreeRDP_ExtSecurity' "$src"; then
-    echo "fix-krdp: KRdp $krdp_ver already sets extended security"; exit 0
+fixes=()
+# KDE's fix for FreeRDP 3.32 (unless this KRdp has it already)
+if freerdp_fix && ! grep -q 'FreeRDP_ExtSecurity' "$src"; then
+    sed -i '/freerdp_settings_set_bool(settings, FreeRDP_NlaSecurity, false);/a\    freerdp_settings_set_bool(settings, FreeRDP_ExtSecurity, false); // Classic 7: KDE bug 526514' "$src"
+    grep -q 'FreeRDP_ExtSecurity, false' "$src" || { echo "fix-krdp: the FreeRDP 3.32 fix didn't apply" >&2; exit 1; }
+    fixes+=("the FreeRDP 3.32 fix")
 fi
-sed -i '/freerdp_settings_set_bool(settings, FreeRDP_NlaSecurity, false);/a\    freerdp_settings_set_bool(settings, FreeRDP_ExtSecurity, false); // Classic 7: KDE bug 526514' "$src"
-grep -q 'FreeRDP_ExtSecurity, false' "$src" || { echo "fix-krdp: the patch didn't apply" >&2; exit 1; }
-git -C "$work/src" apply "$(dirname "$(readlink -f "$0")")/classic7-logon.patch" \
-    || { echo "fix-krdp: classic7-logon.patch didn't apply" >&2; exit 1; }
+# the logon fixes; when they don't apply to this KRdp, the other fix is still built
+patch="$(dirname "$(readlink -f "$0")")/classic7-logon.patch"
+if git -C "$work/src" apply --check "$patch" 2>/dev/null; then
+    git -C "$work/src" apply "$patch"
+    fixes+=("Classic 7's logon fixes")
+else
+    echo "::warning title=Remote Desktop::classic7-logon.patch doesn't apply to KRdp $krdp_ver: logons need the exact account name"
+fi
+if ((${#fixes[@]} == 0)); then
+    echo "fix-krdp: nothing to change in KRdp $krdp_ver"; rm -rf "$work"; exit 0
+fi
 cmake -S "$work/src" -B "$work/build" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_TESTING=OFF \
     > "$work/cmake.log" 2>&1 || { tail -n 40 "$work/cmake.log" >&2; exit 1; }
 cmake --build "$work/build" --target KRdp -j"$(nproc)" > "$work/build.log" 2>&1 || { tail -n 40 "$work/build.log" >&2; exit 1; }
@@ -70,5 +82,5 @@ target="$(rpm -ql $(rpm -qa 'krdp*') 2>/dev/null | grep -E '/libKRdp\.so\.[0-9]+
 [[ -n "$built" && -n "$target" && -f "$target" ]] || { echo "fix-krdp: library not found (built: $built, packaged: $target)" >&2; exit 1; }
 strip --strip-unneeded "$built"
 install -m 755 "$built" "$target"
-echo "fix-krdp: $target rebuilt from KRdp $krdp_ver ($commit) with the FreeRDP 3.32 fix and Classic 7's logon fixes"
+echo "fix-krdp: $target rebuilt from KRdp $krdp_ver ($commit) with ${fixes[*]}"
 rm -rf "$work"

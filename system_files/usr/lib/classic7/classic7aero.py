@@ -300,6 +300,7 @@ TEXT_GAP = 6                  # between the icon and the title, and the title an
 BTN_RIGHT, BTN_RIGHT_MAX = 6, 2
 GLOW_X, GLOW_Y = 12, 9        # soft edge of the light behind titles (sides, top and bottom)
 GLOW_H, GLOW_H_MAX = 28, 23
+RESIZE_TOP = 4                # the top edge resizes over this many pixels (the title bar starts below)
 
 
 @dataclass
@@ -630,12 +631,13 @@ Decoration {
         deco: decoration
     }
     Item {
-        // the title bar for dragging and double-clicks, where KWin expects it
+        // the title bar for dragging and double-clicks, in KWin's coordinates (without the shadow);
+        // the strip above it stays the top edge for resizing
         id: titleRect
         x: root.isMax ? 0 : @BORDER@
-        y: 0
+        y: root.isMax ? 0 : @RESIZE_TOP@
         width: decoration.client.width
-        height: root.barHeight
+        height: root.barHeight - y
         Component.onCompleted: decoration.installTitleItem(titleRect)
     }
     KSvg.FrameSvg {
@@ -808,6 +810,7 @@ def write_kwin_decoration(look: str, ids: ct.Ids, w: ct.Writer, svg_dir: str):
         "@NAME@": ids.display, "@SVGDIR@": svg_dir, "@GLOW@": "true" if glow else "false",
         "@GLOWDOC@": ", with a soft light behind the title" if glow else "",
         "@SHADOW@": 0 if look == "basic" else SHADOW, "@TOP@": TOP, "@MAXTOP@": MAX_TOP, "@BORDER@": BORDER,
+        "@RESIZE_TOP@": RESIZE_TOP,
         "@BTN_RIGHT@": BTN_RIGHT, "@BTN_RIGHT_MAX@": BTN_RIGHT_MAX, "@BTN_TOP@": TITLE_EDGE_TOP,
         "@ICON_X@": ICON_X, "@ICON_Y@": ICON_Y, "@ICON_X_MAX@": ICON_X_MAX, "@ICON_Y_MAX@": ICON_Y_MAX,
         "@TEXT_GAP@": TEXT_GAP, "@GLOW_X@": GLOW_X, "@GLOW_H@": GLOW_H, "@GLOW_H_MAX@": GLOW_H_MAX,

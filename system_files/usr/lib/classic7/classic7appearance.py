@@ -1070,6 +1070,11 @@ def login_screen(look: str | None = None, run: Runner | None = None, force: bool
     Returns a note when it didn't work."""
     if not Path(LOGIN_HELPER).exists() or shutil.which("pkexec") is None or not is_administrator():
         return None
+    import pwd
+    try:
+        pwd.getpwnam("sddm")                    # the login screen is SDDM (not Plasma Login Manager)
+    except KeyError:
+        return None
     look = look if look in aero.LOOKS else State.load().look
     screen = config_home() / "kwinoutputconfig.json"
     try:

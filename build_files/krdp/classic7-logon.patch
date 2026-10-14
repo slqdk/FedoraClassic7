@@ -1,8 +1,16 @@
 diff --git a/src/RdpConnection.cpp b/src/RdpConnection.cpp
-index 797d10b..81f3643 100644
+index 797d10b..bdd5334 100644
 --- a/src/RdpConnection.cpp
 +++ b/src/RdpConnection.cpp
-@@ -86,6 +86,14 @@ static int pam_conv(int num_msg, const struct pam_message **msg, struct pam_resp
+@@ -12,6 +12,7 @@
+ #include <filesystem>
+ 
+ #include <fcntl.h>
++#include <sys/socket.h>
+ 
+ #include <QHostAddress>
+ #include <QStandardPaths>
+@@ -86,6 +87,14 @@ static int pam_conv(int num_msg, const struct pam_message **msg, struct pam_resp
              response[index].resp_retcode = PAM_SUCCESS;
              break;
  
@@ -17,7 +25,13 @@ index 797d10b..81f3643 100644
          default:
              pam_status = PAM_CONV_ERR;
              goto out_fail;
-@@ -114,8 +122,8 @@ static int pamAuthenticate(const QString &user, const QString &password)
+@@ -109,13 +118,13 @@ out_fail:
+     return pam_status;
+ }
+ 
+-static int pamAuthenticate(const QString &user, const QString &password)
++static int pamAuthenticate(const QString &user, const QString &password, const QString &remoteHost)
+ {
      int pam_status = 0;
      RdpConnectionPamHandle info = {0};
  
@@ -28,7 +42,50 @@ index 797d10b..81f3643 100644
      info.pamc.conv = &pam_conv;
      info.pamc.appdata_ptr = &info.appdata;
  
-@@ -533,21 +541,42 @@ bool RdpConnection::onPostConnect()
+@@ -126,10 +135,16 @@ static int pamAuthenticate(const QString &user, const QString &password)
+         return -1;
+     }
+ 
++    // Classic 7: say the logon comes from elsewhere, so modules for the person at this computer
++    // (pam_fprintd's finger on the reader) don't stand in for the password
++    const QByteArray rhost = remoteHost.isEmpty() ? QByteArrayLiteral("rdp") : remoteHost.toUtf8();
++    pam_set_item(info.handle, PAM_RHOST, rhost.constData());
++
+     pam_status = pam_authenticate(info.handle, 0);
+ 
+     if (pam_status != PAM_SUCCESS) {
+         qWarning() << "pam_authenticate failure:" << pam_strerror(info.handle, pam_status);
++        pam_end(info.handle, pam_status);
+         return -1;
+     }
+ 
+@@ -137,12 +152,25 @@ static int pamAuthenticate(const QString &user, const QString &password)
+ 
+     if (pam_status != PAM_SUCCESS) {
+         qWarning() << "pam_acct_mgmt failure:" << pam_strerror(info.handle, pam_status);
++        pam_end(info.handle, pam_status);
+         return -1;
+     }
+ 
++    pam_end(info.handle, pam_status); // Classic 7: KRdp left every handle open
+     return 1;
+ }
+ 
++// Classic 7: the client's address, for PAM
++static QString peerAddress(qintptr socketHandle)
++{
++    sockaddr_storage address = {};
++    socklen_t length = sizeof(address);
++    if (getpeername(int(socketHandle), reinterpret_cast<sockaddr *>(&address), &length) != 0) {
++        return QString();
++    }
++    return QHostAddress(reinterpret_cast<const sockaddr *>(&address)).toString();
++}
++
+ /**
+  * FreeRDP callback for the capabilities event.
+  */
+@@ -533,21 +561,46 @@ bool RdpConnection::onPostConnect()
          return false;
      }
  
@@ -56,9 +113,13 @@ index 797d10b..81f3643 100644
 +        const KUser self;
 +        const QString plain = username.section(QLatin1Char('\\'), -1).section(QLatin1Char('@'), 0, 0).trimmed();
 +        const QString fullName = self.property(KUser::FullName).toString().trimmed();
-+        if (plain.compare(self.loginName(), Qt::CaseInsensitive) == 0
-+            || (!fullName.isEmpty() && plain.compare(fullName, Qt::CaseInsensitive) == 0)) {
-+            if (pamAuthenticate(self.loginName(), password) >= 0) {
++        const auto isSelf = [&self, &fullName](const QString &name) {
++            return name.compare(self.loginName(), Qt::CaseInsensitive) == 0
++                || (!fullName.isEmpty() && name.compare(fullName, Qt::CaseInsensitive) == 0);
++        };
++        // the name as typed counts too (an account called "name@domain")
++        if (isSelf(plain) || isSelf(username.trimmed())) {
++            if (pamAuthenticate(self.loginName(), password, peerAddress(d->socketHandle)) >= 0) {
 +                qCDebug(KRDP) << "PAM authentication succeeded for user" << self.loginName();
 +                return true;
 +            }
@@ -77,7 +138,7 @@ index 797d10b..81f3643 100644
          }
          if (user.name == username && user.password == password) {
              qCDebug(KRDP) << "User" << username << "authenticated successfully";
-@@ -555,6 +584,9 @@ bool RdpConnection::onPostConnect()
+@@ -555,6 +608,9 @@ bool RdpConnection::onPostConnect()
          }
      }
  
