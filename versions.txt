@@ -1,0 +1,15 @@
++ rpm -q krdp freerdp freerdp-libs libwinpr kpipewire krdc
+krdp-6.7.5-1.fc44.x86_64
+freerdp-3.32.1-1.fc44.x86_64
+freerdp-libs-3.32.1-1.fc44.x86_64
+libwinpr-3.32.1-1.fc44.x86_64
+kpipewire-6.7.5-1.fc44.x86_64
+krdc-26.08.1-1.fc44.x86_64
++ rpm -ql freerdp
++ grep bin/
+/usr/bin/sdl-freerdp
+/usr/bin/winpr-hash
+/usr/bin/winpr-makecert
+/usr/bin/wlfreerdp
+/usr/bin/xfreerdp
+fix-krdp: KRdp 6.7.5 with FreeRDP 3.32.1: rebuilt with Classic 7's fixes

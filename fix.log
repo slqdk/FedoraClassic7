@@ -1,0 +1,20 @@
+warning: refs/tags/v6.7.5 64dd24c6e9c978b13ec7aca7af83142f0c41d774 is not a commit!
+Note: switching to '270dcf01851229134f74fa7d90ac338ec788ec67'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+fix-krdp: /usr/lib64/libKRdp.so.6.7.5 rebuilt from KRdp 6.7.5 (270dcf01851229134f74fa7d90ac338ec788ec67) with the FreeRDP 3.32 fix Classic 7's logon fixes
+fix exit 0

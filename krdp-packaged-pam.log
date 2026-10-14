@@ -1,0 +1,48 @@
+Detected locale "C" with character encoding "ANSI_X3.4-1968", which is not UTF-8.
+Qt depends on a UTF-8 locale, and has switched to "C.UTF-8" instead.
+If this causes problems, reconfigure your locale. See the locale(1) manual
+for more information.
+kf.statusnotifieritem: KDE platform plugin is loaded but SNI unavailable
+org.kde.krdp: Listening for connections on QHostAddress(QHostAddress::Any) 3391
+Remember requesting the interface on your desktop file: X-KDE-Wayland-Interfaces=zkde_screencast_unstable_v1
+qt.core.qobject.connect: QObject::connect(ScreencastingStream, KRdp::PlasmaScreencastV1Session): invalid nullptr parameter
+qt.core.qobject.connect: QObject::connect(ScreencastingStream, KRdp::PlasmaScreencastV1Session): invalid nullptr parameter
+[06:37:10:349] [332:0000014c] [WARN][com.freerdp.core.rdp] - [log_build_warn][0x55a3045de1a0]: *************************************************
+[06:37:10:349] [332:0000014c] [WARN][com.freerdp.core.rdp] - [log_build_warn][0x55a3045de1a0]: This build is using [experimental] build options:
+[06:37:10:349] [332:0000014c] [WARN][com.freerdp.core.rdp] - [log_build_warn][0x55a3045de1a0]: * 'WITH_GFX_AV1=ON'
+[06:37:10:349] [332:0000014c] [WARN][com.freerdp.core.rdp] - [log_build_warn][0x55a3045de1a0]: *
+[06:37:10:349] [332:0000014c] [WARN][com.freerdp.core.rdp] - [log_build_warn][0x55a3045de1a0]: [experimental] build options might crash the application
+[06:37:10:349] [332:0000014c] [WARN][com.freerdp.core.rdp] - [log_build_warn][0x55a3045de1a0]: *************************************************
+org.kde.krdp: Session setup completed, start processing...
+org.kde.krdp: New client connected:  UNIX platform Native X Server
+org.kde.krdp: Attempting authenticating user with PAM
+org.kde.krdp: PAM authentication succeeded for user "tester"
+org.kde.krdp: Video stream initialized with H.264 enabled
+org.kde.krdp: Received caps:
+org.kde.krdp:   RDPGFX_CAPVERSION_8 flags: 2 AVC: false YUV420: false
+org.kde.krdp:   RDPGFX_CAPVERSION_81 flags: 12 AVC: true YUV420: true
+org.kde.krdp:   RDPGFX_CAPVERSION_10 flags: 2 AVC: true YUV420: false
+org.kde.krdp:   RDPGFX_CAPVERSION_101 flags: 0 AVC: true YUV420: false
+org.kde.krdp:   RDPGFX_CAPVERSION_102 flags: 2 AVC: true YUV420: false
+org.kde.krdp:   RDPGFX_CAPVERSION_103 flags: 0 AVC: true YUV420: false
+org.kde.krdp:   RDPGFX_CAPVERSION_104 flags: 2 AVC: true YUV420: true
+org.kde.krdp:   RDPGFX_CAPVERSION_105 flags: 2 AVC: true YUV420: true
+org.kde.krdp:   RDPGFX_CAPVERSION_106 flags: 2 AVC: true YUV420: true
+org.kde.krdp:   UNKNOWN_VERSION flags: 2 AVC: false YUV420: false
+org.kde.krdp:   RDPGFX_CAPVERSION_107 flags: 2 AVC: true YUV420: true
+org.kde.krdp:   UNKNOWN_VERSION flags: 10000002 AVC: false YUV420: false
+MESA-EGL: warning: failed to get driver name for fd -1
+MESA-EGL: warning: MESA-LOADER: failed to retrieve device information
+MESA-EGL: warning: failed to get driver name for fd -1
+MESA: error: ZINK: failed to choose pdev
+MESA-EGL: warning: egl: failed to create dri2 screen
+kpipewire_vaapi_logging: VAAPI: could not resolve the current session render node; hardware encoding will not be auto-selected
+org.kde.krdp: Selected encoding mode: "h264"
+org.kde.krdp: Selected caps: RDPGFX_CAPVERSION_107
+[06:37:30:233] [332:00000157] [ERROR][com.freerdp.core.peer] - [rdp_set_error_info]: ERRINFO_LOGOFF_BY_USER [0x0001000C]
+org.kde.krdp: Unable to check file descriptor
+org.kde.krdp: Closing session
+[06:37:30:238] [332:0000014c] [ERROR][com.freerdp.core.transport] - [transport_default_write]: BIO_should_retry returned an error: error:80000068:system library::Connection reset by peer
+[06:37:30:238] [332:0000014c] [ERROR][com.freerdp.core.transport] - [transport_default_write]: BIO_should_retry returned an error: error:80000020:system library::Broken pipe
+org.kde.krdp: Closing Plasma Remote Session
+[06:37:30:233] [332:00000157] [INFO][com.freerdp.core] - [rdp_print_errinfo]: ERRINFO_LOGOFF_BY_USER (0x0000000C):The disconnection was initiated by the user logging off their session on the server.

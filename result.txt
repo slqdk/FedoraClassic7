@@ -1,0 +1,55 @@
+round packaged: client /usr/sbin/xfreerdp
+round packaged negotiation: server picks TLS
+round packaged users-default: still connected after 20 s
+round packaged users-wrongpw: ended (exit 147: ERRCONNECT_CONNECT_TRANSPORT_FAILED )
+round packaged pam-default: still connected after 20 s
+org.kde.krdp: Listening for connections on QHostAddress(QHostAddress::Any) 3391
+org.kde.krdp: New client connected:  UNIX platform Native X Server
+org.kde.krdp: Attempting authenticating user with PAM
+org.kde.krdp: PAM authentication succeeded for user "tester"
+org.kde.krdp: Listening for connections on QHostAddress(QHostAddress::Any) 3390
+org.kde.krdp: New client connected:  UNIX platform Native X Server
+org.kde.krdp: User "rdpuser" authenticated successfully
+org.kde.krdp: New client connected:  UNIX platform Native X Server
+round fixed: client /usr/sbin/xfreerdp
+round fixed negotiation: server picks TLS
+round fixed users-default: still connected after 20 s
+round fixed users-wrongpw: ended (exit 147: ERRCONNECT_CONNECT_TRANSPORT_FAILED )
+mstsc: 1194 /usr/sbin/sdl-freerdp /args-from:stdin
+round fixed pam-default: still connected after 20 s
+round fixed pam-case: still connected after 12 s
+round fixed pam-domain: still connected after 12 s
+round fixed pam-upn: still connected after 12 s
+round fixed pam-fullname: still connected after 12 s
+round fixed pam-wronguser: ended (exit 147: ERRCONNECT_CONNECT_TRANSPORT_FAILED )
+round fixed pam-wrongpw: ended (exit 12: ERRINFO_LOGOFF_BY_USER )
+org.kde.krdp: Listening for connections on QHostAddress(QHostAddress::Any) 3391
+org.kde.krdp: New client connected:  UNIX platform Native X Server
+org.kde.krdp: Attempting authenticating user with PAM
+org.kde.krdp: PAM authentication succeeded for user "tester"
+org.kde.krdp: New client connected:  UNIX platform Native X Server
+org.kde.krdp: Attempting authenticating user with PAM
+org.kde.krdp: PAM authentication succeeded for user "tester"
+org.kde.krdp: New client connected:  UNIX platform Native X Server
+org.kde.krdp: Attempting authenticating user with PAM
+org.kde.krdp: PAM authentication succeeded for user "tester"
+org.kde.krdp: New client connected:  UNIX platform Native X Server
+org.kde.krdp: Attempting authenticating user with PAM
+org.kde.krdp: PAM authentication succeeded for user "tester"
+org.kde.krdp: New client connected:  UNIX platform Native X Server
+org.kde.krdp: Attempting authenticating user with PAM
+org.kde.krdp: PAM authentication succeeded for user "tester"
+org.kde.krdp: New client connected:  UNIX platform Native X Server
+org.kde.krdp: Attempting authenticating user with PAM
+org.kde.krdp: Remote Desktop: "nobody" is not the account logged in here; log on as "tester" with its password
+org.kde.krdp: New client connected:  UNIX platform Native X Server
+org.kde.krdp: Attempting authenticating user with PAM
+pam_authenticate failure: Authentication failure
+org.kde.krdp: Remote Desktop: the password for "tester" was not accepted
+org.kde.krdp: Listening for connections on QHostAddress(QHostAddress::Any) 3390
+org.kde.krdp: New client connected:  UNIX platform Native X Server
+org.kde.krdp: User "rdpuser" authenticated successfully
+org.kde.krdp: New client connected:  UNIX platform Native X Server
+org.kde.krdp: Remote Desktop: no Remote Desktop account "rdpuser" with that password
+org.kde.krdp: New client connected:  UNIX platform Unknown version
+org.kde.krdp: User "rdpuser" authenticated successfully

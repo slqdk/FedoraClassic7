@@ -1,0 +1,7 @@
++ ls -l /etc/shadow
+-rw-r--r-- 1 root root 1267 Oct 14 06:36 /etc/shadow
++ getent shadow tester
++ cut -d: -f1,3
+tester:20740
++ getent passwd tester
+tester:x:1000:1000:Classic Tester:/var/home/tester:/bin/bash
