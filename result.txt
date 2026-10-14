@@ -1,0 +1,52 @@
+== new account: bottom 40: org.classic7.startmenu(aero), org.kde.plasma.icontasks, org.kde.plasma.marginsseparator, org.kde.plasma.systemtray, org.classic7.clock, org.classic7.showdesktop(aero)
+== basic (--look basic): exit 0 bottom 40: org.classic7.startmenu(basic), org.kde.plasma.icontasks, org.kde.plasma.marginsseparator, org.kde.plasma.systemtray, org.classic7.clock, org.classic7.showdesktop(basic)
+== classic (--look classic): exit 0 bottom 30: org.classic7.startmenu(classic), org.kde.plasma.quicklaunch, org.kde.plasma.taskmanager, org.kde.plasma.marginsseparator, org.kde.plasma.systemtray, org.classic7.clock, org.classic7.showdesktop(classic)
+== ruby (--look aero --glass ruby --intensity 70): exit 0 bottom 40: org.classic7.startmenu(aero), org.kde.plasma.icontasks, org.kde.plasma.marginsseparator, org.kde.plasma.systemtray, org.classic7.clock, org.classic7.showdesktop(aero)
+== opaque (--transparency off): exit 0 bottom 40: org.classic7.startmenu(aero), org.kde.plasma.icontasks, org.kde.plasma.marginsseparator, org.kde.plasma.systemtray, org.classic7.clock, org.classic7.showdesktop(aero)
+== sky (--look aero --glass sky --intensity 45 --transparency on): exit 0 bottom 40: org.classic7.startmenu(aero), org.kde.plasma.icontasks, org.kde.plasma.marginsseparator, org.kde.plasma.systemtray, org.classic7.clock, org.classic7.showdesktop(aero)
+read: True bottom always False False ['org.kde.kdeconnect', 'org.classic7.actioncenter', 'org.classic7.network', 'org.kde.plasma.vault', 'org.classic7.volume', 'org.kde.kscreen', 'org.kde.plasma.bluetooth', 'org.kde.plasma.printmanager', 'org.kde.plasma.manage-inputmethod', 'org.kde.plasma.mediacontroller', 'org.kde.plasma.devicenotifier', 'org.kde.plasma.cameraindicator', 'org.kde.plasma.clipboard', 'org.kde.plasma.notifications', 'org.kde.plasma.battery', 'org.kde.plasma.brightness', 'org.kde.plasma.keyboardindicator', 'org.kde.plasma.weather', 'org.kde.plasma.keyboardlayout']
+apply: True
+now: top never True True lock True 4 True
+== after change: top 40 locked: org.classic7.startmenu(aero), org.kde.plasma.quicklaunch, org.kde.plasma.taskmanager, org.kde.plasma.marginsseparator, org.kde.plasma.systemtray, org.classic7.clock, org.classic7.showdesktop(aero)
+read: True top never True True ['org.kde.kdeconnect', 'org.classic7.actioncenter', 'org.classic7.network', 'org.kde.plasma.vault', 'org.classic7.volume', 'org.kde.kscreen', 'org.kde.plasma.bluetooth', 'org.kde.plasma.printmanager', 'org.kde.plasma.manage-inputmethod', 'org.kde.plasma.mediacontroller', 'org.kde.plasma.devicenotifier', 'org.kde.plasma.cameraindicator', 'org.kde.plasma.clipboard', 'org.kde.plasma.notifications', 'org.kde.plasma.battery', 'org.kde.plasma.brightness', 'org.kde.plasma.keyboardindicator', 'org.kde.plasma.weather', 'org.kde.plasma.keyboardlayout']
+apply: True
+now: bottom always False False shutdown False 10 False
+== back: bottom 40: org.classic7.startmenu(aero), org.kde.plasma.icontasks, org.kde.plasma.marginsseparator, org.kde.plasma.systemtray, org.classic7.clock, org.classic7.showdesktop(aero)
+{
+  "palette": {
+    "name": "Classic 7 Standard",
+    "desktop": "#3A6EA5",
+    "face": "#D4D0C8",
+    "face_text": "#000000",
+    "window": "#FFFFFF",
+    "window_text": "#000000",
+    "select": "#0A246A",
+    "select_text": "#FFFFFF",
+    "title_active": "#0A246A",
+    "title_active2": "#A6CAF0",
+    "title_active_text": "#FFFFFF",
+    "title_inactive": "#808080",
+    "title_inactive2": "#C0C0C0",
+    "title_inactive_text": "#D4D0C8",
+    "tooltip": "#FFFFE1",
+    "tooltip_text": "#000000",
+    "hilight": "#FFFFFF",
+    "light": "#D4D0C8",
+    "shadow": "#808080",
+    "dkshadow": "#404040",
+    "font_size": 9,
+    "radius": 0,
+    "flat": false
+  },
+  "slot": null,
+  "look": "aero",
+  "glass": {
+    "name": "Sky",
+    "color": "#74B8FC",
+    "intensity": 0.45,
+    "transparency": true
+  },
+  "glass_slot": null,
+  "small_icons": false,
+  "solid": false
+}

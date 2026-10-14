@@ -1,0 +1,16 @@
+total 60
+drwxr-xr-x 9 tester tester 4096 Oct 14 12:00 .
+drwxr-xr-x 5 tester tester 4096 Oct 14 12:00 ..
+drwxr-xr-x 2 tester tester 4096 Oct 14 12:00 Kvantum
+drwxr-xr-x 2 tester tester 4096 Jan  1  1970 autostart
+drwxr-xr-x 2 tester tester 4096 Oct 14 12:00 classic7
+drwxr-xr-x 2 tester tester 4096 Oct 14 12:00 gtk-3.0
+drwxr-xr-x 2 tester tester 4096 Oct 14 12:00 gtk-4.0
+-rw-r--r-- 1 tester tester   33 Oct 14 12:00 kcminputrc
+-rw-r--r-- 1 tester tester  266 Oct 14 12:00 kdeglobals
+-rw-r--r-- 1 tester tester  965 Oct 14 12:00 kglobalshortcutsrc
+-rw-r--r-- 1 tester tester  128 Oct 14 12:00 kscreenlockerrc
+-rw-r--r-- 1 tester tester  252 Oct 14 12:00 kwinrc
+drwxr-xr-x 4 tester tester 4096 Jan  1  1970 mozilla
+-rw-r--r-- 1 tester tester   27 Oct 14 12:00 plasmarc
+drwxr-xr-x 2 tester tester 4096 Jan  1  1970 user-tmpfiles.d
