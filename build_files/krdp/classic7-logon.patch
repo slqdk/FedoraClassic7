@@ -1,0 +1,89 @@
+diff --git a/src/RdpConnection.cpp b/src/RdpConnection.cpp
+index 797d10b..81f3643 100644
+--- a/src/RdpConnection.cpp
++++ b/src/RdpConnection.cpp
+@@ -86,6 +86,14 @@ static int pam_conv(int num_msg, const struct pam_message **msg, struct pam_resp
+             response[index].resp_retcode = PAM_SUCCESS;
+             break;
+ 
++        // Classic 7: messages that only inform (a fingerprint reader, a lock-out notice) need no
++        // answer; failing the conversation on them failed the logon
++        case PAM_ERROR_MSG:
++        case PAM_TEXT_INFO:
++            response[index].resp = NULL;
++            response[index].resp_retcode = PAM_SUCCESS;
++            break;
++
+         default:
+             pam_status = PAM_CONV_ERR;
+             goto out_fail;
+@@ -114,8 +122,8 @@ static int pamAuthenticate(const QString &user, const QString &password)
+     int pam_status = 0;
+     RdpConnectionPamHandle info = {0};
+ 
+-    info.appdata.user = user.toLatin1();
+-    info.appdata.password = password.toLatin1();
++    info.appdata.user = user.toUtf8(); // Classic 7: UTF-8, as the client sent them
++    info.appdata.password = password.toUtf8();
+     info.pamc.conv = &pam_conv;
+     info.pamc.appdata_ptr = &info.appdata;
+ 
+@@ -533,21 +541,42 @@ bool RdpConnection::onPostConnect()
+         return false;
+     }
+ 
+-    const QString username = QString::fromLatin1(freerdp_settings_get_string(settings, FreeRDP_Username));
+-    const QString password = QString::fromLatin1(freerdp_settings_get_string(settings, FreeRDP_Password));
++    // Classic 7: the client sends UTF-8 (Latin-1 turned "Søren" and passwords with æ, ø or å into
++    // something else)
++    const QString username = QString::fromUtf8(freerdp_settings_get_string(settings, FreeRDP_Username));
++    const QString password = QString::fromUtf8(freerdp_settings_get_string(settings, FreeRDP_Password));
++
++    if (username.isEmpty()) {
++        qCWarning(KRDP) << "Remote Desktop: the client sent no user name. Type this computer's user name and password"
++                        << "in Remote Desktop Connection (Show Options > User name, or when it asks).";
++        return false;
++    }
+ 
+     if (d->server->usePAMAuthentication()) {
+         qCDebug(KRDP) << "Attempting authenticating user with PAM";
+-        if (username == KUser().loginName() && pamAuthenticate(username, password) >= 0) {
+-            qCDebug(KRDP) << "PAM authentication succeeded for user" << username;
+-            return true;
++        // Classic 7: Windows sends the name as it was typed. "Soren", "COMPUTER\soren",
++        // "soren@computer" and the account's full name all mean the account logged in here; PAM
++        // checks the password against that account.
++        const KUser self;
++        const QString plain = username.section(QLatin1Char('\\'), -1).section(QLatin1Char('@'), 0, 0).trimmed();
++        const QString fullName = self.property(KUser::FullName).toString().trimmed();
++        if (plain.compare(self.loginName(), Qt::CaseInsensitive) == 0
++            || (!fullName.isEmpty() && plain.compare(fullName, Qt::CaseInsensitive) == 0)) {
++            if (pamAuthenticate(self.loginName(), password) >= 0) {
++                qCDebug(KRDP) << "PAM authentication succeeded for user" << self.loginName();
++                return true;
++            }
++            qCWarning(KRDP) << "Remote Desktop: the password for" << self.loginName() << "was not accepted";
++        } else {
++            qCWarning(KRDP) << "Remote Desktop:" << username << "is not the account logged in here; log on as"
++                            << self.loginName() << "with its password";
+         }
+     }
+ 
+     const auto users = d->server->users();
+     for (auto user : users) {
+         if (user.password.isEmpty()) {
+-            return false;
++            continue; // Classic 7: one account without a password no longer locks out the others
+         }
+         if (user.name == username && user.password == password) {
+             qCDebug(KRDP) << "User" << username << "authenticated successfully";
+@@ -555,6 +584,9 @@ bool RdpConnection::onPostConnect()
+         }
+     }
+ 
++    if (!users.isEmpty()) {
++        qCWarning(KRDP) << "Remote Desktop: no Remote Desktop account" << username << "with that password";
++    }
+     return false;
+ }
+ 

@@ -43,8 +43,13 @@ EOP
 useradd -m -u 1000 tester 2>/dev/null
 # the image has no /etc/shadow (accounts are made at install time): make it, or PAM finds no password
 [ -f /etc/shadow ] || pwconv
-echo 'tester:Classic7pass!' | chpasswd
-{ ls -l /etc/shadow; getent shadow tester | cut -d: -f1,3; } > /out/shadow.txt 2>&1
+# a password with a Danish letter (names and passwords travel as UTF-8), and a full name
+echo 'tester:Klassisk-7ø!' | chpasswd
+usermod -c "Classic Tester" tester
+# PAM's password check for the user's own account goes through the setuid helper unix_chkpwd, which
+# can't gain root in this container; a readable /etc/shadow lets pam_unix check it directly (only here)
+chmod 644 /etc/shadow
+{ ls -l /etc/shadow; getent shadow tester | cut -d: -f1,3; getent passwd tester; } > /out/shadow.txt 2>&1
 cat > /tmp/inner.sh <<'EOI'
 round=$1
 export XDG_RUNTIME_DIR=/tmp/xdg-t; mkdir -p $XDG_RUNTIME_DIR; chmod 700 $XDG_RUNTIME_DIR
@@ -69,11 +74,11 @@ echo "round $round: client $CLIENT" >> /out/result.txt
 # connect: name port user password extra-args...
 try() {
     local name=$1 port=$2 user=$3 pass=$4; shift 4
-    DISPLAY=:99 timeout 20 $CLIENT /v:127.0.0.1:$port "/u:$user" "/p:$pass" /cert:ignore /size:640x400 "$@" \
+    DISPLAY=:99 timeout ${T:-20} $CLIENT /v:127.0.0.1:$port "/u:$user" "/p:$pass" /cert:ignore /size:640x400 "$@" \
         > /out/client-$round-$name.log 2>&1
     local code=$?
     local verdict="ended (exit $code: $(grep -oE 'ERRCONNECT_[A-Z_]+|ERRINFO_[A-Z_]+' /out/client-$round-$name.log | sort -u | tr '\n' ' '))"
-    [ $code = 124 ] && verdict="still connected after 20 s"
+    [ $code = 124 ] && verdict="still connected after ${T:-20} s"
     echo "round $round $name: $verdict" >> /out/result.txt
 }
 # 1) a KRdp user (what Remote Desktop settings' user list gives)
@@ -109,9 +114,19 @@ printf '[General]\nSystemUserEnabled=true\nCertificate=%s\nCertificateKey=%s\n' 
 krdpserver --plasma --port 3391 > /out/krdp-$round-pam.log 2>&1 &
 K=$!
 sleep 5
-try pam-default 3391 tester 'Classic7pass!'
+PW='Klassisk-7ø!'
+try pam-default 3391 tester "$PW"
+if [ $round = fixed ]; then
+    # how Windows may send the name: another case, COMPUTER\name, name@computer, the full name
+    T=12 try pam-case 3391 Tester "$PW"
+    T=12 try pam-domain 3391 'CLASSIC7\tester' "$PW"
+    T=12 try pam-upn 3391 tester@classic7 "$PW"
+    T=12 try pam-fullname 3391 'Classic Tester' "$PW"
+    T=12 try pam-wronguser 3391 nobody "$PW"
+    T=12 try pam-wrongpw 3391 tester 'Klassisk-7o!'
+fi
 kill $K 2>/dev/null; sleep 1
-grep -hiE "authenticated|PAM|New client|failure|SAM|NLA|security|certificate|Listening" /out/krdp-$round-*.log | head -24 >> /out/result.txt
+grep -hiE "authenticated|PAM|New client|failure|SAM|NLA|security|certificate|Listening|Remote Desktop" /out/krdp-$round-*.log | head -40 >> /out/result.txt
 EOI
 chown tester /tmp/inner.sh
 su tester -c "timeout 300 dbus-run-session -- bash /tmp/inner.sh packaged"

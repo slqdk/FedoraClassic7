@@ -6,6 +6,12 @@
 # that one-line fix and puts it in place of the packaged one (krdpserver itself is unchanged, so
 # the library stays the same version). Nothing is done when the installed KRdp has the fix already.
 #
+# classic7-logon.patch, applied in the same build, makes logging on from Windows forgiving: KRdp 6.7
+# only lets in the user name exactly as the account is called here, and turned non-ASCII names and
+# passwords (Søren, æ ø å) into something else; now any case, COMPUTER\name, name@computer and the
+# account's full name work, names and passwords stay UTF-8, PAM's information messages no longer
+# fail the logon, and a refused logon says why in the log (Event Viewer > Application).
+#
 #   fix-krdp.sh check   exit 0 when the fix is needed
 #   fix-krdp.sh deps    the packages the build needs
 #   fix-krdp.sh build   build and install (the packages from "deps" must be installed)
@@ -52,6 +58,8 @@ if grep -q 'FreeRDP_ExtSecurity' "$src"; then
 fi
 sed -i '/freerdp_settings_set_bool(settings, FreeRDP_NlaSecurity, false);/a\    freerdp_settings_set_bool(settings, FreeRDP_ExtSecurity, false); // Classic 7: KDE bug 526514' "$src"
 grep -q 'FreeRDP_ExtSecurity, false' "$src" || { echo "fix-krdp: the patch didn't apply" >&2; exit 1; }
+git -C "$work/src" apply "$(dirname "$(readlink -f "$0")")/classic7-logon.patch" \
+    || { echo "fix-krdp: classic7-logon.patch didn't apply" >&2; exit 1; }
 cmake -S "$work/src" -B "$work/build" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_TESTING=OFF \
     > "$work/cmake.log" 2>&1 || { tail -n 40 "$work/cmake.log" >&2; exit 1; }
 cmake --build "$work/build" --target KRdp -j"$(nproc)" > "$work/build.log" 2>&1 || { tail -n 40 "$work/build.log" >&2; exit 1; }
@@ -62,5 +70,5 @@ target="$(rpm -ql $(rpm -qa 'krdp*') 2>/dev/null | grep -E '/libKRdp\.so\.[0-9]+
 [[ -n "$built" && -n "$target" && -f "$target" ]] || { echo "fix-krdp: library not found (built: $built, packaged: $target)" >&2; exit 1; }
 strip --strip-unneeded "$built"
 install -m 755 "$built" "$target"
-echo "fix-krdp: $target rebuilt from KRdp $krdp_ver ($commit) with the FreeRDP 3.32 fix"
+echo "fix-krdp: $target rebuilt from KRdp $krdp_ver ($commit) with the FreeRDP 3.32 fix and Classic 7's logon fixes"
 rm -rf "$work"
