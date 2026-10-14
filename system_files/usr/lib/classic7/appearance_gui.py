@@ -281,8 +281,12 @@ class ThemeTab(QWidget):
             lw.setFrameShape(QFrame.NoFrame)
             lw.setFixedSize((THUMB_W + 22) * len(looks) + 6, THUMB_H + 50)
             lw.setWordWrap(True)
+            # a grey box of the picture's size until the pictures are drawn (just after the
+            # window is shown), so the items are laid out at their final size
+            blank = QPixmap(THUMB_W, THUMB_H)
+            blank.fill(QColor("#E6E6E6"))
             for lk in looks:
-                it = QListWidgetItem(LOOK_NAMES[lk])
+                it = QListWidgetItem(QIcon(blank), LOOK_NAMES[lk])
                 it.setData(Qt.UserRole, lk)
                 it.setToolTip(LOOK_TEXT[lk])
                 it.setTextAlignment(Qt.AlignHCenter | Qt.AlignTop)
