@@ -224,6 +224,11 @@ for f in /usr/share/plasma/look-and-feel/org.classic7.aero.desktop/metadata.json
          /usr/share/plasma/desktoptheme/classic7-aero/translucent/widgets/panel-background.svg \
          /usr/share/plasma/desktoptheme/classic7-basic/metadata.json \
          /usr/share/aurorae/themes/Classic7Aero/decoration.svg /usr/share/aurorae/themes/Classic7Basic/decoration.svg \
+         /usr/share/aurorae/themes/Classic7Aero/glow.svg \
+         /usr/share/kwin/decorations/classic7aero/contents/ui/main.qml \
+         /usr/share/kwin/decorations/classic7aero/contents/ui/CaptionButton.qml \
+         /usr/share/kwin/decorations/classic7basic/contents/ui/main.qml \
+         /usr/share/kwin/decorations/classic7basic/metadata.json \
          /usr/share/color-schemes/Classic7Aero.colors /usr/share/classic7/start-orb.svg \
          /usr/share/classic7/start-orb-hover.svg /usr/share/classic7/start-orb-pressed.svg \
          /usr/share/Kvantum/Classic7Aero/Classic7Aero.kvconfig /usr/share/Kvantum/Classic7Aero/Classic7Aero.svg \
@@ -236,6 +241,9 @@ for f in /usr/share/plasma/look-and-feel/org.classic7.aero.desktop/metadata.json
 done
 grep -q '"look": "aero"' /etc/skel/.config/classic7/appearance.json
 grep -q '^LookAndFeelPackage=org.classic7.aero.desktop' /etc/skel/.config/kdeglobals
+# the window borders are QML decorations that show the Aurorae themes' pictures
+grep -q '^theme=classic7aero$' /etc/skel/.config/kwinrc
+grep -q 'svgDir: "/usr/share/aurorae/themes/Classic7Aero"' /usr/share/kwin/decorations/classic7aero/contents/ui/main.qml
 [[ -z "$(find /usr/share/themes/Classic7Aero /usr/share/Kvantum/Classic7Aero /usr/share/wallpapers/Classic7Aero \
             ! -perm -o+r -print -quit)" ]]
 # Windows 7's white cursors: Breeze Light (Plasma's breeze package), else Breeze

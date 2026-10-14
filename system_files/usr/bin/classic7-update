@@ -95,14 +95,8 @@ def run_all():
     return 1 if failed else 0
 
 
-def after_login():
-    """Autostart: after booting a new version, update this account's settings once.
-    The login screen's keyboard layout is checked at every login (cheap, and the user
-    may have changed the layout in System Settings)."""
-    core.sync_keyboard(lambda _line: None)
-    if not core.needs_refresh():
-        return 0
-    # wait for the desktop (plasmashell answers on D-Bus) so the look can be applied live
+def wait_for_desktop():
+    """Until plasmashell answers on D-Bus, so the look can be applied live."""
     for _ in range(60):
         r = subprocess.run(["dbus-send", "--session", "--print-reply", "--dest=org.kde.plasmashell",
                             "/PlasmaShell", "org.freedesktop.DBus.Peer.Ping"], capture_output=True)
@@ -110,6 +104,20 @@ def after_login():
             break
         time.sleep(1)
     time.sleep(3)
+
+
+def after_login():
+    """Autostart: after booting a new version, update this account's settings once.
+    The login screen's keyboard layout is checked at every login (cheap, and the user
+    may have changed the layout in System Settings), and so is whether Aero glass can be
+    see-through (it needs 3D graphics)."""
+    core.sync_keyboard(lambda _line: None)
+    if not core.needs_refresh():
+        if core.glass_needs_redraw():
+            wait_for_desktop()
+            core.redraw_glass(lambda _line: None)
+        return 0
+    wait_for_desktop()
     previous = core.UpdateState.load().applied_build
     log = []
     problems = core.refresh_account(log.append)

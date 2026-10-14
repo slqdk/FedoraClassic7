@@ -1,0 +1,15 @@
+{
+    "KPackageStructure": "KWin/Decoration",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Classic7 project"
+            }
+        ],
+        "Description": "Glass window borders, laid out like Windows 7",
+        "Id": "classic7aero",
+        "License": "Apache-2.0",
+        "Name": "Classic 7 Aero",
+        "Version": "1.0"
+    }
+}

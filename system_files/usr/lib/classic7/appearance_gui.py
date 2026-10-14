@@ -432,6 +432,14 @@ class ColorTab(QWidget):
         self.transparency = QCheckBox("Enable &transparency")
         self.transparency.toggled.connect(self._transparency)
         side.addWidget(self.transparency)
+        if backend.blur_supported() is False:
+            # as Windows 7 without Aero graphics: no see-through glass (it would show what is
+            # behind a window sharply, through its title)
+            solid = QLabel("The graphics of this computer can't blur, so the glass is drawn solid. "
+                           "With a 3D graphics driver it becomes see-through.")
+            solid.setWordWrap(True)
+            solid.setStyleSheet("color: #5A5A5A;")
+            side.addWidget(solid)
         ilab = QLabel("Color &intensity:")
         self.intensity = QSlider(Qt.Horizontal)
         self.intensity.setRange(0, 100)

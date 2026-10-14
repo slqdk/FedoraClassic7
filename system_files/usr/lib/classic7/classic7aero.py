@@ -283,8 +283,8 @@ def doc(w: float, h: float, body: str, defs: Defs) -> str:
 # 1. Window borders (Aurorae)
 # =============================================================================
 BORDER = 8                    # left, right and bottom glass
-TITLE_EDGE_TOP = 1
-TITLE_H = 21                  # the caption row (icon, title, buttons)
+TITLE_EDGE_TOP = 1            # the caption buttons hang from the top edge, 1 px below it
+TITLE_H = 21                  # the caption row of the plain Aurorae theme (icon, title, buttons)
 TOP = 30                      # whole top border: 1 + 21 + 8
 MAX_TOP = 23                  # maximized: 0 + 21 + 2
 SHADOW = 12                   # shadow band around Aero windows (Aurorae's padding)
@@ -292,6 +292,14 @@ R_TOP, R_BOTTOM = 7, 4        # outer corner radii
 BTN_H = 20
 BTN_W = {"minimize": 27, "maximize": 27, "restore": 27, "close": 47}
 STRETCH = 40                  # size of the stretchable middle in the drawings
+# Windows 7 puts the window icon and title lower than the buttons, in the middle of the title
+# bar, and draws a soft light behind the title on glass
+ICON_X, ICON_Y = 8, 7         # 16 px icon, centre 15 px below the top edge
+ICON_X_MAX, ICON_Y_MAX = 4, 4
+TEXT_GAP = 6                  # between the icon and the title, and the title and the buttons
+BTN_RIGHT, BTN_RIGHT_MAX = 6, 2
+GLOW_X, GLOW_Y = 12, 9        # soft edge of the light behind titles (sides, top and bottom)
+GLOW_H, GLOW_H_MAX = 28, 23
 
 
 @dataclass
@@ -545,12 +553,292 @@ def button_svg(kind: str, look: str) -> str:
     return doc(len(looks) * (w + 6), h, body, d)
 
 
+def glow_layers(x: float, y: float, w: float, h: float, alpha: float = 0.78) -> list[Layer]:
+    """The light behind a window title on glass (Windows 7 draws one so that titles stay readable
+    on any colour): white, solid in the middle, fading out over GLOW_X pixels at the sides and
+    GLOW_Y at the top and bottom."""
+    steps = 9
+
+    def edge(t: float) -> Poly:
+        dx, dy, r = GLOW_X * t, GLOW_Y * t, GLOW_Y * (1 - t)
+        return rrect(x + dx, y + dy, w - 2 * dx, h - 2 * dy, r, r, r, r)
+    layers = []
+    for i in range(steps):
+        mid = (i + 0.5) / steps
+        layers.append(Layer(ring(edge(i / steps), edge((i + 1) / steps)), "#FFFFFF",
+                            alpha * mid * mid * (3 - 2 * mid)))
+    layers.append(Layer([edge(1.0)], "#FFFFFF", alpha))
+    return layers
+
+
+def glow_svg() -> str:
+    """glow.svg: the light as a FrameSvg, stretched to each title's width."""
+    d = Defs()
+    w, h = 2 * GLOW_X + STRETCH, 2 * GLOW_Y + 10
+    body = nine("", glow_layers(0, 0, w, h), 0, 0, w, h, GLOW_X, GLOW_Y, GLOW_X, GLOW_Y)
+    body += ct.hint("hint-stretch-borders", w + 4, 0, 4, 4)
+    return doc(w + 10, h, body, d)
+
+
+# The window borders themselves are a QML decoration that Aurorae runs: its SVG themes put the
+# icon and title on one line with the buttons, Windows 7 puts them lower. main.qml shows the
+# pictures of an Aurorae theme folder (svgDir) with the Windows 7 layout.
+DECORATION_QML = r'''/*
+    Classic 7 window borders (@NAME@), laid out like Windows 7: the caption buttons hang from
+    the top edge, the window icon and the title sit lower, in the middle of the title bar@GLOWDOC@.
+    The pictures are the SVG files in svgDir. Written by classic7aero.py: change it there.
+*/
+import QtQuick
+import org.kde.kwin.decoration
+import org.kde.ksvg 1.0 as KSvg
+
+Decoration {
+    id: root
+    readonly property string svgDir: "@SVGDIR@"
+    readonly property bool hasGlow: @GLOW@
+    readonly property bool isMax: decoration.client.maximized
+    readonly property int shadowPad: isMax ? 0 : @SHADOW@
+    readonly property int barHeight: isMax ? @MAXTOP@ : @TOP@
+    property alias decorationMask: maskItem.mask
+    property alias supportsMask: backgroundSvg.supportsMask
+
+    function has(list, value) {
+        for (var i = 0; i < list.length; i++) {
+            if (list[i] === value) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    Component.onCompleted: {
+        borders.left = @BORDER@;
+        borders.right = @BORDER@;
+        borders.top = @TOP@;
+        borders.bottom = @BORDER@;
+        maximizedBorders.left = 0;
+        maximizedBorders.right = 0;
+        maximizedBorders.top = @MAXTOP@;
+        maximizedBorders.bottom = 0;
+        padding.left = @SHADOW@;
+        padding.right = @SHADOW@;
+        padding.top = @SHADOW@;
+        padding.bottom = @SHADOW@;
+    }
+    DecorationOptions {
+        id: options
+        deco: decoration
+    }
+    Item {
+        // the title bar for dragging and double-clicks, where KWin expects it
+        id: titleRect
+        x: root.isMax ? 0 : @BORDER@
+        y: 0
+        width: decoration.client.width
+        height: root.barHeight
+        Component.onCompleted: decoration.installTitleItem(titleRect)
+    }
+    KSvg.FrameSvg {
+        id: backgroundSvg
+        property bool supportsInactive: hasElementPrefix("decoration-inactive")
+        property bool supportsMask: hasElementPrefix("mask")
+        property bool supportsMaximized: hasElementPrefix("decoration-maximized")
+        property bool supportsMaximizedInactive: hasElementPrefix("decoration-maximized-inactive")
+        imagePath: root.svgDir + "/decoration.svg"
+    }
+    KSvg.FrameSvgItem {
+        id: decorationActive
+        property bool shown: (!root.isMax || !backgroundSvg.supportsMaximized) && (decoration.client.active || !backgroundSvg.supportsInactive)
+        anchors.fill: parent
+        imagePath: backgroundSvg.imagePath
+        prefix: "decoration"
+        opacity: shown ? 1 : 0
+        enabledBorders: root.isMax ? KSvg.FrameSvg.NoBorder : KSvg.FrameSvg.TopBorder | KSvg.FrameSvg.BottomBorder | KSvg.FrameSvg.LeftBorder | KSvg.FrameSvg.RightBorder
+    }
+    KSvg.FrameSvgItem {
+        id: decorationInactive
+        anchors.fill: parent
+        imagePath: backgroundSvg.imagePath
+        prefix: "decoration-inactive"
+        opacity: (!decoration.client.active && backgroundSvg.supportsInactive) ? 1 : 0
+        enabledBorders: root.isMax ? KSvg.FrameSvg.NoBorder : KSvg.FrameSvg.TopBorder | KSvg.FrameSvg.BottomBorder | KSvg.FrameSvg.LeftBorder | KSvg.FrameSvg.RightBorder
+    }
+    KSvg.FrameSvgItem {
+        id: decorationMaximized
+        property bool shown: root.isMax && backgroundSvg.supportsMaximized && (decoration.client.active || !backgroundSvg.supportsMaximizedInactive)
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        imagePath: backgroundSvg.imagePath
+        prefix: "decoration-maximized"
+        height: @MAXTOP@
+        opacity: shown ? 1 : 0
+        enabledBorders: KSvg.FrameSvg.NoBorder
+    }
+    KSvg.FrameSvgItem {
+        id: decorationMaximizedInactive
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        imagePath: backgroundSvg.imagePath
+        prefix: "decoration-maximized-inactive"
+        height: @MAXTOP@
+        opacity: (!decoration.client.active && root.isMax && backgroundSvg.supportsMaximizedInactive) ? 1 : 0
+        enabledBorders: KSvg.FrameSvg.NoBorder
+    }
+    Row {
+        // Minimize, Maximize and Close (the buttons chosen for the right side)
+        id: buttonRow
+        anchors.right: parent.right
+        anchors.rightMargin: root.isMax ? @BTN_RIGHT_MAX@ : root.shadowPad + @BTN_RIGHT@
+        y: root.isMax ? 0 : root.shadowPad + @BTN_TOP@
+        Repeater {
+            model: options.titleButtonsRight
+            delegate: CaptionButton {
+                buttonType: modelData
+                svgDir: root.svgDir
+            }
+        }
+    }
+    MenuButton {
+        // the window icon: click for the window menu, double-click to close
+        id: windowIcon
+        visible: root.has(options.titleButtonsLeft, DecorationOptions.DecorationButtonMenu)
+        width: 16
+        height: 16
+        x: root.isMax ? @ICON_X_MAX@ : root.shadowPad + @ICON_X@
+        y: root.isMax ? @ICON_Y_MAX@ : root.shadowPad + @ICON_Y@
+    }
+    KSvg.FrameSvgItem {
+        id: glow
+        visible: root.hasGlow && caption.text.length > 0 && caption.width > 0
+        imagePath: root.hasGlow ? root.svgDir + "/glow.svg" : ""
+        x: caption.x - @GLOW_X@ - 2
+        width: Math.min(caption.contentWidth, caption.width) + 2 * (@GLOW_X@ + 2)
+        height: root.isMax ? @GLOW_H_MAX@ : @GLOW_H@
+        y: caption.y + Math.round((caption.height - height) / 2)
+    }
+    Text {
+        id: caption
+        text: decoration.client.caption
+        textFormat: Text.PlainText
+        elide: Text.ElideRight
+        renderType: Text.NativeRendering
+        font: options.titleFont
+        color: decoration.client.active ? "@ACTIVE_TEXT@" : "@INACTIVE_TEXT@"
+        verticalAlignment: Text.AlignVCenter
+        horizontalAlignment: Text.AlignLeft
+        x: windowIcon.visible ? windowIcon.x + windowIcon.width + @TEXT_GAP@ : (root.isMax ? @ICON_X_MAX@ : root.shadowPad + @ICON_X@)
+        width: Math.max(0, buttonRow.x - @TEXT_GAP@ - x)
+        y: root.isMax ? 0 : root.shadowPad
+        height: root.barHeight
+    }
+    KSvg.FrameSvgItem {
+        // where KWin blurs behind the glass (the "mask" pieces of decoration.svg)
+        id: maskItem
+        anchors.fill: parent
+        anchors.margins: 1
+        imagePath: backgroundSvg.imagePath
+        opacity: 0
+        enabledBorders: KSvg.FrameSvg.TopBorder | KSvg.FrameSvg.BottomBorder | KSvg.FrameSvg.LeftBorder | KSvg.FrameSvg.RightBorder
+    }
+}
+'''
+
+CAPTION_BUTTON_QML = r'''/*
+    A caption button (Minimize, Maximize/Restore, Close) drawn from <svgDir>/<kind>.svg.
+    Written by classic7aero.py: change it there.
+*/
+import QtQuick
+import org.kde.kwin.decoration
+import org.kde.ksvg 1.0 as KSvg
+
+DecorationButton {
+    id: button
+    property string svgDir
+    readonly property string kind: {
+        switch (buttonType) {
+        case DecorationOptions.DecorationButtonMinimize:
+            return "minimize";
+        case DecorationOptions.DecorationButtonMaximizeRestore:
+            return decoration.client.maximized ? "restore" : "maximize";
+        case DecorationOptions.DecorationButtonClose:
+            return "close";
+        default:
+            return "";
+        }
+    }
+    visible: kind !== ""
+    width: kind === "" ? 0 : (kind === "close" ? @CLOSE_W@ : @BTN_W@)
+    height: @BTN_H@
+    KSvg.FrameSvgItem {
+        anchors.fill: parent
+        visible: button.kind !== ""
+        imagePath: button.kind === "" ? "" : button.svgDir + "/" + button.kind + ".svg"
+        prefix: {
+            var a = decoration.client.active;
+            if (!button.enabled) {
+                return a ? "deactivated" : "deactivated-inactive";
+            }
+            if (button.pressed) {
+                return a ? "pressed" : "pressed-inactive";
+            }
+            if (button.hovered) {
+                return a ? "hover" : "hover-inactive";
+            }
+            return a ? "active" : "inactive";
+        }
+    }
+}
+'''
+
+
+def deco_id(ids: ct.Ids) -> str:
+    """KWin's name for these window borders (the QML decoration package)."""
+    return ids.aurorae.lower()
+
+
+def write_kwin_decoration(look: str, ids: ct.Ids, w: ct.Writer, svg_dir: str):
+    """kwin/decorations/<id>/: the QML decoration showing the Aurorae theme's pictures in svg_dir
+    (where that folder is when the desktop runs)."""
+    base = f"kwin/decorations/{deco_id(ids)}/"
+    act, ina = basic_frames() if look == "basic" else aero_frames(DEFAULT_GLASS)   # same text for any glass
+    glow = look == "aero"
+    values = {
+        "@NAME@": ids.display, "@SVGDIR@": svg_dir, "@GLOW@": "true" if glow else "false",
+        "@GLOWDOC@": ", with a soft light behind the title" if glow else "",
+        "@SHADOW@": 0 if look == "basic" else SHADOW, "@TOP@": TOP, "@MAXTOP@": MAX_TOP, "@BORDER@": BORDER,
+        "@BTN_RIGHT@": BTN_RIGHT, "@BTN_RIGHT_MAX@": BTN_RIGHT_MAX, "@BTN_TOP@": TITLE_EDGE_TOP,
+        "@ICON_X@": ICON_X, "@ICON_Y@": ICON_Y, "@ICON_X_MAX@": ICON_X_MAX, "@ICON_Y_MAX@": ICON_Y_MAX,
+        "@TEXT_GAP@": TEXT_GAP, "@GLOW_X@": GLOW_X, "@GLOW_H@": GLOW_H, "@GLOW_H_MAX@": GLOW_H_MAX,
+        "@ACTIVE_TEXT@": act.title_text, "@INACTIVE_TEXT@": ina.title_text,
+        "@BTN_W@": BTN_W["minimize"], "@CLOSE_W@": BTN_W["close"], "@BTN_H@": BTN_H,
+    }
+
+    def fill(text: str) -> str:
+        for key, value in values.items():
+            text = text.replace(key, str(value))
+        return text
+    w(base + "metadata.json", json.dumps({
+        "KPackageStructure": "KWin/Decoration",
+        "KPlugin": {
+            "Authors": [{"Name": "Classic7 project"}],
+            "Description": "Glass window borders, laid out like Windows 7" if glow else
+                           "Light blue window borders, laid out like Windows 7 Basic",
+            "Id": deco_id(ids), "License": "Apache-2.0", "Name": ids.display, "Version": "1.0"}},
+        indent=4) + "\n")
+    w(base + "contents/ui/main.qml", fill(DECORATION_QML))
+    w(base + "contents/ui/CaptionButton.qml", fill(CAPTION_BUTTON_QML))
+
+
 def write_aurorae(look: str, g: Glass, ids: ct.Ids, w: ct.Writer):
+    """The pictures (decoration.svg, the buttons, the title glow), as a plain Aurorae theme that
+    KWin can also use by itself (title on one line with the buttons)."""
     base = f"aurorae/themes/{ids.aurorae}/"
     act, ina = basic_frames() if look == "basic" else aero_frames(g)
     pad = 0 if look == "basic" else SHADOW
     w(base + "metadata.desktop", "\n".join([
-        "[Desktop Entry]", f"Name={ids.display}",
+        "[Desktop Entry]", f"Name={ids.display} (simple)",
         "Comment=" + ("Light blue window borders" if look == "basic" else "Glass window borders"),
         "X-KDE-PluginInfo-Author=Classic7 project", f"X-KDE-PluginInfo-Name={ids.aurorae}",
         "X-KDE-PluginInfo-Version=1.0", "X-KDE-PluginInfo-License=Apache-2.0",
@@ -574,6 +862,8 @@ def write_aurorae(look: str, g: Glass, ids: ct.Ids, w: ct.Writer):
     w(base + "decoration.svg", decoration_svg(look, g))
     for kind in ("minimize", "maximize", "restore", "close"):
         w(base + f"{kind}.svg", button_svg(kind, look))
+    if look == "aero":
+        w(base + "glow.svg", glow_svg())
 
 
 # =============================================================================
@@ -1030,8 +1320,12 @@ def _window(d: Defs, look: str, fc: FrameColors, pad: float, x: float, y: float,
         bx -= BTN_W[kind]
         bl = button_looks(kind, look)["active" if active else "inactive"]
         out += _all(button_layers(kind, bl, d, bx, y + TITLE_EDGE_TOP, BTN_W[kind], BTN_H))
-    out += _icon(icon, d, x + 8, y + TITLE_EDGE_TOP + (TITLE_H - 16) / 2)
-    out += _text(x + 8 + 16 + 6, y + TITLE_EDGE_TOP + TITLE_H / 2 + 4.3, title, fc.title_text, 12)
+    out += _icon(icon, d, x + ICON_X, y + ICON_Y)
+    tx = x + ICON_X + 16 + TEXT_GAP
+    if not basic:
+        tw = 6.6 * len(title)                        # about the title's width at 12 px
+        out += _all(glow_layers(tx - GLOW_X - 2, y + (TOP - GLOW_H) / 2, tw + 2 * (GLOW_X + 2), GLOW_H))
+    out += _text(tx, y + TOP / 2 + 4.3, title, fc.title_text, 12)
     outer = rrect(x, y, w, h, R_TOP, R_TOP, R_BOTTOM, R_BOTTOM)
     contents = rrect(x + BORDER, y + TOP, w - 2 * BORDER, h - TOP - BORDER)
     return out, outer, contents
@@ -1131,12 +1425,14 @@ def scene(look: str, g: Glass, W: float = 460, H: float = 260) -> list[tuple[str
 # Render everything
 # =============================================================================
 def render(look: str, g: Glass, data_dir: Path, ids: ct.Ids | None = None, verbose: bool = False,
-           with_scheme: bool = True) -> list[Path]:
+           with_scheme: bool = True, installed_at: Path | None = None) -> list[Path]:
     """Window borders, Plasma style (and the colour scheme and orb) for Aero or Basic under
-    data_dir (<root>/usr/share at build time, ~/.local/share for a user's own glass colour)."""
+    data_dir (the repo's system_files/usr/share for the image, ~/.local/share for a user's own
+    glass colour). installed_at: where data_dir is on the running system (/usr/share), if elsewhere."""
     ids = ids or system_ids(look)
     w = ct.Writer(Path(data_dir), verbose)
     write_aurorae(look, g, ids, w)
+    write_kwin_decoration(look, ids, w, str(Path(installed_at or data_dir) / "aurorae/themes" / ids.aurorae))
     write_plasma_style(look, g, ids, w)
     if with_scheme:
         w("color-schemes/Classic7Aero.colors", color_scheme())

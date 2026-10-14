@@ -129,6 +129,7 @@ class State:
     glass: aero.Glass | None = None      # the Aero window colour
     glass_slot: str | None = None        # per-user Aero files (A/B) for a non-default glass colour
     small_icons: bool = False            # Aero/Basic taskbar 30 px instead of 40 px
+    solid: bool = False                  # glass drawn solid: transparency on, but KWin can't blur
 
     def __post_init__(self):
         if self.glass is None:
@@ -153,7 +154,7 @@ class State:
             return v if v in ("A", "B") else None
         return cls(pal, slot(data.get("slot")), str(data.get("look") or "classic"),
                    aero.Glass.from_json(data.get("glass") if isinstance(data.get("glass"), dict) else None),
-                   slot(data.get("glass_slot")), data.get("small_icons") is True)
+                   slot(data.get("glass_slot")), data.get("small_icons") is True, data.get("solid") is True)
 
     def save(self):
         """Written to a new file that then replaces the old one, so it is never half written."""
@@ -162,7 +163,7 @@ class State:
         tmp = f.with_name(f.name + ".new")
         tmp.write_text(json.dumps({"palette": self.palette.to_json(), "slot": self.slot, "look": self.look,
                                    "glass": self.glass.to_json(), "glass_slot": self.glass_slot,
-                                   "small_icons": self.small_icons}, indent=2) + "\n")
+                                   "small_icons": self.small_icons, "solid": self.solid}, indent=2) + "\n")
         os.replace(tmp, f)
 
 
@@ -325,6 +326,11 @@ def apply_fonts(size: int, run: Runner, bold_titles: bool = True):
         ini.parent.mkdir(parents=True, exist_ok=True)
         run("kwriteconfig6", "--file", str(ini), "--group", "Settings", "--key", "gtk-font-name", f"{t.UI_FONT} {size}")
     run("gsettings", "set", "org.gnome.desktop.interface", "font-name", f"{t.UI_FONT} {size}")
+    # KDE programs keep the fonts they read at start (KWin too: the window titles stayed bold
+    # after a switch to Aero until the next login); this is what System Settings > Fonts sends.
+    # KWin reads the title font again when it reloads its settings, after the fonts.
+    run("dbus-send", "--session", "--type=signal", "/KDEPlatformTheme", "org.kde.KDEPlatformTheme.refreshFonts")
+    run("dbus-send", "--session", "--type=signal", "/KWin", "org.kde.KWin.reloadConfig")
 
 
 LAYOUT_JS = Path(os.environ.get(
@@ -945,20 +951,52 @@ def remove_glass_files(slot: str):
     base = data_home()
     for look in ("aero", "basic"):
         ids = aero.slot_ids(look, slot)
-        for path in (base / f"plasma/desktoptheme/{ids.plasma}", base / f"aurorae/themes/{ids.aurorae}"):
+        for path in (base / f"plasma/desktoptheme/{ids.plasma}", base / f"aurorae/themes/{ids.aurorae}",
+                     base / f"kwin/decorations/{aero.deco_id(ids)}"):
             if path.is_dir():
                 shutil.rmtree(path, ignore_errors=True)
+
+
+def blur_supported(run: Runner | None = None) -> bool | None:
+    """Whether KWin can blur what is behind glass. It needs OpenGL: a computer or virtual
+    machine without 3D graphics composites without it. None when KWin doesn't answer.
+    CLASSIC7_BLUR=1 or 0 decides instead (tests)."""
+    forced = os.environ.get("CLASSIC7_BLUR", "")
+    if forced in ("0", "1"):
+        return forced == "1"
+    if (run is not None and run.dry_run) or shutil.which("dbus-send") is None:
+        return None
+    try:
+        r = subprocess.run(["dbus-send", "--session", "--print-reply=literal", "--dest=org.kde.KWin", "/Effects",
+                            "org.kde.kwin.Effects.isEffectSupported", "string:blur"],
+                           capture_output=True, text=True, timeout=5, stdin=subprocess.DEVNULL)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    words = r.stdout.split()
+    if r.returncode != 0 or not words or words[-1] not in ("true", "false"):
+        return None
+    return words[-1] == "true"
 
 
 def _apply_modern(look: str, glass: aero.Glass, p: t.Palette, run: Runner, state: State, switching: bool) -> Result:
     notes: list[str] = []
     new_glass_slot = None
-    if look == "aero" and not aero.is_default_glass(glass):
+    # see-through glass without blur shows what is behind sharply (text through the title):
+    # Windows 7 then draws Basic; here the glass keeps its colour, drawn solid. The choice in
+    # Window Color stays, so the glass comes back when the graphics can blur.
+    blur = blur_supported(run) if look == "aero" and glass.transparency else None
+    solid = blur is False
+    if blur is None and look == "aero" and glass.transparency and state.look == "aero":
+        solid = state.solid             # KWin didn't answer: keep what was drawn last time
+    frames = replace(glass, transparency=False) if solid else glass
+    if solid:
+        run.log.append("# KWin can't blur here: the glass is drawn solid")
+    if look == "aero" and not aero.is_default_glass(frames):
         new_glass_slot = "B" if state.glass_slot == "A" else "A"
         ids = aero.slot_ids("aero", new_glass_slot)
         if not run.dry_run:
-            aero.render("aero", glass, data_home(), ids, with_scheme=False)
-        run.log.append(f"# draw the Aero look in {glass.name} ({glass.color}) -> {ids.plasma}, {ids.aurorae}")
+            aero.render("aero", frames, data_home(), ids, with_scheme=False)
+        run.log.append(f"# draw the Aero look in {glass.name} ({glass.color}) -> {ids.plasma}, {aero.deco_id(ids)}")
     else:
         ids = aero.system_ids(look)
     run("plasma-apply-colorscheme", "Classic7Aero")
@@ -975,7 +1013,7 @@ def _apply_modern(look: str, glass: aero.Glass, p: t.Palette, run: Runner, state
         cursors = aero_cursors()
         set_gtk_theme("Classic7Aero", cursors, run)
         set_cursors(cursors, run)
-    kwin_look(ids.kwin_theme, "Large", "IAX", "classic7aero", run, blur=(look == "aero"), whole=switching)
+    kwin_look(aero.deco_id(ids), "Large", "IAX", "classic7aero", run, blur=(look == "aero"), whole=switching)
     apply_fonts(p.font_size, run, bold_titles=False)
     height = 30 if state.small_icons else 40
     # from Classic: the Aero taskbar and wallpaper; between Aero and Basic both stay
@@ -993,7 +1031,7 @@ def _apply_modern(look: str, glass: aero.Glass, p: t.Palette, run: Runner, state
                 remove_glass_files(slot)
             # a Classic scheme's own files are drawn again when Classic is chosen
             remove_slot_files(slot)
-        State(p, None, look, glass, new_glass_slot, state.small_icons).save()
+        State(p, None, look, glass, new_glass_slot, state.small_icons, solid).save()
     notes.extend(run.failures)
     if switching:
         notes.append("Restart open programs to give them the new controls.")

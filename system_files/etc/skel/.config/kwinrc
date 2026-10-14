@@ -1,6 +1,6 @@
 [org.kde.kdecoration2]
 library=org.kde.kwin.aurorae
-theme=__aurorae__svg__Classic7Aero
+theme=classic7aero
 BorderSize=Large
 BorderSizeAuto=false
 ButtonsOnLeft=M

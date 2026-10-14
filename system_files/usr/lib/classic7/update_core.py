@@ -710,6 +710,33 @@ def needs_refresh() -> bool:
     return current_content() != UpdateState.load().applied_content
 
 
+def glass_needs_redraw() -> bool:
+    """Aero glass is drawn solid when KWin can't blur (no 3D graphics, as in many virtual
+    machines) and see-through when it can. True when that changed since it was last drawn
+    (a new graphics driver, 3D turned on or off in the virtual machine)."""
+    try:
+        import classic7appearance as backend
+        state = backend.State.load()
+        if state.look != "aero" or not state.glass.transparency:
+            return False
+        blur = backend.blur_supported()
+    except Exception:  # noqa: BLE001 - never stop the login over this
+        return False
+    return blur is not None and state.solid == blur
+
+
+def redraw_glass(log: Log) -> bool:
+    """Draw the Aero glass again for what the graphics can do now (see glass_needs_redraw)."""
+    try:
+        import classic7appearance as backend
+        res = backend.apply()
+    except Exception as e:  # noqa: BLE001
+        log(f"  glass: {e}")
+        return False
+    log("  glass: drawn " + ("solid (no blur on this computer)" if backend.State.load().solid else "see-through"))
+    return res.ok
+
+
 # ---- what's new ------------------------------------------------------------------------------
 @dataclass
 class Change:

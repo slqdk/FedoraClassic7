@@ -4,3 +4,4 @@ Name=Computer
 Comment=See your disks, USB sticks and network drives
 Exec=classic7-computer
 Icon=computer
+X-Classic7-Computer=true

@@ -1,0 +1,15 @@
+{
+    "KPackageStructure": "KWin/Decoration",
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "Classic7 project"
+            }
+        ],
+        "Description": "Light blue window borders, laid out like Windows 7 Basic",
+        "Id": "classic7basic",
+        "License": "Apache-2.0",
+        "Name": "Classic 7 Basic",
+        "Version": "1.0"
+    }
+}

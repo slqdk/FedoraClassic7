@@ -34,7 +34,7 @@ def main():
         print("wrote", path.relative_to(REPO))
     # the Aero and Basic looks (window borders, Plasma style, orb, colours) and their Qt controls
     for look in ("aero", "basic"):
-        for path in aero.render(look, aero.DEFAULT_GLASS, share):
+        for path in aero.render(look, aero.DEFAULT_GLASS, share, installed_at=Path("/usr/share")):
             print("wrote", path.relative_to(REPO))
     for path in kvantum.write(share / "Kvantum"):
         print("wrote", path.relative_to(REPO))

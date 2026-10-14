@@ -5,7 +5,8 @@
 A file gets General, Security and Details; a folder General, Security and Customize; a shortcut
 (.desktop) General, Shortcut, Security and Details; a drive (the top folder of a mounted disk)
 General, Tools and Security; an item in the Recycle Bin shows where it came from and when it was
-deleted. Several items at once share one General tab.
+deleted. Several items at once share one General tab. The desktop's Computer icon opens the
+System window instead, as in Windows 7.
 
 Explorer (Dolphin), the desktop and other KDE programs open this window instead of KDE's own
 Properties for one item on this computer, through the plugin in build_files/native/properties.cpp.
@@ -1883,6 +1884,21 @@ def to_path(arg: str) -> Path:
     return Path(arg).expanduser().absolute()
 
 
+def is_computer_icon(p: Path) -> bool:
+    """The desktop's Computer icon (a shortcut to classic7-computer). Older copies on the
+    desktop lack the X-Classic7-Computer key, so the command counts too."""
+    if p.suffix != ".desktop" or not p.is_file():
+        return False
+    e = read_desktop(p).get("Desktop Entry", {})
+    if e.get("X-Classic7-Computer", "").lower() == "true":
+        return True
+    try:
+        cmd = shlex.split(e.get("Exec", ""))
+    except ValueError:
+        return False
+    return bool(cmd) and os.path.basename(cmd[0]) == "classic7-computer"
+
+
 def main(argv=None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
     if not argv or argv[0] in ("-h", "--help"):
@@ -1893,6 +1909,13 @@ def main(argv=None) -> int:
     if not paths:
         print("classic7-properties: nothing to show", file=sys.stderr)
         return 1
+    if len(paths) == 1 and is_computer_icon(paths[0]):
+        # as in Windows 7: Computer > Properties is the System window, not the shortcut's
+        # details (the activation token in the environment goes along, so it gets the focus)
+        try:
+            os.execvp("classic7-system", ["classic7-system"])
+        except OSError as e:
+            print(f"classic7-properties: classic7-system: {e}", file=sys.stderr)
     app = QApplication.instance() or QApplication(sys.argv[:1])
     app.setApplicationName("classic7-properties")
     app.setApplicationDisplayName(APP)
