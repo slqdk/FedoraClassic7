@@ -3,7 +3,8 @@
 
     perf_run.py OUT.jsonl LABEL PROGRAM [ARGS...]      PROGRAM: a script, or mod:NAME for main() of a module
 
-C7_T0 (nanoseconds since the epoch, taken by the caller just before starting this) counts the
+C7_PROFILE=FILE also profiles the program (cProfile) until then and writes the busiest functions to
+FILE. C7_T0 (nanoseconds since the epoch, taken by the caller just before starting this) counts the
 interpreter's own start-up too. The program runs in this process (runpy); its event loop is
 stopped right after the first window has been painted, and one JSON line is appended to OUT:
 total time, the PySide6 import, the time until the program called exec(), memory."""
@@ -35,6 +36,20 @@ def mem() -> dict:
 
 
 done = False
+PROFILE = os.environ.get("C7_PROFILE")
+prof = None
+
+
+def dump_profile():
+    import io
+    import pstats
+    prof.disable()
+    buf = io.StringIO()
+    st = pstats.Stats(prof, stream=buf)
+    st.sort_stats("tottime").print_stats(45)
+    st.sort_stats("cumulative").print_stats(70)
+    with open(PROFILE, "w") as f:
+        f.write(buf.getvalue())
 
 
 def finish(kind: str):
@@ -53,6 +68,8 @@ def finish(kind: str):
            "modules": len(sys.modules), "windows": wins[:3]}
     with open(OUT, "a") as f:
         f.write(json.dumps(rec) + "\n")
+    if prof is not None:
+        dump_profile()
     sys.stdout.flush()
     os._exit(0)
 
@@ -79,6 +96,10 @@ QtWidgets.QDialog.exec = dialog_exec(QtWidgets.QDialog.exec)
 QtWidgets.QMessageBox.exec = dialog_exec(QtWidgets.QMessageBox.exec)
 
 sys.argv = [PROG] + sys.argv[4:]
+if PROFILE:
+    import cProfile
+    prof = cProfile.Profile()
+    prof.enable()
 try:
     if PROG.startswith("mod:"):
         sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
