@@ -1,0 +1,131 @@
+         275577 function calls (270512 primitive calls) in 0.405 seconds
+
+   Ordered by: internal time
+   List reduced from 1254 to 45 due to restriction <45>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.088    0.088    0.222    0.222 /usr/lib/classic7/mail_gui.py:1849(main)
+        3    0.023    0.008    0.023    0.008 /usr/lib/classic7/mail_ui.py:150(__init__)
+     3553    0.019    0.000    0.046    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+       72    0.013    0.000    0.013    0.000 {built-in method marshal.loads}
+     4111    0.013    0.000    0.029    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+     6871    0.009    0.000    0.011    0.000 /usr/lib64/python3.14/enum.py:812(__setattr__)
+        1    0.008    0.008    0.018    0.018 {built-in method exec}
+      294    0.008    0.000    0.068    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+ 4302/747    0.007    0.000    0.052    0.000 {built-in method __new__ of type object at 0x7ff06769e1a0}
+        2    0.006    0.003    0.006    0.003 {method 'addLayout' of 'PySide6.QtWidgets.QBoxLayout' objects}
+    36711    0.006    0.000    0.006    0.000 {built-in method builtins.isinstance}
+        1    0.006    0.006    0.006    0.006 {method 'setCentralWidget' of 'PySide6.QtWidgets.QMainWindow' objects}
+     3563    0.006    0.000    0.013    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+     84/2    0.005    0.000    0.404    0.202 {built-in method builtins.exec}
+  346/342    0.005    0.000    0.010    0.000 {built-in method builtins.__build_class__}
+       90    0.005    0.000    0.006    0.000 {method 'readlines' of '_io._IOBase' objects}
+        3    0.005    0.002    0.005    0.002 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+        4    0.005    0.001    0.005    0.001 {method 'addWidget' of 'PySide6.QtWidgets.QSplitter' objects}
+        1    0.005    0.005    0.179    0.179 /usr/lib/classic7/mail_gui.py:1(<module>)
+     4912    0.004    0.000    0.004    0.000 /usr/lib64/python3.14/enum.py:747(__delattr__)
+    18977    0.003    0.000    0.003    0.000 {method 'get' of 'mappingproxy' objects}
+26195/25927    0.003    0.000    0.003    0.000 {built-in method builtins.len}
+       13    0.003    0.000    0.003    0.000 {built-in method _imp.create_dynamic}
+    16218    0.003    0.000    0.003    0.000 {built-in method builtins.hasattr}
+      271    0.003    0.000    0.103    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+     4440    0.003    0.000    0.004    0.000 /usr/lib64/python3.14/enum.py:77(_is_private)
+    13/12    0.003    0.000    0.009    0.001 {built-in method _imp.exec_dynamic}
+    16458    0.003    0.000    0.003    0.000 {method 'append' of 'list' objects}
+     4922    0.003    0.000    0.007    0.000 {built-in method builtins.delattr}
+        1    0.002    0.002    0.002    0.002 /tmp/perf_run.py:26(mem)
+     3882    0.002    0.000    0.004    0.000 /usr/lib64/python3.14/enum.py:36(_is_descriptor)
+7928/7918    0.002    0.000    0.003    0.000 {built-in method builtins.getattr}
+   147/66    0.002    0.000    0.006    0.000 /usr/lib64/python3.14/re/_parser.py:512(_parse)
+       20    0.002    0.000    0.008    0.000 /usr/lib64/python3.14/enum.py:1741(convert_class)
+      147    0.002    0.000    0.002    0.000 {method 'read' of '_io.BufferedReader' objects}
+      568    0.002    0.000    0.002    0.000 {built-in method posix.stat}
+        6    0.002    0.000    0.002    0.000 {method 'addWidget' of 'PySide6.QtWidgets.QStackedWidget' objects}
+     4788    0.002    0.000    0.010    0.000 {built-in method builtins.setattr}
+     4224    0.002    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:46(_is_dunder)
+        1    0.002    0.002    0.002    0.002 {method 'menuBar' of 'PySide6.QtWidgets.QMainWindow' objects}
+       53    0.002    0.000    0.003    0.000 /usr/lib/classic7/mail_gui.py:498(act)
+     4440    0.002    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:57(_is_sunder)
+      819    0.002    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:970(_find_data_type_)
+       54    0.002    0.000    0.002    0.000 {method 'addWidget' of 'PySide6.QtWidgets.QBoxLayout' objects}
+      147    0.002    0.000    0.002    0.000 {built-in method _io.open_code}
+
+
+         275577 function calls (270512 primitive calls) in 0.405 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1254 to 70 due to restriction <70>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.405    0.405 <frozen runpy>:269(run_path)
+     84/2    0.005    0.000    0.404    0.202 {built-in method builtins.exec}
+        1    0.000    0.000    0.402    0.402 <frozen runpy>:91(_run_module_code)
+        1    0.000    0.000    0.402    0.402 <frozen runpy>:65(_run_code)
+        1    0.000    0.000    0.402    0.402 /usr/bin/classic7-mail:1(<module>)
+     90/7    0.001    0.000    0.224    0.032 <frozen importlib._bootstrap>:1360(_find_and_load)
+     90/7    0.000    0.000    0.224    0.032 <frozen importlib._bootstrap>:1308(_find_and_load_unlocked)
+     87/7    0.000    0.000    0.223    0.032 <frozen importlib._bootstrap>:914(_load_unlocked)
+        1    0.088    0.088    0.222    0.222 /usr/lib/classic7/mail_gui.py:1849(main)
+   202/15    0.000    0.000    0.219    0.015 <frozen importlib._bootstrap>:483(_call_with_frames_removed)
+     72/6    0.000    0.000    0.215    0.036 <frozen importlib._bootstrap_external>:757(exec_module)
+        1    0.005    0.005    0.179    0.179 /usr/lib/classic7/mail_gui.py:1(<module>)
+      473    0.001    0.000    0.104    0.000 /usr/lib64/python3.14/enum.py:677(__call__)
+      271    0.003    0.000    0.103    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+        1    0.000    0.000    0.095    0.095 /usr/lib/classic7/mail_gui.py:1806(handle)
+        1    0.000    0.000    0.076    0.076 /usr/lib/classic7/mail_gui.py:1797(show_main)
+        1    0.001    0.001    0.071    0.071 /usr/lib/classic7/mail_gui.py:465(__init__)
+      294    0.008    0.000    0.068    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+ 4302/747    0.007    0.000    0.052    0.000 {built-in method __new__ of type object at 0x7ff06769e1a0}
+        1    0.000    0.000    0.047    0.047 /usr/lib/classic7/mail_accounts.py:1(<module>)
+     3553    0.019    0.000    0.046    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+        1    0.000    0.000    0.032    0.032 /usr/lib64/python3.14/urllib/request.py:1(<module>)
+        1    0.001    0.001    0.029    0.029 /usr/lib/classic7/mail_gui.py:704(_layout)
+     4111    0.013    0.000    0.029    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+        1    0.000    0.000    0.026    0.026 /usr/lib64/python3.14/http/client.py:1(<module>)
+        1    0.000    0.000    0.025    0.025 /usr/lib/classic7/mail_imap.py:1(<module>)
+        1    0.001    0.001    0.025    0.025 /usr/lib/classic7/mail_gui.py:655(_toolbar)
+        3    0.023    0.008    0.023    0.008 /usr/lib/classic7/mail_ui.py:150(__init__)
+       72    0.001    0.000    0.022    0.000 <frozen importlib._bootstrap_external>:830(get_code)
+        1    0.001    0.001    0.018    0.018 /usr/lib/classic7/mail_compose.py:1(<module>)
+      614    0.000    0.000    0.018    0.000 shibokensupport/signature/loader.py:68(feature_imported)
+        1    0.000    0.000    0.018    0.018 /tmp/perf_run.py:78(patched)
+        1    0.008    0.008    0.018    0.018 {built-in method exec}
+      614    0.000    0.000    0.017    0.000 shibokensupport/feature.py:135(feature_imported)
+      115    0.001    0.000    0.017    0.000 shibokensupport/feature.py:151(_mod_uses_pyside)
+      115    0.000    0.000    0.016    0.000 /usr/lib64/python3.14/inspect.py:1162(getsource)
+      115    0.000    0.000    0.015    0.000 /usr/lib64/python3.14/inspect.py:1141(getsourcelines)
+       72    0.001    0.000    0.014    0.000 <frozen importlib._bootstrap_external>:509(_compile_bytecode)
+       11    0.000    0.000    0.014    0.001 /usr/lib64/python3.14/dataclasses.py:1440(wrap)
+       11    0.001    0.000    0.014    0.001 /usr/lib64/python3.14/dataclasses.py:986(_process_class)
+      115    0.000    0.000    0.014    0.000 /usr/lib64/python3.14/inspect.py:957(findsource)
+        1    0.001    0.001    0.013    0.013 /usr/lib/classic7/write_app.py:1(<module>)
+       72    0.013    0.000    0.013    0.000 {built-in method marshal.loads}
+     3563    0.006    0.000    0.013    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+       55    0.000    0.000    0.012    0.000 /usr/lib64/python3.14/re/__init__.py:287(compile)
+       55    0.000    0.000    0.012    0.000 /usr/lib64/python3.14/re/__init__.py:330(_compile)
+        1    0.000    0.000    0.012    0.012 /usr/lib64/python3.14/imaplib.py:1(<module>)
+       53    0.000    0.000    0.011    0.000 /usr/lib64/python3.14/re/_compiler.py:757(compile)
+       90    0.000    0.000    0.011    0.000 /usr/lib64/python3.14/linecache.py:32(getlines)
+       90    0.001    0.000    0.011    0.000 /usr/lib64/python3.14/linecache.py:106(updatecache)
+     6871    0.009    0.000    0.011    0.000 /usr/lib64/python3.14/enum.py:812(__setattr__)
+     11/9    0.000    0.000    0.010    0.001 {built-in method builtins.__import__}
+       11    0.000    0.000    0.010    0.001 /usr/lib64/python3.14/dataclasses.py:1423(dataclass)
+        1    0.000    0.000    0.010    0.010 /usr/lib/classic7/mail_gui.py:514(_actions)
+  346/342    0.005    0.000    0.010    0.000 {built-in method builtins.__build_class__}
+     4788    0.002    0.000    0.010    0.000 {built-in method builtins.setattr}
+    13/12    0.000    0.000    0.010    0.001 <frozen importlib._bootstrap_external>:1063(exec_module)
+        1    0.001    0.001    0.010    0.010 /usr/lib/classic7/write_model.py:1(<module>)
+    13/12    0.003    0.000    0.009    0.001 {built-in method _imp.exec_dynamic}
+        1    0.001    0.001    0.009    0.009 /usr/lib/classic7/mail_contacts.py:397(__init__)
+        1    0.000    0.000    0.009    0.009 /usr/lib/classic7/mail_gui.py:1761(_send_to_running)
+       13    0.001    0.000    0.008    0.001 /usr/lib64/python3.14/enum.py:881(_convert_)
+       91    0.001    0.000    0.008    0.000 <frozen importlib._bootstrap>:1243(_find_spec)
+        1    0.000    0.000    0.008    0.008 /usr/lib/classic7/mail_worker.py:1(<module>)
+       17    0.000    0.000    0.008    0.000 /usr/lib/classic7/mail_icons.py:102(get)
+        1    0.000    0.000    0.008    0.008 /usr/lib64/python3.14/email/parser.py:1(<module>)
+       17    0.000    0.000    0.008    0.000 /usr/lib/classic7/mail_icons.py:25(_icon)
+    35/28    0.000    0.000    0.008    0.000 <frozen importlib._bootstrap>:1409(_handle_fromlist)
+       20    0.002    0.000    0.008    0.000 /usr/lib64/python3.14/enum.py:1741(convert_class)
+       68    0.001    0.000    0.008    0.000 /usr/lib/classic7/mail_icons.py:14(_pix)
+
+

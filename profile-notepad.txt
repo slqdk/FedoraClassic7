@@ -1,0 +1,131 @@
+         113135 function calls (111042 primitive calls) in 0.217 seconds
+
+   Ordered by: internal time
+   List reduced from 404 to 45 due to restriction <45>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.086    0.086    0.145    0.145 /usr/lib/classic7/notepad_app.py:654(main)
+        1    0.023    0.023    0.029    0.029 /usr/lib/classic7/notepad_app.py:230(__init__)
+        1    0.017    0.017    0.017    0.017 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+     2069    0.011    0.000    0.027    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+     2439    0.007    0.000    0.017    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+        1    0.005    0.005    0.012    0.012 {built-in method exec}
+      186    0.005    0.000    0.040    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+        1    0.004    0.004    0.068    0.068 /usr/lib/classic7/notepad_app.py:1(<module>)
+ 2270/201    0.004    0.000    0.030    0.000 {built-in method __new__ of type object at 0x7fae262101a0}
+     4129    0.004    0.000    0.004    0.000 /usr/lib64/python3.14/enum.py:812(__setattr__)
+     2069    0.003    0.000    0.007    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+    18127    0.003    0.000    0.003    0.000 {built-in method builtins.isinstance}
+     2969    0.002    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:747(__delattr__)
+        1    0.002    0.002    0.002    0.002 /tmp/perf_run.py:26(mem)
+        2    0.002    0.001    0.002    0.001 {method 'horizontalAdvance' of 'PySide6.QtGui.QFontMetricsF' objects}
+      185    0.002    0.000    0.061    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+    10537    0.002    0.000    0.002    0.000 {method 'get' of 'mappingproxy' objects}
+     2448    0.002    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:77(_is_private)
+     2969    0.002    0.000    0.004    0.000 {built-in method builtins.delattr}
+    12272    0.002    0.000    0.002    0.000 {built-in method builtins.len}
+     8404    0.001    0.000    0.001    0.000 {built-in method builtins.hasattr}
+     2078    0.001    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:36(_is_descriptor)
+     6331    0.001    0.000    0.001    0.000 {method 'append' of 'list' objects}
+        1    0.001    0.001    0.001    0.001 {built-in method _imp.create_dynamic}
+      555    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:970(_find_data_type_)
+       16    0.001    0.000    0.001    0.000 {method 'readlines' of '_io._IOBase' objects}
+     2596    0.001    0.000    0.004    0.000 {built-in method builtins.setattr}
+     2268    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:46(_is_dunder)
+     2448    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:57(_is_sunder)
+4297/4296    0.001    0.000    0.001    0.000 {built-in method builtins.getattr}
+     4864    0.001    0.000    0.001    0.000 {built-in method builtins.issubclass}
+        4    0.001    0.000    0.001    0.000 {built-in method marshal.loads}
+      7/2    0.001    0.000    0.216    0.108 {built-in method builtins.exec}
+        1    0.001    0.001    0.001    0.001 {method 'menuBar' of 'PySide6.QtWidgets.QMainWindow' objects}
+     2263    0.001    0.000    0.001    0.000 {method 'setdefault' of 'dict' objects}
+        1    0.001    0.001    0.001    0.001 {method 'setFont' of 'PySide6.QtWidgets.QWidget' objects}
+      185    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:997(_find_new_)
+      193    0.001    0.000    0.001    0.000 {method 'update' of 'dict' objects}
+     2069    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:68(_is_internal_class)
+      555    0.001    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:929(_get_mixins_)
+      185    0.000    0.000    0.003    0.000 /usr/lib64/python3.14/enum.py:466(__prepare__)
+       23    0.000    0.000    0.001    0.000 /usr/lib/classic7/notepad_app.py:284(act)
+      194    0.000    0.000    0.062    0.000 /usr/lib64/python3.14/enum.py:677(__call__)
+        4    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap_external>:509(_compile_bytecode)
+        1    0.000    0.000    0.000    0.000 {method 'isNull' of 'PySide6.QtGui.QIcon' objects}
+
+
+         113135 function calls (111042 primitive calls) in 0.217 seconds
+
+   Ordered by: cumulative time
+   List reduced from 404 to 70 due to restriction <70>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.217    0.217 <frozen runpy>:269(run_path)
+      7/2    0.001    0.000    0.216    0.108 {built-in method builtins.exec}
+        1    0.000    0.000    0.215    0.215 <frozen runpy>:91(_run_module_code)
+        1    0.000    0.000    0.215    0.215 <frozen runpy>:65(_run_code)
+        1    0.000    0.000    0.215    0.215 /usr/bin/classic7-notepad:1(<module>)
+        1    0.086    0.086    0.145    0.145 /usr/lib/classic7/notepad_app.py:654(main)
+      5/3    0.000    0.000    0.075    0.025 <frozen importlib._bootstrap>:1360(_find_and_load)
+      5/3    0.000    0.000    0.075    0.025 <frozen importlib._bootstrap>:1308(_find_and_load_unlocked)
+      5/3    0.000    0.000    0.074    0.025 <frozen importlib._bootstrap>:914(_load_unlocked)
+      4/3    0.000    0.000    0.074    0.025 <frozen importlib._bootstrap_external>:757(exec_module)
+     11/6    0.000    0.000    0.073    0.012 <frozen importlib._bootstrap>:483(_call_with_frames_removed)
+        1    0.004    0.004    0.068    0.068 /usr/lib/classic7/notepad_app.py:1(<module>)
+      194    0.000    0.000    0.062    0.000 /usr/lib64/python3.14/enum.py:677(__call__)
+      185    0.002    0.000    0.061    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+      186    0.005    0.000    0.040    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+ 2270/201    0.004    0.000    0.030    0.000 {built-in method __new__ of type object at 0x7fae262101a0}
+        1    0.023    0.023    0.029    0.029 /usr/lib/classic7/notepad_app.py:230(__init__)
+     2069    0.011    0.000    0.027    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+        1    0.017    0.017    0.017    0.017 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+     2439    0.007    0.000    0.017    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+        1    0.000    0.000    0.012    0.012 /tmp/perf_run.py:78(patched)
+        1    0.005    0.005    0.012    0.012 {built-in method exec}
+     2069    0.003    0.000    0.007    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+        1    0.000    0.000    0.007    0.007 /tmp/perf_run.py:80(<lambda>)
+        1    0.000    0.000    0.007    0.007 /tmp/perf_run.py:55(finish)
+     4129    0.004    0.000    0.004    0.000 /usr/lib64/python3.14/enum.py:812(__setattr__)
+        1    0.000    0.000    0.004    0.004 /usr/lib/classic7/accessories.py:1(<module>)
+        1    0.000    0.000    0.004    0.004 /tmp/perf_run.py:43(dump_profile)
+     2969    0.002    0.000    0.004    0.000 {built-in method builtins.delattr}
+     2596    0.001    0.000    0.004    0.000 {built-in method builtins.setattr}
+       58    0.000    0.000    0.003    0.000 shibokensupport/signature/loader.py:68(feature_imported)
+       58    0.000    0.000    0.003    0.000 shibokensupport/feature.py:135(feature_imported)
+       20    0.000    0.000    0.003    0.000 shibokensupport/feature.py:151(_mod_uses_pyside)
+       20    0.000    0.000    0.003    0.000 /usr/lib64/python3.14/inspect.py:1162(getsource)
+        1    0.000    0.000    0.003    0.003 /usr/lib64/python3.14/pstats.py:1(<module>)
+       20    0.000    0.000    0.003    0.000 /usr/lib64/python3.14/inspect.py:1141(getsourcelines)
+    18127    0.003    0.000    0.003    0.000 {built-in method builtins.isinstance}
+       20    0.000    0.000    0.003    0.000 /usr/lib64/python3.14/inspect.py:957(findsource)
+      185    0.000    0.000    0.003    0.000 /usr/lib64/python3.14/enum.py:466(__prepare__)
+     2448    0.002    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:77(_is_private)
+        1    0.002    0.002    0.002    0.002 /tmp/perf_run.py:26(mem)
+     2969    0.002    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:747(__delattr__)
+       16    0.000    0.000    0.002    0.000 /usr/lib64/python3.14/linecache.py:32(getlines)
+      555    0.001    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:929(_get_mixins_)
+       16    0.000    0.000    0.002    0.000 /usr/lib64/python3.14/linecache.py:106(updatecache)
+     2078    0.001    0.000    0.002    0.000 /usr/lib64/python3.14/enum.py:36(_is_descriptor)
+        2    0.002    0.001    0.002    0.001 {method 'horizontalAdvance' of 'PySide6.QtGui.QFontMetricsF' objects}
+    10537    0.002    0.000    0.002    0.000 {method 'get' of 'mappingproxy' objects}
+        1    0.000    0.000    0.002    0.002 /usr/lib/classic7/notepad_app.py:281(_menus)
+        2    0.000    0.000    0.002    0.001 /usr/lib64/python3.14/dataclasses.py:1440(wrap)
+        2    0.000    0.000    0.002    0.001 /usr/lib64/python3.14/dataclasses.py:986(_process_class)
+        4    0.000    0.000    0.002    0.000 <frozen importlib._bootstrap_external>:830(get_code)
+        1    0.000    0.000    0.002    0.002 /usr/lib/classic7/notepad_app.py:272(_load_font)
+    12272    0.002    0.000    0.002    0.000 {built-in method builtins.len}
+      555    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:970(_find_data_type_)
+     8404    0.001    0.000    0.001    0.000 {built-in method builtins.hasattr}
+        1    0.000    0.000    0.001    0.001 /usr/lib64/python3.14/pkgutil.py:1(<module>)
+        5    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap>:809(module_from_spec)
+     2268    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:46(_is_dunder)
+     2448    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:57(_is_sunder)
+       16    0.001    0.000    0.001    0.000 {method 'readlines' of '_io._IOBase' objects}
+     6331    0.001    0.000    0.001    0.000 {method 'append' of 'list' objects}
+        4    0.000    0.000    0.001    0.000 <frozen importlib._bootstrap_external>:509(_compile_bytecode)
+        1    0.000    0.000    0.001    0.001 <frozen importlib._bootstrap_external>:1055(create_module)
+        1    0.001    0.001    0.001    0.001 {built-in method _imp.create_dynamic}
+4297/4296    0.001    0.000    0.001    0.000 {built-in method builtins.getattr}
+     2069    0.001    0.000    0.001    0.000 /usr/lib64/python3.14/enum.py:68(_is_internal_class)
+        2    0.000    0.000    0.001    0.000 /usr/lib64/python3.14/dataclasses.py:478(add_fns_to_class)
+     4864    0.001    0.000    0.001    0.000 {built-in method builtins.issubclass}
+        4    0.001    0.000    0.001    0.000 {built-in method marshal.loads}
+
+

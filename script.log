@@ -1,0 +1,35 @@
++ dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick
+++ python3 -c 'import sys; print("%d.%d" % sys.version_info[:2])'
++ PYV=3.14
++ ROOTS='/usr/lib/classic7 /usr/lib64/python3.14 /usr/lib/python3.14'
++ rm -f /usr/share/dbus-1/services/org.bluez.obex.service
++ S=/src/system_files
++ cp -a /src/system_files/usr/lib/classic7/. /usr/lib/classic7/
++ cp -a /src/system_files/usr/bin/. /usr/bin/
++ chmod +x /usr/bin/classic7-actioncenter /usr/bin/classic7-appearance /usr/bin/classic7-arrange /usr/bin/classic7-calc /usr/bin/classic7-charmap /usr/bin/classic7-computer /usr/bin/classic7-control /usr/bin/classic7-devmgmt /usr/bin/classic7-diskmgmt /usr/bin/classic7-eventvwr /usr/bin/classic7-firewall /usr/bin/classic7-goodbye /usr/bin/classic7-jumplist /usr/bin/classic7-mail /usr/bin/classic7-mixer /usr/bin/classic7-msconfig /usr/bin/classic7-mstsc /usr/bin/classic7-netdrive /usr/bin/classic7-network /usr/bin/classic7-notepad /usr/bin/classic7-paint /usr/bin/classic7-photos /usr/bin/classic7-programs /usr/bin/classic7-prompt /usr/bin/classic7-properties /usr/bin/classic7-quickshot /usr/bin/classic7-recyclebin /usr/bin/classic7-resmon /usr/bin/classic7-run /usr/bin/classic7-screensaver /usr/bin/classic7-security /usr/bin/classic7-sendto /usr/bin/classic7-sheet /usr/bin/classic7-show /usr/bin/classic7-stickynotes /usr/bin/classic7-system /usr/bin/classic7-taskbar-pin /usr/bin/classic7-taskbar-properties /usr/bin/classic7-taskmgr /usr/bin/classic7-timedate /usr/bin/classic7-update /usr/bin/classic7-write
++ cp -a /src/system_files/usr/libexec/. /usr/libexec/
++ chmod +x /usr/libexec/classic7-disk-helper /usr/libexec/classic7-firewall-helper /usr/libexec/classic7-first-login /usr/libexec/classic7-grab /usr/libexec/classic7-idle /usr/libexec/classic7-login-screen /usr/libexec/classic7-netdrive-helper /usr/libexec/classic7-sddm-accounts /usr/libexec/classic7-sddm-keyboard /usr/libexec/classic7-sessiond /usr/libexec/classic7-tray-fix /usr/libexec/classic7-update-system
++ for d in plasma kwin kwin-wayland applications classic7
++ cp -a /src/system_files/usr/share/plasma/. /usr/share/plasma/
++ for d in plasma kwin kwin-wayland applications classic7
++ cp -a /src/system_files/usr/share/kwin/. /usr/share/kwin/
++ for d in plasma kwin kwin-wayland applications classic7
++ cp -a /src/system_files/usr/share/kwin-wayland/. /usr/share/kwin-wayland/
++ for d in plasma kwin kwin-wayland applications classic7
++ cp -a /src/system_files/usr/share/applications/. /usr/share/applications/
++ for d in plasma kwin kwin-wayland applications classic7
++ cp -a /src/system_files/usr/share/classic7/. /usr/share/classic7/
++ find /usr/lib/classic7 /usr/lib64/python3.14 /usr/lib/python3.14 -xdev '(' -type f -o -type l ')' -exec touch -h -d @0 '{}' +
++ python3 -m compileall -q -f -j0 --invalidation-mode checked-hash /usr/lib/classic7 /usr/lib64/python3.14 /usr/lib/python3.14
++ useradd -m -u 1000 tester
++ cp -an /etc/skel/. /home/tester/
++ chown -R tester /home/tester
++ mkdir -p /out
++ chmod 777 /out
++ cp /src/.github/ci/perf_run.py /src/.github/ci/perf_idle.py /src/.github/ci/perf_report.py /tmp/
++ cat
++ chmod 755 /tmp/perf_idle.py /tmp/perf_report.py /tmp/perf_run.py /tmp/ptime.py
++ cat
++ chown tester /tmp/inner.sh
++ su tester -c 'dbus-run-session -- bash /tmp/inner.sh'
++ python3 /tmp/perf_report.py /out/apps.jsonl /out/helpers.txt C

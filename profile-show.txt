@@ -1,0 +1,131 @@
+         320261 function calls (314418 primitive calls) in 0.569 seconds
+
+   Ordered by: internal time
+   List reduced from 1382 to 45 due to restriction <45>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.086    0.086    0.368    0.368 /usr/lib/classic7/show_app.py:3377(main)
+      103    0.030    0.000    0.030    0.000 {method 'isNull' of 'PySide6.QtGui.QIcon' objects}
+       11    0.025    0.002    0.025    0.002 {method 'drawText' of 'PySide6.QtGui.QPainter' objects}
+     3642    0.023    0.000    0.052    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+        1    0.022    0.022    0.030    0.030 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+        1    0.021    0.021    0.021    0.021 {method 'setMenuWidget' of 'PySide6.QtWidgets.QMainWindow' objects}
+       18    0.019    0.001    0.019    0.001 {method 'insertText' of 'PySide6.QtGui.QTextCursor' objects}
+     4250    0.013    0.000    0.030    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+       61    0.012    0.000    0.012    0.000 {built-in method marshal.loads}
+       70    0.012    0.000    0.012    0.000 {method 'setStyleSheet' of 'PySide6.QtWidgets.QWidget' objects}
+      323    0.009    0.000    0.075    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+      420    0.008    0.000    0.009    0.000 /usr/lib/classic7/show_widgets.py:37(__init__)
+ 4434/790    0.008    0.000    0.058    0.000 {built-in method __new__ of type object at 0x7fdc224631a0}
+     7288    0.007    0.000    0.008    0.000 /usr/lib64/python3.14/enum.py:812(__setattr__)
+     79/2    0.007    0.000    0.571    0.285 {built-in method builtins.exec}
+        6    0.006    0.001    0.034    0.006 /usr/lib/classic7/show_widgets.py:74(build)
+    38108    0.006    0.000    0.006    0.000 {built-in method builtins.isinstance}
+     3652    0.006    0.000    0.013    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+       84    0.006    0.000    0.006    0.000 {method 'readlines' of '_io._IOBase' objects}
+     10/9    0.006    0.001    0.011    0.001 {built-in method _imp.exec_dynamic}
+        1    0.005    0.005    0.198    0.198 /usr/lib/classic7/show_app.py:1(<module>)
+        1    0.005    0.005    0.061    0.061 {built-in method exec}
+     5139    0.004    0.000    0.004    0.000 /usr/lib64/python3.14/enum.py:747(__delattr__)
+      243    0.004    0.000    0.008    0.000 {built-in method builtins.__build_class__}
+     5170    0.004    0.000    0.008    0.000 {built-in method builtins.delattr}
+      211    0.004    0.000    0.004    0.000 {method 'addWidget' of 'PySide6.QtWidgets.QBoxLayout' objects}
+    19582    0.004    0.000    0.004    0.000 {method 'get' of 'mappingproxy' objects}
+      664    0.003    0.000    0.003    0.000 {method 'connect' of 'PySide6.QtCore.SignalInstance' objects}
+      301    0.003    0.000    0.112    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+25575/25413    0.003    0.000    0.003    0.000 {built-in method builtins.len}
+    17555    0.003    0.000    0.003    0.000 {built-in method builtins.hasattr}
+     4582    0.003    0.000    0.005    0.000 /usr/lib64/python3.14/enum.py:77(_is_private)
+    16158    0.003    0.000    0.003    0.000 {method 'append' of 'list' objects}
+9581/9565    0.003    0.000    0.003    0.000 {built-in method builtins.getattr}
+       10    0.003    0.000    0.003    0.000 {built-in method _imp.create_dynamic}
+      111    0.003    0.000    0.057    0.001 /usr/lib/classic7/show_app.py:171(act)
+       89    0.002    0.000    0.002    0.000 {method 'addLayout' of 'PySide6.QtWidgets.QBoxLayout' objects}
+     3974    0.002    0.000    0.004    0.000 /usr/lib64/python3.14/enum.py:36(_is_descriptor)
+        9    0.002    0.000    0.003    0.000 {method 'addTab' of 'PySide6.QtWidgets.QTabWidget' objects}
+      216    0.002    0.000    0.002    0.000 {method 'addAction' of 'PySide6.QtWidgets.QMenu' objects}
+        7    0.002    0.000    0.004    0.001 {method 'findChildren' of 'PySide6.QtCore.QObject' objects}
+      494    0.002    0.000    0.005    0.000 /usr/lib/classic7/show_model.py:404(_ph)
+      475    0.002    0.000    0.002    0.000 {method 'addWidget' of 'PySide6.QtWidgets.QGridLayout' objects}
+      125    0.002    0.000    0.002    0.000 {method 'read' of '_io.BufferedReader' objects}
+       21    0.002    0.000    0.005    0.000 /usr/lib64/python3.14/enum.py:1741(convert_class)
+
+
+         320261 function calls (314418 primitive calls) in 0.569 seconds
+
+   Ordered by: cumulative time
+   List reduced from 1382 to 70 due to restriction <70>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000    0.572    0.572 <frozen runpy>:269(run_path)
+     79/2    0.007    0.000    0.571    0.285 {built-in method builtins.exec}
+        1    0.000    0.000    0.570    0.570 <frozen runpy>:91(_run_module_code)
+        1    0.000    0.000    0.569    0.569 <frozen runpy>:65(_run_code)
+        1    0.000    0.000    0.569    0.569 /usr/bin/classic7-show:1(<module>)
+        1    0.086    0.086    0.368    0.368 /usr/lib/classic7/show_app.py:3377(main)
+     75/6    0.000    0.000    0.215    0.036 <frozen importlib._bootstrap>:1360(_find_and_load)
+     75/6    0.000    0.000    0.214    0.036 <frozen importlib._bootstrap>:1308(_find_and_load_unlocked)
+     73/6    0.000    0.000    0.213    0.036 <frozen importlib._bootstrap>:914(_load_unlocked)
+     61/6    0.000    0.000    0.213    0.036 <frozen importlib._bootstrap_external>:757(exec_module)
+   171/12    0.001    0.000    0.209    0.017 <frozen importlib._bootstrap>:483(_call_with_frames_removed)
+        1    0.005    0.005    0.198    0.198 /usr/lib/classic7/show_app.py:1(<module>)
+        1    0.000    0.000    0.187    0.187 /usr/lib/classic7/show_app.py:123(__init__)
+      610    0.001    0.000    0.113    0.000 /usr/lib64/python3.14/enum.py:677(__call__)
+      301    0.003    0.000    0.112    0.000 /usr/lib64/python3.14/enum.py:825(_create_)
+        1    0.000    0.000    0.112    0.112 /usr/lib/classic7/show_app.py:318(_ribbon)
+      323    0.009    0.000    0.075    0.000 /usr/lib64/python3.14/enum.py:480(__new__)
+        1    0.000    0.000    0.061    0.061 /tmp/perf_run.py:78(patched)
+        1    0.005    0.005    0.061    0.061 {built-in method exec}
+ 4434/790    0.008    0.000    0.058    0.000 {built-in method __new__ of type object at 0x7fdc224631a0}
+      111    0.003    0.000    0.057    0.001 /usr/lib/classic7/show_app.py:171(act)
+      107    0.000    0.000    0.053    0.000 /usr/lib/classic7/write_ribbon.py:38(icon)
+        1    0.000    0.000    0.053    0.053 /usr/lib/classic7/show_pptx.py:1(<module>)
+     3642    0.023    0.000    0.052    0.000 /usr/lib64/python3.14/enum.py:239(__set_name__)
+        1    0.000    0.000    0.051    0.051 /usr/lib/classic7/show_app.py:188(_actions)
+        2    0.001    0.000    0.048    0.024 /usr/lib/classic7/show_app.py:707(_theme_previews)
+        1    0.000    0.000    0.037    0.037 /usr/lib64/python3.14/xml/sax/saxutils.py:1(<module>)
+       19    0.001    0.000    0.036    0.002 /usr/lib/classic7/show_render.py:130(thumbnail)
+        6    0.000    0.000    0.034    0.006 /usr/lib/classic7/show_widgets.py:66(__init__)
+       19    0.000    0.000    0.034    0.002 /usr/lib/classic7/show_render.py:73(paint_slide)
+        6    0.006    0.001    0.034    0.006 /usr/lib/classic7/show_widgets.py:74(build)
+        1    0.001    0.001    0.033    0.033 /usr/lib/classic7/show_dialogs.py:1(<module>)
+       52    0.001    0.000    0.033    0.001 /usr/lib/classic7/show_render.py:163(paint_shape)
+        1    0.000    0.000    0.031    0.031 /usr/lib64/python3.14/urllib/request.py:1(<module>)
+        1    0.022    0.022    0.030    0.030 {method 'show' of 'PySide6.QtWidgets.QWidget' objects}
+      103    0.030    0.000    0.030    0.000 {method 'isNull' of 'PySide6.QtGui.QIcon' objects}
+     4250    0.013    0.000    0.030    0.000 /usr/lib64/python3.14/enum.py:342(__setitem__)
+        1    0.001    0.001    0.029    0.029 /usr/lib/classic7/show_widgets.py:1(<module>)
+       18    0.000    0.000    0.029    0.002 /usr/lib/classic7/show_text.py:592(paint_text)
+        1    0.000    0.000    0.028    0.028 /usr/lib/classic7/show_app.py:568(_tab_home)
+        2    0.000    0.000    0.027    0.014 /usr/lib/classic7/show_app.py:460(_drawing_group)
+       18    0.000    0.000    0.027    0.001 /usr/lib/classic7/show_text.py:560(layout_doc)
+       18    0.001    0.000    0.027    0.001 /usr/lib/classic7/show_text.py:217(to_document)
+       11    0.025    0.002    0.025    0.002 {method 'drawText' of 'PySide6.QtGui.QPainter' objects}
+        1    0.000    0.000    0.024    0.024 /usr/lib64/python3.14/http/client.py:1(<module>)
+        5    0.001    0.000    0.023    0.005 /usr/lib/classic7/write_ribbon.py:18(text_icon)
+        1    0.021    0.021    0.021    0.021 {method 'setMenuWidget' of 'PySide6.QtWidgets.QMainWindow' objects}
+       61    0.001    0.000    0.020    0.000 <frozen importlib._bootstrap_external>:830(get_code)
+     1560    0.001    0.000    0.019    0.000 shibokensupport/signature/loader.py:68(feature_imported)
+       18    0.019    0.001    0.019    0.001 {method 'insertText' of 'PySide6.QtGui.QTextCursor' objects}
+     1560    0.001    0.000    0.019    0.000 shibokensupport/feature.py:135(feature_imported)
+     13/6    0.000    0.000    0.018    0.003 {built-in method builtins.__import__}
+        1    0.000    0.000    0.018    0.018 /usr/lib/classic7/show_app.py:797(_tab_format)
+      105    0.001    0.000    0.017    0.000 shibokensupport/feature.py:151(_mod_uses_pyside)
+       17    0.000    0.000    0.017    0.001 /usr/lib64/python3.14/dataclasses.py:1440(wrap)
+       17    0.001    0.000    0.017    0.001 /usr/lib64/python3.14/dataclasses.py:986(_process_class)
+      105    0.000    0.000    0.016    0.000 /usr/lib64/python3.14/inspect.py:1162(getsource)
+        1    0.000    0.000    0.015    0.015 /usr/lib/classic7/show_designs.py:1(<module>)
+      105    0.000    0.000    0.015    0.000 /usr/lib64/python3.14/inspect.py:1141(getsourcelines)
+        1    0.000    0.000    0.014    0.014 /usr/lib/classic7/write_ribbon.py:403(apply_scheme)
+    25/20    0.000    0.000    0.014    0.001 <frozen importlib._bootstrap>:1409(_handle_fromlist)
+        1    0.001    0.001    0.014    0.014 /usr/lib/classic7/show_edit.py:1(<module>)
+       17    0.000    0.000    0.014    0.001 /usr/lib64/python3.14/dataclasses.py:1423(dataclass)
+        1    0.000    0.000    0.014    0.014 /usr/lib/classic7/show_model.py:1(<module>)
+      105    0.000    0.000    0.014    0.000 /usr/lib64/python3.14/inspect.py:957(findsource)
+     3652    0.006    0.000    0.013    0.000 /usr/lib64/python3.14/enum.py:1042(_add_member_)
+       61    0.001    0.000    0.013    0.000 <frozen importlib._bootstrap_external>:509(_compile_bytecode)
+       19    0.000    0.000    0.012    0.001 /usr/lib/classic7/show_model.py:519(new_presentation)
+       61    0.012    0.000    0.012    0.000 {built-in method marshal.loads}
+       70    0.012    0.000    0.012    0.000 {method 'setStyleSheet' of 'PySide6.QtWidgets.QWidget' objects}
+
+

@@ -1,0 +1,44 @@
++ cat /out/report.txt
+Start-up until the first window is drawn, median of the runs (ms)
+program                        C  PySide6   saved     MB  mods
+show                         597       93       0     84   244
+sheet                        531       95       0     76   200
+write                        433       93       0     62   178
+paint                        429       93       0     83   279
+mail                         382       94       0     70   258
+appearance                   342       96       0     54   185
+control                      338       97       0     52   191
+taskmgr                      328       96       0     53   198
+prompt                       328       93       0     58   245
+firewall                     297       92       0     50   199
+photos                       294       92       0     54   193
+computer                     288       93       0     51   194
+notepad                      277       92       0     48   174
+run                          260       95       0     47   179
+sum                         5124
+
+Helpers (wall s / CPU s / max memory MB)
+helper                                           C
+firewall-cmd--state             0.21/0.17/  45 x36
+rpm-ostree-status                0.02/0.01/  23 x1
+coredumpctl-list                 0.00/0.00/  12 x1
+actioncenter--json                  0.26/0.26/  45
+network--json                       0.06/0.06/  16
+nmcli-device-status              0.01/0.01/  12 x1
++ head -16 /out/idle.txt
+CPU time used in 90 s with nobody at the desktop (ms; 'children' = programs it started that ended)
+  total     own children  process
+    300     110      190  253 plasmashell: plasmashell --no-respawn
+     20      20        0  157 xdg-desktop-por: /usr/libexec/xdg-desktop-portal
+     20      20        0  125 dbus-daemon: dbus-daemon --nofork --print-address 4 --session
+
+programs started during those 90 s (3):
+    8.7 s  /usr/bin/python3 /usr/sbin/classic7-network --json   (from plasmashell)
+    8.7 s  nmcli -t -f DEVICE,TYPE,STATE,CON-UUID,CONNECTION device status   (from ?)
+   68.7 s  /usr/bin/python3 /usr/sbin/classic7-network --json   (from plasmashell)
+
+memory (PSS, MB) of the desktop's processes:
+    384.0  plasmashell: plasmashell --no-respawn
+     44.9  classic7-sessio: /usr/bin/python3 /usr/libexec/classic7-sessiond
+     42.4  python3: /usr/bin/python3 -c import os, sys; sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/clas
+     36.3  kded6: /usr/bin/kded6
