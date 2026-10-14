@@ -1,0 +1,8 @@
+pkcheck --action-id org.classic7.loginscreen.change --process 117
+pkexec /usr/libexec/classic7-login-screen aero
+[{"name": "outputs"}]
+
+pkcheck --action-id org.classic7.loginscreen.change --process 125
+pkexec /usr/libexec/classic7-login-screen aero
+[{"name": "outputs", "changed": true}]
+

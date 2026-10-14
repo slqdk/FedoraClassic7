@@ -1,0 +1,8 @@
++ rpm -q sddm qt6-qtbase
+sddm-0.21.0-13.fc44.x86_64
+qt6-qtbase-6.11.2-3.fc44.x86_64
++ getent passwd sddm
+sddm:x:958:958:SDDM Greeter Account:/var/lib/sddm:/usr/sbin/nologin
++ ls /usr/share/sddm/themes
+classic7
+classic7aero

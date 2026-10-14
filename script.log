@@ -1,0 +1,88 @@
++ dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool
++ mkdir -p /out
++ chmod 777 /out
++ S=/src/system_files
++ cp -a /src/system_files/usr/lib/classic7/. /usr/lib/classic7/
++ cp -a /src/system_files/usr/bin/. /usr/bin/
++ chmod +x /usr/bin/classic7-actioncenter /usr/bin/classic7-appearance /usr/bin/classic7-arrange /usr/bin/classic7-calc /usr/bin/classic7-charmap /usr/bin/classic7-computer /usr/bin/classic7-control /usr/bin/classic7-devmgmt /usr/bin/classic7-diskmgmt /usr/bin/classic7-eventvwr /usr/bin/classic7-firewall /usr/bin/classic7-goodbye /usr/bin/classic7-jumplist /usr/bin/classic7-mail /usr/bin/classic7-mixer /usr/bin/classic7-msconfig /usr/bin/classic7-mstsc /usr/bin/classic7-netdrive /usr/bin/classic7-network /usr/bin/classic7-notepad /usr/bin/classic7-paint /usr/bin/classic7-photos /usr/bin/classic7-programs /usr/bin/classic7-prompt /usr/bin/classic7-properties /usr/bin/classic7-quickshot /usr/bin/classic7-recyclebin /usr/bin/classic7-resmon /usr/bin/classic7-run /usr/bin/classic7-screensaver /usr/bin/classic7-security /usr/bin/classic7-sendto /usr/bin/classic7-sheet /usr/bin/classic7-show /usr/bin/classic7-stickynotes /usr/bin/classic7-system /usr/bin/classic7-taskbar-pin /usr/bin/classic7-taskbar-properties /usr/bin/classic7-taskmgr /usr/bin/classic7-timedate /usr/bin/classic7-update /usr/bin/classic7-write
++ cp -a /src/system_files/usr/libexec/. /usr/libexec/
++ chmod +x /usr/libexec/classic7-disk-helper /usr/libexec/classic7-firewall-helper /usr/libexec/classic7-first-login /usr/libexec/classic7-grab /usr/libexec/classic7-idle /usr/libexec/classic7-login-screen /usr/libexec/classic7-netdrive-helper /usr/libexec/classic7-sddm-accounts /usr/libexec/classic7-sddm-keyboard /usr/libexec/classic7-sessiond /usr/libexec/classic7-tray-fix /usr/libexec/classic7-update-system
++ for d in sddm/themes classic7 wallpapers polkit-1
++ mkdir -p /usr/share/sddm/themes
++ cp -a /src/system_files/usr/share/sddm/themes/. /usr/share/sddm/themes/
++ for d in sddm/themes classic7 wallpapers polkit-1
++ mkdir -p /usr/share/classic7
++ cp -a /src/system_files/usr/share/classic7/. /usr/share/classic7/
++ for d in sddm/themes classic7 wallpapers polkit-1
++ mkdir -p /usr/share/wallpapers
++ cp -a /src/system_files/usr/share/wallpapers/. /usr/share/wallpapers/
++ for d in sddm/themes classic7 wallpapers polkit-1
++ mkdir -p /usr/share/polkit-1
++ cp -a /src/system_files/usr/share/polkit-1/. /usr/share/polkit-1/
++ cp -a /src/system_files/etc/sddm.conf.d/. /etc/sddm.conf.d/
++ useradd -m -u 1000 -c $'S\303\270ren Test' -G wheel tester
++ mkdir -p /var/lib/AccountsService/icons
++ convert -size 192x192 gradient:#F7B733-#FC4A1A -fill white -draw 'circle 96,80 96,40' -draw 'ellipse 96,190 70,60 0,360' /var/lib/AccountsService/icons/tester
+WARNING: The convert command is deprecated in IMv7, use "magick" instead of "convert" or "magick convert"
+
+convert: no encode delegate for this image format `GRADIENT' @ warning/constitute.c/WriteImage/1426.
+convert: no encode delegate for this image format `GRADIENT' @ error/constitute.c/WriteImage/1435.
++ cat
++ chmod +x /tmp/fakepkexec
++ mkdir -p /tmp/fakebin
++ cp /tmp/fakepkexec /tmp/fakebin/pkexec
++ chmod 777 /tmp/fakebin
++ printf '#!/bin/bash\necho "pkcheck $*" >> /out/pkexec-calls.txt\nexit 0\n'
++ chmod 755 /tmp/fakebin/pkcheck
++ cat
++ chmod 755 /tmp/inner.sh
++ su tester -c 'bash /tmp/inner.sh'
++ sleep 2
++ Xvfb :99 -screen 0 1280x800x24
++ export DISPLAY=:99 QT_QPA_PLATFORM=xcb
++ DISPLAY=:99
++ QT_QPA_PLATFORM=xcb
++ greeter classic7aero one
++ G=133
++ sleep 8
++ sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/classic7aero
++ shot 01-aero-one-account
++ import -window root /out/01-aero-one-account.png
++ xdotool type --delay 40 secret
++ sleep 0.5
++ shot 02-aero-password-typed
++ import -window root /out/02-aero-password-typed.png
++ xdotool key Return
++ sleep 3
++ shot 03-aero-after-enter
++ import -window root /out/03-aero-after-enter.png
++ xdotool mousemove 1239 754 click 1
++ sleep 1.5
++ shot 04-aero-power-menu
++ import -window root /out/04-aero-power-menu.png
++ kill 133
++ sleep 1
++ useradd -m -u 1001 -c 'Guest Player' player
++ greeter classic7aero two
++ G=172
++ sleep 8
++ sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/classic7aero
++ shot 05-aero-two-accounts
++ import -window root /out/05-aero-two-accounts.png
++ xdotool mousemove 0 0
++ sleep 0.3
++ xdotool key Right
++ sleep 0.5
++ xdotool key Return
++ sleep 1.5
++ shot 06-aero-chosen
++ import -window root /out/06-aero-chosen.png
++ kill 172
++ sleep 1
++ greeter classic7 classic
++ G=204
++ sleep 8
++ sddm-greeter-qt6 --test-mode --theme /usr/share/sddm/themes/classic7
++ shot 07-classic
++ import -window root /out/07-classic.png
++ kill 204
