@@ -47,7 +47,7 @@ off-screen by the programs themselves; the right-click menu picture is a mockup.
 | Start-up and shut-down | "Starting Classic 7" start-up screen (Plymouth); Log off / Restart / Shut down show the "Logging off..." / "Restarting..." / "Shutting down..." screen |
 | Screen savers | Mystify, 3D Pipes, Bubbles, Ribbons, 3D Text, Photos and Blank, with Screen Saver Settings (`scrnsave.scr`); films and games that keep the screen on hold them off |
 | Classic 7 Update | One click installs the newest Classic 7, app updates and new settings for your account; settings follow automatically after a restart |
-| Login screen | Classic "Log On" dialog on the desktop blue (SDDM theme) |
+| Login screen | Follows the theme: the Windows 7 Welcome screen for Aero and Basic, the classic "Log On" dialog for Classic (SDDM themes), with the desktop's screen resolution |
 | Personalization | Control Panel > Personalization (or All Programs > System > **Personalization**): the theme (Aero, Basic, Classic) with previews, Window Color (glass colour, intensity, transparency, colour mixer), the Classic colour schemes with per-item colours, font size |
 | Gaming | Everything Bazzite ships (Steam, Lutris, GameMode, MangoHud, AMD/Mesa stack) + LACT for GPU fan/power control |
 | Updates | Atomic: whole-system updates and rollback, rebuilt daily from Bazzite |
@@ -280,13 +280,26 @@ Start > All Programs > **Accessories**:
 
 ## Login, start-up and shut-down
 
-![Login screen](docs/login.png)
+<p>
+<img src="docs/screens/login-aero.png" alt="The login screen in Aero and Basic" width="49%">
+<img src="docs/login.png" alt="The login screen in Classic" width="49%">
+</p>
 
-The classic **Log On to Classic 7** dialog on the desktop blue: user name (the arrow lists the accounts),
-password, *Options >>* for the session (Plasma or Steam), *Shut Down...* for shut down / restart / sleep.
+The login screen follows the theme chosen in Personalization. **Aero and Basic** have the Windows 7
+Welcome screen: the account picture in its glass frame, the name and the password box with the arrow
+(several accounts: their pictures first, *Switch User* goes back), "Welcome" while logging on, the red
+power button with Restart, Sleep and Shut down beside it, and the keyboard layout when there are several.
+**Classic** has the classic **Log On to Classic 7** dialog on the desktop blue: user name (the arrow lists
+the accounts), password, *Options >>* for the session (Plasma or Steam), *Shut Down...* for shut down /
+restart / sleep. The login screen also gets the desktop's **screen resolution**, refresh rate and scale
+(Control Panel > Display, or right-click the desktop > Screen resolution), and its keyboard layout.
+
 Fedora 44 replaced SDDM with Plasma Login Manager, whose look can't be changed, so Classic 7 installs SDDM
-again with its own theme (`/usr/share/sddm/themes/classic7`). Another SDDM theme can be picked in
-System Settings > Login Screen (SDDM).
+again with its own themes (`/usr/share/sddm/themes/classic7aero` and `classic7`). The desktop hands them the
+theme and the screen settings after a theme change, at login and when the screen settings change
+(`classic7-appearance --login-screen`, through `/usr/libexec/classic7-login-screen`; administrators aren't
+asked for a password). Another SDDM theme can be picked in System Settings > Login Screen (SDDM), which then
+wins.
 
 <p>
 <img src="docs/screens/starting.png" alt="Starting Classic 7" width="49%">
@@ -729,7 +742,8 @@ Other knobs:
 
 - GTK4/libadwaita apps (most GNOME apps) ignore GTK themes; Steam, Electron and Flatpak apps draw their own UI.
 - No Microsoft artwork, fonts or sounds: icons, Start emblem and fonts are free look-alikes (Noto Sans).
-- The login screen always uses the Classic 7 Standard blue; Personalization doesn't change it.
+- The login screen shows the theme and screen settings of the last administrator who logged on; other
+  accounts leave it as it is. Classic colour schemes other than the standard blue don't reach it.
 - Aero's glass is blurred by KWin's Blur effect, which needs OpenGL: in a virtual machine without 3D
   acceleration the glass is drawn solid instead. Aero Peek shows the desktop rather than outlines of the windows.
 - Programs pick their controls when they start, so open programs keep the old ones after a theme change

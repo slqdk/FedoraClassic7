@@ -1,7 +1,10 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
-## 2026-10-14  Window titles like Windows 7, solid glass without 3D graphics, Computer > Properties
+## 2026-10-14  Window titles like Windows 7, the Windows 7 login screen, Remote Desktop logon
+- **The login screen follows your theme**: Aero and Basic get the Windows 7 Welcome screen (your account picture in its glass frame, the password box with the arrow, "Welcome", the red power button with Restart and Sleep beside it); Classic keeps the Log On dialog. It changes when you choose a theme in Personalization.
+- **The login screen uses your screen resolution** (and refresh rate and scale): change it in Control Panel > Display and the login screen has it from the next time it appears. (For administrators; it takes no password.)
+- **Remote Desktop from Windows logs on more easily**: the account name may be typed with any capitals, as COMPUTER\name or name@computer, or as your full name, and passwords with æ, ø or å work. When a logon is refused, Event Viewer > Application says why (the name or the password).
 - **Window titles in Aero and Basic** sit where Windows 7 puts them: the Minimize, Maximize and Close buttons hang from the top edge, and the window's icon and title are lower, in the middle of the title bar. On glass the title has a soft light behind it, so it stays readable on any colour.
 - **The title font changes at once** when you switch themes: titles are plain in Aero and Basic and bold in Classic, without logging out first.
 - **Without 3D graphics the glass is drawn solid.** KWin can only blur what is behind glass with OpenGL; in a virtual machine without 3D acceleration the borders showed the window behind sharply, text and all, through the title. They now keep their colour but are solid, as Windows 7 falls back to Basic. When the graphics can blur (a 3D driver, 3D turned on in the virtual machine), the glass becomes see-through again at the next login. Personalization > Window Color says when this is the case.

@@ -57,7 +57,8 @@ Item {
             required property var model
             readonly property string name: model.name
             readonly property string label: model.realName ? model.realName : model.name
-            readonly property string icon: model.icon ? model.icon : ""
+            // SDDM's grey stand-in (sddm/faces/.face.icon) counts as no picture: ours is drawn instead
+            readonly property string icon: model.icon && model.icon.indexOf("/sddm/faces/.face.icon") < 0 ? model.icon : ""
         }
     }
 
@@ -267,7 +268,7 @@ Item {
                     required property int index
                     spacing: 10
                     Tile {
-                        icon: model.icon ? model.icon : ""
+                        icon: model.icon && model.icon.indexOf("/sddm/faces/.face.icon") < 0 ? model.icon : ""
                         size: 96
                         lit: tileArea.containsMouse || (listFocus.activeFocus && listFocus.current === index)
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -518,8 +519,8 @@ Item {
         spacing: 12
         Image {
             source: "file:///usr/share/classic7/start-orb.svg"
-            sourceSize.width: 40
-            sourceSize.height: 40
+            sourceSize.height: 44
+            fillMode: Image.PreserveAspectFit
             anchors.verticalCenter: parent.verticalCenter
         }
         Text {

@@ -43,6 +43,8 @@ cat > /tmp/fakepkexec <<'EOF'
 echo "login screen: theme classic7aero, screen settings"
 EOF
 chmod +x /tmp/fakepkexec; mkdir -p /tmp/fakebin; cp /tmp/fakepkexec /tmp/fakebin/pkexec; chmod 777 /tmp/fakebin
+# and for pkcheck: polkit would let an administrator at the computer through
+printf '#!/bin/bash\necho "pkcheck $*" >> /out/pkexec-calls.txt\nexit 0\n' > /tmp/fakebin/pkcheck; chmod 755 /tmp/fakebin/pkcheck
 cat > /tmp/inner.sh <<'EOI'
 export HOME=/home/tester PATH=/tmp/fakebin:$PATH
 mkdir -p $HOME/.config/classic7

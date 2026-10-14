@@ -1084,6 +1084,16 @@ def login_screen(look: str | None = None, run: Runner | None = None, force: bool
     if run is not None and run.dry_run:
         run.log.append(f"pkexec {LOGIN_HELPER} {look} < {screen}")
         return None
+    # only where polkit lets it through without asking (an administrator at the computer): never a
+    # password box at login or after a theme change
+    if shutil.which("pkcheck") is not None:
+        try:
+            ok = subprocess.run(["pkcheck", "--action-id", "org.classic7.loginscreen.change", "--process",
+                                 str(os.getpid())], capture_output=True, timeout=30).returncode == 0
+        except (OSError, subprocess.SubprocessError):
+            ok = False
+        if not ok:
+            return None
     try:
         r = subprocess.run(["pkexec", LOGIN_HELPER, look], input=data, capture_output=True, timeout=120)
     except (OSError, subprocess.SubprocessError) as e:
