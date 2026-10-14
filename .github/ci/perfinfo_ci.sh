@@ -79,7 +79,7 @@ done
 # KWin's own record of its pictures (started with KWIN_LOG_PERFORMANCE_DATA=1, in /tmp)
 classic7-perfinfo --kwin-perf > /out/kwin-perf.txt 2>&1
 ls -la /tmp/kwin* >> /out/kwin-perf.txt 2>&1
-for f in /tmp/kwin\ perf*; do head -3 "$f"; tail -3 "$f"; done > /out/kwin-perf-sample.txt 2>&1
+for f in /tmp/kwin\ perf*; do head -3 "$f"; tail -3 "$f"; cp "$f" /out/; done > /out/kwin-perf-sample.txt 2>&1
 cp $HOME/.local/share/classic7/perfinfo.json /out/perfinfo.json
 
 # the report and the issues, as a user would make them

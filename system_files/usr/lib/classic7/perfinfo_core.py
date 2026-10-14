@@ -383,7 +383,9 @@ def set_kwin_perf_recording(on: bool) -> None:
 
 
 def kwin_perf_files() -> list[Path]:
-    folders = {HOME}
+    # KWin's working folder: the home folder in a normal session (reading another process's folder
+    # may not be allowed, so the usual places are looked in as well)
+    folders = {HOME, Path("/tmp")}
     code, out = run(["pgrep", "-u", str(os.getuid()), "-x", "kwin_wayland"], 3)
     for pid in out.split() if code == 0 else []:
         try:
@@ -430,7 +432,10 @@ def kwin_perf_summary(path: Path, last: int = 3000) -> dict:
     shown = [(r[1] - r[2]) / ms for r in rows if r[2] > 0 and r[1] > r[2]]
     late = [(r[1] - r[0]) / ms for r in rows if r[0] > 0]
     refresh = pct([r[5] / ms for r in rows if r[5] > 0] or [16.7], 0.5)
+    # pictures that followed each other closely (something moving): how many a second
+    gaps = [(b[1] - a[1]) / ms for a, b in zip(rows, rows[1:]) if 0 < b[1] - a[1] < 250 * ms]
     return {"frames": len(rows), "refresh_ms": round(refresh, 2),
+            "moving_fps": round(1000 / pct(gaps, 0.5), 1) if len(gaps) >= 5 else None,
             "render_ms": {"median": round(pct(render, 0.5), 1), "p95": round(pct(render, 0.95), 1),
                           "max": round(max(render), 1)} if render else {},
             "start_to_shown_ms": {"median": round(pct(shown, 0.5), 1), "p95": round(pct(shown, 0.95), 1)}
@@ -452,7 +457,8 @@ def kwin_perf_lines() -> list[str]:
         out.append(f"{name}: last {s['frames']} pictures over {s['seconds']} s at {1000 / s['refresh_ms']:.0f} Hz; "
                    f"drawing took {r['median']} ms (95% within {r['p95']} ms, slowest {r['max']} ms); "
                    f"from starting a picture to showing it {d.get('median', '?')} ms (95% within {d.get('p95', '?')} ms); "
-                   f"{s['late_share'] * 100:.0f}% shown late; KWin expects {s['predicted_ms']} ms per picture")
+                   f"{s['late_share'] * 100:.0f}% shown late; KWin expects {s['predicted_ms']} ms per picture"
+                   + (f"; {s['moving_fps']:.0f} pictures a second while something moved" if s.get("moving_fps") else ""))
     return out
 
 
