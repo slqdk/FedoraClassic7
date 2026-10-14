@@ -181,7 +181,7 @@ chmod 0755 /usr/bin/classic7-write /usr/bin/classic7-mail /usr/bin/classic7-netw
     /usr/bin/classic7-timedate /usr/bin/classic7-mixer /usr/bin/classic7-actioncenter \
     /usr/bin/classic7-msconfig /usr/bin/classic7-eventvwr /usr/bin/classic7-resmon /usr/bin/classic7-firewall \
     /usr/libexec/classic7-firewall-helper /usr/bin/classic7-screensaver /usr/bin/classic7-goodbye /usr/bin/classic7-mstsc \
-    /usr/bin/classic7-taskbar-properties
+    /usr/bin/classic7-taskbar-properties /usr/bin/classic7-perfinfo
 # KWin looks for window switchers and scripts in kwin-wayland/ (Plasma 6.4+) and, for older
 # packages, in kwin/: make ours visible in both
 for d in tabbox/classic7 tabbox/classic7aero scripts/classic7-aeroshake; do
@@ -203,7 +203,7 @@ printf '{"build": "%s", "base": "%s", "content": "%s"}\n' "$(date -u +%Y-%m-%dT%
     "$base" "$content" > /usr/share/classic7/build-info.json
 chmod 0755 /usr/bin/classic7-appearance /usr/bin/classic7-computer /usr/bin/classic7-prompt /usr/bin/classic7-run /usr/bin/classic7-sendto /usr/bin/classic7-update /usr/libexec/classic7-first-login
 python3 -c "import PySide6.QtSvg, PySide6.QtWidgets, PySide6.QtPrintSupport, PIL, pyte, docx, olefile"
-PYTHONPATH=/usr/lib/classic7 python3 -c "import qtlater, classic7theme, classic7aero, classic7kvantum, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app, accessories, notepad_app, calc_engine, calc_app, charmap_app, stickynotes_app, quickshot_app, paint_canvas, paint_app, recyclebin_app, properties_app, sessiond, timedate_app, mixer_app, actioncenter_checks, actioncenter_app, cpl_page, msconfig_app, eventvwr_app, resmon_app, firewall_app, screensaver_app, remote_app, remote_server, taskbar_props, taskbar_props_app"
+PYTHONPATH=/usr/lib/classic7 python3 -c "import qtlater, classic7theme, classic7aero, classic7kvantum, classic7appearance, drives, prompt_safety, prompt_recipes, prompt_llm, prompt_term, prompt_gui, write_model, write_page, write_ribbon, write_docx, write_rtf, write_doc, write_pdf, write_app, update_core, update_gui, netconf, netconn_gui, netdrive, netdrive_gui, mail_accounts, mail_oauth, mail_store, mail_imap, mail_send, mail_render, mail_worker, mail_icons, mail_ui, mail_view, mail_contacts, mail_setup, mail_compose, mail_gui, photos_core, photos_icons, photos_app, show_model, show_designs, show_geom, show_text, show_render, show_pptx, show_ppt, show_edit, show_widgets, show_dialogs, show_slideshow, show_chart, show_app, disks, diskmgmt_app, control_items, control_panel, session_actions, kwin_bridge, taskmgr_data, taskmgr_app, security_screen, sysinfo, system_app, devmgmt_app, sheet_ref, sheet_formula, sheet_numfmt, sheet_model, sheet_chart, sheet_io, sheet_ops, sheet_grid, sheet_dialogs, sheet_print, sheet_app, programs_data, programs_app, accessories, notepad_app, calc_engine, calc_app, charmap_app, stickynotes_app, quickshot_app, paint_canvas, paint_app, recyclebin_app, properties_app, sessiond, timedate_app, mixer_app, actioncenter_checks, actioncenter_app, cpl_page, msconfig_app, eventvwr_app, resmon_app, firewall_app, screensaver_app, remote_app, remote_server, taskbar_props, taskbar_props_app, perfinfo_core, perfinfo_assess, perfinfo_app"
 python3 -c "import PySide6.QtWebEngineWidgets, keyring, html2text" || echo "WARNING: Mail falls back to the simple message view"
 /usr/bin/classic7-prompt --tasks update >/dev/null
 # The Computer window mounts and ejects through UDisks
@@ -354,6 +354,13 @@ grep -q "org.classic7.clock" /usr/share/plasma/look-and-feel/org.classic7.deskto
 /usr/bin/classic7-eventvwr --help >/dev/null
 # Resource Monitor, Firewall (the helper runs as root through pkexec)
 /usr/bin/classic7-resmon --help >/dev/null
+# Performance Information and Tools: the report works without a desktop
+/usr/bin/classic7-perfinfo --help >/dev/null
+PYTHONPATH=/usr/lib/classic7 python3 -c "
+import perfinfo_assess as a, perfinfo_core as c
+assert a.scale(2, 2, 1000) == 1.0 and a.scale(1000, 2, 1000) == 7.9, (a.scale(2, 2, 1000), a.scale(1000, 2, 1000))
+assert c.base_score({'scores': {'cpu': 5.1, 'disk': 3.2, 'graphics': None}}) == 3.2
+assert c._duration('1min 3.200s') == 63.2, c._duration('1min 3.200s')"
 /usr/bin/classic7-firewall --help >/dev/null
 # Remote Desktop: the client (FreeRDP) and Classic 7's Remote Desktop Connection; .rdp files
 rpm -q freerdp >/dev/null 2>&1 || dnf5 -y install freerdp

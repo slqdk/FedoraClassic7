@@ -43,7 +43,7 @@ off-screen by the programs themselves; the right-click menu picture is a mockup.
 | Control Panel | All items in Small icons (View by: Category, Large icons or Small icons is remembered), Windows 7 Category view and category pages, and search; items open KDE settings modules on their own (`kcmshell6`) or Classic 7 windows; `control`, `*.cpl` and `control /name ...` work in Run |
 | Task Manager | Ctrl+Shift+Esc: Applications (window list through a KWin script), Processes, Services, Performance (LED meters, per-CPU history), Networking, Users; Ctrl+Alt+Del opens the blue Windows 7 security screen |
 | System / Device Manager | Win+Pause System window, System Properties (rename, environment variables, System Restore = rollback), Device Manager (PCI/USB/input/monitors/disks by type, driver and status) |
-| System tools | **System Configuration** (`msconfig`), **Event Viewer** over the system journal (`eventvwr`), **Resource Monitor** (`resmon`), **Firewall** over firewalld (`firewall.cpl`), **Programs and Features** (`appwiz.cpl`) |
+| System tools | **System Configuration** (`msconfig`), **Event Viewer** over the system journal (`eventvwr`), **Resource Monitor** (`resmon`), **Performance Information and Tools** (`winsat`: Experience Index, performance issues, system health report), **Firewall** over firewalld (`firewall.cpl`), **Programs and Features** (`appwiz.cpl`) |
 | Start-up and shut-down | "Starting Classic 7" start-up screen (Plymouth); Log off / Restart / Shut down show the "Logging off..." / "Restarting..." / "Shutting down..." screen |
 | Screen savers | Mystify, 3D Pipes, Bubbles, Ribbons, 3D Text, Photos and Blank, with Screen Saver Settings (`scrnsave.scr`); films and games that keep the screen on hold them off |
 | Classic 7 Update | One click installs the newest Classic 7, app updates and new settings for your account; settings follow automatically after a restart |
@@ -641,6 +641,19 @@ switcher `/usr/share/kwin-wayland/tabbox/classic7`; the Show desktop button is t
 - **Resource Monitor** (`resmon`, or Task Manager > Performance > Resource Monitor): Overview, CPU (with the
   files a process has open), Memory (with the Physical Memory bar), Disk and Network (connections and listening
   ports), each with a minute of graphs.
+- **Performance Information and Tools** (`winsat`, Control Panel > System and Security, or System > Rating):
+  the **Classic 7 Experience Index** scores the processor (zlib compression on one core and on all of them),
+  memory (copy speed and size), graphics (a window redrawn for every picture the screen shows: does the desktop
+  keep up with 60 pictures a second), gaming graphics (Qt Quick drawing 120 see-through layers off the screen,
+  as fast as OpenGL can) and the primary hard disk (a 256 MB file written and read, and random 4 KB reads) from
+  1.0 to 7.9; the base score is the lowest. The scores are kept in `~/.local/share/classic7/perfinfo.json` and
+  marked old when the processor, memory or graphics change. **Advanced tools** lists the performance issues
+  Classic 7 can see (3D drawn by the processor, NVIDIA's nouveau driver, AVX2 hidden from a virtual machine, a
+  screen below its best refresh rate, low memory or disk space, failed services, crashes, a busy processor, a
+  slow start-up) with a button that helps, and the system tools. The **system health report** puts the
+  Classic 7 image and its digest, hardware, KWin's renderer and effects, screens, disks, network, start-up
+  times, failed services, crashes, this boot's errors and KRdp's messages in one text file (no passwords,
+  keys, serial numbers or MAC addresses); `classic7-perfinfo --report-text FILE` makes it without a desktop.
 - **Firewall** (`firewall.cpl`, Control Panel > System and Security): on or off for home/work and for public
   networks, block all incoming connections, **Allow a program or feature** (firewalld's services
   and open ports per zone), Restore defaults. Home or work networks are firewalld's default zone, public networks
@@ -659,6 +672,7 @@ switcher `/usr/share/kwin-wayland/tabbox/classic7`; the Show desktop button is t
 | `classic7-msconfig [--tab startup\|services\|general\|boot\|tools]` | System Configuration |
 | `classic7-eventvwr [--problems]` | Event Viewer |
 | `classic7-resmon [--tab overview\|cpu\|memory\|disk\|network]` | Resource Monitor |
+| `classic7-perfinfo [--advanced\|--report\|--rate]` (`winsat`, `perfmon /report`) | Performance Information and Tools; without a window: `--assess` (rate the computer), `--report-text [FILE]`, `--issues`, `--json` |
 | `classic7-firewall [--allowed\|--onoff]` | Firewall |
 | `classic7-screensaver --settings \| --run NAME \| --list` (`scrnsave.scr`) | Screen Saver Settings, or a screen saver now |
 | `classic7-goodbye --logoff\|--restart\|--shutdown` | Ends the session with the classic screen (what the Start menu uses) |

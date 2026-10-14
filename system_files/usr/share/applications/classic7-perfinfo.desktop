@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Performance Information and Tools
+Comment=Rate this computer, find performance issues and save a system health report
+Exec=classic7-perfinfo
+Icon=utilities-system-monitor
+Terminal=false
+Categories=System;Monitor;
+Keywords=performance;experience index;winsat;rating;score;benchmark;system health;report;diagnostics;slow;lag;

@@ -1,0 +1,36 @@
+#!/usr/bin/python3
+"""Performance Information and Tools, as in Windows 7: the Classic 7 Experience Index, the
+performance issues Classic 7 can see, and a system health report to send to whoever helps you.
+
+    classic7-perfinfo                        the window
+    classic7-perfinfo --advanced             Advanced tools: performance issues and tools
+    classic7-perfinfo --report               the system health report, to save and send
+    classic7-perfinfo --rate                 the window, and rate the computer at once
+Without a window (in a terminal, also over SSH):
+    classic7-perfinfo --assess               rate the computer (the graphics need the desktop)
+    classic7-perfinfo --report-text [FILE]   the system health report, to FILE or the terminal
+    classic7-perfinfo --issues               the performance issues
+    classic7-perfinfo --json                 the facts, the issues and the scores as JSON
+"""
+import os
+import sys
+
+sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/classic7"))
+
+if __name__ == "__main__":
+    args = sys.argv[1:]
+    if args and args[0] in ("-h", "--help"):
+        print(__doc__.strip())
+        sys.exit(0)
+    if "--assess" in args:
+        import perfinfo_assess
+        try:
+            os.setpgrp()
+        except OSError:
+            pass
+        sys.exit(perfinfo_assess.main_cli("--json" in args))
+    if any(a in args for a in ("--report-text", "--issues", "--json")):
+        import perfinfo_core
+        sys.exit(perfinfo_core.main_cli(args))
+    from perfinfo_app import main
+    sys.exit(main(args))

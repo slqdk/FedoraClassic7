@@ -485,7 +485,7 @@ class SystemWindow(QMainWindow):
         see.setStyleSheet("color: #555;")
         side.lay.addWidget(see)
         for text, argv in (("Classic 7 Update", ["classic7-update", "--gui"]),
-                           ("Performance Information and Tools", ["classic7-taskmgr", "--performance"])):
+                           ("Performance Information and Tools", ["classic7-perfinfo"])):
             ln = Link(text, BLUE)
             ln.setWordWrap(True)
             ln.clicked.connect(lambda a=argv: run_detached(a))
@@ -536,13 +536,16 @@ class SystemWindow(QMainWindow):
         g.setHorizontalSpacing(18)
         g.setVerticalSpacing(6)
         g.setColumnMinimumWidth(0, 170)
-        rows = [(k, v) for k, v in rows if v]
+        rows = [(k, v) for k, v in rows if v is not None and v != ""]
         for i, (k, v) in enumerate(rows):
             kl = QLabel(k)
             kl.setStyleSheet(f"color: {LABEL.name()};")
-            vl = QLabel(v)
-            vl.setTextInteractionFlags(Qt.TextSelectableByMouse)
-            vl.setWordWrap(True)
+            if isinstance(v, QWidget):
+                vl = v
+            else:
+                vl = QLabel(v)
+                vl.setTextInteractionFlags(Qt.TextSelectableByMouse)
+                vl.setWordWrap(True)
             g.addWidget(kl, i, 0, Qt.AlignTop)
             g.addWidget(vl, i, 1)
         g.setColumnStretch(1, 1)
@@ -550,6 +553,10 @@ class SystemWindow(QMainWindow):
         if right is not None:
             outer.addWidget(right, 0, Qt.AlignTop)
         self.body.addLayout(outer)
+
+    @staticmethod
+    def _rating() -> QWidget:
+        return _rating_widget()
 
     def _fill(self):
         h = QLabel("View basic information about your computer")
@@ -580,6 +587,7 @@ class SystemWindow(QMainWindow):
         rows = []
         if maker or model:
             rows += [("Manufacturer:", maker), ("Model:", model)]
+        rows.append(("Rating:", self._rating()))
         rows += [("Processor:", f"{cpu}\n{cores} cores, {threads} threads"),
                  ("Installed memory (RAM):", f"{human_gb(installed)} ({human_gb(usable)} usable)"),
                  ("Graphics:", "\n".join(si.graphics()) or "Unknown"),
@@ -597,6 +605,38 @@ class SystemWindow(QMainWindow):
         self._section("Activation")
         self._rows([("", "Classic 7 is free software. There is nothing to activate.")])
         self.body.addStretch(1)
+
+
+def _rating_widget() -> QWidget:
+    """Windows 7's "Rating: [5.9] Windows Experience Index", from the last assessment."""
+    import json
+    data_home = os.environ.get("XDG_DATA_HOME") or os.path.expanduser("~/.local/share")
+    scores = {}
+    try:
+        with open(os.path.join(data_home, "classic7", "perfinfo.json")) as f:
+            scores = (json.load(f) or {}).get("scores") or {}
+    except (OSError, ValueError):
+        pass
+    subs = [v for v in scores.values() if isinstance(v, (int, float))]
+    w = QWidget()
+    h = QHBoxLayout(w)
+    h.setContentsMargins(0, 0, 0, 0)
+    h.setSpacing(8)
+    if subs:
+        badge = QLabel(f"{min(subs):.1f}")
+        badge.setAlignment(Qt.AlignCenter)
+        badge.setFixedSize(34, 24)
+        badge.setStyleSheet("color: white; font-weight: bold; border: 1px solid #163d80; border-radius: 3px;"
+                            " background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #6f9fe0, stop:0.5 #2f68c2,"
+                            " stop:1 #1b4a9a);")
+        h.addWidget(badge)
+        link = Link("Classic 7 Experience Index", BLUE)
+    else:
+        link = Link("System rating is not available", BLUE)
+    link.clicked.connect(lambda: run_detached(["classic7-perfinfo"]))
+    h.addWidget(link)
+    h.addStretch(1)
+    return w
 
 
 def _clear(layout):
