@@ -1,0 +1,18 @@
+CPU time used in 30 s with nobody at the desktop (ms; 'children' = programs it started that ended)
+  total     own children  process
+    400      50      350  239 plasmashell: plasmashell --no-respawn
+
+programs started during those 30 s (2):
+    0.6 s  /usr/bin/python3 /usr/sbin/classic7-actioncenter --json   (from plasmashell)
+    0.6 s  /usr/bin/python3 -sP /usr/sbin/firewall-cmd --state   (from ?)
+
+memory (PSS, MB) of the desktop's processes:
+    547.8  plasmashell: plasmashell --no-respawn
+     50.2  classic7-sessio: /usr/bin/python3 /usr/libexec/classic7-sessiond
+     48.0  python3: /usr/bin/python3 -c import os, sys; sys.path.insert(0, os.environ.get("CLASSIC7_LIB", "/usr/lib/clas
+     28.7  Xvfb: Xvfb :99 -screen 0 1280x860x24
+     14.3  classic7-idle: /usr/libexec/classic7-idle 240
+     14.2  kactivitymanage: /usr/libexec/kactivitymanagerd
+      2.0  dbus-daemon: dbus-daemon --nofork --print-address 4 --session
+      1.2  bash: bash /tmp/inner.sh
+    706.8  in all

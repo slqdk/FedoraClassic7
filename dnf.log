@@ -1,0 +1,13 @@
+Package                 Arch   Version          Repository      Size
+Installing:
+ xorg-x11-server-Xvfb   x86_64 0:21.1.24-1.fc44 updates      1.9 MiB
+Installing dependencies:
+ xorg-x11-server-common x86_64 0:21.1.24-1.fc44 updates    127.3 KiB
+
+Transaction Summary:
+ Installing:         2 packages
+
+[1/4] Verify package files              100% | 666.0   B/s |   2.0   B |  00m00s
+[2/4] Prepare transaction               100% |   4.0   B/s |   2.0   B |  00m00s
+[3/4] Installing xorg-x11-server-common 100% |  41.7 MiB/s | 128.2 KiB |  00m00s
+[4/4] Installing xorg-x11-server-Xvfb-0 100% |   2.2 MiB/s |   1.9 MiB |  00m01s

@@ -1,0 +1,60 @@
+Start-up until the first window is drawn, median of the runs (ms)
+program                        A         B         C         W  PySide6   saved     MB  mods
+mail                        1148      1390      1101         -       97       0    242   261
+show                         823       955       705         -      101       0    103   254
+sheet                        655       718       571       531      108     124     67   200
+paint                        636       827       488         -      102       0     83   279
+write                        557       736       544       540      101      17     75   195
+firewall                     498       649       513         -      103       0     50   190
+appearance                   496       624       466         -      103       0     64   184
+taskmgr                      465       578       460       419      104      46     49   197
+prompt                       399       482       361         -      103       0     58   245
+control                      398       502       405       338      104      60     45   191
+taskbar-props                375       444       342         -       98       0     51   184
+devmgmt                      366       455       349         -       97       0     60   183
+system                       360       466       358         -       98       0     55   185
+photos                       355       424       332         -       98       0     57   193
+resmon                       345       430       336         -       98       0     54   190
+charmap                      339       469       344         -       98       0     50   174
+computer                     335       412       320         -       98       0     51   194
+programs                     330       428       326         -       98       0     52   192
+notepad                      330       403       311       271      101      59     40   174
+msconfig                     324       432       338         -      100       0     49   180
+properties                   323       422       321         -      102       0     51   187
+mstsc                        322       436       316         -       98       0     51   172
+diskmgmt                     322       421       316         -      101       0     51   181
+actioncenter                 316       402       332         -       98       0     51   186
+security                     315       410       314         -       98       0     50   184
+update                       310       372       307         -       99       0     50   180
+timedate                     309       410       309         -       97       0     49   187
+eventvwr                     309       428       338         -       98       0     52   188
+recyclebin                   309       418       318         -       98       0     51   184
+quickshot-tray               307         -       330         -      107       0     43   181
+network                      306       411       304         -       99       0     49   181
+screensaver                  303       395       304         -      101       0     49   180
+calc                         301       396       295         -      100       0     48   177
+stickynotes                  294       384       298         -       98       0     49   178
+mixer                        291       406       295         -       99       0     46   179
+run                          283       362       294         -       97       0     48   179
+sum                        14454     17898     13961      2099
+
+Helpers (wall s / CPU s / max memory MB)
+helper                                           A                     B                     C                     W
+first-login-new-account             0.07/0.03/  11                     -                     -                     -
+tray-fix-new-account                0.16/0.12/  22                     -                     -                     -
+netdrive--reconnect                 0.11/0.07/  16        0.11/0.07/  16        0.06/0.06/  16                     -
+update--settings                51.25/1.20/  74 x1                     -                     -                     -
+python-empty                        0.03/0.02/  12        0.03/0.03/  12        0.03/0.02/  12                     -
+python-stdlib                       0.11/0.06/  15        0.12/0.07/  15        0.06/0.05/  16                     -
+pyside6-import                      0.21/0.16/  42        0.21/0.18/  43        0.16/0.14/  43                     -
+network--json                       0.11/0.09/  16        0.11/0.08/  16        0.11/0.07/  16                     -
+actioncenter--json                  0.36/0.34/  45        0.36/0.33/  45        0.31/0.28/  45                     -
+taskbar-pin--list                   0.06/0.05/  14        0.06/0.05/  13        0.06/0.04/  14                     -
+jumplist--json                      0.06/0.05/  14        0.06/0.05/  14        0.06/0.05/  15                     -
+tray-fix                            0.16/0.12/  22        0.06/0.06/  14        0.06/0.05/  14                     -
+first-login                         0.00/0.00/  12        0.00/0.00/  12        0.00/0.00/  12                     -
+appearance--login-screen            0.16/0.12/  21        0.11/0.08/  18        0.11/0.08/  19                     -
+update--after-login         60.00/0.84/  74 xtimeout60.00/0.87/  74 xtimeout60.00/0.65/  73 xtimeout                     -
+run-dialog-cmd                      0.06/0.06/  14        0.06/0.05/  14        0.06/0.04/  14                     -
+control--list                       0.21/0.18/  34        0.21/0.17/  34        0.16/0.15/  34                     -
+computer--list                      0.11/0.10/  17        0.12/0.08/  16        0.11/0.07/  16                     -

@@ -1,0 +1,4 @@
+A sessiond: D-Bus name after 73 ms
+A plasmashell: taskbar after 852 ms
+C compileall of the library: 6474 ms
+C sessiond: D-Bus name after 77 ms
