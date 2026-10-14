@@ -474,7 +474,9 @@ Navigation Pane (Favorite Folders, Mail Folders, Mail/Contacts buttons), message
    let Remote Desktop in yet, Classic 7 offers to open it (an administrator password).
 2. On Windows, run `mstsc` and type the address the Remote tab shows (its name or IP address).
 3. Log on with the **user name and password of the account that is logged on here** (the account name the
-   Remote tab shows, e.g. `soren`, and the password you log on to Classic 7 with).
+   Remote tab shows, e.g. `soren`, and the password you log on to Classic 7 with). Capitals don't matter, and
+   `COMPUTER\soren`, `soren@computer` or the account's full name work too. When Windows says the logon
+   failed, Event Viewer > Application has a line from `krdpserver` saying why (the name or the password).
 4. Windows says once that *the identity of the remote computer cannot be verified*: tick *Don't ask me
    again for connections to this computer* and click Yes. Classic 7 made that certificate; it lasts ten years.
 
@@ -490,7 +492,8 @@ Nobody is asked on the PC's screen when someone connects, as in Windows. Turning
 KRdp 6.7 refuses every login when it runs on FreeRDP 3.32, which Fedora updated to ("Your credentials did
 not work" on Windows; [KDE bug 526514](https://bugs.kde.org/show_bug.cgi?id=526514)). Until Plasma ships the
 fix, the image rebuilds KRdp's library with it (`build_files/krdp/fix-krdp.sh`; a build warning says if it
-couldn't). Network Level Authentication (the Remote tab's third choice) isn't there with KRdp 6.7.
+couldn't), together with `classic7-logon.patch`: KRdp 6.7 itself let in only the exact account name, garbled
+names and passwords with æ, ø or å, and refused logons without a word in the log. Network Level Authentication (the Remote tab's third choice) isn't there with KRdp 6.7.
 The clipboard works both ways; this PC's sound doesn't play on Windows, and Windows' drives and printers
 aren't brought over.
 

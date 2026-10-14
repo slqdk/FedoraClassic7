@@ -150,8 +150,9 @@ Item {
     // a round glossy button (the blue arrow after the password, the red power button)
     component Orb: Item {
         id: orb
-        property color top: "#7CC4F5"
-        property color bottom: "#1663B3"
+        // not "top"/"bottom": those are Item properties that can't be redefined
+        property color hiColor: "#7CC4F5"
+        property color loColor: "#1663B3"
         property string glyph: "arrow"
         property bool down: area.pressed && area.containsMouse
         signal clicked()
@@ -163,9 +164,9 @@ Item {
             radius: width / 2
             border.color: Qt.rgba(0, 0, 0, 0.55)
             gradient: Gradient {
-                GradientStop { position: 0.0; color: orb.down ? Qt.darker(orb.top, 1.25) : (area.containsMouse ? Qt.lighter(orb.top, 1.12) : orb.top) }
-                GradientStop { position: 0.5; color: orb.down ? Qt.darker(orb.bottom, 1.2) : (area.containsMouse ? Qt.lighter(orb.bottom, 1.15) : orb.bottom) }
-                GradientStop { position: 1.0; color: orb.down ? Qt.darker(orb.top, 1.35) : orb.top }
+                GradientStop { position: 0.0; color: orb.down ? Qt.darker(orb.hiColor, 1.25) : (area.containsMouse ? Qt.lighter(orb.hiColor, 1.12) : orb.hiColor) }
+                GradientStop { position: 0.5; color: orb.down ? Qt.darker(orb.loColor, 1.2) : (area.containsMouse ? Qt.lighter(orb.loColor, 1.15) : orb.loColor) }
+                GradientStop { position: 1.0; color: orb.down ? Qt.darker(orb.hiColor, 1.35) : orb.hiColor }
             }
         }
         Rectangle {
@@ -545,7 +546,7 @@ Item {
         visible: sddm.canPowerOff || sddm.canReboot
         Orb {
             width: 32; height: 32
-            top: "#F08A73"; bottom: "#B5250F"
+            hiColor: "#F08A73"; loColor: "#B5250F"
             glyph: "power"
             onClicked: sddm.canPowerOff ? sddm.powerOff() : sddm.reboot()
         }
