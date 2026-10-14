@@ -1,0 +1,30 @@
++ rpm -q kwin aurorae plasma-workspace
+kwin-6.7.5-1.fc44.x86_64
+aurorae-6.7.5-1.fc44.x86_64
+plasma-workspace-6.7.5-1.fc44.x86_64
++ ls /usr/share/kwin/decorations /usr/share/aurorae/themes
+/usr/share/aurorae/themes:
+Classic7
+Classic7Aero
+Classic7Basic
+
+/usr/share/kwin/decorations:
+classic7aero
+classic7basic
+kwin4_decoration_qml_plastik
++ for f in /usr/lib64/libkwin.so.6*
+++ grep -a -o 'KWIN_[A-Z_]*PERF[A-Z_]*' /usr/lib64/libkwin.so.6
+++ sort -u
+++ tr '\n' ' '
++ echo '/usr/lib64/libkwin.so.6: KWIN_LOG_PERFORMANCE_DATA KWIN_PERF_FTRACE KWIN_PERF_FTRACE_FILE '
+/usr/lib64/libkwin.so.6: KWIN_LOG_PERFORMANCE_DATA KWIN_PERF_FTRACE KWIN_PERF_FTRACE_FILE 
++ for f in /usr/lib64/libkwin.so.6*
+++ grep -a -o 'KWIN_[A-Z_]*PERF[A-Z_]*' /usr/lib64/libkwin.so.6.7.5
+++ sort -u
+++ tr '\n' ' '
++ echo '/usr/lib64/libkwin.so.6.7.5: KWIN_LOG_PERFORMANCE_DATA KWIN_PERF_FTRACE KWIN_PERF_FTRACE_FILE '
+/usr/lib64/libkwin.so.6.7.5: KWIN_LOG_PERFORMANCE_DATA KWIN_PERF_FTRACE KWIN_PERF_FTRACE_FILE 
++ nproc
+4
++ grep -m1 'model name' /proc/cpuinfo
+model name	: AMD EPYC 7763 64-Core Processor

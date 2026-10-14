@@ -1,0 +1,53 @@
+/home/tester:
+total 44
+drwxr-xr-x  7 tester tester 4096 Oct 14 11:23 .
+drwxr-xr-x  3 root   root   4096 Oct 14 11:19 ..
+-rw-r--r--  1 tester tester   18 Jan  1  1970 .bash_logout
+-rw-r--r--  1 tester tester  144 Jan  1  1970 .bash_profile
+-rw-r--r--  1 tester tester  522 Jan  1  1970 .bashrc
+drwxr-xr-x  7 tester tester 4096 Oct 14 11:23 .cache
+drwxr-xr-x 14 tester tester 4096 Oct 14 11:23 .config
+-rw-r--r--  1 tester tester  356 Oct 14 11:23 .gtkrc-2.0
+drwxr-xr-x  4 tester tester 4096 Oct 14 11:16 .local
+drwxr-xr-x  3 tester tester 4096 Jan  1  1970 .var
+drwxr-xr-x  2 tester tester 4096 Oct 14 11:19 Desktop
+
+/tmp:
+total 92
+drwxrwxrwt 1 root   root   4096 Oct 14 11:24 .
+dr-xr-xr-x 1 root   root   4096 Oct 14 11:19 ..
+drwxrwxrwt 2 tester tester 4096 Oct 14 11:19 .X11-unix
+-r--r--r-- 1 tester tester   11 Oct 14 11:19 .X99-lock
+-rw------- 1 tester tester  616 Oct 14 11:20 classic7-kwin-0_y2_o1w.js
+-rw------- 1 tester tester  617 Oct 14 11:23 classic7-kwin-1wh4lg7q.js
+-rw------- 1 tester tester  616 Oct 14 11:21 classic7-kwin-21psozkv.js
+-rw------- 1 tester tester  616 Oct 14 11:20 classic7-kwin-3__r8l2z.js
+-rw------- 1 tester tester  617 Oct 14 11:22 classic7-kwin-6i12w98m.js
+-rw------- 1 tester tester  617 Oct 14 11:24 classic7-kwin-7f71u348.js
+-rw------- 1 tester tester  617 Oct 14 11:23 classic7-kwin-bpehajm4.js
+-rw------- 1 tester tester  617 Oct 14 11:22 classic7-kwin-dmnuhu92.js
+-rw------- 1 tester tester  616 Oct 14 11:20 classic7-kwin-eep01kux.js
+-rw------- 1 tester tester  617 Oct 14 11:24 classic7-kwin-ijleo727.js
+-rw------- 1 tester tester  617 Oct 14 11:23 classic7-kwin-ixrp3ba1.js
+-rw------- 1 tester tester  616 Oct 14 11:21 classic7-kwin-mqutotpo.js
+-rw------- 1 tester tester  616 Oct 14 11:21 classic7-kwin-rjlgbshj.js
+-rw------- 1 tester tester  616 Oct 14 11:22 classic7-kwin-tcl9lkdm.js
+srwxrwxrwx 1 tester tester    0 Oct 14 11:19 dbus-siuRrO4ozy
+-rw-r--r-- 1 tester root   4934 Oct 14 11:19 inner.sh
+-rw-r--r-- 1 root   root    574 Oct 14 11:19 kwjs.py
+drwx------ 2 tester tester 4096 Oct 14 11:19 plasma-csd-generator.SPRWqo
+drwx------ 8 tester tester 4096 Oct 14 11:19 xdg-t
+
+/tmp/xdg-t:
+total 28
+drwx------ 8 tester tester 4096 Oct 14 11:19 .
+drwxrwxrwt 1 root   root   4096 Oct 14 11:24 ..
+drwx------ 2 tester tester 4096 Oct 14 11:19 at-spi
+drwx------ 2 tester tester 4096 Oct 14 11:23 dconf
+dr-x------ 2 tester tester    0 Jan  1  1970 doc
+drwx------ 2 tester tester 4096 Oct 14 11:19 gvfs
+drwx------ 2 tester tester 4096 Oct 14 11:19 gvfsd
+-rw------- 1 tester tester    0 Oct 14 11:19 kwin-xwayland-eis-socket.151.lock
+drwx------ 2 tester tester 4096 Oct 14 11:19 pulse
+srwxr-xr-x 1 tester tester    0 Oct 14 11:19 wayland-c7
+-rw-r----- 1 tester tester    0 Oct 14 11:19 wayland-c7.lock

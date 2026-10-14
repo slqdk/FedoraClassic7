@@ -1,0 +1,315 @@
++ dnf5 -y -q install xorg-x11-server-Xvfb ImageMagick xdotool
++ S=/src/system_files
++ cp -a /src/system_files/usr/lib/classic7/. /usr/lib/classic7/
++ cp -a /src/system_files/usr/bin/. /usr/bin/
++ chmod +x /usr/bin/classic7-actioncenter /usr/bin/classic7-appearance /usr/bin/classic7-arrange /usr/bin/classic7-calc /usr/bin/classic7-charmap /usr/bin/classic7-computer /usr/bin/classic7-control /usr/bin/classic7-devmgmt /usr/bin/classic7-diskmgmt /usr/bin/classic7-eventvwr /usr/bin/classic7-firewall /usr/bin/classic7-goodbye /usr/bin/classic7-jumplist /usr/bin/classic7-mail /usr/bin/classic7-mixer /usr/bin/classic7-msconfig /usr/bin/classic7-mstsc /usr/bin/classic7-netdrive /usr/bin/classic7-network /usr/bin/classic7-notepad /usr/bin/classic7-paint /usr/bin/classic7-photos /usr/bin/classic7-programs /usr/bin/classic7-prompt /usr/bin/classic7-properties /usr/bin/classic7-quickshot /usr/bin/classic7-recyclebin /usr/bin/classic7-resmon /usr/bin/classic7-run /usr/bin/classic7-screensaver /usr/bin/classic7-security /usr/bin/classic7-sendto /usr/bin/classic7-sheet /usr/bin/classic7-show /usr/bin/classic7-stickynotes /usr/bin/classic7-system /usr/bin/classic7-taskbar-pin /usr/bin/classic7-taskbar-properties /usr/bin/classic7-taskmgr /usr/bin/classic7-timedate /usr/bin/classic7-update /usr/bin/classic7-write
++ cp -a /src/system_files/usr/libexec/. /usr/libexec/
++ chmod +x /usr/libexec/classic7-disk-helper /usr/libexec/classic7-firewall-helper /usr/libexec/classic7-first-login /usr/libexec/classic7-grab /usr/libexec/classic7-idle /usr/libexec/classic7-login-screen /usr/libexec/classic7-netdrive-helper /usr/libexec/classic7-sddm-accounts /usr/libexec/classic7-sddm-keyboard /usr/libexec/classic7-sessiond /usr/libexec/classic7-tray-fix /usr/libexec/classic7-update-system
++ for d in plasma kwin kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers
++ mkdir -p /usr/share/plasma
++ cp -a /src/system_files/usr/share/plasma/. /usr/share/plasma/
++ for d in plasma kwin kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers
++ mkdir -p /usr/share/kwin
++ cp -a /src/system_files/usr/share/kwin/. /usr/share/kwin/
++ for d in plasma kwin kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers
++ mkdir -p /usr/share/kwin-wayland
++ cp -a /src/system_files/usr/share/kwin-wayland/. /usr/share/kwin-wayland/
++ for d in plasma kwin kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers
++ mkdir -p /usr/share/applications
++ cp -a /src/system_files/usr/share/applications/. /usr/share/applications/
++ for d in plasma kwin kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers
++ mkdir -p /usr/share/classic7
++ cp -a /src/system_files/usr/share/classic7/. /usr/share/classic7/
++ for d in plasma kwin kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers
++ mkdir -p /usr/share/desktop-directories
++ cp -a /src/system_files/usr/share/desktop-directories/. /usr/share/desktop-directories/
++ for d in plasma kwin kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers
++ mkdir -p /usr/share/aurorae
++ cp -a /src/system_files/usr/share/aurorae/. /usr/share/aurorae/
++ for d in plasma kwin kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers
++ mkdir -p /usr/share/color-schemes
++ cp -a /src/system_files/usr/share/color-schemes/. /usr/share/color-schemes/
++ for d in plasma kwin kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers
++ mkdir -p /usr/share/Kvantum
++ cp -a /src/system_files/usr/share/Kvantum/. /usr/share/Kvantum/
++ for d in plasma kwin kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers
++ mkdir -p /usr/share/themes
++ cp -a /src/system_files/usr/share/themes/. /usr/share/themes/
++ for d in plasma kwin kwin-wayland applications classic7 desktop-directories aurorae color-schemes Kvantum themes wallpapers
++ mkdir -p /usr/share/wallpapers
++ cp -a /src/system_files/usr/share/wallpapers/. /usr/share/wallpapers/
++ cp -a /src/system_files/etc/xdg/. /etc/xdg/
++ cp -a /src/system_files/etc/skel/. /etc/skel/
++ rm -f /usr/share/dbus-1/services/org.bluez.obex.service
++ merge /usr/share/classic7/xdg-defaults/kwinrc /etc/xdg/kwinrc
++ IFS=
++ read -r line
++ [[ -z [org.kde.kdecoration2] ]]
++ [[ [org.kde.kdecoration2] == \#* ]]
++ [[ [org.kde.kdecoration2] =~ ^\[(.*)]$ ]]
++ group=org.kde.kdecoration2
++ continue
++ IFS=
++ read -r line
++ [[ -z library=org.kde.kwin.aurorae ]]
++ [[ library=org.kde.kwin.aurorae == \#* ]]
++ [[ library=org.kde.kwin.aurorae =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kwinrc --group org.kde.kdecoration2 --key library -- org.kde.kwin.aurorae
++ IFS=
++ read -r line
++ [[ -z theme=__aurorae__svg__Classic7 ]]
++ [[ theme=__aurorae__svg__Classic7 == \#* ]]
++ [[ theme=__aurorae__svg__Classic7 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kwinrc --group org.kde.kdecoration2 --key theme -- __aurorae__svg__Classic7
++ IFS=
++ read -r line
++ [[ -z BorderSize=Normal ]]
++ [[ BorderSize=Normal == \#* ]]
++ [[ BorderSize=Normal =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kwinrc --group org.kde.kdecoration2 --key BorderSize -- Normal
++ IFS=
++ read -r line
++ [[ -z ButtonsOnLeft=M ]]
++ [[ ButtonsOnLeft=M == \#* ]]
++ [[ ButtonsOnLeft=M =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kwinrc --group org.kde.kdecoration2 --key ButtonsOnLeft -- M
++ IFS=
++ read -r line
++ [[ -z ButtonsOnRight=IA_X ]]
++ [[ ButtonsOnRight=IA_X == \#* ]]
++ [[ ButtonsOnRight=IA_X =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kwinrc --group org.kde.kdecoration2 --key ButtonsOnRight -- IA_X
++ IFS=
++ read -r line
++ [[ -z '' ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z [TabBox] ]]
++ [[ [TabBox] == \#* ]]
++ [[ [TabBox] =~ ^\[(.*)]$ ]]
++ group=TabBox
++ continue
++ IFS=
++ read -r line
++ [[ -z LayoutName=classic7 ]]
++ [[ LayoutName=classic7 == \#* ]]
++ [[ LayoutName=classic7 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kwinrc --group TabBox --key LayoutName -- classic7
++ IFS=
++ read -r line
++ [[ -z HighlightWindows=false ]]
++ [[ HighlightWindows=false == \#* ]]
++ [[ HighlightWindows=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kwinrc --group TabBox --key HighlightWindows -- false
++ IFS=
++ read -r line
++ [[ -z '' ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z [Windows] ]]
++ [[ [Windows] == \#* ]]
++ [[ [Windows] =~ ^\[(.*)]$ ]]
++ group=Windows
++ continue
++ IFS=
++ read -r line
++ [[ -z ElectricBorderMaximize=true ]]
++ [[ ElectricBorderMaximize=true == \#* ]]
++ [[ ElectricBorderMaximize=true =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kwinrc --group Windows --key ElectricBorderMaximize -- true
++ IFS=
++ read -r line
++ [[ -z ElectricBorderTiling=true ]]
++ [[ ElectricBorderTiling=true == \#* ]]
++ [[ ElectricBorderTiling=true =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kwinrc --group Windows --key ElectricBorderTiling -- true
++ IFS=
++ read -r line
++ [[ -z '' ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z [Plugins] ]]
++ [[ [Plugins] == \#* ]]
++ [[ [Plugins] =~ ^\[(.*)]$ ]]
++ group=Plugins
++ continue
++ IFS=
++ read -r line
++ [[ -z classic7-aeroshakeEnabled=true ]]
++ [[ classic7-aeroshakeEnabled=true == \#* ]]
++ [[ classic7-aeroshakeEnabled=true =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kwinrc --group Plugins --key classic7-aeroshakeEnabled -- true
++ IFS=
++ read -r line
++ [[ -n '' ]]
++ merge /usr/share/classic7/xdg-defaults/kdeglobals /etc/xdg/kdeglobals
++ IFS=
++ read -r line
++ [[ -z [KDE] ]]
++ [[ [KDE] == \#* ]]
++ [[ [KDE] =~ ^\[(.*)]$ ]]
++ group=KDE
++ continue
++ IFS=
++ read -r line
++ [[ -z LookAndFeelPackage=org.classic7.desktop ]]
++ [[ LookAndFeelPackage=org.classic7.desktop == \#* ]]
++ [[ LookAndFeelPackage=org.classic7.desktop =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group KDE --key LookAndFeelPackage -- org.classic7.desktop
++ IFS=
++ read -r line
++ [[ -z # No dark mode: the "Dark Mode" switch (Brightness & Color) swaps between these two Global ]]
++ [[ # No dark mode: the "Dark Mode" switch (Brightness & Color) swaps between these two Global == \#* ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z # Themes, so with both set to Classic 7 it can't turn the desktop into Breeze ]]
++ [[ # Themes, so with both set to Classic 7 it can't turn the desktop into Breeze == \#* ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z DefaultLightLookAndFeel=org.classic7.desktop ]]
++ [[ DefaultLightLookAndFeel=org.classic7.desktop == \#* ]]
++ [[ DefaultLightLookAndFeel=org.classic7.desktop =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group KDE --key DefaultLightLookAndFeel -- org.classic7.desktop
++ IFS=
++ read -r line
++ [[ -z DefaultDarkLookAndFeel=org.classic7.desktop ]]
++ [[ DefaultDarkLookAndFeel=org.classic7.desktop == \#* ]]
++ [[ DefaultDarkLookAndFeel=org.classic7.desktop =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group KDE --key DefaultDarkLookAndFeel -- org.classic7.desktop
++ IFS=
++ read -r line
++ [[ -z AutomaticLookAndFeel=false ]]
++ [[ AutomaticLookAndFeel=false == \#* ]]
++ [[ AutomaticLookAndFeel=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group KDE --key AutomaticLookAndFeel -- false
++ IFS=
++ read -r line
++ [[ -z widgetStyle=Windows ]]
++ [[ widgetStyle=Windows == \#* ]]
++ [[ widgetStyle=Windows =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group KDE --key widgetStyle -- Windows
++ IFS=
++ read -r line
++ [[ -z SingleClick=false ]]
++ [[ SingleClick=false == \#* ]]
++ [[ SingleClick=false =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group KDE --key SingleClick -- false
++ IFS=
++ read -r line
++ [[ -z AnimationDurationFactor=0 ]]
++ [[ AnimationDurationFactor=0 == \#* ]]
++ [[ AnimationDurationFactor=0 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group KDE --key AnimationDurationFactor -- 0
++ IFS=
++ read -r line
++ [[ -z '' ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z [General] ]]
++ [[ [General] == \#* ]]
++ [[ [General] =~ ^\[(.*)]$ ]]
++ group=General
++ continue
++ IFS=
++ read -r line
++ [[ -z ColorScheme=Classic7 ]]
++ [[ ColorScheme=Classic7 == \#* ]]
++ [[ ColorScheme=Classic7 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group General --key ColorScheme -- Classic7
++ IFS=
++ read -r line
++ [[ -z font=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1 ]]
++ [[ font=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1 == \#* ]]
++ [[ font=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group General --key font -- 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
++ IFS=
++ read -r line
++ [[ -z menuFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1 ]]
++ [[ menuFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1 == \#* ]]
++ [[ menuFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group General --key menuFont -- 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
++ IFS=
++ read -r line
++ [[ -z toolBarFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1 ]]
++ [[ toolBarFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1 == \#* ]]
++ [[ toolBarFont=Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group General --key toolBarFont -- 'Noto Sans,9,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
++ IFS=
++ read -r line
++ [[ -z smallestReadableFont=Noto Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1 ]]
++ [[ smallestReadableFont=Noto Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1 == \#* ]]
++ [[ smallestReadableFont=Noto Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group General --key smallestReadableFont -- 'Noto Sans,8,-1,5,400,0,0,0,0,0,0,0,0,0,0,1'
++ IFS=
++ read -r line
++ [[ -z # Command Prompt is the default terminal (Dolphin's "Open Terminal", Terminal=true apps) ]]
++ [[ # Command Prompt is the default terminal (Dolphin's "Open Terminal", Terminal=true apps) == \#* ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z TerminalApplication=classic7-prompt ]]
++ [[ TerminalApplication=classic7-prompt == \#* ]]
++ [[ TerminalApplication=classic7-prompt =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group General --key TerminalApplication -- classic7-prompt
++ IFS=
++ read -r line
++ [[ -z TerminalService=classic7-prompt.desktop ]]
++ [[ TerminalService=classic7-prompt.desktop == \#* ]]
++ [[ TerminalService=classic7-prompt.desktop =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group General --key TerminalService -- classic7-prompt.desktop
++ IFS=
++ read -r line
++ [[ -z '' ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z [WM] ]]
++ [[ [WM] == \#* ]]
++ [[ [WM] =~ ^\[(.*)]$ ]]
++ group=WM
++ continue
++ IFS=
++ read -r line
++ [[ -z activeFont=Noto Sans,9,-1,5,700,0,0,0,0,0,0,0,0,0,0,1 ]]
++ [[ activeFont=Noto Sans,9,-1,5,700,0,0,0,0,0,0,0,0,0,0,1 == \#* ]]
++ [[ activeFont=Noto Sans,9,-1,5,700,0,0,0,0,0,0,0,0,0,0,1 =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group WM --key activeFont -- 'Noto Sans,9,-1,5,700,0,0,0,0,0,0,0,0,0,0,1'
++ IFS=
++ read -r line
++ [[ -z '' ]]
++ continue
++ IFS=
++ read -r line
++ [[ -z [Icons] ]]
++ [[ [Icons] == \#* ]]
++ [[ [Icons] =~ ^\[(.*)]$ ]]
++ group=Icons
++ continue
++ IFS=
++ read -r line
++ [[ -z Theme=breeze ]]
++ [[ Theme=breeze == \#* ]]
++ [[ Theme=breeze =~ ^\[(.*)]$ ]]
++ kwriteconfig6 --file /etc/xdg/kdeglobals --group Icons --key Theme -- breeze
++ IFS=
++ read -r line
++ [[ -n '' ]]
++ useradd -m -u 1000 tester
++ mkdir -p /out
++ chmod 777 /out
++ cat
++ cat
++ chown tester /tmp/inner.sh
++ su tester -c 'dbus-run-session -- bash /tmp/inner.sh'
++ for f in /tmp/kwin*perf* /home/tester/kwin*perf* /tmp/xdg-t/kwin*perf*
++ '[' -f '/tmp/kwin*perf*' ']'
++ for f in /tmp/kwin*perf* /home/tester/kwin*perf* /tmp/xdg-t/kwin*perf*
++ '[' -f '/home/tester/kwin*perf*' ']'
++ for f in /tmp/kwin*perf* /home/tester/kwin*perf* /tmp/xdg-t/kwin*perf*
++ '[' -f '/tmp/xdg-t/kwin*perf*' ']'

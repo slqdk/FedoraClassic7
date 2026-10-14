@@ -1,0 +1,35 @@
+library=org.kde.kwin.aurorae theme=classic7aero 
+aero: nothing (3 s)                  3003 ms   KWin     0 ms (  0% of a core)   Xvfb     0   Plasma    0   program    0
+aero: pointer only                   5345 ms   KWin    90 ms (  1% of a core)   Xvfb    60   Plasma   10   program   10
+aero: drag                           5737 ms   KWin   170 ms (  2% of a core)   Xvfb    40   Plasma   60   program   10
+aero: drag again                     5737 ms   KWin   170 ms (  2% of a core)   Xvfb    40   Plasma   70   program   10
+library=org.kde.kwin.aurorae theme=__aurorae__svg__Classic7Aero 
+aero-svg-border: nothing (3 s)       3004 ms   KWin     0 ms (  0% of a core)   Xvfb     0   Plasma    0   program   10
+aero-svg-border: pointer only        5345 ms   KWin    90 ms (  1% of a core)   Xvfb    50   Plasma   10   program   10
+aero-svg-border: drag                5737 ms   KWin   180 ms (  3% of a core)   Xvfb    50   Plasma   70   program   10
+aero-svg-border: drag again          5738 ms   KWin   170 ms (  2% of a core)   Xvfb    40   Plasma   70   program   10
+library=org.kde.breeze theme=Breeze 
+aero-breeze-border: nothing (3 s)    3004 ms   KWin     0 ms (  0% of a core)   Xvfb     0   Plasma    0   program   10
+aero-breeze-border: pointer only     5340 ms   KWin    60 ms (  1% of a core)   Xvfb    40   Plasma   20   program   10
+aero-breeze-border: drag             5736 ms   KWin   180 ms (  3% of a core)   Xvfb    60   Plasma   60   program    0
+aero-breeze-border: drag again       5738 ms   KWin   180 ms (  3% of a core)   Xvfb    40   Plasma   70   program   10
+library=org.kde.kwin.aurorae theme=classic7aerousera 
+aero-again: nothing (3 s)            3004 ms   KWin    10 ms (  0% of a core)   Xvfb    10   Plasma    0   program    0
+aero-again: pointer only             5346 ms   KWin    80 ms (  1% of a core)   Xvfb    50   Plasma    0   program   10
+aero-again: drag                     5737 ms   KWin   200 ms (  3% of a core)   Xvfb    50   Plasma   70   program   10
+aero-again: drag again               5738 ms   KWin   180 ms (  3% of a core)   Xvfb    50   Plasma   60   program    0
+library=org.kde.kwin.aurorae theme=classic7basic 
+basic: nothing (3 s)                 3004 ms   KWin    10 ms (  0% of a core)   Xvfb     0   Plasma    0   program   10
+basic: pointer only                  5346 ms   KWin    80 ms (  1% of a core)   Xvfb    50   Plasma   20   program    0
+basic: drag                          5738 ms   KWin   180 ms (  3% of a core)   Xvfb    60   Plasma   50   program   20
+basic: drag again                    5737 ms   KWin   180 ms (  3% of a core)   Xvfb    40   Plasma   80   program   10
+library=org.kde.kwin.aurorae theme=__aurorae__svg__Classic7 
+classic: nothing (3 s)               3004 ms   KWin     0 ms (  0% of a core)   Xvfb     0   Plasma    0   program   10
+classic: pointer only                5346 ms   KWin    70 ms (  1% of a core)   Xvfb    50   Plasma   10   program   10
+classic: drag                        5738 ms   KWin   170 ms (  2% of a core)   Xvfb    50   Plasma   60   program   10
+classic: drag again                  5737 ms   KWin   180 ms (  3% of a core)   Xvfb    50   Plasma   70   program   10
+library=org.kde.breeze theme=Breeze 
+classic-breeze-border: nothing (3 s)   3004 ms   KWin    20 ms (  0% of a core)   Xvfb    10   Plasma   10   program    0
+classic-breeze-border: pointer only   5343 ms   KWin    50 ms (  0% of a core)   Xvfb    40   Plasma    0   program   10
+classic-breeze-border: drag          5738 ms   KWin   180 ms (  3% of a core)   Xvfb    50   Plasma   70   program   10
+classic-breeze-border: drag again    5737 ms   KWin   180 ms (  3% of a core)   Xvfb    40   Plasma   60   program    0

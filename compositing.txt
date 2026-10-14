@@ -1,0 +1,2 @@
+method return time=1791976794.865173 sender=:1.0 -> destination=:1.33 serial=294 reply_serial=2
+   variant       string "qpainter"

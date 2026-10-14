@@ -1,0 +1,28 @@
+== aero
+  'changes.txt - Notepad' 100,120 700x480 active
+== aero after the drags
+  'changes.txt - Notepad' 100,120 700x480 active
+== aero-svg-border
+  'changes.txt - Notepad' 100,120 700x480 active
+== aero-svg-border after the drags
+  'changes.txt - Notepad' 100,120 700x480 active
+== aero-breeze-border
+  'changes.txt - Notepad' 100,120 700x480 active
+== aero-breeze-border after the drags
+  'changes.txt - Notepad' 100,120 700x480 active
+== aero-again
+  'changes.txt - Notepad' 100,120 700x480 active
+== aero-again after the drags
+  'changes.txt - Notepad' 100,120 700x480 active
+== basic
+  'changes.txt - Notepad' 100,120 700x480 active
+== basic after the drags
+  'changes.txt - Notepad' 100,120 700x480 active
+== classic
+  'changes.txt - Notepad' 100,120 700x480 active
+== classic after the drags
+  'changes.txt - Notepad' 100,120 700x480 active
+== classic-breeze-border
+  'changes.txt - Notepad' 100,120 700x480 active
+== classic-breeze-border after the drags
+  'changes.txt - Notepad' 100,120 700x480 active
