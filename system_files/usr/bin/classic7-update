@@ -116,6 +116,7 @@ def after_login():
         if core.glass_needs_redraw():
             wait_for_desktop()
             core.redraw_glass(lambda _line: None)
+        core.sync_login_screen()
         return 0
     wait_for_desktop()
     previous = core.UpdateState.load().applied_build

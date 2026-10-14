@@ -1,0 +1,114 @@
+#!/usr/bin/python3
+"""Classic 7: the login screen (SDDM) gets the look and the screen settings of the desktop, as in
+Windows, where the screen resolution and the theme reach the logon screen too. Run as root through
+pkexec (org.classic7.loginscreen.policy) by the desktop: classic7-appearance --login-screen, after a
+theme change, at login and when the screen settings change. Administrators sitting at the computer
+need no password (50-classic7.rules).
+
+    pkexec /usr/libexec/classic7-login-screen LOOK < kwinoutputconfig.json
+
+LOOK is aero, basic or classic: Aero and Basic get the Windows 7 Welcome screen (theme
+classic7aero), Classic the Log On dialog (classic7); "keep" leaves the theme. Standard input is the
+desktop's KWin screen settings (~/.config/kwinoutputconfig.json: resolution, refresh rate, scale,
+arrangement), which the login screen's KWin reads from SDDM's home; empty input leaves them. This is
+what System Settings > Login Screen > "Apply Plasma Settings" does for the screen settings. A theme
+chosen there (kde_settings.conf, read after this file) still wins."""
+import json
+import os
+import pwd
+import sys
+import tempfile
+from pathlib import Path
+
+LOOK_FILE = Path("/etc/sddm.conf.d/classic7.look.conf")
+THEMES = {"aero": ("classic7aero", "Breeze_Light"), "basic": ("classic7aero", "Breeze_Light"),
+          "classic": ("classic7", "Chicago95_Standard_Cursors")}
+MAX_SCREEN = 1 << 20
+
+
+def write(path: Path, data: bytes, uid: int = 0, gid: int = 0, mode: int = 0o644):
+    """Replace the file in one step (a new file renamed over it, never through a link)."""
+    fd, tmp = tempfile.mkstemp(dir=path.parent, prefix=".classic7-")
+    try:
+        with os.fdopen(fd, "wb") as f:
+            f.write(data)
+        os.chmod(tmp, mode)
+        os.chown(tmp, uid, gid)
+        os.replace(tmp, path)
+    except BaseException:
+        Path(tmp).unlink(missing_ok=True)
+        raise
+
+
+def set_theme(look: str) -> str | None:
+    theme, cursor = THEMES[look]
+    if not Path("/usr/share/sddm/themes", theme, "Main.qml").is_file():
+        return None
+    lines = ["# Classic 7: the login screen follows the look chosen in Personalization",
+             "# (written by /usr/libexec/classic7-login-screen; a theme chosen in System Settings wins)",
+             "[Theme]", f"Current={theme}"]
+    if Path("/usr/share/icons", cursor, "cursors").is_dir():
+        lines.append(f"CursorTheme={cursor}")
+    text = ("\n".join(lines) + "\n").encode()
+    try:
+        if LOOK_FILE.read_bytes() == text:
+            return None
+    except OSError:
+        pass
+    LOOK_FILE.parent.mkdir(parents=True, exist_ok=True)
+    write(LOOK_FILE, text)
+    return f"theme {theme}"
+
+
+def set_screen(data: bytes) -> str | None:
+    if len(data) > MAX_SCREEN:
+        raise ValueError("the screen settings are too large")
+    cfg = json.loads(data)
+    if not isinstance(cfg, (list, dict)):
+        raise ValueError("these are not KWin screen settings")
+    try:
+        sddm = pwd.getpwnam("sddm")
+    except KeyError:
+        raise ValueError("there is no sddm account (the login screen isn't SDDM)") from None
+    home = Path(sddm.pw_dir or "/var/lib/sddm")
+    conf = home / ".config"
+    if not conf.is_dir() or conf.is_symlink():
+        if conf.is_symlink():
+            conf.unlink()
+        conf.mkdir(parents=True, mode=0o750, exist_ok=True)
+        os.chown(conf, sddm.pw_uid, sddm.pw_gid)
+    target = conf / "kwinoutputconfig.json"
+    if not target.is_symlink():
+        try:
+            if json.loads(target.read_bytes()) == cfg:
+                return None
+        except (OSError, ValueError):
+            pass
+    write(target, data, sddm.pw_uid, sddm.pw_gid)
+    return "screen settings"
+
+
+def main() -> int:
+    if len(sys.argv) != 2 or sys.argv[1] not in (*THEMES, "keep"):
+        print(__doc__)
+        return 2
+    done = []
+    try:
+        if sys.argv[1] != "keep":
+            note = set_theme(sys.argv[1])
+            if note:
+                done.append(note)
+        data = b"" if sys.stdin.isatty() else sys.stdin.buffer.read(MAX_SCREEN + 1)
+        if data.strip():
+            note = set_screen(data)
+            if note:
+                done.append(note)
+    except (OSError, ValueError) as e:
+        print(f"classic7-login-screen: {e}", file=sys.stderr)
+        return 1
+    print("login screen: " + (", ".join(done) if done else "already up to date"))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

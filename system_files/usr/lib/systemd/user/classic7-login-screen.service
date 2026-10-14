@@ -1,0 +1,7 @@
+[Unit]
+Description=Classic 7: give the login screen this account's theme and screen settings
+
+[Service]
+Type=oneshot
+# administrators only, and only when something changed (classic7-appearance --login-screen)
+ExecStart=/usr/bin/classic7-appearance --login-screen

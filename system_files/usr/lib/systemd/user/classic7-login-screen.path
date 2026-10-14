@@ -1,0 +1,11 @@
+[Unit]
+Description=Classic 7: the login screen gets the screen settings chosen on the desktop
+PartOf=graphical-session.target
+
+[Path]
+# KWin keeps the resolution, refresh rate, scale and arrangement here
+PathChanged=%h/.config/kwinoutputconfig.json
+Unit=classic7-login-screen.service
+
+[Install]
+WantedBy=plasma-core.target

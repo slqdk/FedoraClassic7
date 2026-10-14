@@ -852,6 +852,9 @@ def _apply_classic(p: t.Palette, run: Runner, state: State, switching: bool, gla
                 remove_slot_files(slot)
             remove_glass_files(slot)
         State(p, new_slot, "classic", glass, None, state.small_icons).save()
+    note = login_screen("classic", run)
+    if note:
+        notes.append(note)
     notes.extend(run.failures)
     notes.append("Restart open GTK apps (Firefox, Steam, Lutris…) to see their new colours.")
     return Result(ok=not run.failures, notes=notes, commands=run.log)
@@ -1032,7 +1035,64 @@ def _apply_modern(look: str, glass: aero.Glass, p: t.Palette, run: Runner, state
             # a Classic scheme's own files are drawn again when Classic is chosen
             remove_slot_files(slot)
         State(p, None, look, glass, new_glass_slot, state.small_icons, solid).save()
+    note = login_screen(look, run)
+    if note:
+        notes.append(note)
     notes.extend(run.failures)
     if switching:
         notes.append("Restart open programs to give them the new controls.")
     return Result(ok=not run.failures, notes=notes, commands=run.log)
+
+
+# =============================================================================
+# The login screen: the look and the screen settings of the desktop
+# =============================================================================
+LOGIN_HELPER = "/usr/libexec/classic7-login-screen"
+
+
+def is_administrator() -> bool:
+    """In the wheel group, as polkit counts administrators."""
+    import grp
+    try:
+        wheel = grp.getgrnam("wheel")
+    except KeyError:
+        return False
+    import pwd
+    me = pwd.getpwuid(os.getuid()).pw_name
+    return wheel.gr_gid in os.getgroups() or me in wheel.gr_mem
+
+
+def login_screen(look: str | None = None, run: Runner | None = None, force: bool = False) -> str | None:
+    """Give the login screen this look (the saved one by default) and the desktop's screen settings
+    (resolution, refresh rate, scale), as Windows shows them at the logon screen too. Through
+    classic7-login-screen as root; administrators at the computer aren't asked for a password, other
+    accounts leave the login screen as it is. Only when something changed since the last time.
+    Returns a note when it didn't work."""
+    if not Path(LOGIN_HELPER).exists() or shutil.which("pkexec") is None or not is_administrator():
+        return None
+    look = look if look in aero.LOOKS else State.load().look
+    screen = config_home() / "kwinoutputconfig.json"
+    try:
+        data = screen.read_bytes() if screen.is_file() else b""
+    except OSError:
+        data = b""
+    import hashlib
+    stamp = hashlib.sha256(look.encode() + b"\0" + data).hexdigest()
+    mark = Path(os.environ.get("XDG_CACHE_HOME") or _home() / ".cache") / "classic7" / "login-screen"
+    if not force and mark.is_file() and mark.read_text().strip() == stamp:
+        return None
+    if run is not None and run.dry_run:
+        run.log.append(f"pkexec {LOGIN_HELPER} {look} < {screen}")
+        return None
+    try:
+        r = subprocess.run(["pkexec", LOGIN_HELPER, look], input=data, capture_output=True, timeout=120)
+    except (OSError, subprocess.SubprocessError) as e:
+        return f"The login screen wasn't changed: {e}"
+    msg = (r.stdout + r.stderr).decode(errors="replace").strip()
+    if run is not None:
+        run.note(f"rc={r.returncode} login screen {look}: {msg[:300]}")
+    if r.returncode != 0:
+        return f"The login screen wasn't changed: {msg[:200]}" if r.returncode not in (126, 127) else None
+    mark.parent.mkdir(parents=True, exist_ok=True)
+    mark.write_text(stamp + "\n")
+    return None

@@ -725,6 +725,16 @@ def glass_needs_redraw() -> bool:
     return blur is not None and state.solid == blur
 
 
+def sync_login_screen() -> None:
+    """The login screen gets this account's theme and screen settings (administrators only; nothing
+    is done when they are what the login screen already has)."""
+    try:
+        import classic7appearance as backend
+        backend.login_screen()
+    except Exception:  # noqa: BLE001 - never stop the login over this
+        pass
+
+
 def redraw_glass(log: Log) -> bool:
     """Draw the Aero glass again for what the graphics can do now (see glass_needs_redraw)."""
     try:

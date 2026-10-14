@@ -192,6 +192,9 @@ done
 systemctl --global enable classic7-tray-fix.service
 # file copy progress windows and the Recycle Bin icon; starts before the desktop (see the unit)
 systemctl --global enable classic7-sessiond.service
+# the login screen gets the screen settings chosen on the desktop (and the theme: see the unit)
+systemctl --global enable classic7-login-screen.path
+chmod 0755 /usr/libexec/classic7-login-screen
 # Classic 7 Update: which build this is (the updater compares it at login to bring each
 # account's settings up to date after a new version starts)
 base="$(. /usr/lib/os-release; echo "${VERSION_ID:-}${OSTREE_VERSION:+ ($OSTREE_VERSION)}")"
@@ -545,9 +548,15 @@ if dnf5 -y install sddm sddm-wayland-plasma sddm-kcm; then
     # a Current= in the main file would override our conf.d file
     [[ -f /etc/sddm.conf ]] && sed -i 's/^\s*Current=/#Current=/' /etc/sddm.conf
     test -f /usr/share/sddm/themes/classic7/Main.qml
+    test -f /usr/share/sddm/themes/classic7aero/Main.qml
     test -x /usr/bin/sddm-greeter-qt6
     [[ "$(readlink -f /etc/systemd/system/display-manager.service)" == */sddm.service ]]
-    grep -q '^Current=classic7' /etc/sddm.conf.d/classic7.conf
+    grep -q '^Current=classic7aero$' /etc/sddm.conf.d/classic7.conf
+    # Aero's white cursors where they exist (Breeze's package), else the classic ones
+    [[ -d /usr/share/icons/Breeze_Light/cursors ]] \
+        || sed -i 's/^CursorTheme=Breeze_Light$/CursorTheme=Chicago95_Standard_Cursors/' /etc/sddm.conf.d/classic7.conf
+    test -f /usr/share/polkit-1/actions/org.classic7.loginscreen.policy
+    test -x /usr/libexec/classic7-login-screen
     systemctl is-enabled classic7-sddm-keyboard.service classic7-sddm-keyboard.path
 else
     echo "WARNING: SDDM not available; keeping Plasma Login Manager (blue background only)"

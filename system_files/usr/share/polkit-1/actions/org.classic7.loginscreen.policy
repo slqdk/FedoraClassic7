@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<policyconfig>
+  <vendor>Classic 7</vendor>
+  <!-- The login screen gets the desktop's look and screen settings (classic7-login-screen).
+       Administrators at the computer need no password (50-classic7.rules); the desktop asks
+       only for them. -->
+  <action id="org.classic7.loginscreen.change">
+    <description>Give the login screen the desktop's theme and screen settings</description>
+    <message>Authentication is required to change the login screen</message>
+    <icon_name>preferences-desktop-theme</icon_name>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/libexec/classic7-login-screen</annotate>
+  </action>
+</policyconfig>

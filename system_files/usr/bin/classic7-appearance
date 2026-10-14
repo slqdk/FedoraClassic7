@@ -14,6 +14,9 @@ Classic colour scheme and font size.
     classic7-appearance --reset             back to Classic 7 Standard (Classic theme)
     classic7-appearance --taskbar           rebuild the taskbar of the theme in use
     classic7-appearance --explorer          give this account the Classic 7 Dolphin layout
+    classic7-appearance --login-screen      give the login screen this account's theme and screen
+                                            settings (administrators; done after a theme change, at
+                                            login and when the screen settings change)
     classic7-appearance --preview FILE      write the Classic sample-windows preview as SVG
 Add --dry-run to print the commands instead of running them.
 """
@@ -77,6 +80,7 @@ parser.add_argument("--size", choices=list(t.FONT_SIZES), default=None)
 parser.add_argument("--reset", action="store_true")
 parser.add_argument("--explorer", action="store_true")
 parser.add_argument("--taskbar", action="store_true")
+parser.add_argument("--login-screen", action="store_true")
 parser.add_argument("--preview", metavar="FILE")
 parser.add_argument("--page", choices=["theme", "color", "appearance", "explorer"], default="theme")
 parser.add_argument("--dry-run", action="store_true")
@@ -122,6 +126,11 @@ elif args.explorer:
     sys.exit(report(backend.explorer_layout(runner)))
 elif args.taskbar:
     sys.exit(report(backend.reset_taskbar(runner)))
+elif args.login_screen:
+    note = backend.login_screen(run=runner)
+    if note:
+        print(note, file=sys.stderr)
+    sys.exit(1 if note else 0)
 elif args.preview:
     p = backend.State.load().palette
     with open(args.preview, "w") as f:
