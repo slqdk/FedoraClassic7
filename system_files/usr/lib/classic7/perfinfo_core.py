@@ -552,7 +552,8 @@ def versions() -> list[tuple[str, str]]:
     for ln in out.splitlines():
         if " " in ln and "not installed" not in ln:
             name, _, ver = ln.partition(" ")
-            res.append((name, ver))
+            if (name, ver) not in res:          # 64- and 32-bit packages of the same version once
+                res.append((name, ver))
     return res
 
 
@@ -646,13 +647,13 @@ def collect(progress=lambda _text: None) -> Facts:
     except Exception:  # noqa: BLE001 - optional
         pass
     look = f.look
-    glass = look.get("glass") or {}
+    glass = {"name": "Sky", "transparency": True, **(look.get("glass") or {})}      # Personalization's defaults
     pal = look.get("palette") or {}
     rows += [("Look", f"{look.get('look', 'classic')}"
                       + (f", glass {glass.get('name', '')} {'see-through' if glass.get('transparency') else 'opaque'}"
                          if look.get("look") == "aero" else "")
                       + (", drawn solid (no blur here)" if look.get("solid") else "")),
-             ("Classic colour scheme / font size", f"{pal.get('name', '?')} / {pal.get('font_size', look.get('font_size', '?'))}"),
+             ("Classic colour scheme / font size", f"{pal.get('name') or 'standard'} / {pal.get('font_size', 9)} pt"),
              ("Window borders", f"{ini_value(CONFIG / 'kwinrc', 'org.kde.kdecoration2', 'library')} "
                                 f"{ini_value(CONFIG / 'kwinrc', 'org.kde.kdecoration2', 'theme')}".strip() or "default"),
              ("Program controls", f"{ini_value(CONFIG / 'kdeglobals', 'KDE', 'widgetStyle') or 'default'}"
@@ -826,9 +827,10 @@ def issues(f: Facts, scores: dict | None = None) -> list[Issue]:
             what = f"3D graphics are drawn by the processor ({g.renderer.split('(')[0].strip() or 'software'})"
         if vm:
             text = (f"{what}: this virtual machine ({vm}) has no 3D graphics card, so every picture of the desktop "
-                    "is made by the processor. Moving windows, menus and hover highlights react more slowly. "
-                    "Give the virtual machine a faster processor (in Proxmox: CPU type host), or 3D graphics "
-                    "(VirGL) if its host has a graphics card.")
+                    "is made by the processor. Moving windows, menus and hover highlights react more slowly than "
+                    "on a computer with a graphics card, and more so at a high resolution. 3D graphics for the "
+                    "virtual machine (VirGL, or a graphics card passed through) helps if its host has a graphics "
+                    "card.")
             out.append(Issue("Graphics are drawn by the processor", text, True))
         else:
             text = (f"{what}: the graphics card's 3D driver isn't in use ({'; '.join(g.adapters) or 'no display adapter found'}). "
@@ -846,9 +848,10 @@ def issues(f: Facts, scores: dict | None = None) -> list[Issue]:
     if platform.machine() == "x86_64" and "avx2" not in f.flags:
         if vm:
             out.append(Issue("The processor's AVX2 instructions are hidden from this virtual machine",
-                             "Drawing on the processor (llvmpipe), video for Remote Desktop and many programs run at "
-                             "about half speed without them. In Proxmox: Hardware > Processors > Type: host (then "
-                             "shut the virtual machine down and start it again).", True))
+                             "Drawing on the processor (llvmpipe), video for Remote Desktop and many programs run "
+                             "slower without them. Give the virtual machine the host's processor type"
+                             + (" (in Proxmox: Hardware > Processors > Type: host, then shut the virtual machine "
+                                "down and start it again)" if vm == "kvm" else "") + ".", True))
         else:
             out.append(Issue("The processor has no AVX2 instructions",
                              "This is an older processor: drawing on the processor and video work run slower.", False))

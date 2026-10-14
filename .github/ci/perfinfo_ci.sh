@@ -56,7 +56,7 @@ cp -an /etc/skel/. $HOME/
 Xvfb :99 -screen 0 1280x860x24 >/dev/null 2>&1 &
 sleep 2
 cd /tmp
-DISPLAY=:99 kwin_wayland --x11-display :99 --width 1260 --height 840 --no-lockscreen --socket wayland-c7 > /out/kwin.log 2>&1 &
+DISPLAY=:99 KWIN_LOG_PERFORMANCE_DATA=1 kwin_wayland --x11-display :99 --width 1260 --height 840 --no-lockscreen --socket wayland-c7 > /out/kwin.log 2>&1 &
 KWIN=$!
 for i in $(seq 1 40); do [ -S $XDG_RUNTIME_DIR/wayland-c7 ] && break; sleep 0.5; done
 export WAYLAND_DISPLAY=wayland-c7 QT_QPA_PLATFORM=wayland
@@ -76,6 +76,10 @@ for k in desktop 3d; do
     /usr/bin/time -f "$k: %e s, %P CPU" python3 /usr/lib/classic7/perfinfo_gfx.py $k > /out/gfx-$k.json 2>> /out/gfx-time.txt
 done
 /usr/bin/time -f "assessment: %e s" classic7-perfinfo --assess > /out/assess.txt 2>&1
+# KWin's own record of its pictures (started with KWIN_LOG_PERFORMANCE_DATA=1, in /tmp)
+classic7-perfinfo --kwin-perf > /out/kwin-perf.txt 2>&1
+ls -la /tmp/kwin* >> /out/kwin-perf.txt 2>&1
+for f in /tmp/kwin\ perf*; do head -3 "$f"; tail -3 "$f"; done > /out/kwin-perf-sample.txt 2>&1
 cp $HOME/.local/share/classic7/perfinfo.json /out/perfinfo.json
 
 # the report and the issues, as a user would make them
@@ -110,5 +114,6 @@ EOI
 chown tester /tmp/inner.sh
 su tester -c "dbus-run-session -- bash /tmp/inner.sh" > /out/inner.log 2>&1
 { cat /out/unit.txt; cat /out/gfx-time.txt; cat /out/gfx-desktop.json /out/gfx-3d.json; cat /out/assess.txt
+  cat /out/kwin-perf.txt /out/kwin-perf-sample.txt
   cat /out/report.log; cat /out/issues.txt; grep -c . /out/report.txt; cat /out/versions.txt
   grep -iE "error|traceback" /out/gui-*.log | head -8; } > /out/notices.txt 2>&1
