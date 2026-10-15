@@ -1,0 +1,13 @@
+ 10%  Assessing the processor
+ 30%  Assessing memory
+ 42%  Assessing the primary hard disk
+ 62%  Assessing desktop graphics
+ 80%  Assessing 3D graphics
+100%  Done
+Processor           5.9   compression 22 MB/s on one core, 65 MB/s on 4 threads
+Memory (RAM)        7.5   copies 20.1 GB/s; 15.6 GB installed
+Graphics            1.0   30 pictures a second while a window is redrawn (the screen shows 60), 99% late, slowest 34 ms
+Gaming graphics     2.3   6.3 pictures a second with 120 see-through layers (OpenGL: llvmpipe (LLVM 22.1.8, 256 bits))
+Primary hard disk   5.5   reads 427 MB/s, writes 4277 MB/s, 7014 random 4 KB reads/s
+Base score          1.0
+assessment: 15.02 s

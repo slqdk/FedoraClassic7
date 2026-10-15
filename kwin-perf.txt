@@ -1,0 +1,2 @@
+X11-0: last 216 pictures over 18.8 s at 60 Hz; drawing took 0.5 ms (95% within 0.8 ms, slowest 3.9 ms); from starting a picture to showing it 22.0 ms (95% within 24.7 ms); 86% shown late; KWin expects 4.7 ms per picture; 30 pictures a second while something moved
+-rw-r--r-- 1 tester tester 16384 Oct 15 04:22 /tmp/kwin perf statistics X11-0.csv

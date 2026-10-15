@@ -1,0 +1,595 @@
+{
+ "facts": {
+  "sections": [
+   [
+    "Classic 7",
+    [
+     [
+      "Classic 7 build",
+      "2026-10-14T20:10Z (content faa4935aba3d45a8)"
+     ],
+     [
+      "Based on",
+      "Bazzite 44 (44.20261012.0)"
+     ],
+     [
+      "This account's Classic 7 settings",
+      "from an older version (never)"
+     ],
+     [
+      "Look",
+      "aero, glass Sky see-through"
+     ],
+     [
+      "Classic colour scheme / font size",
+      "standard / 9 pt"
+     ],
+     [
+      "Window borders",
+      "org.kde.kwin.aurorae classic7aero"
+     ],
+     [
+      "Program controls",
+      "kvantum (Kvantum theme Classic7Aero)"
+     ],
+     [
+      "Remote Desktop",
+      "off, server not running, port 3389, Remote Desktop users"
+     ]
+    ]
+   ],
+   [
+    "Computer and software",
+    [
+     [
+      "Computer",
+      "Microsoft Corporation Virtual Machine"
+     ],
+     [
+      "Computer name",
+      "716e378cc47b"
+     ],
+     [
+      "Virtual machine",
+      "microsoft"
+     ],
+     [
+      "Kernel",
+      "6.17.0-1022-azure (x86_64)"
+     ],
+     [
+      "Kernel options",
+      "BOOT_IMAGE=/vmlinuz-6.17.0-1022-azure root=PARTUUID=d8f74b2e-a58d-4539-8b59-53da6417ef90 ro console=tty1 console=ttyS0 earlyprintk=ttyS0 nvme_core.io_timeout=240 rootflags=nobarrier,data=writeback,journal_async_commit,commit=30 panic=-1"
+     ],
+     [
+      "Running for",
+      "0 days 0 h 3 min"
+     ],
+     [
+      "Sessions of this account",
+      "?"
+     ],
+     [
+      "Report made",
+      "on the desktop (wayland)"
+     ],
+     [
+      "Time zone",
+      "/etc/localtime"
+     ],
+     [
+      "plasma-workspace",
+      "6.7.5-1.fc44"
+     ],
+     [
+      "kwin",
+      "6.7.5-1.fc44"
+     ],
+     [
+      "qt6-qtbase",
+      "6.11.2-3.fc44"
+     ],
+     [
+      "mesa-dri-drivers",
+      "26.2.4-1.fc44"
+     ],
+     [
+      "python3",
+      "3.14.8-1.fc44"
+     ],
+     [
+      "python3-pyside6",
+      "6.11.2-1.fc44"
+     ],
+     [
+      "krdp",
+      "6.7.5-1.fc44"
+     ],
+     [
+      "freerdp-libs",
+      "3.32.1-1.fc44"
+     ],
+     [
+      "kvantum",
+      "1.1.6-1.fc44"
+     ],
+     [
+      "sddm",
+      "0.21.0-13.fc44"
+     ],
+     [
+      "steam",
+      "1.0.0.87-5.fc44"
+     ],
+     [
+      "Programs from Flathub",
+      "none"
+     ]
+    ]
+   ],
+   [
+    "Startup",
+    [
+     [
+      "Last start",
+      "?"
+     ]
+    ]
+   ],
+   [
+    "Processor and memory",
+    [
+     [
+      "Processor",
+      "AMD EPYC 7763 64-Core Processor 2.45 GHz"
+     ],
+     [
+      "Cores / threads",
+      "2 / 4"
+     ],
+     [
+      "Instruction sets",
+      "sse4_2, avx, avx2, aes, sha_ni"
+     ],
+     [
+      "Frequency driver / governor",
+      "- / -"
+     ],
+     [
+      "Power mode",
+      "-"
+     ],
+     [
+      "Load (1, 5, 15 min)",
+      "1.77 1.26 0.53"
+     ],
+     [
+      "Memory",
+      "15.6 GB total, 14.3 GB available"
+     ],
+     [
+      "Swap",
+      "3.0 GB total, 64 KB in use"
+     ]
+    ]
+   ],
+   [
+    "Graphics",
+    [
+     [
+      "Display adapters",
+      "?"
+     ],
+     [
+      "KWin draws with",
+      "QPainter"
+     ],
+     [
+      "OpenGL",
+      "-"
+     ],
+     [
+      "3D drawn by",
+      "the processor (software)"
+     ],
+     [
+      "Vulkan devices",
+      "llvmpipe (LLVM 22.1.8, 256 bits)"
+     ],
+     [
+      "KWin effects running",
+      "highlightwindow, kscreen, outputlocator, screenedge, zoom"
+     ],
+     [
+      "Blur / background contrast (kwinrc)",
+      "true / default"
+     ],
+     [
+      "Animation speed factor",
+      "0"
+     ],
+     [
+      "Plasma's Qt Quick renderer",
+      "automatic"
+     ],
+     [
+      "KWin settings (kwinrc Compositing)",
+      "default"
+     ],
+     [
+      "Graphics settings in the environment",
+      "KDE_FULL_SESSION=true; KDE_SESSION_VERSION=6; QT_QPA_PLATFORM=wayland"
+     ]
+    ]
+   ],
+   [
+    "Displays",
+    [
+     [
+      "X11-0",
+      "1260x840 at 60.00 Hz (up to 60.00 Hz), scale 1"
+     ]
+    ]
+   ],
+   [
+    "Disks",
+    [
+     [
+      "Disk",
+      "sda: Virtual Disk, 150.0 GB, hard disk"
+     ],
+     [
+      "/src",
+      "ext4 on /dev/sda1[/home/runner/work/FedoraClassic7/FedoraClassic7]: 72.9 GB free of 144.3 GB"
+     ]
+    ]
+   ],
+   [
+    "Network",
+    [
+     [
+      "IPv4 eth0@if6",
+      "10.88.0.2/16"
+     ],
+     [
+      "Default gateway",
+      "10.88.0.1"
+     ],
+     [
+      "Firewall",
+      "not running"
+     ]
+    ]
+   ],
+   [
+    "Sound",
+    [
+     [
+      "Sound",
+      "? (pactl didn't answer)"
+     ]
+    ]
+   ],
+   [
+    "Services that failed",
+    [
+     [
+      "Services",
+      "none"
+     ]
+    ]
+   ],
+   [
+    "Programs that stopped working (7 days)",
+    [
+     [
+      "Crashes",
+      "none"
+     ]
+    ]
+   ],
+   [
+    "What the computer is doing (2 seconds)",
+    [
+     [
+      "Processor in use",
+      "0%"
+     ],
+     [
+      "Using the processor (100% = one core)",
+      "nothing worth mentioning"
+     ],
+     [
+      "Using the most memory",
+      "kwin_wayland (125.8 MB); ksecretd (70.2 MB); xdg-desktop-por (69.8 MB); Xvfb (48.6 MB); xdg-desktop-por (29.1 MB); classic7-perfin (24.8 MB)"
+     ]
+    ]
+   ]
+  ],
+  "graphics": {
+   "compositing": "QPainter",
+   "vendor": "",
+   "renderer": "",
+   "version": "",
+   "driver": "",
+   "software": true,
+   "known": true,
+   "effects": [
+    "highlightwindow",
+    "kscreen",
+    "outputlocator",
+    "screenedge",
+    "zoom"
+   ],
+   "adapters": [],
+   "vulkan": [
+    "llvmpipe (LLVM 22.1.8, 256 bits)"
+   ]
+  },
+  "displays": [
+   {
+    "name": "X11-0",
+    "monitor": "",
+    "enabled": true,
+    "width": 1260,
+    "height": 840,
+    "refresh": 60.0,
+    "best_refresh": 60.0,
+    "scale": 1.0,
+    "vrr": "",
+    "hdr": "",
+    "primary": false
+   }
+  ],
+  "flags": [
+   "3dnowprefetch",
+   "abm",
+   "adx",
+   "aes",
+   "aperfmperf",
+   "apic",
+   "arat",
+   "avx",
+   "avx2",
+   "bmi1",
+   "bmi2",
+   "clflush",
+   "clflushopt",
+   "clwb",
+   "clzero",
+   "cmov",
+   "cmp_legacy",
+   "constant_tsc",
+   "cpuid",
+   "cr8_legacy",
+   "cx16",
+   "cx8",
+   "de",
+   "decodeassists",
+   "erms",
+   "extd_apicid",
+   "f16c",
+   "flushbyasid",
+   "fma",
+   "fpu",
+   "fsgsbase",
+   "fsrm",
+   "fxsr",
+   "fxsr_opt",
+   "ht",
+   "hypervisor",
+   "invpcid",
+   "lahf_lm",
+   "lm",
+   "mca",
+   "mce",
+   "misalignsse",
+   "mmx",
+   "mmxext",
+   "movbe",
+   "msr",
+   "mtrr",
+   "nonstop_tsc",
+   "nopl",
+   "npt",
+   "nrip_save",
+   "nx",
+   "osvw",
+   "pae",
+   "pat",
+   "pausefilter",
+   "pcid",
+   "pclmulqdq",
+   "pdpe1gb",
+   "pfthreshold",
+   "pge",
+   "pni",
+   "popcnt",
+   "pse",
+   "pse36",
+   "rdpid",
+   "rdpru",
+   "rdrand",
+   "rdseed",
+   "rdtscp",
+   "rep_good",
+   "sep",
+   "sha_ni",
+   "smap",
+   "smep",
+   "sse",
+   "sse2",
+   "sse4_1",
+   "sse4_2",
+   "sse4a",
+   "ssse3",
+   "svm",
+   "syscall",
+   "topoext",
+   "tsc",
+   "tsc_known_freq",
+   "tsc_reliable",
+   "tsc_scale",
+   "umip",
+   "user_shstk",
+   "v_vmsave_vmload",
+   "vaes",
+   "vmcb_clean",
+   "vme",
+   "vmmcall",
+   "vpclmulqdq",
+   "xgetbv1",
+   "xsave",
+   "xsavec",
+   "xsaveerptr",
+   "xsaveopt",
+   "xsaves"
+  ],
+  "virt": "microsoft",
+  "mem": {
+   "MemTotal": 16766414848,
+   "MemFree": 3023159296,
+   "MemAvailable": 15338844160,
+   "Buffers": 533319680,
+   "Cached": 10963050496,
+   "SwapCached": 65536,
+   "Active": 676634624,
+   "Inactive": 11280932864,
+   "Active(anon)": 462852096,
+   "Inactive(anon)": 59912192,
+   "Active(file)": 213782528,
+   "Inactive(file)": 11221020672,
+   "Unevictable": 47902720,
+   "Mlocked": 44756992,
+   "SwapTotal": 3221221376,
+   "SwapFree": 3221155840,
+   "Zswap": 0,
+   "Zswapped": 0,
+   "Dirty": 240390144,
+   "Writeback": 0,
+   "AnonPages": 473210880,
+   "Mapped": 511131648,
+   "Shmem": 52629504,
+   "KReclaimable": 1235136512,
+   "Slab": 1450450944,
+   "SReclaimable": 1235136512,
+   "SUnreclaim": 215314432,
+   "KernelStack": 5525504,
+   "PageTables": 10346496,
+   "SecPageTables": 0,
+   "NFS_Unstable": 0,
+   "Bounce": 0,
+   "WritebackTmp": 0,
+   "CommitLimit": 11604426752,
+   "Committed_AS": 2878320640,
+   "VmallocTotal": 35184372087808,
+   "VmallocUsed": 43814912,
+   "VmallocChunk": 0,
+   "Percpu": 2260992,
+   "HardwareCorrupted": 0,
+   "AnonHugePages": 192937984,
+   "ShmemHugePages": 0,
+   "ShmemPmdMapped": 0,
+   "FileHugePages": 65011712,
+   "FilePmdMapped": 0,
+   "CmaTotal": 0,
+   "CmaFree": 0,
+   "Unaccepted": 0,
+   "Balloon": 0,
+   "HugePages_Total": 0,
+   "HugePages_Free": 0,
+   "HugePages_Rsvd": 0,
+   "HugePages_Surp": 0,
+   "Hugepagesize": 2097152,
+   "Hugetlb": 0,
+   "DirectMap4k": 150077440,
+   "DirectMap2M": 7361003520,
+   "DirectMap1G": 11811160064
+  },
+  "mounts": [
+   {
+    "target": "/src",
+    "source": "/dev/sda1[/home/runner/work/FedoraClassic7/FedoraClassic7]",
+    "fstype": "ext4",
+    "size": 154894188544,
+    "free": 78294724608
+   }
+  ],
+  "failed": [],
+  "crashes": [],
+  "power": "",
+  "deploy": {},
+  "look": {
+   "look": "aero"
+  },
+  "busy": 0.12515644555695093,
+  "boot_secs": 0.0,
+  "boot_slow": []
+ },
+ "issues": [
+  {
+   "title": "Graphics are drawn by the processor",
+   "text": "KWin draws the desktop without OpenGL: this virtual machine (microsoft) has no 3D graphics card, so every picture of the desktop is made by the processor. Moving windows, menus and hover highlights react more slowly than on a computer with a graphics card, and more so at a high resolution. 3D graphics for the virtual machine (VirGL, or a graphics card passed through) helps if its host has a graphics card.",
+   "important": true,
+   "fix_text": "",
+   "fix": []
+  }
+ ],
+ "scores": {
+  "version": 1,
+  "date": "2026-10-15 04:22",
+  "hardware": "AMD EPYC 7763 64-Core Processor|4|62|",
+  "scores": {
+   "cpu": 5.9,
+   "memory": 7.5,
+   "disk": 5.5,
+   "graphics": 1.0,
+   "gaming": 2.3
+  },
+  "details": {
+   "cpu": "compression 22 MB/s on one core, 65 MB/s on 4 threads",
+   "memory": "copies 20.1 GB/s; 15.6 GB installed",
+   "disk": "reads 427 MB/s, writes 4277 MB/s, 7014 random 4 KB reads/s",
+   "graphics": "30 pictures a second while a window is redrawn (the screen shows 60), 99% late, slowest 34 ms",
+   "gaming": "6.3 pictures a second with 120 see-through layers (OpenGL: llvmpipe (LLVM 22.1.8, 256 bits))"
+  },
+  "raw": {
+   "cpu": {
+    "single_mb_s": 22.0,
+    "multi_mb_s": 64.5,
+    "threads": 4
+   },
+   "memory": {
+    "copy_gb_s": 20.13,
+    "total_gib": 15.6
+   },
+   "disk": {
+    "read_mb_s": 427,
+    "write_mb_s": 4277,
+    "random_iops": 7014
+   },
+   "graphics": {
+    "fps": 30.1,
+    "refresh": 60.0,
+    "frames": 87,
+    "median_ms": 33.29,
+    "p95_ms": 34.1,
+    "slowest_ms": 34.4,
+    "late_60": 0.989,
+    "late": 0.989,
+    "size": "756x504",
+    "platform": "wayland"
+   },
+   "gaming": {
+    "fps": 6.3,
+    "frames": 20,
+    "size": "1280x720",
+    "renderer": "llvmpipe (LLVM 22.1.8, 256 bits)",
+    "vendor": "Mesa",
+    "version": "4.6 (Compatibility Profile) Mesa 26.2.4"
+   }
+  },
+  "renderer": "",
+  "software_3d": true
+ }
+}

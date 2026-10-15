@@ -1,0 +1,14 @@
+Performance Information and Tools, as in Windows 7: the Classic 7 Experience Index, the
+performance issues Classic 7 can see, and a system health report to send to whoever helps you.
+
+    classic7-perfinfo                        the window
+    classic7-perfinfo --advanced             Advanced tools: performance issues and tools
+    classic7-perfinfo --report               the system health report, to save and send
+    classic7-perfinfo --rate                 the window, and rate the computer at once
+Without a window (in a terminal, also over SSH):
+    classic7-perfinfo --assess               rate the computer (the graphics need the desktop)
+    classic7-perfinfo --report-text [FILE]   the system health report, to FILE or the terminal
+    classic7-perfinfo --issues               the performance issues
+    classic7-perfinfo --json                 the facts, the issues and the scores as JSON
+    classic7-perfinfo --kwin-perf [on|off]   KWin's drawing times: record them from the next start of
+                                             the computer (on), stop (off), or show what was recorded

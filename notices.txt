@@ -1,0 +1,88 @@
++ cat /out/unit.txt
+ok
++ cat /out/gfx-time.txt
+desktop: 4.01 s, 18% CPU
+MESA-EGL: warning: failed to get driver name for fd -1
+MESA-EGL: warning: MESA-LOADER: failed to retrieve device information
+MESA-EGL: warning: failed to get driver name for fd -1
+MESA: error: ZINK: failed to choose pdev
+MESA-EGL: warning: egl: failed to create dri2 screen
+3d: 4.08 s, 351% CPU
++ cat /out/gfx-desktop.json /out/gfx-3d.json
+{"fps": 30.1, "refresh": 60.0, "frames": 90, "median_ms": 33.11, "p95_ms": 34.1, "slowest_ms": 116.2, "late_60": 0.933, "late": 0.933, "size": "756x504", "platform": "wayland"}
+{"fps": 6.2, "frames": 19, "size": "1280x720", "renderer": "llvmpipe (LLVM 22.1.8, 256 bits)", "vendor": "Mesa", "version": "4.6 (Compatibility Profile) Mesa 26.2.4"}
++ cat /out/assess.txt
+ 10%  Assessing the processor
+ 30%  Assessing memory
+ 42%  Assessing the primary hard disk
+ 62%  Assessing desktop graphics
+ 80%  Assessing 3D graphics
+100%  Done
+Processor           5.9   compression 22 MB/s on one core, 65 MB/s on 4 threads
+Memory (RAM)        7.5   copies 20.1 GB/s; 15.6 GB installed
+Graphics            1.0   30 pictures a second while a window is redrawn (the screen shows 60), 99% late, slowest 34 ms
+Gaming graphics     2.3   6.3 pictures a second with 120 see-through layers (OpenGL: llvmpipe (LLVM 22.1.8, 256 bits))
+Primary hard disk   5.5   reads 427 MB/s, writes 4277 MB/s, 7014 random 4 KB reads/s
+Base score          1.0
+assessment: 15.02 s
++ cat /out/kwin-perf.txt /out/kwin-perf-sample.txt
+X11-0: last 216 pictures over 18.8 s at 60 Hz; drawing took 0.5 ms (95% within 0.8 ms, slowest 3.9 ms); from starting a picture to showing it 22.0 ms (95% within 24.7 ms); 86% shown late; KWin expects 4.7 ms per picture; 30 pictures a second while something moved
+-rw-r--r-- 1 tester tester 16384 Oct 15 04:22 /tmp/kwin perf statistics X11-0.csv
+target pageflip timestamp,pageflip timestamp,render start,render end,safety margin,refresh duration,vrr,tearing,predicted render time
+186733325864,186791981000,186773170687,186777056653,0,16666666,0,0,0
+186808647666,186808721000,186795582657,186795600931,0,16666666,0,0,11657898
+205541794666,205558457000,205537607570,205538260753,0,16666666,0,0,2812384
+205575123666,205591783000,205570957733,205571601710,0,16666666,0,0,2804238
+205608449666,205625038000,205604271579,205604834295,0,+ cat /out/report.log
+Collecting information: Classic 7...
+Collecting information: Computer...
+Collecting information: Startup...
+Collecting information: Processor and memory...
+Collecting information: Graphics...
+Collecting information: Displays...
+Collecting information: Disks...
+Collecting information: Network...
+Collecting information: Sound...
+Collecting information: Problems...
+Collecting information: Busy programs...
+Saved as /out/report.txt
+report: 2.72 s
++ cat /out/issues.txt
+! Graphics are drawn by the processor
+  KWin draws the desktop without OpenGL: this virtual machine (microsoft) has no 3D graphics card, so every picture of the desktop is made by the processor. Moving windows, menus and hover highlights react more slowly than on a computer with a graphics card, and more so at a high resolution. 3D graphics for the virtual machine (VirGL, or a graphics card passed through) helps if its host has a graphics card.
++ grep -c . /out/report.txt
+100
++ cat /out/report-ssh.log
+Collecting information: Classic 7...
+Collecting information: Computer...
+Collecting information: Startup...
+Collecting information: Processor and memory...
+Collecting information: Graphics...
+Collecting information: Displays...
+Collecting information: Disks...
+Collecting information: Network...
+Collecting information: Sound...
+Collecting information: Problems...
+Collecting information: Busy programs...
+Saved as /out/report-ssh.txt
+== Displays
+  X11-0: 1260x840 at 60.00 Hz (up to 60.00 Hz), scale 1
+
+== Disks
+  Sessions of this account: ?
+  Report made: over SSH
++ cat /out/versions.txt
+krdp-6.7.5-1.fc44.x86_64
+kpipewire-6.7.5-1.fc44.x86_64
+freerdp-libs-3.32.1-1.fc44.x86_64
+ffmpeg-libs-8.1.3-1.fc44.x86_64
+package libavcodec-free is not installed
+x264-libs-0.165-38.20250910git0480cb0.fc44.x86_64
+x264-libs-0.165-38.20250910git0480cb0.fc44.i686
+openh264-2.6.0-1.fc44.x86_64
+openh264-2.6.0-1.fc44.i686
+mesa-dri-drivers-26.2.4-1.fc44.x86_64
+mesa-dri-drivers-26.2.4-1.fc44.i686
+kwin-6.7.5-1.fc44.x86_64
++ head -8
++ grep -iE 'error|traceback' /out/gui-advanced-cat.log /out/gui-advanced.log /out/gui-home.log /out/gui-rate.log /out/gui-report.log

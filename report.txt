@@ -1,0 +1,120 @@
+Classic 7 system health report
+Made 2026-10-15 04:22 UTC by Performance Information and Tools (classic7-perfinfo).
+Send this file to whoever helps you with a problem. It has no passwords, keys, serial numbers or
+network hardware (MAC) addresses.
+
+== Performance issues (1)
+! Graphics are drawn by the processor
+  KWin draws the desktop without OpenGL: this virtual machine (microsoft) has no 3D graphics card, so every picture of the desktop is made by the processor. Moving windows, menus and hover highlights react more slowly than on a computer with a graphics card, and more so at a high resolution. 3D graphics for the virtual machine (VirGL, or a graphics card passed through) helps if its host has a graphics card.
+
+== Classic 7 Experience Index
+  Assessed 2026-10-15 04:22
+  Processor           5.9   compression 22 MB/s on one core, 65 MB/s on 4 threads
+  Memory (RAM)        7.5   copies 20.1 GB/s; 15.6 GB installed
+  Graphics            1.0   30 pictures a second while a window is redrawn (the screen shows 60), 99% late, slowest 34 ms
+  Gaming graphics     2.3   6.3 pictures a second with 120 see-through layers (OpenGL: llvmpipe (LLVM 22.1.8, 256 bits))
+  Primary hard disk   5.5   reads 427 MB/s, writes 4277 MB/s, 7014 random 4 KB reads/s
+  Base score          1.0   (the lowest subscore)
+
+== Classic 7
+  Classic 7 build: 2026-10-14T20:10Z (content faa4935aba3d45a8)
+  Based on: Bazzite 44 (44.20261012.0)
+  This account's Classic 7 settings: from an older version (never)
+  Look: aero, glass Sky see-through
+  Classic colour scheme / font size: standard / 9 pt
+  Window borders: org.kde.kwin.aurorae classic7aero
+  Program controls: kvantum (Kvantum theme Classic7Aero)
+  Remote Desktop: off, server not running, port 3389, Remote Desktop users
+
+== Computer and software
+  Computer: Microsoft Corporation Virtual Machine
+  Computer name: 716e378cc47b
+  Virtual machine: microsoft
+  Kernel: 6.17.0-1022-azure (x86_64)
+  Kernel options: BOOT_IMAGE=/vmlinuz-6.17.0-1022-azure root=PARTUUID=d8f74b2e-a58d-4539-8b59-53da6417ef90 ro console=tty1 console=ttyS0 earlyprintk=ttyS0 nvme_core.io_timeout=240 rootflags=nobarrier,data=writeback,journal_async_commit,commit=30 panic=-1
+  Running for: 0 days 0 h 3 min
+  Sessions of this account: ?
+  Report made: on the desktop (wayland)
+  Time zone: /etc/localtime
+  plasma-workspace: 6.7.5-1.fc44
+  kwin: 6.7.5-1.fc44
+  qt6-qtbase: 6.11.2-3.fc44
+  mesa-dri-drivers: 26.2.4-1.fc44
+  python3: 3.14.8-1.fc44
+  python3-pyside6: 6.11.2-1.fc44
+  krdp: 6.7.5-1.fc44
+  freerdp-libs: 3.32.1-1.fc44
+  kvantum: 1.1.6-1.fc44
+  sddm: 0.21.0-13.fc44
+  steam: 1.0.0.87-5.fc44
+  Programs from Flathub: none
+
+== Startup
+  Last start: ?
+
+== Processor and memory
+  Processor: AMD EPYC 7763 64-Core Processor 2.45 GHz
+  Cores / threads: 2 / 4
+  Instruction sets: sse4_2, avx, avx2, aes, sha_ni
+  Frequency driver / governor: - / -
+  Power mode: -
+  Load (1, 5, 15 min): 1.93 1.28 0.53
+  Memory: 15.6 GB total, 14.3 GB available
+  Swap: 3.0 GB total, 64 KB in use
+
+== Graphics
+  Display adapters: ?
+  KWin draws with: QPainter
+  OpenGL: -
+  3D drawn by: the processor (software)
+  Vulkan devices: llvmpipe (LLVM 22.1.8, 256 bits)
+  KWin effects running: highlightwindow, kscreen, outputlocator, screenedge, zoom
+  Blur / background contrast (kwinrc): true / default
+  Animation speed factor: 0
+  Plasma's Qt Quick renderer: automatic
+  KWin settings (kwinrc Compositing): default
+  Graphics settings in the environment: KDE_FULL_SESSION=true; KDE_SESSION_VERSION=6; QT_QPA_PLATFORM=wayland
+
+== Displays
+  X11-0: 1260x840 at 60.00 Hz (up to 60.00 Hz), scale 1
+
+== Disks
+  Disk: sda: Virtual Disk, 150.0 GB, hard disk
+  /src: ext4 on /dev/sda1[/home/runner/work/FedoraClassic7/FedoraClassic7]: 72.9 GB free of 144.3 GB
+
+== Network
+  IPv4 eth0@if6: 10.88.0.2/16
+  Default gateway: 10.88.0.1
+  Firewall: not running
+
+== Sound
+  Sound: ? (pactl didn't answer)
+
+== Services that failed
+  Services: none
+
+== Programs that stopped working (7 days)
+  Crashes: none
+
+== What the computer is doing (2 seconds)
+  Processor in use: 0%
+  Using the processor (100% = one core): nothing worth mentioning
+  Using the most memory: kwin_wayland (125.7 MB); ksecretd (70.2 MB); xdg-desktop-por (69.8 MB); Xvfb (48.6 MB); xdg-desktop-por (29.1 MB); classic7-perfin (24.7 MB)
+
+== Error messages this boot (newest last)
+  none (or not readable for this account)
+
+== Classic 7's own messages
+  none
+
+== KWin's drawing times (Advanced tools > Record the desktop's drawing times)
+  X11-0: last 216 pictures over 18.8 s at 60 Hz; drawing took 0.5 ms (95% within 0.8 ms, slowest 3.9 ms); from starting a picture to showing it 22.0 ms (95% within 24.7 ms); 86% shown late; KWin expects 4.7 ms per picture; 30 pictures a second while something moved
+
+== Remote Desktop server (KRdp) this boot
+  no messages
+
+== Classic 7 Update: the last time this account's settings were brought up to date
+  no record
+
+== Personalization's last changes (appearance.log)
+  none

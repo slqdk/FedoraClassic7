@@ -1,0 +1,12 @@
+krdp-6.7.5-1.fc44.x86_64
+kpipewire-6.7.5-1.fc44.x86_64
+freerdp-libs-3.32.1-1.fc44.x86_64
+ffmpeg-libs-8.1.3-1.fc44.x86_64
+package libavcodec-free is not installed
+x264-libs-0.165-38.20250910git0480cb0.fc44.x86_64
+x264-libs-0.165-38.20250910git0480cb0.fc44.i686
+openh264-2.6.0-1.fc44.x86_64
+openh264-2.6.0-1.fc44.i686
+mesa-dri-drivers-26.2.4-1.fc44.x86_64
+mesa-dri-drivers-26.2.4-1.fc44.i686
+kwin-6.7.5-1.fc44.x86_64

@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "date": "2026-10-15 04:22",
+  "hardware": "AMD EPYC 7763 64-Core Processor|4|62|",
+  "scores": {
+    "cpu": 5.9,
+    "memory": 7.5,
+    "disk": 5.5,
+    "graphics": 1.0,
+    "gaming": 2.3
+  },
+  "details": {
+    "cpu": "compression 22 MB/s on one core, 65 MB/s on 4 threads",
+    "memory": "copies 20.1 GB/s; 15.6 GB installed",
+    "disk": "reads 427 MB/s, writes 4277 MB/s, 7014 random 4 KB reads/s",
+    "graphics": "30 pictures a second while a window is redrawn (the screen shows 60), 99% late, slowest 34 ms",
+    "gaming": "6.3 pictures a second with 120 see-through layers (OpenGL: llvmpipe (LLVM 22.1.8, 256 bits))"
+  },
+  "raw": {
+    "cpu": {
+      "single_mb_s": 22.0,
+      "multi_mb_s": 64.5,
+      "threads": 4
+    },
+    "memory": {
+      "copy_gb_s": 20.13,
+      "total_gib": 15.6
+    },
+    "disk": {
+      "read_mb_s": 427,
+      "write_mb_s": 4277,
+      "random_iops": 7014
+    },
+    "graphics": {
+      "fps": 30.1,
+      "refresh": 60.0,
+      "frames": 87,
+      "median_ms": 33.29,
+      "p95_ms": 34.1,
+      "slowest_ms": 34.4,
+      "late_60": 0.989,
+      "late": 0.989,
+      "size": "756x504",
+      "platform": "wayland"
+    },
+    "gaming": {
+      "fps": 6.3,
+      "frames": 20,
+      "size": "1280x720",
+      "renderer": "llvmpipe (LLVM 22.1.8, 256 bits)",
+      "vendor": "Mesa",
+      "version": "4.6 (Compatibility Profile) Mesa 26.2.4"
+    }
+  },
+  "renderer": "",
+  "software_3d": true
+}

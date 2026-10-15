@@ -1,0 +1,2 @@
+! Graphics are drawn by the processor
+  KWin draws the desktop without OpenGL: this virtual machine (microsoft) has no 3D graphics card, so every picture of the desktop is made by the processor. Moving windows, menus and hover highlights react more slowly than on a computer with a graphics card, and more so at a high resolution. 3D graphics for the virtual machine (VirGL, or a graphics card passed through) helps if its host has a graphics card.
