@@ -929,6 +929,10 @@ def kwin_look(theme: str, border: str, right_buttons: str, tabbox: str, run: Run
         kw("org.kde.kdecoration2", "ButtonsOnRight", right_buttons)
         kw("TabBox", "LayoutName", tabbox)
     effects = []
+    if not blur and not solid and software_gl():
+        # Basic and Classic have no glass; with OpenGL drawn by the processor KWin's blur and background
+        # contrast are turned off as well, so nothing (a program asking for it) is blurred on the CPU
+        solid = True
     if blur:
         # Windows 7's glass is softly blurred, without noise
         kw("Plugins", "blurEnabled", "true")

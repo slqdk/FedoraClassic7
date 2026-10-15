@@ -79,6 +79,9 @@ class UpdateState:
     last_result: str = ""
     seen_pins: list[str] = field(default_factory=list)
     done_migrations: list[str] = field(default_factory=list)
+    refresh_tries: int = 0         # refreshes with problems for the content in tried_content
+    tried_content: str = ""
+    last_problems: list[str] = field(default_factory=list)
 
     @classmethod
     def load(cls) -> "UpdateState":
@@ -642,8 +645,44 @@ def sync_keyboard(log: Log) -> bool:
     return False
 
 
+REFRESH_TRIES = 3          # logins that try again when some settings could not be applied
+
+
+def refresh_log_file() -> Path:
+    base = Path(os.environ.get("XDG_CACHE_HOME") or Path.home() / ".cache")
+    return base / "classic7" / "settings-refresh.log"
+
+
 def refresh_account(log: Log) -> list[str]:
-    """Give this account the current Classic 7 settings. Returns problems (empty = all fine)."""
+    """Give this account the current Classic 7 settings. Returns problems (empty = all fine).
+    What it did is kept in ~/.cache/classic7/settings-refresh.log (Performance Information's system
+    health report shows it)."""
+    lines: list[str] = []
+
+    def both(line: str):
+        lines.append(line)
+        log(line)
+    try:
+        problems = _refresh_account(both)
+    except Exception as e:  # noqa: BLE001 - recorded, then raised as before
+        lines.append(f"Stopped: {type(e).__name__}: {e}")
+        _write_refresh_log(lines, [str(e)])
+        raise
+    _write_refresh_log(lines, problems)
+    return problems
+
+
+def _write_refresh_log(lines: list[str], problems: list[str]):
+    try:
+        f = refresh_log_file()
+        f.parent.mkdir(parents=True, exist_ok=True)
+        head = [time.strftime("%Y-%m-%d %H:%M:%S") + f" build {current_build()} content {current_content()}"]
+        f.write_text("\n".join(head + lines + ([] if problems else ["Done without problems."])) + "\n")
+    except OSError:
+        pass
+
+
+def _refresh_account(log: Log) -> list[str]:
     problems: list[str] = []
     state = UpdateState.load()
 
@@ -696,9 +735,16 @@ def refresh_account(log: Log) -> list[str]:
     if Path("/usr/libexec/classic7-first-login").exists():
         subprocess.run(["/usr/libexec/classic7-first-login"], check=False)
 
-    if gui and not problems:
+    content = current_content()
+    if problems:
+        state.refresh_tries = state.refresh_tries + 1 if state.tried_content == content else 1
+        state.tried_content = content
+    state.last_problems = problems
+    # done; with problems the next logins try again, but not forever: a problem that stays (a
+    # setting this account may not change) would otherwise redo everything at every login
+    if gui and (not problems or state.refresh_tries >= REFRESH_TRIES):
         state.applied_build = current_build()
-        state.applied_content = current_content()
+        state.applied_content = content
     state.save()
     for p in problems:
         log(f"Problem: {p}")

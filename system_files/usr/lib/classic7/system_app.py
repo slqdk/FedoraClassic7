@@ -16,7 +16,7 @@ from PySide6.QtWidgets import (QApplication, QButtonGroup, QDialog, QDialogButto
                                QTreeWidgetItem, QVBoxLayout, QWidget)
 
 import sysinfo as si
-from control_panel import BLUE, HEAD, Link, NavPane, icon
+from control_panel import BLUE, HEAD, AddressBar, Link, NavPane, icon, open_place, page_address
 
 LABEL = QColor(0x55, 0x55, 0x55)
 SECTION = QColor(0x1e, 0x39, 0x87)
@@ -447,11 +447,10 @@ class SystemWindow(QMainWindow):
         nav = QToolBar("Navigation")
         nav.setMovable(False)
         nav.setIconSize(QSize(22, 22))
-        nav.addAction(icon("go-previous"), "Back").setEnabled(False)
+        nav.addAction(icon("go-previous"), "Back", lambda: self._go(page_address("system", [])[-1][1]))
         nav.addAction(icon("go-next"), "Forward").setEnabled(False)
-        address = QLineEdit("  ▸ Control Panel ▸ System and Security ▸ System ▸")
-        address.setReadOnly(True)
-        address.addAction(icon("computer"), QLineEdit.LeadingPosition)
+        address = AddressBar("computer", self._go)
+        address.set_parts(page_address("system", ["System"]))
         nav.addWidget(address)
         search = QLineEdit()
         search.setPlaceholderText("Search Control Panel")
@@ -504,6 +503,10 @@ class SystemWindow(QMainWindow):
         scroll.setWidget(page)
         self.setCentralWidget(scroll)
         QShortcut(QKeySequence("F5"), self, self._refresh)
+
+    def _go(self, target):
+        if open_place(target):
+            self.close()            # Windows 7 shows the new place in the same window
 
     def _refresh(self):
         while self.body.count():

@@ -173,8 +173,27 @@ class Display:
     primary: bool = False
 
 
+def desktop_env() -> dict | None:
+    """The environment for programs that must talk to the desktop (kscreen-doctor): this one when it
+    runs on the desktop, otherwise (SSH, a console) the desktop's own Wayland socket; None if there
+    is none."""
+    env = dict(os.environ)
+    if env.get("WAYLAND_DISPLAY"):
+        return env
+    runtime = Path(env.get("XDG_RUNTIME_DIR") or f"/run/user/{os.getuid()}")
+    sockets = sorted((p.name for p in runtime.glob("wayland-*") if p.is_socket()),
+                     key=lambda n: (n != "wayland-0", n))      # KWin's own socket first
+    if not sockets:
+        return None
+    env.update(XDG_RUNTIME_DIR=str(runtime), WAYLAND_DISPLAY=sockets[0], QT_QPA_PLATFORM="wayland")
+    return env
+
+
 def displays() -> list[Display]:
-    code, out = run(["kscreen-doctor", "-j"], 10)
+    env = desktop_env()
+    if env is None:
+        return []
+    code, out = run(["kscreen-doctor", "-j"], 10, env)
     if code != 0:
         return []
     try:
@@ -338,6 +357,8 @@ def journal_errors(lines: int = 40) -> list[str]:
         return []
     res, last = [], None
     for ln in out.splitlines():
+        if ln[:1].isspace():
+            continue                    # the rest of a message of several lines (a crash's stack)
         # the same message over and over only once
         msg = re.sub(r"^\S+\s+\S+\s+", "", ln)
         msg_key = re.sub(r"\[\d+\]", "", msg)
@@ -587,6 +608,29 @@ def flatpaks() -> list[str]:
     return [" ".join(ln.split()) for ln in out.splitlines() if ln.strip()] if code == 0 else []
 
 
+def sessions() -> list[str]:
+    """This account's sessions: "wayland on seat0 (sddm, active)", "tty (sshd, remote)"."""
+    code, out = run(["loginctl", "list-sessions", "--no-legend"], 5)
+    res = []
+    for line in out.splitlines() if code == 0 else []:
+        parts = line.split()
+        if len(parts) < 2 or parts[1] != str(os.getuid()):
+            continue
+        c2, info = run(["loginctl", "show-session", parts[0], "-p", "Type", "-p", "Service", "-p", "Seat",
+                        "-p", "Remote", "-p", "State", "-p", "Desktop", "-p", "Class"], 5)
+        if c2 != 0:
+            continue
+        d = dict(kv.split("=", 1) for kv in info.splitlines() if "=" in kv)
+        if d.get("Class", "user") != "user":
+            continue                    # the user manager's own session
+        where = f" on {d['Seat']}" if d.get("Seat") else ""
+        extra = ", ".join(x for x in (d.get("Service", ""), d.get("State", ""),
+                                       "remote" if d.get("Remote") == "yes" else "") if x)
+        res.append(f"{d.get('Type', '?')}{where} {d.get('Desktop', '')}".replace("  ", " ").strip()
+                   + (f" ({extra})" if extra else ""))
+    return res
+
+
 def remote_desktop() -> str:
     try:
         import remote_server as rs
@@ -678,7 +722,9 @@ def collect(progress=lambda _text: None) -> Facts:
             ("Kernel", f"{platform.release()} ({platform.machine()})"),
             ("Kernel options", read("/proc/cmdline")[:400]),
             ("Running for", f"{int(up // 86400)} days {int(up % 86400 // 3600)} h {int(up % 3600 // 60)} min"),
-            ("Session", f"{os.environ.get('XDG_SESSION_TYPE', '?')} {os.environ.get('XDG_CURRENT_DESKTOP', '')}".strip()),
+            ("Sessions of this account", "; ".join(sessions()) or "?"),
+            ("Report made", "over SSH" if os.environ.get("SSH_CONNECTION") else
+             f"on the desktop ({os.environ.get('XDG_SESSION_TYPE', '?')})"),
             ("Time zone", read("/etc/timezone") or (os.path.realpath("/etc/localtime").split("zoneinfo/")[-1]))]
     code, out = run(["localectl", "status"], 5)
     if code == 0:
@@ -861,7 +907,8 @@ def issues(f: Facts, scores: dict | None = None) -> list[Issue]:
         else:
             out.append(Issue("The processor has no AVX2 instructions",
                              "This is an older processor: drawing on the processor and video work run slower.", False))
-    if g.software and any(e in g.effects for e in ("blur", "contrast")):
+    if g.software and any(e in g.effects for e in ("blur", "contrast")) and f.look.get("look") == "aero" \
+            and not f.look.get("solid") and (f.look.get("glass") or {}).get("transparency", True):
         out.append(Issue("Blur runs on the processor",
                          "KWin blurs the glass for every picture although 3D is drawn by the processor. Apply the "
                          "theme again to turn it off.", True, "Apply the theme again",
@@ -1024,6 +1071,9 @@ def report(f: Facts, found: list[Issue], scores: dict | None = None) -> str:
     lines.append("")
     lines.append("== Remote Desktop server (KRdp) this boot")
     lines += ["  " + ln for ln in remote_desktop_log()] or ["  no messages"]
+    lines.append("")
+    lines.append("== Classic 7 Update: the last time this account's settings were brought up to date")
+    lines += ["  " + ln for ln in read(CACHE / "classic7" / "settings-refresh.log").splitlines()[-40:]] or ["  no record"]
     lines.append("")
     lines.append("== Personalization's last changes (appearance.log)")
     lines += ["  " + ln for ln in classic7_log()] or ["  none"]

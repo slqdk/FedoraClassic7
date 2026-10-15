@@ -104,6 +104,110 @@ class Link(QLabel):
         super().focusOutEvent(e)
 
 
+class AddressBar(QFrame):
+    """Windows 7's address bar for Control Panel: the place as clickable parts ("Control Panel ▸
+    System and Security ▸ Action Center"); the arrow after a part lists what is inside it.
+
+    A part is (text, target); target is ("home", None), ("all", None), ("category", id),
+    ("item", id), a function (a place inside the program), or None for the page itself.
+    on_navigate(target) is called on a click."""
+
+    def __init__(self, icon_name: str, on_navigate):
+        super().__init__()
+        self.setObjectName("addressbar")
+        self.setStyleSheet(
+            "#addressbar { background: white; border: 1px solid #a9b8cc; border-radius: 2px; }"
+            " #addressbar QToolButton { border: 1px solid transparent; border-radius: 2px; padding: 1px 3px;"
+            " background: transparent; }"
+            " #addressbar QToolButton:hover { border-color: #7eb4ea; background: #e5f3fb; }"
+            " #addressbar QToolButton::menu-indicator { image: none; width: 0; }")
+        self.on_navigate = on_navigate
+        self.lay = QHBoxLayout(self)
+        self.lay.setContentsMargins(4, 1, 4, 1)
+        self.lay.setSpacing(0)
+        self.pic = QLabel()
+        self.pic.setPixmap(icon(icon_name).pixmap(16, 16))
+        self.setMinimumHeight(QLineEdit().sizeHint().height())
+        self.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+        self.parts: list = []
+        self.set_parts([])
+
+    def set_parts(self, parts: list):
+        self.parts = parts
+        while self.lay.count():
+            w = self.lay.takeAt(0).widget()
+            if w is not None and w is not self.pic:
+                w.deleteLater()
+        self.lay.addWidget(self.pic)
+        self.lay.addSpacing(4)
+        self.lay.addWidget(self._arrow(None))
+        for i, (text, target) in enumerate(parts):
+            b = QToolButton()
+            b.setText(text)
+            b.setAutoRaise(True)
+            b.setCursor(Qt.PointingHandCursor)
+            b.clicked.connect(lambda _c=False, t=target: self.on_navigate(t) if t else None)
+            self.lay.addWidget(b)
+            if self._children(target):
+                self.lay.addWidget(self._arrow(target))
+            elif i < len(parts) - 1:
+                self.lay.addWidget(self._arrow(None))
+        self.lay.addStretch(1)
+
+    @staticmethod
+    def _children(target) -> list:
+        if not target or callable(target):
+            return []
+        kind, value = target
+        if kind == "home":
+            return [("All Control Panel Items", ("all", None))] + \
+                   [(c.title, ("category", c.id)) for c in ci.CATEGORIES if ci.in_category(c.id)]
+        if kind == "category":
+            return [(it.title, ("item", it.id)) for it in ci.in_category(value)]
+        if kind == "all":
+            return [(it.title, ("item", it.id)) for it in sorted(ci.items(), key=lambda i: i.title.lower())]
+        return []
+
+    def _arrow(self, target) -> QWidget:
+        if target is None:
+            lab = QLabel("▸")
+            lab.setStyleSheet("color: #555; padding: 0 2px;")
+            return lab
+        b = QToolButton()
+        b.setText("▸")
+        b.setAutoRaise(True)
+        m = QMenu(b)
+        for text, t in self._children(target):
+            m.addAction(text, lambda t=t: self.on_navigate(t))
+        b.setMenu(m)
+        b.setPopupMode(QToolButton.InstantPopup)
+        return b
+
+
+def page_address(category_id: str, trail: list[str]) -> list:
+    """Where a Control Panel page sits, as Windows 7 shows it: under its category in Category view,
+    under All Control Panel Items when Control Panel shows icons."""
+    parts = [("Control Panel", ("home", None))]
+    c = ci.category(category_id)
+    if saved_view() == "category" and c is not None:
+        parts.append((c.title, ("category", c.id)))
+    else:
+        parts.append(("All Control Panel Items", ("all", None)))
+    return parts + [(t, None) if isinstance(t, str) else t for t in trail]
+
+
+def open_place(target) -> bool:
+    """Open a place from a page's address bar: Control Panel, a category, or an item."""
+    if not target or callable(target):
+        return False
+    kind, value = target
+    if kind == "item":
+        it = ci.by_id(value)
+        return bool(it) and ci.launch(it.run)
+    arg = {"home": [], "all": ["all"], "category": [value]}.get(kind)
+    return arg is not None and ci.launch(["classic7-control", *arg])
+
+
 class NavPane(QWidget):
     """The light blue pane on the left of category pages."""
 
@@ -151,9 +255,7 @@ class ControlPanel(QMainWindow):
         nav.setIconSize(QSize(22, 22))
         self.back_act = nav.addAction(icon("go-previous"), "Back", self.back)
         self.fwd_act = nav.addAction(icon("go-next"), "Forward", self.forward)
-        self.address = QLineEdit()
-        self.address.setReadOnly(True)
-        self.address.addAction(icon("preferences-system"), QLineEdit.LeadingPosition)
+        self.address = AddressBar("preferences-system", self._navigate)
         self.search = QLineEdit()
         self.search.setPlaceholderText("Search Control Panel")
         self.search.setClearButtonEnabled(True)
@@ -163,8 +265,24 @@ class ControlPanel(QMainWindow):
         nav.addWidget(self.search)
         self.addToolBar(Qt.TopToolBarArea, nav)
 
-    def _set_address(self, parts: list[str]):
-        self.address.setText("  ▸ " + " ▸ ".join(parts) + " ▸")
+    def _set_address(self, parts: list):
+        self.address.set_parts(parts)
+
+    def _navigate(self, target):
+        if callable(target):
+            target()
+            return
+        kind, value = target
+        if kind == "item":
+            it = ci.by_id(value)
+            if it is not None:
+                self.open_item(it)
+        elif kind == "category":
+            self.go("category", value)
+        elif kind == "all":
+            self.go("all")
+        else:
+            self.go("home")
 
     # ---- navigation ---------------------------------------------------------------------
     def go(self, page: str, arg: str | None = None, record: bool = True):
@@ -178,6 +296,8 @@ class ControlPanel(QMainWindow):
                 self._home()
             else:
                 self._all_items()
+        elif page == "all":
+            self._all_items()
         elif page == "category":
             self._category(arg)
         elif page == "search":
@@ -280,7 +400,7 @@ class ControlPanel(QMainWindow):
     # ---- pages --------------------------------------------------------------------------
     def _home(self):
         self.setWindowTitle("Control Panel")
-        self._set_address(["Control Panel"])
+        self._set_address([("Control Panel", ("home", None))])
         _, lay = self._page(False)
         self._heading(lay, "Adjust your computer's settings")
         grid = QGridLayout()
@@ -331,7 +451,7 @@ class ControlPanel(QMainWindow):
             self.go("home")
             return
         self.setWindowTitle(c.title)
-        self._set_address(["Control Panel", c.title])
+        self._set_address([("Control Panel", ("home", None)), (c.title, ("category", c.id))])
         nav, lay = self._page(True)
         home = Link("Control Panel Home", BLUE)
         home.clicked.connect(lambda: self.go("home"))
@@ -392,7 +512,7 @@ class ControlPanel(QMainWindow):
 
     def _all_items(self):
         self.setWindowTitle("All Control Panel Items")
-        self._set_address(["Control Panel", "All Control Panel Items"])
+        self._set_address([("Control Panel", ("home", None)), ("All Control Panel Items", ("all", None))])
         _, lay = self._page(False)
         self._heading(lay, "Adjust your computer's settings")
         large = self.view_mode == "large"
@@ -425,7 +545,7 @@ class ControlPanel(QMainWindow):
 
     def _results(self, text: str):
         self.setWindowTitle("Search Results")
-        self._set_address(["Control Panel", f"Search results for \"{text}\""])
+        self._set_address([("Control Panel", ("home", None)), (f"Search results for \"{text}\"", None)])
         nav, lay = self._page(True)
         home = Link("Control Panel Home", BLUE)
         home.clicked.connect(lambda: (self.search.clear(), self.go("home")))
@@ -493,7 +613,6 @@ def main(argv: list[str]) -> int:
         if kind == "category":
             w.go("category", value)
         elif kind == "all" and w.view_mode == "category":
-            w.view_mode = "small"        # All Control Panel Items: the icons, without changing the choice
-            w.go("home", record=False)
+            w.go("all", record=False)    # All Control Panel Items: the icons, without changing the choice
     w.show()
     return app.exec()

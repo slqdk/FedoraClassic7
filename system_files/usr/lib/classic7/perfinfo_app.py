@@ -235,7 +235,7 @@ class PerfInfo(PageWindow):
     def render(self):
         self.clear_body()
         trail = {"home": [], "advanced": ["Advanced Tools"], "report": ["System health report"]}[self.page]
-        self.address.setText("  ▸ " + " ▸ ".join(["Control Panel", "System and Security", APP, *trail]))
+        self.set_trail([(APP, lambda: self.show_page("home")) if trail else APP, *trail])
         {"home": self._home, "advanced": self._advanced, "report": self._report}[self.page]()
 
     def _home(self):

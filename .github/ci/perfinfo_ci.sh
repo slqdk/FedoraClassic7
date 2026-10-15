@@ -86,6 +86,12 @@ cp $HOME/.local/share/classic7/perfinfo.json /out/perfinfo.json
 /usr/bin/time -f "report: %e s" classic7-perfinfo --report-text /out/report.txt > /out/report.log 2>&1
 classic7-perfinfo --issues > /out/issues.txt 2>/dev/null
 classic7-perfinfo --json > /out/facts.json 2>/dev/null
+# as over SSH: no Wayland connection of its own (kscreen-doctor must use the desktop's socket, not crash)
+env -u WAYLAND_DISPLAY -u QT_QPA_PLATFORM SSH_CONNECTION="10.0.0.1 5000 10.0.0.2 22" \
+    classic7-perfinfo --report-text /out/report-ssh.txt > /out/report-ssh.log 2>&1
+grep -A3 "== Displays" /out/report-ssh.txt >> /out/report-ssh.log
+grep "Report made\|Sessions of" /out/report-ssh.txt >> /out/report-ssh.log
+coredumpctl --no-pager list 2>/dev/null | tail -3 >> /out/report-ssh.log
 
 # the pages
 for page in home advanced report; do
@@ -102,6 +108,23 @@ classic7-system > /out/system.log 2>&1 &
 sleep 8
 shot system
 pkill -f classic7-system; sleep 1
+# the address bar: Small icons (the default) puts pages under All Control Panel Items, Category view
+# under their category; the arrow after a part lists what is in it
+classic7-control > /out/control.log 2>&1 &
+sleep 8
+shot control-small
+pkill -f classic7-control; sleep 1
+mkdir -p $HOME/.config/classic7 && echo '{"view": "category"}' > $HOME/.config/classic7/controlpanel.json
+classic7-perfinfo --advanced > /out/gui-advanced-cat.log 2>&1 &
+sleep 12
+kw "for (const w of workspace.windowList()) { if (w.normalWindow && w.caption.indexOf('Performance') >= 0) {
+    w.frameGeometry = {x: 20, y: 10, width: 940, height: 700}; workspace.activeWindow = w; } }"
+sleep 2
+X mousemove 330 54 click 1; sleep 1.5
+shot perfinfo-address-menu
+X key Escape; sleep 0.5
+pkill -f classic7-perfinfo; sleep 1
+rm -f $HOME/.config/classic7/controlpanel.json
 # Rate this computer from the window (the dialog while it runs)
 rm -f $HOME/.local/share/classic7/perfinfo.json
 classic7-perfinfo --rate > /out/gui-rate.log 2>&1 &
@@ -115,5 +138,5 @@ chown tester /tmp/inner.sh
 su tester -c "dbus-run-session -- bash /tmp/inner.sh" > /out/inner.log 2>&1
 { cat /out/unit.txt; cat /out/gfx-time.txt; cat /out/gfx-desktop.json /out/gfx-3d.json; cat /out/assess.txt
   cat /out/kwin-perf.txt /out/kwin-perf-sample.txt
-  cat /out/report.log; cat /out/issues.txt; grep -c . /out/report.txt; cat /out/versions.txt
+  cat /out/report.log; cat /out/issues.txt; grep -c . /out/report.txt; cat /out/report-ssh.log; cat /out/versions.txt
   grep -iE "error|traceback" /out/gui-*.log | head -8; } > /out/notices.txt 2>&1

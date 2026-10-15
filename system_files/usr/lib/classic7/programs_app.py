@@ -14,7 +14,7 @@ from PySide6.QtWidgets import (QApplication, QDialog, QFrame, QHBoxLayout, QHead
 
 import control_items as ci
 import programs_data as pd
-from control_panel import BLUE, HEAD, Link, NavPane
+from control_panel import BLUE, HEAD, AddressBar, Link, NavPane, open_place, page_address
 
 TITLE = "Programs and Features"
 
@@ -270,16 +270,19 @@ class ProgramsWindow(QMainWindow):
         self._selected()
         QTimer.singleShot(0, self.refresh)
 
+    def _go(self, target):
+        if open_place(target):
+            self.close()            # Windows 7 shows the new place in the same window
+
     def _toolbar(self):
         nav = QToolBar("Navigation")
         nav.setMovable(False)
         nav.setIconSize(QSize(22, 22))
-        back = nav.addAction(QIcon.fromTheme("go-previous"), "Back", lambda: (ci.launch(["classic7-control", "programs"]),
-                                                                               self.close()))
-        back.setToolTip("Back to Programs")
-        self.address = QLineEdit("  ▸ Control Panel ▸ Programs ▸ Programs and Features")
-        self.address.setReadOnly(True)
-        self.address.addAction(QIcon.fromTheme("system-software-install"), QLineEdit.LeadingPosition)
+        back = nav.addAction(QIcon.fromTheme("go-previous"), "Back",
+                             lambda: self._go(page_address("programs", [])[-1][1]))
+        back.setToolTip("Back")
+        self.address = AddressBar("system-software-install", self._go)
+        self.address.set_parts(page_address("programs", ["Programs and Features"]))
         self.search = QLineEdit()
         self.search.setPlaceholderText("Search Programs and Features")
         self.search.setClearButtonEnabled(True)
