@@ -1,11 +1,12 @@
 # Classic 7 changes, newest first. Shown by Classic 7 Update (View update history) and in the
 # "Classic 7 was updated" message after a restart. Format: "## YYYY-MM-DD  Title", then "- item".
 
-## 2026-10-15  Control Panel's address bar, health report fixes
+## 2026-10-15  Classic 7 Update's settings step, Control Panel's address bar, health report fixes
 - **The address bar works like Windows 7's** in Control Panel and its windows (Action Center, Firewall, Performance Information and Tools, System, Programs and Features): click a part to go there; the arrow after a part lists what is in it. With Control Panel in Small or Large icons, pages sit under *All Control Panel Items*, as in Windows 7; *System and Security* and the other categories appear in Category view.
 - **No blur in Basic and Classic without a graphics card**: when 3D is drawn by the processor, applying any theme turns KWin's blur off (Aero already drew its glass solid then).
 - **The system health report over SSH** now shows the screens and the desktop's session, and no longer makes kscreen-doctor crash. Error messages of several lines (a crash's stack) show only their first line.
-- **Classic 7 Update** keeps a record of bringing your settings up to date after a new version (in the system health report). When some settings can't be applied, it tries again at the next two logins instead of at every login.
+- **Classic 7 Update no longer offers "new Classic 7 settings for your account" every time**: one of its steps waited for the network icon to change in a tray layout that Plasma 6.7 no longer uses, and failed after almost a minute, so the settings step never counted as done. It now reads Plasma 6.7's layout (the network icon is swapped at login, before the desktop starts).
+- **Classic 7 Update** keeps a record of bringing your settings up to date (in the system health report). When some settings can't be applied, it tries again at the next two logins instead of at every login.
 
 ## 2026-10-14  Performance Information and Tools
 - **Performance Information and Tools** (Control Panel > System and Security, or `winsat` in Run): the **Classic 7 Experience Index** rates the processor, memory, graphics, gaming graphics and the primary hard disk from 1.0 to 7.9, as Windows 7 did; the base score is the lowest of them. *Rate this computer* takes about half a minute; two windows open briefly while the graphics are assessed. The System window shows the rating.

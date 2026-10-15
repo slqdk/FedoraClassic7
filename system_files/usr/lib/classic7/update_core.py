@@ -436,12 +436,15 @@ def _appletsrc() -> Path:
     return Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config") / "plasma-org.kde.plasma.desktop-appletsrc"
 
 
-def _tray_plugins() -> tuple[bool, set[str]]:
-    """(a system tray exists, plugins running inside the system trays) from the saved layout."""
+def _tray_plugins() -> tuple[bool, set[str], bool]:
+    """(a system tray exists, the plugins running inside the system trays, Plasma 6.7's layout) from
+    the saved layout. Plasma 6.7 keeps the tray's items inside the system tray applet
+    ([Containments][2][Applets][7][Applets][17]); older versions in a containment of its own
+    (named by SystrayContainmentId)."""
     try:
         text = _appletsrc().read_text(errors="replace")
     except OSError:
-        return False, set()
+        return False, set(), False
     groups: dict[str, dict[str, str]] = {}
     cur = None
     for line in text.splitlines():
@@ -452,37 +455,60 @@ def _tray_plugins() -> tuple[bool, set[str]]:
             k, v = line.split("=", 1)
             groups[cur][k.strip()] = v.strip()
     trays = {v["SystrayContainmentId"] for v in groups.values() if v.get("SystrayContainmentId")}
-    plugins = set()
+    tray_applets = [name[:-1] + "][Applets][" for name, kv in groups.items()
+                    if kv.get("plugin") == "org.kde.plasma.systemtray"]
+    plugins, nested = set(), False
     for name, kv in groups.items():
         m = re.match(r"^\[Containments\]\[(\d+)\]\[Applets\]\[\d+\]$", name)
         if m and m.group(1) in trays and kv.get("plugin"):
             plugins.add(kv["plugin"])
-    return bool(trays), plugins
+        for prefix in tray_applets:
+            if name.startswith(prefix) and re.fullmatch(r"\d+\]", name[len(prefix):]) and kv.get("plugin"):
+                plugins.add(kv["plugin"])
+                nested = True
+    return bool(trays or tray_applets), plugins, nested
 
 
 def _network_tray(log: Log) -> bool:
     """Tray: the Classic 7 network icon (IP address shown at once) instead of Plasma's.
     Done only when the saved layout shows Plasma's icon gone, so it is retried at the next
     login if Plasma wasn't ready."""
+    nm = "org.kde.plasma.networkmanagement"
+    for _ in range(30):                      # the tray is created a moment after login
+        has_tray, plugins, nested = _tray_plugins()
+        if has_tray:
+            break
+        time.sleep(1)
+    else:
+        log("  network icon: no notification area on the taskbar, nothing to change")
+        return True
+    if nm not in plugins:
+        log("  network icon: Classic 7 (shows the IP address)")
+        return True
+    if nested:
+        # Plasma 6.7 keeps the tray's icons inside the tray applet and writes its own list back while
+        # it runs: classic7-tray-fix changes the saved layout before Plasma starts; without its
+        # marker it does so again at the next login
+        try:
+            (Path(os.environ.get("XDG_CONFIG_HOME") or Path.home() / ".config") / "classic7" / "tray-fixed-4").unlink()
+        except OSError:
+            pass
+        log("  network icon: Classic 7's replaces Plasma's at the next login (classic7-tray-fix)")
+        return True
     snippet = SHARE / "tray-network.js"
     try:
         js = snippet.read_text()
     except OSError:
         return False
     js += '\npanels().forEach(function (p) { p.widgets("org.kde.plasma.systemtray").forEach(classic7Tray); });\n'
-    for _ in range(30):                      # the tray is created a moment after login
-        has_tray, _plugins = _tray_plugins()
-        if has_tray:
-            break
-        time.sleep(1)
     r = subprocess.run(["dbus-send", "--session", "--dest=org.kde.plasmashell", "--type=method_call",
                         "/PlasmaShell", "org.kde.PlasmaShell.evaluateScript", "string:" + js],
                        capture_output=True, timeout=30)
     if r.returncode != 0:
         return False
     for _ in range(20):                      # Plasma saves its layout a few seconds later
-        has_tray, plugins = _tray_plugins()
-        if has_tray and "org.kde.plasma.networkmanagement" not in plugins:
+        has_tray, plugins, _nested = _tray_plugins()
+        if has_tray and nm not in plugins:
             log("  network icon: Classic 7 (shows the IP address)")
             return True
         time.sleep(1)
