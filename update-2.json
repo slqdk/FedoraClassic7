@@ -1,0 +1,29 @@
+{
+  "applied_build": "2026-10-14T20:10Z",
+  "applied_content": "faa4935aba3d45a8",
+  "last_check": 0,
+  "last_install": 0,
+  "last_result": "",
+  "seen_pins": [
+    "classic7-write.desktop",
+    "classic7-mail.desktop",
+    "classic7-show.desktop",
+    "classic7-sheet.desktop"
+  ],
+  "done_migrations": [
+    "2026-10-12-no-autolock",
+    "2026-10-12-no-dark-mode",
+    "2026-10-12-breeze-icons",
+    "2026-10-12-small-desktop-icons",
+    "2026-10-12-no-splash",
+    "2026-10-12-network-tray",
+    "2026-10-12-network-tray-2",
+    "2026-10-12-explorer-2",
+    "2026-10-12-no-type-to-search",
+    "2026-10-13-show-desktop-button",
+    "2026-10-13-win7-window-keys"
+  ],
+  "refresh_tries": 0,
+  "tried_content": "",
+  "last_problems": []
+}

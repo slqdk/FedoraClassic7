@@ -1,0 +1,36 @@
++ cat /out/result.txt
+run 1: exit 0, 1.1 s, needs refresh: False
+run 2: exit 0, 0.6 s, needs refresh: False
+appearance.json
+first-login-v1
+recycle-bin-app
+update.json
+try 1: problems ['could not apply ci-always-fails'], tries 1, needs refresh True
+try 2: problems ['could not apply ci-always-fails'], tries 2, needs refresh True
+try 3: problems ['could not apply ci-always-fails'], tries 3, needs refresh False
+try 4: problems ['could not apply ci-always-fails'], tries 4, needs refresh False
++ tail -n 12 /out/settings-1.txt
+    the screen no longer locks by itself (Win+L still locks)
+    Dark Mode can no longer switch away from Classic 7
+    icons: Breeze
+    desktop icons: 32 px
+    login splash screen: off
+    network icon: Classic 7 (shows the IP address)
+    Explorer: Windows 7 layout (old files kept as .bak)
+    desktop: typing selects icons (no search bar)
+    taskbar: Show desktop button at the right end
+    Win+Up maximizes, Win+Down restores or minimizes, Win+Home minimizes the other windows
+  Applying the Classic 7 look (colours, window borders, taskbar, Start button)
+  Pinning new programs to the Start menu: classic7-write, classic7-mail, classic7-show, classic7-sheet
++ echo ---
+---
++ tail -n 6 /out/settings-2.txt
+  Updating the program list
+  Keyboard layout of the login screen
+  Adding new keyboard shortcuts
+    nothing new
+  One-time changes for this account
+  Applying the Classic 7 look (colours, window borders, taskbar, Start button)
++ grep -c networkmanagement /out/appletsrc-before.txt /out/appletsrc-after.txt
+/out/appletsrc-before.txt:1
+/out/appletsrc-after.txt:1

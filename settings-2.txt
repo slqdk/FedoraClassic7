@@ -1,0 +1,6 @@
+  Updating the program list
+  Keyboard layout of the login screen
+  Adding new keyboard shortcuts
+    nothing new
+  One-time changes for this account
+  Applying the Classic 7 look (colours, window borders, taskbar, Start button)

@@ -1,0 +1,19 @@
+2026-10-15 04:32:16 build 2026-10-14T20:10Z content faa4935aba3d45a8
+Updating the program list
+Keyboard layout of the login screen
+Adding new keyboard shortcuts
+  nothing new
+One-time changes for this account
+  the screen no longer locks by itself (Win+L still locks)
+  Dark Mode can no longer switch away from Classic 7
+  icons: Breeze
+  desktop icons: 32 px
+  login splash screen: off
+  network icon: Classic 7 (shows the IP address)
+  Explorer: Windows 7 layout (old files kept as .bak)
+  desktop: typing selects icons (no search bar)
+  taskbar: Show desktop button at the right end
+  Win+Up maximizes, Win+Down restores or minimizes, Win+Home minimizes the other windows
+Applying the Classic 7 look (colours, window borders, taskbar, Start button)
+Pinning new programs to the Start menu: classic7-write, classic7-mail, classic7-show, classic7-sheet
+Done without problems.
